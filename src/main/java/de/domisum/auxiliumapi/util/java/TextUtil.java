@@ -1,4 +1,4 @@
-package de.domisum.auxiliumapi.util.bukkit;
+package de.domisum.auxiliumapi.util.java;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -73,6 +73,28 @@ public class TextUtil
 			meter += (i == value ? offColor : "") + symbol;
 
 		return meter + ChatColor.RESET;
+	}
+
+
+	protected String getListAsString(List<?> list)
+	{
+		String string = "list[";
+
+		for(int i = 0; i < list.size(); i++)
+		{
+			Object obj = list.get(i);
+			String objectString = "null";
+			if(obj != null)
+				objectString = obj.toString();
+
+			string += objectString;
+
+			if(i < (list.size() - 1))
+				string += ";";
+		}
+
+		string += "]";
+		return string;
 	}
 
 }

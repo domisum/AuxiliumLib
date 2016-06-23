@@ -7,8 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import de.domisum.auxiliumapi.util.bukkit.TextUtil;
-
 public class FileUtil
 {
 
