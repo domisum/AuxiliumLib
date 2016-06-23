@@ -1,7 +1,8 @@
 package de.domisum.auxiliumapi.util.bukkit;
 
 import org.bukkit.Location;
-import org.bukkit.entity.Entity;
+import org.bukkit.craftbukkit.v1_9_R1.entity.CraftLivingEntity;
+import org.bukkit.craftbukkit.v1_9_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -107,13 +108,7 @@ public class PlayerCausedExplosion implements Listener
 			return;
 
 		// set killer to player so other listeners pick it up as the player is the killer
-		setKiller(event.getEntity());
-	}
-
-	protected void setKiller(Entity killed)
-	{
-		// ((CraftLivingEntity) event.getEntity()).getHandle().killer = ((CraftPlayer) currentPlayer).getHandle();
-		// FIXME reflection code for this
+		((CraftLivingEntity) event.getEntity()).getHandle().killer = ((CraftPlayer) currentPlayer).getHandle();
 	}
 
 }
