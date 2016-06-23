@@ -1,4 +1,4 @@
-package de.domisum.auxiliumapi.util.java;
+package de.domisum.auxiliumapi.util;
 
 import java.io.File;
 import java.io.FileWriter;
