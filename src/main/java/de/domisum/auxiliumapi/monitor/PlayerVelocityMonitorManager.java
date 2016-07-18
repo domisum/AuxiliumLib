@@ -85,7 +85,7 @@ public class PlayerVelocityMonitorManager implements Listener
 			PlayerVelocityMonitor pvm = iterator.next();
 			Player player = pvm.getPlayer();
 
-			if(!player.isOnline() || pvm.isTerminated() || pvm.isTerminated())
+			if(!player.isOnline() || pvm.isTerminated() || pvm.isTimedOut())
 				iterator.remove();
 			else
 				pvm.tick();
