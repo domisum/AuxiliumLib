@@ -48,6 +48,7 @@ public class PlayerVelocityMonitorManager implements Listener
 
 		PlayerVelocityMonitor pvm = new PlayerVelocityMonitor(player);
 		pvmm.playerVelocityMonitors.put(player, pvm);
+		pvmm.startUpdateTask();
 
 		return pvm;
 	}
