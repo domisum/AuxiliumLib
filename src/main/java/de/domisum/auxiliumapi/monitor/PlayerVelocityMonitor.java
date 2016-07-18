@@ -6,6 +6,9 @@ import org.bukkit.util.Vector;
 public class PlayerVelocityMonitor
 {
 
+	// CONSTANTS
+	protected static final int TIMEOUT_DURATION_MS = 30 * 1000;
+
 	// REFERENCES
 	protected Player player;
 
@@ -14,6 +17,8 @@ public class PlayerVelocityMonitor
 
 	protected Vector playerVelocity = new Vector(0, 0, 0);
 	protected long lastMove;
+
+	protected long lastCheck = System.currentTimeMillis();
 
 
 	// -------
@@ -46,6 +51,11 @@ public class PlayerVelocityMonitor
 	public boolean isTerminated()
 	{
 		return this.terminated;
+	}
+
+	public boolean isTimedOut()
+	{
+		return (this.lastCheck + TIMEOUT_DURATION_MS) < System.currentTimeMillis();
 	}
 
 

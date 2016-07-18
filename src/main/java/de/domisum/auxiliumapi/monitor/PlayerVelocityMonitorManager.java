@@ -1,10 +1,7 @@
 package de.domisum.auxiliumapi.monitor;
 
-import java.lang.ref.WeakReference;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
 import org.bukkit.Bukkit;
@@ -23,7 +20,6 @@ public class PlayerVelocityMonitorManager implements Listener
 
 	// REFERENCES
 	protected Map<Player, PlayerVelocityMonitor> playerVelocityMonitors = new HashMap<Player, PlayerVelocityMonitor>();
-	protected Map<Player, List<WeakReference<Object>>> playerVelocityMonitorLocks = new HashMap<Player, List<WeakReference<Object>>>();
 
 	// STATUS
 	protected BukkitTask updateTask;
@@ -47,48 +43,17 @@ public class PlayerVelocityMonitorManager implements Listener
 	// -------
 	// REGISTRATION
 	// -------
-	public static PlayerVelocityMonitor getFor(Player player, Object lock)
+	public static PlayerVelocityMonitor getFor(Player player)
 	{
 		PlayerVelocityMonitorManager pvmm = AuxiliumAPI.getPlayerVelocityMonitorManager();
 		if(pvmm.playerVelocityMonitors.containsKey(player))
-		{
-			pvmm.addLock(player, lock);
 			return pvmm.playerVelocityMonitors.get(player);
-		}
 
 		PlayerVelocityMonitor pvm = new PlayerVelocityMonitor(player);
 		pvmm.playerVelocityMonitors.put(player, pvm);
-		pvmm.addLock(player, lock);
 		pvmm.startUpdateTask();
 
 		return pvm;
-	}
-
-	protected void addLock(Player player, Object lock)
-	{
-		List<WeakReference<Object>> locks = this.playerVelocityMonitorLocks.get(player);
-		if(locks == null)
-		{
-			locks = new ArrayList<WeakReference<Object>>();
-			this.playerVelocityMonitorLocks.put(player, locks);
-		}
-
-		WeakReference<Object> wr = new WeakReference<Object>(lock);
-		locks.add(wr);
-	}
-
-	protected boolean isMonitorUnlocked(Player player)
-	{
-		List<WeakReference<Object>> locks = this.playerVelocityMonitorLocks.get(player);
-		if(locks == null)
-			return true;
-
-		Iterator<WeakReference<Object>> iterator = locks.iterator();
-		while(iterator.hasNext())
-			if(iterator.next().get() == null)
-				iterator.remove();
-
-		return locks.size() == 0;
 	}
 
 
@@ -120,16 +85,11 @@ public class PlayerVelocityMonitorManager implements Listener
 			PlayerVelocityMonitor pvm = iterator.next();
 			Player player = pvm.getPlayer();
 
-			if(!player.isOnline() || pvm.isTerminated() || isMonitorUnlocked(player))
-			{
+			if(!player.isOnline() || pvm.isTerminated() || pvm.isTerminated())
 				iterator.remove();
-				this.playerVelocityMonitorLocks.remove(player);
-			}
 			else
 				pvm.tick();
 		}
-
-		System.out.println(this.playerVelocityMonitors.size());
 
 		if(this.playerVelocityMonitors.size() == 0)
 			stopUpdateTask();
