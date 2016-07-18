@@ -5,6 +5,7 @@ import java.util.logging.Logger;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import de.domisum.auxiliumapi.data.structure.pds.PlayerDataStructureListener;
+import de.domisum.auxiliumapi.monitor.PlayerVelocityMonitorManager;
 
 public class AuxiliumAPI
 {
@@ -13,8 +14,9 @@ public class AuxiliumAPI
 	private static AuxiliumAPI instance;
 	private JavaPlugin plugin;
 
-	// LISTENERS
-	private static PlayerDataStructureListener playerDataStructureListener;
+	// MANAGERS
+	private PlayerDataStructureListener playerDataStructureListener;
+	private PlayerVelocityMonitorManager playerVelocityMonitorManager;
 
 
 	// -------
@@ -30,7 +32,8 @@ public class AuxiliumAPI
 
 	public void onEnable()
 	{
-		playerDataStructureListener = new PlayerDataStructureListener();
+		this.playerDataStructureListener = new PlayerDataStructureListener();
+		this.playerVelocityMonitorManager = new PlayerVelocityMonitorManager();
 
 		getLogger().info(this.getClass().getSimpleName() + " has been enabled\n");
 	}
@@ -69,10 +72,14 @@ public class AuxiliumAPI
 	}
 
 
-	// LISTENERS
 	public static PlayerDataStructureListener getPlayerDataStructureListener()
 	{
-		return playerDataStructureListener;
+		return getInstance().playerDataStructureListener;
+	}
+
+	public static PlayerVelocityMonitorManager getPlayerVelocityMonitorManager()
+	{
+		return getInstance().playerVelocityMonitorManager;
 	}
 
 }
