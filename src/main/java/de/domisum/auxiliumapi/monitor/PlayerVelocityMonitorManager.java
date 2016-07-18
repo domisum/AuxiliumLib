@@ -91,8 +91,6 @@ public class PlayerVelocityMonitorManager implements Listener
 				pvm.tick();
 		}
 
-		System.out.println(this.playerVelocityMonitors.size());
-
 		if(this.playerVelocityMonitors.size() == 0)
 			stopUpdateTask();
 	}

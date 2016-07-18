@@ -7,7 +7,7 @@ public class PlayerVelocityMonitor
 {
 
 	// CONSTANTS
-	protected static final int TIMEOUT_DURATION_MS = 30 * 1000;
+	protected static final int TIMEOUT_DURATION_MS = 20 * 1000;
 
 	// REFERENCES
 	protected Player player;
