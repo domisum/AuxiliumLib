@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -35,6 +36,27 @@ public class ItemStackBuilder
 	public ItemStackBuilder(Material material)
 	{
 		this.material = material;
+	}
+
+	public ItemStackBuilder(ItemStack itemStack)
+	{
+		this.material = itemStack.getType();
+		this.amount = itemStack.getAmount();
+		this.durability = itemStack.getDurability();
+
+		ItemMeta itemMeta = itemStack.getItemMeta();
+		if(itemMeta.hasDisplayName())
+			this.displayName = itemMeta.getDisplayName();
+		if(itemMeta.hasLore())
+			this.lore = new ArrayList<>(itemMeta.getLore());
+
+		Set<ItemFlag> itemFlags = itemMeta.getItemFlags();
+		if(!itemFlags.isEmpty())
+			this.flags = itemFlags.toArray(new ItemFlag[itemFlags.size()]);
+
+		this.enchantments = itemMeta.getEnchants();
+		if(this.enchantments.size() == 0)
+			this.enchantments = null;
 	}
 
 
@@ -73,6 +95,16 @@ public class ItemStackBuilder
 	public ItemStackBuilder lore(String... lore)
 	{
 		this.lore = new ArrayList<>(Arrays.asList(lore));
+
+		return this;
+	}
+
+	public ItemStackBuilder addLore(List<String> lore)
+	{
+		if(this.lore == null)
+			this.lore = lore;
+		else
+			this.lore.addAll(lore);
 
 		return this;
 	}
