@@ -26,7 +26,7 @@ public class ItemStackBuilder
 	protected String displayName;
 	protected List<String> lore;
 	protected ItemFlag[] flags;
-	protected Map<Enchantment, Integer> enchantments = new HashMap<Enchantment, Integer>();
+	protected Map<Enchantment, Integer> enchantments = new HashMap<>();
 
 
 	// -------
@@ -72,7 +72,7 @@ public class ItemStackBuilder
 
 	public ItemStackBuilder lore(String... lore)
 	{
-		this.lore = new ArrayList<String>(Arrays.asList(lore));
+		this.lore = new ArrayList<>(Arrays.asList(lore));
 
 		return this;
 	}

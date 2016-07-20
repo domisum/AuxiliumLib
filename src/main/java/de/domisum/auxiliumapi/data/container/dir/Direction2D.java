@@ -65,7 +65,7 @@ public enum Direction2D
 
 	public static List<Direction2D> getValuesAsList()
 	{
-		return new ArrayList<Direction2D>(Arrays.asList(values()));
+		return new ArrayList<>(Arrays.asList(values()));
 	}
 
 }

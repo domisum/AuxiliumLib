@@ -18,7 +18,7 @@ public class PlayerDataStructureListener implements Listener
 {
 
 	// REFERENCES
-	private List<WeakReference<PlayerDataStructure>> playerDataStructures = new ArrayList<WeakReference<PlayerDataStructure>>();
+	private List<WeakReference<PlayerDataStructure>> playerDataStructures = new ArrayList<>();
 
 
 	// -------

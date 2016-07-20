@@ -31,7 +31,7 @@ public class TextUtil
 	// COMPLEX
 	public static List<String> splitTextIntoLines(String text, int maxLineLength)
 	{
-		List<String> lines = new ArrayList<String>();
+		List<String> lines = new ArrayList<>();
 
 		String lastLine = null;
 		while(text.length() > maxLineLength)

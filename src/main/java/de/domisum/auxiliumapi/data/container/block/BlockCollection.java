@@ -18,7 +18,7 @@ public class BlockCollection
 	private AbstractBlock DEFAULT_BLOCK = new AbstractBlock(Material.AIR, (byte) 0);
 
 	// PROPERTIES
-	private Map<BlockCoordinate, AbstractBlock> blocks = new HashMap<BlockCoordinate, AbstractBlock>();
+	private Map<BlockCoordinate, AbstractBlock> blocks = new HashMap<>();
 
 
 	// -------

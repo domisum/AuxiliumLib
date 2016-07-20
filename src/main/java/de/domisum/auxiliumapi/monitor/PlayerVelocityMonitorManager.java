@@ -19,7 +19,7 @@ public class PlayerVelocityMonitorManager implements Listener
 {
 
 	// REFERENCES
-	protected Map<Player, PlayerVelocityMonitor> playerVelocityMonitors = new HashMap<Player, PlayerVelocityMonitor>();
+	protected Map<Player, PlayerVelocityMonitor> playerVelocityMonitors = new HashMap<>();
 
 	// STATUS
 	protected BukkitTask updateTask;

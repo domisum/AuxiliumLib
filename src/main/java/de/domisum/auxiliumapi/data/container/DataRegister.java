@@ -7,7 +7,7 @@ public class DataRegister
 {
 
 	// DATA
-	private Map<String, Object> data = new HashMap<String, Object>();
+	private Map<String, Object> data = new HashMap<>();
 
 
 	// -------

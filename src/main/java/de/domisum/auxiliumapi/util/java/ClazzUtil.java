@@ -35,7 +35,7 @@ public class ClazzUtil
 			Set<ClassInfo> classInfo = classPath.getTopLevelClassesRecursive(path);
 			Iterator<ClassInfo> iterator = classInfo.iterator();
 
-			List<Class<?>> classes = new ArrayList<Class<?>>();
+			List<Class<?>> classes = new ArrayList<>();
 
 			while(iterator.hasNext())
 			{

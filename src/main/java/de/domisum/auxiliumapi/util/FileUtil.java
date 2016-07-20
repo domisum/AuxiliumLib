@@ -159,7 +159,7 @@ public class FileUtil
 
 	public static List<File> listFilesRecursively(File dir)
 	{
-		List<File> files = new ArrayList<File>();
+		List<File> files = new ArrayList<>();
 
 		for(File file : dir.listFiles())
 		{
@@ -198,8 +198,8 @@ public class FileUtil
 	public static class FileFilter
 	{
 
-		private List<String> containsFilters = new ArrayList<String>();
-		private List<String> endsWithFilters = new ArrayList<String>();
+		private List<String> containsFilters = new ArrayList<>();
+		private List<String> endsWithFilters = new ArrayList<>();
 
 
 		// -------
