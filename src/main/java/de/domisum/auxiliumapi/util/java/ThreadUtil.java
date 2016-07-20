@@ -50,6 +50,25 @@ public class ThreadUtil
 	}
 
 
+	public static boolean wait(Object object)
+	{
+		try
+		{
+			object.wait();
+			return true;
+		}
+		catch(InterruptedException e)
+		{
+			return false;
+		}
+	}
+
+	public static void notifyAll(Object object)
+	{
+		object.notifyAll();
+	}
+
+
 	public static Thread runDelayed(Runnable run, long ms)
 	{
 		Runnable delay = () ->
