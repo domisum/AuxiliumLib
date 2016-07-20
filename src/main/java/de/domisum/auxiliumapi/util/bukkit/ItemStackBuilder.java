@@ -1,7 +1,6 @@
 package de.domisum.auxiliumapi.util.bukkit;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -94,7 +93,9 @@ public class ItemStackBuilder
 
 	public ItemStackBuilder lore(String... lore)
 	{
-		this.lore = new ArrayList<>(Arrays.asList(lore));
+		this.lore = new ArrayList<>();
+		for(String l : lore)
+			this.lore.add(ChatColor.WHITE + l);
 
 		return this;
 	}
@@ -102,9 +103,10 @@ public class ItemStackBuilder
 	public ItemStackBuilder addLore(List<String> lore)
 	{
 		if(this.lore == null)
-			this.lore = lore;
-		else
-			this.lore.addAll(lore);
+			this.lore = new ArrayList<>();
+
+		for(String l : lore)
+			this.lore.add(ChatColor.WHITE + l);
 
 		return this;
 	}
