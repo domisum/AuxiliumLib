@@ -54,7 +54,10 @@ public class ThreadUtil
 	{
 		try
 		{
-			object.wait();
+			synchronized (object)
+			{
+				object.wait();
+			}
 			return true;
 		}
 		catch(InterruptedException e)
