@@ -7,6 +7,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -25,9 +26,11 @@ public class PlayerCausedExplosion implements Listener
 	// PROPERTIES
 	protected Location location;
 
-	protected float power = 4;
+	protected double power = 4;
 	protected boolean fire = false;
 	protected boolean breakBlocks = true;
+
+	protected boolean damageSelf = true;
 
 
 	// -------
@@ -54,7 +57,7 @@ public class PlayerCausedExplosion implements Listener
 	// -------
 	// SETTERS
 	// -------
-	public PlayerCausedExplosion setPower(float power)
+	public PlayerCausedExplosion setPower(double power)
 	{
 		this.power = power;
 
@@ -75,6 +78,13 @@ public class PlayerCausedExplosion implements Listener
 		return this;
 	}
 
+	public PlayerCausedExplosion setDamageSelf(boolean damageSelf)
+	{
+		this.damageSelf = damageSelf;
+
+		return this;
+	}
+
 
 	// -------
 	// EXPLOSION
@@ -89,8 +99,8 @@ public class PlayerCausedExplosion implements Listener
 		registerListener();
 		currentPlayer = this.player;
 
-		this.location.getWorld().createExplosion(this.location.getX(), this.location.getY(), this.location.getZ(), this.power,
-				this.fire, this.breakBlocks);
+		this.location.getWorld().createExplosion(this.location.getX(), this.location.getY(), this.location.getZ(),
+				(float) this.power, this.fire, this.breakBlocks);
 
 		currentPlayer = null;
 	}
@@ -103,12 +113,28 @@ public class PlayerCausedExplosion implements Listener
 	public void entityDeathByExplosion(EntityDeathEvent event)
 	{
 		// this listener is only active during the explosion, so the damage in here can automatically be attributed to the player
+		// and can only be caused by the explosion
 
 		if(currentPlayer == null)
 			return;
 
 		// set killer to player so other listeners pick it up as the player is the killer
 		((CraftLivingEntity) event.getEntity()).getHandle().killer = ((CraftPlayer) currentPlayer).getHandle();
+	}
+
+	@EventHandler(priority = EventPriority.LOWEST)
+	public void entityDamageByExplosion(EntityDamageEvent event)
+	{
+		// this listener is only active during the explosion, so the damage in here can automatically be attributed to the player
+		// and can only be caused by the explosion
+
+		if(currentPlayer == null)
+			return;
+
+		// prevent self damage if disabled
+		if(!this.damageSelf)
+			if(event.getEntity() == currentPlayer)
+				event.setCancelled(true);
 	}
 
 }

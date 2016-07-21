@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>de.domisum</groupId>
 	<artifactId>AuxiliumAPI</artifactId>
-	<version>0.0.21</version>
+	<version>0.0.22</version>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
