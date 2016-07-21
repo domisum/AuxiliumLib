@@ -65,7 +65,10 @@ public class ThreadUtil
 
 	public static void notifyAll(Object object)
 	{
-		object.notifyAll();
+		synchronized (object)
+		{
+			object.notifyAll();
+		}
 	}
 
 
