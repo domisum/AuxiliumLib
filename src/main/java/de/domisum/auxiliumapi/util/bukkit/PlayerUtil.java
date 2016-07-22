@@ -97,6 +97,9 @@ public class PlayerUtil
 
 	public static void heal(Player player, double health)
 	{
+		if(health <= 0)
+			return;
+
 		Damageable da = player;
 
 		if((da.getHealth() + health) < da.getMaxHealth())
