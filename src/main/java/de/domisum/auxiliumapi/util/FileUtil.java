@@ -1,13 +1,15 @@
 package de.domisum.auxiliumapi.util;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 public class FileUtil
 {
@@ -21,27 +23,40 @@ public class FileUtil
 
 	public static String readFileToString(File file)
 	{
+		StringBuilder sb = new StringBuilder();
+
+		BufferedReader br = null;
 		try
 		{
-			Scanner scanner = new Scanner(file);
-			scanner.useDelimiter("\\Z");
+			br = new BufferedReader(new InputStreamReader(new FileInputStream(file), "UTF8"));
 
-			if(!scanner.hasNext())
+			String line = br.readLine();
+			while(line != null)
 			{
-				scanner.close();
-				return null;
+				sb.append(line);
+				sb.append(System.lineSeparator());
+				line = br.readLine();
 			}
 
-			String string = scanner.next();
-			scanner.close();
-			return string;
+			return sb.toString();
 		}
-		catch(Exception e)
+		catch(IOException e)
 		{
 			e.printStackTrace();
+			return null;
 		}
-
-		return null;
+		finally
+		{
+			if(br != null)
+				try
+				{
+					br.close();
+				}
+				catch(IOException e)
+				{
+					e.printStackTrace();
+				}
+		}
 	}
 
 
