@@ -1,6 +1,7 @@
 package de.domisum.auxiliumapi.util.bukkit;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -91,22 +92,21 @@ public class ItemStackBuilder
 		return this;
 	}
 
-	public ItemStackBuilder lore(String... lore)
+	public ItemStackBuilder lore(String... loreArray)
 	{
-		this.lore = new ArrayList<>();
-		for(String l : lore)
-			this.lore.add(ChatColor.WHITE + l);
+		this.lore = processLore(new ArrayList<>(Arrays.asList(loreArray)));
 
 		return this;
 	}
 
-	public ItemStackBuilder addLore(List<String> lore)
+	public ItemStackBuilder addLore(List<String> additionalLore)
 	{
+		additionalLore = processLore(additionalLore);
+
 		if(this.lore == null)
 			this.lore = new ArrayList<>();
 
-		for(String l : lore)
-			this.lore.add(ChatColor.WHITE + l);
+		this.lore.addAll(additionalLore);
 
 		return this;
 	}
@@ -124,6 +124,21 @@ public class ItemStackBuilder
 		this.enchantments.put(enchantment, level);
 
 		return this;
+	}
+
+
+	protected List<String> processLore(List<String> oldLore)
+	{
+		List<String> lore = new ArrayList<String>();
+
+		for(String l : oldLore)
+		{
+			String[] splitLine = l.split("\\n");
+			for(String s : splitLine)
+				lore.add(ChatColor.WHITE + s);
+		}
+
+		return lore;
 	}
 
 
