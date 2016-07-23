@@ -16,6 +16,7 @@ public class PlayerVelocityMonitor
 	protected boolean terminated = false;
 
 	protected Vector playerVelocity = new Vector(0, 0, 0);
+	protected long lastTick;
 	protected long lastMove;
 
 	protected long lastCheck = System.currentTimeMillis();
@@ -38,6 +39,11 @@ public class PlayerVelocityMonitor
 	// -------
 	// GETTERS
 	// -------
+	public boolean isTooYoung()
+	{
+		return (this.lastTick == 0) && (this.lastMove == 0);
+	}
+
 	public Player getPlayer()
 	{
 		return this.player;
@@ -45,6 +51,8 @@ public class PlayerVelocityMonitor
 
 	public Vector getVelocity()
 	{
+		this.lastCheck = System.currentTimeMillis();
+
 		return this.playerVelocity.clone();
 	}
 
@@ -76,6 +84,8 @@ public class PlayerVelocityMonitor
 
 	protected void tick()
 	{
+		this.lastTick = System.currentTimeMillis();
+
 		if(getDurationSinceLastMoveMs() > 100)
 			this.playerVelocity.multiply(0);
 	}
