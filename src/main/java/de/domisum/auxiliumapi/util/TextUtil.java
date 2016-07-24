@@ -28,6 +28,77 @@ public class TextUtil
 	}
 
 
+	// NUMBERS
+	public static String asRomanNumeral(int number)
+	{
+		if((number < 1) || (number >= 4000))
+			throw new IllegalArgumentException("Only numbers from 1 to 3999 can be represented as roman numerals");
+
+		String roman = "";
+		for(; number >= 1000; number -= 1000)
+			roman += "M";
+
+		if(number >= 900)
+		{
+			roman += "CM";
+			number -= 900;
+		}
+		else if(number >= 500)
+		{
+			roman += "D";
+			number -= 500;
+		}
+		else if(number >= 400)
+		{
+			roman += "CD";
+			number -= 400;
+		}
+
+		for(; number >= 100; number -= 100)
+			roman += "C";
+
+		if(number >= 90)
+		{
+			roman += "XC";
+			number -= 90;
+		}
+		else if(number >= 50)
+		{
+			roman += "L";
+			number -= 50;
+		}
+		else if(number >= 40)
+		{
+			roman += "XL";
+			number -= 40;
+		}
+
+		for(; number >= 10; number -= 10)
+			roman += "X";
+
+		if(number == 9)
+		{
+			roman += "IX";
+			number -= 9;
+		}
+		else if(number >= 5)
+		{
+			roman += "V";
+			number -= 5;
+		}
+		else if(number == 4)
+		{
+			roman += "IV";
+			number -= 4;
+		}
+
+		for(; number >= 1; number--)
+			roman += "I";
+
+		return roman;
+	}
+
+
 	// COMPLEX
 	public static List<String> splitTextIntoLines(String text, int maxLineLength)
 	{
