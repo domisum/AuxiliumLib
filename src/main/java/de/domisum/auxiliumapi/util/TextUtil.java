@@ -31,8 +31,9 @@ public class TextUtil
 	// NUMBERS
 	public static String asRomanNumeral(int number)
 	{
-		if((number < 1) || (number >= 4000))
-			throw new IllegalArgumentException("Only numbers from 1 to 3999 can be represented as roman numerals");
+		if((number < 1) || (number > 3999))
+			throw new IllegalArgumentException(
+					"Only numbers from 1 to 3999 can be represented as roman numerals; number given: " + number);
 
 		String roman = "";
 		for(; number >= 1000; number -= 1000)
