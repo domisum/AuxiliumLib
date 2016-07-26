@@ -88,6 +88,11 @@ public class Vector3D
 		return new BlockCoordinate((int) Math.floor(this.x), (int) Math.floor(this.y), (int) Math.floor(this.z));
 	}
 
+	public Vector toBukkit()
+	{
+		return new Vector(this.x, this.y, this.z);
+	}
+
 
 	// -------
 	// INTERACTION

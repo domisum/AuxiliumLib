@@ -55,6 +55,20 @@ public class MathUtil
 	}
 
 
+	public static Vector3D getPointOnLineClosestToPoint(Vector3D l1, Vector3D l2, Vector3D p)
+	{
+		Vector3D v = l2.subtract(l1);
+		Vector3D w = p.subtract(l1);
+
+		double wvProduct = w.dotProduct(v);
+		double vvProduct = v.dotProduct(v);
+
+		double productQuot = wvProduct / vvProduct;
+		Vector3D pointOnLine = l1.add(v.multiply(productQuot));
+		return pointOnLine;
+	}
+
+
 	public static double getDistanceFromLineToPoint(Vector2D l1, Vector2D l2, Vector2D p)
 	{
 		// is this even right? may be just for line segment instead of infinite line
