@@ -76,6 +76,26 @@ public class MathUtil
 		return distance;
 	}
 
+	public static double getDistanceFromSegmentToPoint(Vector3D l1, Vector3D l2, Vector3D p)
+	{
+		// http://geomalgorithms.com/a02-_lines.html
+
+		Vector3D v = l2.subtract(l1);
+		Vector3D w = p.subtract(l1);
+
+		double wvProduct = w.dotProduct(v);
+		double vvProduct = v.dotProduct(v);
+		if(wvProduct <= 0)
+			return p.distanceTo(l1);
+		if(v.dotProduct(v) <= wvProduct)
+			return p.distanceTo(l2);
+
+		double productQuot = wvProduct / vvProduct;
+		Vector3D pointOnSegment = l1.add(v.multiply(productQuot));
+
+		return p.distanceTo(pointOnSegment);
+	}
+
 
 	// HELPER
 	public static double round(double number, int digits)
