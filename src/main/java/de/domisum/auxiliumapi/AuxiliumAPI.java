@@ -35,12 +35,12 @@ public class AuxiliumAPI
 		this.playerDataStructureListener = new PlayerDataStructureListener();
 		this.playerVelocityMonitorManager = new PlayerVelocityMonitorManager();
 
-		getLogger().info(this.getClass().getSimpleName() + " has been enabled\n");
+		getLogger().info(this.getClass().getSimpleName() + " has been enabled");
 	}
 
 	public void onDisable()
 	{
-		getLogger().info(this.getClass().getSimpleName() + " has been disabled\n");
+		getLogger().info(this.getClass().getSimpleName() + " has been disabled");
 	}
 
 
