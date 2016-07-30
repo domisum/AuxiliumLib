@@ -33,7 +33,7 @@ public class ItemStackBuilder
 	protected ItemFlag[] flags;
 	protected Map<Enchantment, Integer> enchantments = new HashMap<>();
 
-	protected boolean glowing;
+	protected boolean glowing = false;
 
 
 	// -------
@@ -177,8 +177,9 @@ public class ItemStackBuilder
 		if(this.enchantments != null)
 			itemStack.addUnsafeEnchantments(this.enchantments);
 
-		if(this.enchantments == null ? true : this.enchantments.size() == 0)
-			itemStack = makeGlow(itemStack);
+		if(this.glowing)
+			if(this.enchantments == null ? true : this.enchantments.size() == 0)
+				itemStack = makeGlow(itemStack);
 
 		return itemStack;
 	}
