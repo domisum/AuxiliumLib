@@ -9,10 +9,14 @@ import java.util.Set;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.craftbukkit.v1_9_R1.inventory.CraftItemStack;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+
+import net.minecraft.server.v1_9_R1.NBTTagCompound;
+import net.minecraft.server.v1_9_R1.NBTTagList;
 
 public class ItemStackBuilder
 {
@@ -28,6 +32,8 @@ public class ItemStackBuilder
 	protected List<String> lore;
 	protected ItemFlag[] flags;
 	protected Map<Enchantment, Integer> enchantments = new HashMap<>();
+
+	protected boolean glowing;
 
 
 	// -------
@@ -126,6 +132,13 @@ public class ItemStackBuilder
 		return this;
 	}
 
+	public ItemStackBuilder setGlowing(boolean glowing)
+	{
+		this.glowing = glowing;
+
+		return this;
+	}
+
 
 	protected List<String> processLore(List<String> oldLore)
 	{
@@ -164,7 +177,30 @@ public class ItemStackBuilder
 		if(this.enchantments != null)
 			itemStack.addUnsafeEnchantments(this.enchantments);
 
+		if(this.enchantments == null ? true : this.enchantments.size() == 0)
+			itemStack = makeGlow(itemStack);
+
 		return itemStack;
+	}
+
+	protected static ItemStack makeGlow(ItemStack itemStack)
+	{
+		net.minecraft.server.v1_9_R1.ItemStack nmsStack = CraftItemStack.asNMSCopy(itemStack);
+		NBTTagCompound tag = null;
+		if(!nmsStack.hasTag())
+		{
+			tag = new NBTTagCompound();
+			nmsStack.setTag(tag);
+		}
+
+		if(tag == null)
+			tag = nmsStack.getTag();
+
+		NBTTagList ench = new NBTTagList();
+		tag.set("ench", ench);
+		nmsStack.setTag(tag);
+
+		return CraftItemStack.asCraftMirror(nmsStack);
 	}
 
 }
