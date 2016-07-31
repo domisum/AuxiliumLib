@@ -63,6 +63,21 @@ public class ItemStackBuilder
 		this.enchantments = itemMeta.getEnchants();
 		if(this.enchantments.size() == 0)
 			this.enchantments = null;
+
+		// glowing
+		glow: if(this.enchantments == null)
+		{
+			net.minecraft.server.v1_9_R1.ItemStack nmsStack = CraftItemStack.asNMSCopy(itemStack);
+			if(!nmsStack.hasTag())
+				break glow;
+
+			NBTTagCompound tag = nmsStack.getTag();
+			NBTTagList enchantments = (NBTTagList) tag.get("ench");
+			if(enchantments == null)
+				break glow;
+
+			this.glowing = true;
+		}
 	}
 
 
