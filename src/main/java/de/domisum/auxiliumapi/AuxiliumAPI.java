@@ -22,7 +22,7 @@ public class AuxiliumAPI
 	// -------
 	// CONSTRUCTOR
 	// -------
-	public AuxiliumAPI(JavaPlugin plugin)
+	protected AuxiliumAPI(JavaPlugin plugin)
 	{
 		instance = this;
 		this.plugin = plugin;
@@ -30,7 +30,12 @@ public class AuxiliumAPI
 		onEnable();
 	}
 
-	public void onEnable()
+	public static void initialize(JavaPlugin plugin)
+	{
+		new AuxiliumAPI(plugin);
+	}
+
+	protected void onEnable()
 	{
 		this.playerDataStructureListener = new PlayerDataStructureListener();
 		this.playerVelocityMonitorManager = new PlayerVelocityMonitorManager();
@@ -40,6 +45,7 @@ public class AuxiliumAPI
 
 	public void onDisable()
 	{
+		instance = null;
 		getLogger().info(this.getClass().getSimpleName() + " has been disabled");
 	}
 
