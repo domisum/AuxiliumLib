@@ -149,9 +149,15 @@ public class FileUtil
 
 
 	// DELETING
-	public static void deleteDirectory(File file)
+	public static void deleteDirectory(File dir)
 	{
-		File[] files = file.listFiles();
+		deleteDirectoryContents(dir);
+		dir.delete();
+	}
+
+	public static void deleteDirectoryContents(File dir)
+	{
+		File[] files = dir.listFiles();
 		for(File f : files)
 		{
 			if(f.isFile())
@@ -159,8 +165,6 @@ public class FileUtil
 			else
 				deleteDirectory(f);
 		}
-
-		file.delete();
 	}
 
 
