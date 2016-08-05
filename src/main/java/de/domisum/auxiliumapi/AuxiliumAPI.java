@@ -32,6 +32,9 @@ public class AuxiliumAPI
 
 	public static void initialize(JavaPlugin plugin)
 	{
+		if(instance != null)
+			return;
+
 		new AuxiliumAPI(plugin);
 	}
 
