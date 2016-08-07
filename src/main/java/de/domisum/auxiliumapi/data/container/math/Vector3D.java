@@ -1,5 +1,6 @@
 package de.domisum.auxiliumapi.data.container.math;
 
+import org.bukkit.Location;
 import org.bukkit.util.Vector;
 
 import de.domisum.auxiliumapi.data.container.block.BlockCoordinate;
@@ -28,11 +29,17 @@ public class Vector3D
 		this(bukkitVector.getX(), bukkitVector.getY(), bukkitVector.getZ());
 	}
 
+	public Vector3D(Location location)
+	{
+		this(location.getX(), location.getY(), location.getZ());
+	}
+
 	public Vector3D()
 	{
 		this(0, 0, 0);
 	}
 
+	@Deprecated
 	@Override
 	public Vector3D clone()
 	{

@@ -7,6 +7,15 @@ public class VectorUtil
 {
 
 	// MISC
+	public static double getYawFromDirection(Vector3D direction)
+	{
+		double length = direction.length();
+		if(length == 0)
+			return 0;
+
+		direction = direction.divide(length);
+	}
+
 	public static Vector2D getDirectionVector(double yaw)
 	{
 		double dX = -Math.sin(yaw);
