@@ -9,11 +9,7 @@ public class VectorUtil
 	// MISC
 	public static double getYawFromDirection(Vector3D direction)
 	{
-		double length = direction.length();
-		if(length == 0)
-			return 0;
-
-		direction = direction.divide(length);
+		return Math.toDegrees(Math.atan2(direction.z, direction.x)) - 90;
 	}
 
 	public static Vector2D getDirectionVector(double yaw)

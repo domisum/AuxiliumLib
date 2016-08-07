@@ -27,11 +27,16 @@ public class MathUtil
 
 
 	// ANGLE
-	public static boolean isAngleNear(double a, double b, double maxD)
+	public static boolean isAngleNearRad(double a, double b, double maxD)
 	{
-		double delta = Math.abs(a - b) % (2 * Math.PI);
-		if(delta > Math.PI)
-			delta = (2 * Math.PI) - delta;
+		return isAngleNearDeg(Math.toDegrees(a), Math.toDegrees(b), maxD);
+	}
+
+	public static boolean isAngleNearDeg(double a, double b, double maxD)
+	{
+		double delta = Math.abs(a - b) % 360;
+		if(delta > 180)
+			delta = 360 - delta;
 
 		return delta <= maxD;
 	}
