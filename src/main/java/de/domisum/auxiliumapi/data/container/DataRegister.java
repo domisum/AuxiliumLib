@@ -26,7 +26,7 @@ public class DataRegister
 	{
 		Object value = this.data.get(key);
 		if(value == null)
-			throw new DataRegisterException("There is no object mapped to the key '" + key + "'");
+			throw new DataRegisterException("There is no object mapped to the key '"+key+"'");
 
 		return value;
 	}

@@ -1,15 +1,14 @@
 package de.domisum.auxiliumapi.data.container.block;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
-
+import de.domisum.auxiliumapi.data.container.Duo;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 
-import de.domisum.auxiliumapi.data.container.Duo;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 public class BlockCollection
 {
@@ -162,8 +161,7 @@ public class BlockCollection
 	// -------
 	// BUILDING
 	// -------
-	@SuppressWarnings("deprecation")
-	public void buildAt(Location location)
+	@SuppressWarnings("deprecation") public void buildAt(Location location)
 	{
 		for(Entry<BlockCoordinate, AbstractBlock> entry : this.blocks.entrySet())
 		{

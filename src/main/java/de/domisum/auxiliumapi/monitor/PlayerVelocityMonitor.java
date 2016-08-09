@@ -7,7 +7,7 @@ public class PlayerVelocityMonitor
 {
 
 	// CONSTANTS
-	protected static final int TIMEOUT_DURATION_MS = 20 * 1000;
+	protected static final int TIMEOUT_DURATION_MS = 20*1000;
 
 	// REFERENCES
 	protected Player player;
@@ -63,13 +63,13 @@ public class PlayerVelocityMonitor
 
 	public boolean isTimedOut()
 	{
-		return (this.lastCheck + TIMEOUT_DURATION_MS) < System.currentTimeMillis();
+		return (this.lastCheck+TIMEOUT_DURATION_MS) < System.currentTimeMillis();
 	}
 
 
 	protected long getDurationSinceLastMoveMs()
 	{
-		return System.currentTimeMillis() - this.lastMove;
+		return System.currentTimeMillis()-this.lastMove;
 	}
 
 

@@ -1,9 +1,9 @@
 package de.domisum.auxiliumapi.util;
 
+import org.bukkit.ChatColor;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import org.bukkit.ChatColor;
 
 public class TextUtil
 {
@@ -13,7 +13,7 @@ public class TextUtil
 	{
 		int pos = string.lastIndexOf(from);
 		if(pos > -1)
-			return string.substring(0, pos) + to + string.substring(pos + from.length(), string.length());
+			return string.substring(0, pos)+to+string.substring(pos+from.length(), string.length());
 
 		return string;
 	}
@@ -33,7 +33,7 @@ public class TextUtil
 	{
 		if((number < 1) || (number > 3999))
 			throw new IllegalArgumentException(
-					"Only numbers from 1 to 3999 can be represented as roman numerals; number given: " + number);
+					"Only numbers from 1 to 3999 can be represented as roman numerals; number given: "+number);
 
 		String roman = "";
 		for(; number >= 1000; number -= 1000)
@@ -121,17 +121,17 @@ public class TextUtil
 
 			// carry on the chat colors of the last line, each line's color is treated seperately
 			if(lastLine != null)
-				line = ChatColor.getLastColors(lastLine) + line;
+				line = ChatColor.getLastColors(lastLine)+line;
 
 			lines.add(line);
-			text = text.substring(lineLength + 1);
+			text = text.substring(lineLength+1);
 			lastLine = line;
 		}
 
 		// add last remaining bit, again add colors from line before
 		String line = text;
 		if(lastLine != null)
-			line = ChatColor.getLastColors(lastLine) + line;
+			line = ChatColor.getLastColors(lastLine)+line;
 		lines.add(line);
 
 		return lines;
@@ -139,12 +139,12 @@ public class TextUtil
 
 	public static String getSymbolMeter(char symbol, int value, int maxValue, String onColor, String offColor)
 	{
-		String meter = onColor + "";
+		String meter = onColor+"";
 
 		for(int i = 0; i < maxValue; i++)
-			meter += (i == value ? offColor : "") + symbol;
+			meter += (i == value ? offColor : "")+symbol;
 
-		return meter + ChatColor.RESET;
+		return meter+ChatColor.RESET;
 	}
 
 
@@ -161,7 +161,7 @@ public class TextUtil
 
 			string += objectString;
 
-			if(i < (list.size() - 1))
+			if(i < (list.size()-1))
 				string += ";";
 		}
 

@@ -27,8 +27,7 @@ public class BlockCoordinate implements Comparable<BlockCoordinate>
 	}
 
 
-	@Override
-	public boolean equals(Object o)
+	@Override public boolean equals(Object o)
 	{
 		if(!(o instanceof BlockCoordinate))
 			return false;
@@ -37,31 +36,28 @@ public class BlockCoordinate implements Comparable<BlockCoordinate>
 		return (other.x == this.x) && (other.y == this.y) && (other.z == this.z);
 	}
 
-	@Override
-	public int hashCode()
+	@Override public int hashCode()
 	{
-		return (this.x * 503) + (this.y * 1000003) + this.z;
+		return (this.x*503)+(this.y*1000003)+this.z;
 	}
 
-	@Override
-	public String toString()
+	@Override public String toString()
 	{
-		return "BlockCoordinate[x=" + this.x + ",y=" + this.y + ",z=" + this.z + "]";
+		return "BlockCoordinate[x="+this.x+",y="+this.y+",z="+this.z+"]";
 	}
 
 
-	@Override
-	public int compareTo(BlockCoordinate other)
+	@Override public int compareTo(BlockCoordinate other)
 	{
-		int dX = other.x - this.x;
+		int dX = other.x-this.x;
 		if(dX != 0)
 			return dX;
 
-		int dZ = other.z - this.z;
+		int dZ = other.z-this.z;
 		if(dZ != 0)
 			return dZ;
 
-		int dY = other.y - this.y;
+		int dY = other.y-this.y;
 		if(dY != 0)
 			return dY;
 
@@ -74,7 +70,7 @@ public class BlockCoordinate implements Comparable<BlockCoordinate>
 	// -------
 	public BlockCoordinate add(int dX, int dY, int dZ)
 	{
-		return new BlockCoordinate(this.x + dX, this.y + dY, this.z + dZ);
+		return new BlockCoordinate(this.x+dX, this.y+dY, this.z+dZ);
 	}
 
 	public BlockCoordinate add(Direction2D dir2d)
@@ -90,11 +86,11 @@ public class BlockCoordinate implements Comparable<BlockCoordinate>
 
 	public double getDistanceSquared(BlockCoordinate other)
 	{
-		int dX = other.x - this.x;
-		int dY = other.y - this.y;
-		int dZ = other.z - this.z;
+		int dX = other.x-this.x;
+		int dY = other.y-this.y;
+		int dZ = other.z-this.z;
 
-		return (dX * dX) + (dY * dY) + (dZ * dZ);
+		return (dX*dX)+(dY*dY)+(dZ*dZ);
 	}
 
 }

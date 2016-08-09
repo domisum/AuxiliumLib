@@ -10,9 +10,9 @@ public class BlockRotator
 		if(axis == Axis.Y)
 			return data;
 		else if(axis == Axis.X)
-			return (byte) (data + 4);
+			return (byte) (data+4);
 		else if(axis == Axis.Z)
-			return (byte) (data + 8);
+			return (byte) (data+8);
 
 		return -1;
 	}

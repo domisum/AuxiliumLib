@@ -1,10 +1,9 @@
 package de.domisum.auxiliumapi.data.container.math;
 
-import org.bukkit.Location;
-import org.bukkit.util.Vector;
-
 import de.domisum.auxiliumapi.data.container.block.BlockCoordinate;
 import de.domisum.auxiliumapi.util.math.MathUtil;
+import org.bukkit.Location;
+import org.bukkit.util.Vector;
 
 public class Vector3D
 {
@@ -39,18 +38,14 @@ public class Vector3D
 		this(0, 0, 0);
 	}
 
-	@Deprecated
-	@Override
-	public Vector3D clone()
+	@Deprecated @Override public Vector3D clone()
 	{
 		return new Vector3D(this.x, this.y, this.z);
 	}
 
-	@Override
-	public String toString()
+	@Override public String toString()
 	{
-		return "vector[x=" + MathUtil.round(this.x, 3) + ",y=" + MathUtil.round(this.y, 3) + ",z=" + MathUtil.round(this.z, 3)
-				+ "]";
+		return "vector[x="+MathUtil.round(this.x, 3)+",y="+MathUtil.round(this.y, 3)+",z="+MathUtil.round(this.z, 3)+"]";
 	}
 
 
@@ -64,14 +59,14 @@ public class Vector3D
 
 	public double lengthSquared()
 	{
-		return (this.x * this.x) + (this.y * this.y) + (this.z * this.z);
+		return (this.x*this.x)+(this.y*this.y)+(this.z*this.z);
 	}
 
 	public Vector3D normalize()
 	{
 		double length = length();
 
-		return new Vector3D(this.x / length, this.y / length, this.z / length);
+		return new Vector3D(this.x/length, this.y/length, this.z/length);
 	}
 
 	public Vector3D invert()
@@ -85,7 +80,7 @@ public class Vector3D
 		if((this.x == 0) && (this.y == 0))
 			independent = new Vector3D(1, 1, this.z);
 		else
-			independent = new Vector3D(this.x, this.y, this.z + 1);
+			independent = new Vector3D(this.x, this.y, this.z+1);
 
 		return crossProduct(independent);
 	}
@@ -106,7 +101,7 @@ public class Vector3D
 	// -------
 	public Vector3D add(Vector3D other)
 	{
-		return new Vector3D(this.x + other.x, this.y + other.y, this.z + other.z);
+		return new Vector3D(this.x+other.x, this.y+other.y, this.z+other.z);
 	}
 
 	public Vector3D subtract(Vector3D other)
@@ -117,25 +112,25 @@ public class Vector3D
 
 	public Vector3D multiply(double factor)
 	{
-		return new Vector3D(this.x * factor, this.y * factor, this.z * factor);
+		return new Vector3D(this.x*factor, this.y*factor, this.z*factor);
 	}
 
 	public Vector3D divide(double divisor)
 	{
-		return multiply(1 / divisor);
+		return multiply(1/divisor);
 	}
 
 
 	public double dotProduct(Vector3D other)
 	{
-		return (this.x * other.x) + (this.y * other.y) + (this.z * other.z);
+		return (this.x*other.x)+(this.y*other.y)+(this.z*other.z);
 	}
 
 	public Vector3D crossProduct(Vector3D other)
 	{
-		double nX = (this.y * other.z) - (this.z * other.y);
-		double nY = (this.z * other.x) - (this.x * other.z);
-		double nZ = (this.x * other.y) - (this.y * other.x);
+		double nX = (this.y*other.z)-(this.z*other.y);
+		double nY = (this.z*other.x)-(this.x*other.z);
+		double nZ = (this.x*other.y)-(this.y*other.x);
 
 		return new Vector3D(nX, nY, nZ);
 	}

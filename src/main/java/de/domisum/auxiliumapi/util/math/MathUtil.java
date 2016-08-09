@@ -6,23 +6,23 @@ public class MathUtil
 	// NUMBERS
 	public static double getDelta(double a, double b)
 	{
-		return Math.abs(a - b);
+		return Math.abs(a-b);
 	}
 
 	public static double mix(double firstNumber, double firstPart, double secondNumber, double secondPart)
 	{
-		double firstPercentage = firstPart / (firstPart + secondPart);
-		double secondPercentage = 1 - firstPercentage;
+		double firstPercentage = firstPart/(firstPart+secondPart);
+		double secondPercentage = 1-firstPercentage;
 
-		return (firstPercentage * firstNumber) + (secondPercentage * secondNumber);
+		return (firstPercentage*firstNumber)+(secondPercentage*secondNumber);
 	}
 
 	public static double mix(double firstNumber, double firstPart, double secondNumber)
 	{
 		double firstPercentage = firstPart;
-		double secondPercentage = 1 - firstPercentage;
+		double secondPercentage = 1-firstPercentage;
 
-		return (firstPercentage * firstNumber) + (secondPercentage * secondNumber);
+		return (firstPercentage*firstNumber)+(secondPercentage*secondNumber);
 	}
 
 
@@ -34,9 +34,9 @@ public class MathUtil
 
 	public static boolean isAngleNearDeg(double a, double b, double maxD)
 	{
-		double delta = Math.abs(a - b) % 360;
+		double delta = Math.abs(a-b)%360;
 		if(delta > 180)
-			delta = 360 - delta;
+			delta = 360-delta;
 
 		return delta <= maxD;
 	}
@@ -49,7 +49,7 @@ public class MathUtil
 		for(int i = 0; i < digits; i++)
 			factor *= 10;
 
-		return (double) Math.round(number * factor) / factor;
+		return (double) Math.round(number*factor)/factor;
 	}
 
 }

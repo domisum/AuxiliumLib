@@ -9,7 +9,7 @@ public class VectorUtil
 	// MISC
 	public static double getYawFromDirection(Vector3D direction)
 	{
-		return Math.toDegrees(Math.atan2(direction.z, direction.x)) - 90;
+		return Math.toDegrees(Math.atan2(direction.z, direction.x))-90;
 	}
 
 	public static Vector2D getDirectionVector(double yaw)
@@ -22,7 +22,7 @@ public class VectorUtil
 
 	public static Vector3D getCenter(Vector3D vector)
 	{
-		return new Vector3D(Math.floor(vector.x) + .5, Math.floor(vector.y) + .5, Math.floor(vector.z) + .5);
+		return new Vector3D(Math.floor(vector.x)+.5, Math.floor(vector.y)+.5, Math.floor(vector.z)+.5);
 	}
 
 
@@ -31,8 +31,8 @@ public class VectorUtil
 	{
 		double rad = Math.toRadians(-degrees);
 
-		double nX = (vector.x * Math.cos(rad)) - (vector.z * Math.sin(rad));
-		double nZ = (vector.x * Math.sin(rad)) + (vector.z * Math.cos(rad));
+		double nX = (vector.x*Math.cos(rad))-(vector.z*Math.sin(rad));
+		double nZ = (vector.x*Math.sin(rad))+(vector.z*Math.cos(rad));
 
 		return new Vector3D(nX, vector.y, nZ);
 	}
@@ -47,7 +47,7 @@ public class VectorUtil
 		double wvProduct = w.dotProduct(v);
 		double vvProduct = v.dotProduct(v);
 
-		double productQuot = wvProduct / vvProduct;
+		double productQuot = wvProduct/vvProduct;
 		Vector3D pointOnLine = l1.add(v.multiply(productQuot));
 		return pointOnLine;
 	}
@@ -57,8 +57,8 @@ public class VectorUtil
 	{
 		// is this even right? may be just for line segment instead of infinite line
 
-		double normalLength = Math.sqrt(((l2.x - l1.x) * (l2.x - l1.x)) + ((l2.y - l1.y) * (l2.y - l1.y)));
-		return Math.abs(((p.x - l1.x) * (l2.y - l1.y)) - ((p.y - l1.y) * (l2.x - l1.x))) / normalLength;
+		double normalLength = Math.sqrt(((l2.x-l1.x)*(l2.x-l1.x))+((l2.y-l1.y)*(l2.y-l1.y)));
+		return Math.abs(((p.x-l1.x)*(l2.y-l1.y))-((p.y-l1.y)*(l2.x-l1.x)))/normalLength;
 	}
 
 	public static double getDistanceFromLineToPoint(Vector3D l1, Vector3D l2, Vector3D p)
@@ -70,7 +70,7 @@ public class VectorUtil
 
 		Vector3D crossProduct = oneToTwo.crossProduct(pToOne);
 
-		double distance = crossProduct.length() / oneToTwo.length();
+		double distance = crossProduct.length()/oneToTwo.length();
 		return distance;
 	}
 
@@ -88,7 +88,7 @@ public class VectorUtil
 		if(v.dotProduct(v) <= wvProduct)
 			return p.distanceTo(l2);
 
-		double productQuot = wvProduct / vvProduct;
+		double productQuot = wvProduct/vvProduct;
 		Vector3D pointOnSegment = l1.add(v.multiply(productQuot));
 
 		return p.distanceTo(pointOnSegment);

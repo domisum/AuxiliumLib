@@ -1,11 +1,10 @@
 package de.domisum.auxiliumapi.util.bukkit;
 
-import java.util.Collection;
-
+import net.minecraft.server.v1_9_R1.Packet;
 import org.bukkit.craftbukkit.v1_9_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 
-import net.minecraft.server.v1_9_R1.Packet;
+import java.util.Collection;
 
 public class PacketUtil
 {
@@ -13,12 +12,12 @@ public class PacketUtil
 	// VALUE CONVERSION
 	public static int toPacketDistance(double d)
 	{
-		return (int) Math.floor(d * 32) * 128;
+		return (int) Math.floor(d*32)*128;
 	}
 
 	public static byte toPacketAngle(float f)
 	{
-		return (byte) ((int) ((f * 256.0f) / 360.0f));
+		return (byte) ((int) ((f*256.0f)/360.0f));
 	}
 
 

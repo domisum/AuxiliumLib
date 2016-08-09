@@ -1,12 +1,11 @@
 package de.domisum.auxiliumapi.util;
 
+import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
 import java.awt.image.WritableRaster;
 import java.io.File;
 import java.io.IOException;
-
-import javax.imageio.ImageIO;
 
 public class ImageUtil
 {
@@ -61,10 +60,10 @@ public class ImageUtil
 			for(int pixel = 0, row = 0, col = 0; pixel < pixels.length; pixel += pixelLength)
 			{
 				int argb = 0;
-				argb += ((pixels[pixel] & 0xff) << 24); // alpha
-				argb += (pixels[pixel + 1] & 0xff); // blue
-				argb += ((pixels[pixel + 2] & 0xff) << 8); // green
-				argb += ((pixels[pixel + 3] & 0xff) << 16); // red
+				argb += ((pixels[pixel]&0xff)<<24); // alpha
+				argb += (pixels[pixel+1]&0xff); // blue
+				argb += ((pixels[pixel+2]&0xff)<<8); // green
+				argb += ((pixels[pixel+3]&0xff)<<16); // red
 				result[row][col] = argb;
 				col++;
 
@@ -82,9 +81,9 @@ public class ImageUtil
 			{
 				int argb = 0;
 				argb += -16777216; // 255 alpha
-				argb += (pixels[pixel] & 0xff); // blue
-				argb += ((pixels[pixel + 1] & 0xff) << 8); // green
-				argb += ((pixels[pixel + 2] & 0xff) << 16); // red
+				argb += (pixels[pixel]&0xff); // blue
+				argb += ((pixels[pixel+1]&0xff)<<8); // green
+				argb += ((pixels[pixel+2]&0xff)<<16); // red
 				result[row][col] = argb;
 				col++;
 

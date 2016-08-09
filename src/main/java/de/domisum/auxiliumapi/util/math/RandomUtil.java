@@ -1,8 +1,8 @@
 package de.domisum.auxiliumapi.util.math;
 
-import java.util.Random;
-
 import de.domisum.auxiliumapi.data.container.math.Vector3D;
+
+import java.util.Random;
 
 public class RandomUtil
 {
@@ -45,7 +45,7 @@ public class RandomUtil
 
 	public static double distribute(Random r, double base, double maxDifference)
 	{
-		return base + ((r.nextBoolean() ? 1 : -1) * r.nextDouble() * maxDifference);
+		return base+((r.nextBoolean() ? 1 : -1)*r.nextDouble()*maxDifference);
 	}
 
 
@@ -62,7 +62,7 @@ public class RandomUtil
 
 	public static int getFromRange(int min, int max)
 	{
-		return min + (nextInt((max - min) + 1));
+		return min+(nextInt((max-min)+1));
 	}
 
 
@@ -74,13 +74,13 @@ public class RandomUtil
 
 	public static Vector3D getRandomUnitVector(Random random)
 	{
-		double theta = random.nextDouble() * 2 * Math.PI;
-		double r = (random.nextDouble() * 2) - 1;
+		double theta = random.nextDouble()*2*Math.PI;
+		double r = (random.nextDouble()*2)-1;
 
-		double rootComponent = Math.sqrt(1 - (r * r));
+		double rootComponent = Math.sqrt(1-(r*r));
 
-		double x = rootComponent * Math.cos(theta);
-		double y = rootComponent * Math.sin(theta);
+		double x = rootComponent*Math.cos(theta);
+		double y = rootComponent*Math.sin(theta);
 		double z = r;
 
 		return new Vector3D(x, y, z);

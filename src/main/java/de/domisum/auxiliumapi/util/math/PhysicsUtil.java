@@ -9,7 +9,7 @@ public class PhysicsUtil
 		// t^2 = 2s / a
 		// t = sqrt(2s/a)
 
-		return Math.sqrt((2 * distance) / acceleration);
+		return Math.sqrt((2*distance)/acceleration);
 	}
 
 }

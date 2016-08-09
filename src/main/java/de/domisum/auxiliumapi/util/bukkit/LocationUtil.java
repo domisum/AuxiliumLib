@@ -10,11 +10,11 @@ public class LocationUtil
 
 	public static Location lookAt(Location base, Location target)
 	{
-		double dX = target.getX() - base.getX();
-		double dY = target.getY() - base.getY();
-		double dZ = target.getZ() - base.getZ();
+		double dX = target.getX()-base.getX();
+		double dY = target.getY()-base.getY();
+		double dZ = target.getZ()-base.getZ();
 
-		double dXZ = Math.sqrt((dX * dX) + (dZ * dZ));
+		double dXZ = Math.sqrt((dX*dX)+(dZ*dZ));
 
 		Location lookingLocation = base.clone();
 		lookingLocation.setYaw((float) -Math.toDegrees(Math.atan2(dX, dZ)));
@@ -30,7 +30,7 @@ public class LocationUtil
 
 	public static Location getCenter(Location location)
 	{
-		return new Location(location.getWorld(), location.getBlockX() + .5, location.getBlockY() + .5, location.getBlockZ() + .5,
+		return new Location(location.getWorld(), location.getBlockX()+.5, location.getBlockY()+.5, location.getBlockZ()+.5,
 				location.getYaw(), location.getPitch());
 	}
 
@@ -42,8 +42,8 @@ public class LocationUtil
 
 	public static Location moveLocationTowardsYaw(Location location, double distance)
 	{
-		double dX = -Math.sin(Math.toRadians(location.getYaw())) * distance;
-		double dZ = Math.cos(Math.toRadians(location.getYaw())) * distance;
+		double dX = -Math.sin(Math.toRadians(location.getYaw()))*distance;
+		double dZ = Math.cos(Math.toRadians(location.getYaw()))*distance;
 
 		Location newLocation = location.clone().add(dX, 0, dZ);
 
@@ -67,7 +67,7 @@ public class LocationUtil
 		double sideDZ = -Math.sin(Math.toRadians(handLocation.getYaw()));
 
 		Vector perp = new Vector(sideDX, 0, sideDZ);
-		handLocation.add(perp.multiply((offhand ? -1 : 1) * 0.4));
+		handLocation.add(perp.multiply((offhand ? -1 : 1)*0.4));
 
 		return handLocation;
 	}

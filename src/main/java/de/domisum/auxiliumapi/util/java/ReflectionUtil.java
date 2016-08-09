@@ -1,9 +1,9 @@
 package de.domisum.auxiliumapi.util.java;
 
+import org.bukkit.Bukkit;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
-
-import org.bukkit.Bukkit;
 
 public class ReflectionUtil
 {
@@ -17,7 +17,7 @@ public class ReflectionUtil
 
 			field.set(object, value);
 		}
-		catch(NoSuchFieldException | IllegalArgumentException | SecurityException | IllegalAccessException e)
+		catch(NoSuchFieldException|IllegalArgumentException|SecurityException|IllegalAccessException e)
 		{
 			e.printStackTrace();
 		}
@@ -43,7 +43,7 @@ public class ReflectionUtil
 
 			return field.get(object);
 		}
-		catch(NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e)
+		catch(NoSuchFieldException|SecurityException|IllegalArgumentException|IllegalAccessException e)
 		{
 			e.printStackTrace();
 		}
@@ -61,7 +61,7 @@ public class ReflectionUtil
 
 			return field.get(object);
 		}
-		catch(NoSuchFieldException | SecurityException | IllegalArgumentException | IllegalAccessException e)
+		catch(NoSuchFieldException|SecurityException|IllegalArgumentException|IllegalAccessException e)
 		{
 			e.printStackTrace();
 		}
@@ -85,8 +85,7 @@ public class ReflectionUtil
 		{
 			return clazz.getConstructor().newInstance(args);
 		}
-		catch(InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
-				| NoSuchMethodException | SecurityException e)
+		catch(InstantiationException|IllegalAccessException|IllegalArgumentException|InvocationTargetException|NoSuchMethodException|SecurityException e)
 		{
 			e.printStackTrace();
 		}
@@ -97,12 +96,12 @@ public class ReflectionUtil
 
 	public static String getNMSPath()
 	{
-		return "net.minecraft.server." + getVersion() + ".";
+		return "net.minecraft.server."+getVersion()+".";
 	}
 
 	public static String getCBPath()
 	{
-		return "org.bukkit.craftbukkit." + getVersion() + ".";
+		return "org.bukkit.craftbukkit."+getVersion()+".";
 	}
 
 	public static String getVersion()

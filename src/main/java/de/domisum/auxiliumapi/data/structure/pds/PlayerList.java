@@ -1,10 +1,9 @@
 package de.domisum.auxiliumapi.data.structure.pds;
 
-import java.util.ArrayList;
-
+import de.domisum.auxiliumapi.AuxiliumAPI;
 import org.bukkit.entity.Player;
 
-import de.domisum.auxiliumapi.AuxiliumAPI;
+import java.util.ArrayList;
 
 public class PlayerList extends ArrayList<Player> implements PlayerDataStructure
 {
@@ -29,20 +28,17 @@ public class PlayerList extends ArrayList<Player> implements PlayerDataStructure
 	// -------
 	// EVENTS
 	// -------
-	@Override
-	public boolean contains(Player player)
+	@Override public boolean contains(Player player)
 	{
 		return super.contains(player);
 	}
 
-	@Override
-	public boolean removePlayer(Player player)
+	@Override public boolean removePlayer(Player player)
 	{
 		return remove(player);
 	}
 
-	@Override
-	public void onLeave(Player player)
+	@Override public void onLeave(Player player)
 	{
 
 	}

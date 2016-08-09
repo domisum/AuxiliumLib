@@ -1,12 +1,7 @@
 package de.domisum.auxiliumapi.util.bukkit;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
+import net.minecraft.server.v1_9_R1.NBTTagCompound;
+import net.minecraft.server.v1_9_R1.NBTTagList;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.craftbukkit.v1_9_R1.inventory.CraftItemStack;
@@ -14,9 +9,6 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-
-import net.minecraft.server.v1_9_R1.NBTTagCompound;
-import net.minecraft.server.v1_9_R1.NBTTagList;
 
 public class ItemStackBuilder
 {
@@ -65,7 +57,8 @@ public class ItemStackBuilder
 			this.enchantments = null;
 
 		// glowing
-		glow: if(this.enchantments == null)
+		glow:
+		if(this.enchantments == null)
 		{
 			net.minecraft.server.v1_9_R1.ItemStack nmsStack = CraftItemStack.asNMSCopy(itemStack);
 			if(!nmsStack.hasTag())
@@ -108,7 +101,7 @@ public class ItemStackBuilder
 
 	public ItemStackBuilder displayName(String displayName)
 	{
-		this.displayName = ChatColor.WHITE + displayName;
+		this.displayName = ChatColor.WHITE+displayName;
 
 		return this;
 	}
@@ -163,7 +156,7 @@ public class ItemStackBuilder
 		{
 			String[] splitLine = l.split("\\n");
 			for(String s : splitLine)
-				lore.add(ChatColor.WHITE + s);
+				lore.add(ChatColor.WHITE+s);
 		}
 
 		return lore;

@@ -1,8 +1,7 @@
 package de.domisum.auxiliumapi.util.java;
 
-import org.bukkit.Bukkit;
-
 import de.domisum.auxiliumapi.AuxiliumAPI;
+import org.bukkit.Bukkit;
 
 public class ThreadUtil
 {
@@ -14,8 +13,8 @@ public class ThreadUtil
 
 	public static boolean sleepNs(long ns)
 	{
-		long ms = ns / (1000 * 1000);
-		long nsOnly = ns % (1000 * 1000);
+		long ms = ns/(1000*1000);
+		long nsOnly = ns%(1000*1000);
 
 		return sleep(ms, nsOnly);
 	}
@@ -54,7 +53,7 @@ public class ThreadUtil
 	{
 		try
 		{
-			synchronized (object)
+			synchronized(object)
 			{
 				object.wait();
 			}
@@ -68,7 +67,7 @@ public class ThreadUtil
 
 	public static void notifyAll(Object object)
 	{
-		synchronized (object)
+		synchronized(object)
 		{
 			object.notifyAll();
 		}
@@ -77,7 +76,7 @@ public class ThreadUtil
 
 	public static Thread runDelayed(Runnable run, long ms)
 	{
-		Runnable delay = () ->
+		Runnable delay = ()->
 		{
 			sleep(ms);
 			run.run();

@@ -1,11 +1,10 @@
 package de.domisum.auxiliumapi.util;
 
-import java.util.logging.Level;
-
+import de.domisum.auxiliumapi.AuxiliumAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import de.domisum.auxiliumapi.AuxiliumAPI;
+import java.util.logging.Level;
 
 public class DebugUtil
 {
@@ -13,12 +12,12 @@ public class DebugUtil
 
 	public static void say(Object message)
 	{
-		say(message + "");
+		say(message+"");
 	}
 
 	public static void say(String message)
 	{
-		String formattedMessage = "[DEBUG] " + message;
+		String formattedMessage = "[DEBUG] "+message;
 
 		AuxiliumAPI.getPlugin().getLogger().log(Level.WARNING, formattedMessage);
 		for(Player p : Bukkit.getOnlinePlayers())

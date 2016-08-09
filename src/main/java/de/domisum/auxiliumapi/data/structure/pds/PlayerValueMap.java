@@ -1,10 +1,9 @@
 package de.domisum.auxiliumapi.data.structure.pds;
 
-import java.util.HashMap;
-
+import de.domisum.auxiliumapi.AuxiliumAPI;
 import org.bukkit.entity.Player;
 
-import de.domisum.auxiliumapi.AuxiliumAPI;
+import java.util.HashMap;
 
 public class PlayerValueMap<T> extends HashMap<T, Player> implements PlayerDataStructure
 {
@@ -21,23 +20,20 @@ public class PlayerValueMap<T> extends HashMap<T, Player> implements PlayerDataS
 	// -------
 	// EVENTS
 	// -------
-	@Override
-	public boolean contains(Player player)
+	@Override public boolean contains(Player player)
 	{
 		return super.containsValue(player);
 	}
 
-	@Override
-	public boolean removePlayer(Player player)
+	@Override public boolean removePlayer(Player player)
 	{
-		return entrySet().removeIf((entry) ->
+		return entrySet().removeIf((entry)->
 		{
 			return entry.getValue() == player;
 		});
 	}
 
-	@Override
-	public void onLeave(Player player)
+	@Override public void onLeave(Player player)
 	{
 
 	}

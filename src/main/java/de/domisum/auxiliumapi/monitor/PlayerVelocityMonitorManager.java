@@ -1,9 +1,6 @@
 package de.domisum.auxiliumapi.monitor;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-
+import de.domisum.auxiliumapi.AuxiliumAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -13,7 +10,9 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.util.Vector;
 
-import de.domisum.auxiliumapi.AuxiliumAPI;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 public class PlayerVelocityMonitorManager implements Listener
 {
@@ -65,7 +64,7 @@ public class PlayerVelocityMonitorManager implements Listener
 		if(this.updateTask != null)
 			return;
 
-		this.updateTask = Bukkit.getScheduler().runTaskTimer(AuxiliumAPI.getPlugin(), () -> update(), 1, 1);
+		this.updateTask = Bukkit.getScheduler().runTaskTimer(AuxiliumAPI.getPlugin(), ()->update(), 1, 1);
 	}
 
 	protected void stopUpdateTask()
@@ -99,8 +98,7 @@ public class PlayerVelocityMonitorManager implements Listener
 	// -------
 	// EVENTS
 	// -------
-	@EventHandler
-	public void playerMove(PlayerMoveEvent event)
+	@EventHandler public void playerMove(PlayerMoveEvent event)
 	{
 		Player player = event.getPlayer();
 
