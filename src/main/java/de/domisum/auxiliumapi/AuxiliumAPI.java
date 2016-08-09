@@ -30,12 +30,21 @@ public class AuxiliumAPI
 		onEnable();
 	}
 
-	public static void initialize(JavaPlugin plugin)
+	public static void enable(JavaPlugin plugin)
 	{
 		if(instance != null)
 			return;
 
 		new AuxiliumAPI(plugin);
+	}
+
+	public static void disable()
+	{
+		if(instance == null)
+			return;
+
+		getInstance().onDisable();
+		instance = null;
 	}
 
 	protected void onEnable()
@@ -46,7 +55,7 @@ public class AuxiliumAPI
 		getLogger().info(this.getClass().getSimpleName() + " has been enabled");
 	}
 
-	public void onDisable()
+	protected void onDisable()
 	{
 		instance = null;
 		getLogger().info(this.getClass().getSimpleName() + " has been disabled");
