@@ -1,12 +1,12 @@
 package de.domisum.auxiliumapi.data.container.dir;
 
-public enumAxis
-		{
+public enum Axis
+{
 
-		// @formatter:off
+	// @formatter:off
 	X,
 	Y,
 	Z;
 	// @formatter:on
 
-		}
+}

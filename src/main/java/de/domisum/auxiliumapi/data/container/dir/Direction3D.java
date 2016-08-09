@@ -1,5 +1,7 @@
 package de.domisum.auxiliumapi.data.container.dir;
 
+import java.util.Random;
+
 public enum Direction3D
 {
 
