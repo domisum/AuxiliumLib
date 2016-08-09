@@ -47,7 +47,8 @@ public class PlayerDataStructureListener implements Listener
 	// -------
 	// EVENTS
 	// -------
-	@EventHandler(priority = EventPriority.LOWEST) public void playerLeave(PlayerQuitEvent event)
+	@EventHandler(priority = EventPriority.LOWEST)
+	public void playerLeave(PlayerQuitEvent event)
 	{
 		Player player = event.getPlayer();
 

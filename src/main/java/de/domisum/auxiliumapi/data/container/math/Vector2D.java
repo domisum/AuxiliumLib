@@ -23,12 +23,14 @@ public class Vector2D
 		this(0, 0);
 	}
 
-	@Override public Vector2D clone()
+	@Override
+	public Vector2D clone()
 	{
 		return new Vector2D(this.x, this.y);
 	}
 
-	@Override public boolean equals(Object o)
+	@Override
+	public boolean equals(Object o)
 	{
 		if(!(o instanceof Vector2D))
 			return false;
@@ -38,12 +40,14 @@ public class Vector2D
 		return (this.x == other.x) && (this.y == other.y);
 	}
 
-	@Override public int hashCode()
+	@Override
+	public int hashCode()
 	{
 		return (int) Math.round((this.x*this.y)+((this.x-this.y)*1000));
 	}
 
-	@Override public String toString()
+	@Override
+	public String toString()
 	{
 		return "vector[x="+MathUtil.round(this.x, 3)+",y="+MathUtil.round(this.y, 3)+"]";
 	}

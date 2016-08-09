@@ -161,7 +161,8 @@ public class BlockCollection
 	// -------
 	// BUILDING
 	// -------
-	@SuppressWarnings("deprecation") public void buildAt(Location location)
+	@SuppressWarnings("deprecation")
+	public void buildAt(Location location)
 	{
 		for(Entry<BlockCoordinate, AbstractBlock> entry : this.blocks.entrySet())
 		{

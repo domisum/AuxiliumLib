@@ -20,17 +20,20 @@ public class PlayerKeyMap<T> extends HashMap<Player, T> implements PlayerDataStr
 	// -------
 	// EVENTS
 	// -------
-	@Override public boolean contains(Player player)
+	@Override
+	public boolean contains(Player player)
 	{
 		return super.containsKey(player);
 	}
 
-	@Override public boolean removePlayer(Player player)
+	@Override
+	public boolean removePlayer(Player player)
 	{
 		return remove(player) != null;
 	}
 
-	@Override public void onLeave(Player player)
+	@Override
+	public void onLeave(Player player)
 	{
 
 	}

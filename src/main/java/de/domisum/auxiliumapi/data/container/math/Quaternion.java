@@ -39,7 +39,8 @@ public class Quaternion
 		this.z = sin*vector.z;
 	}
 
-	@Override public String toString()
+	@Override
+	public String toString()
 	{
 		return "quaternion[w="+MathUtil.round(this.w, 3)+",x="+MathUtil.round(this.x, 3)+",y="+MathUtil.round(this.y, 3)+",z="
 				+MathUtil.round(this.z, 3)+"]";

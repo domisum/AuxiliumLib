@@ -109,7 +109,8 @@ public class PlayerCausedExplosion implements Listener
 	// -------
 	// EVENTS
 	// -------
-	@EventHandler(priority = EventPriority.LOWEST) public void entityDeathByExplosion(EntityDeathEvent event)
+	@EventHandler(priority = EventPriority.LOWEST)
+	public void entityDeathByExplosion(EntityDeathEvent event)
 	{
 		// this listener is only active during the explosion, so the damage in here can automatically be attributed to the player
 		// and can only be caused by the explosion
@@ -121,7 +122,8 @@ public class PlayerCausedExplosion implements Listener
 		((CraftLivingEntity) event.getEntity()).getHandle().killer = ((CraftPlayer) currentPlayer).getHandle();
 	}
 
-	@EventHandler(priority = EventPriority.LOWEST) public void entityDamageByExplosion(EntityDamageEvent event)
+	@EventHandler(priority = EventPriority.LOWEST)
+	public void entityDamageByExplosion(EntityDamageEvent event)
 	{
 		// this listener is only active during the explosion, so the damage in here can automatically be attributed to the player
 		// and can only be caused by the explosion

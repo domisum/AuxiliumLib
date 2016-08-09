@@ -27,7 +27,8 @@ public class BlockCoordinate implements Comparable<BlockCoordinate>
 	}
 
 
-	@Override public boolean equals(Object o)
+	@Override
+	public boolean equals(Object o)
 	{
 		if(!(o instanceof BlockCoordinate))
 			return false;
@@ -36,18 +37,21 @@ public class BlockCoordinate implements Comparable<BlockCoordinate>
 		return (other.x == this.x) && (other.y == this.y) && (other.z == this.z);
 	}
 
-	@Override public int hashCode()
+	@Override
+	public int hashCode()
 	{
 		return (this.x*503)+(this.y*1000003)+this.z;
 	}
 
-	@Override public String toString()
+	@Override
+	public String toString()
 	{
 		return "BlockCoordinate[x="+this.x+",y="+this.y+",z="+this.z+"]";
 	}
 
 
-	@Override public int compareTo(BlockCoordinate other)
+	@Override
+	public int compareTo(BlockCoordinate other)
 	{
 		int dX = other.x-this.x;
 		if(dX != 0)

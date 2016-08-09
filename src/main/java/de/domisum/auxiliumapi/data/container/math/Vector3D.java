@@ -38,12 +38,15 @@ public class Vector3D
 		this(0, 0, 0);
 	}
 
-	@Deprecated @Override public Vector3D clone()
+	@Deprecated
+	@Override
+	public Vector3D clone()
 	{
 		return new Vector3D(this.x, this.y, this.z);
 	}
 
-	@Override public String toString()
+	@Override
+	public String toString()
 	{
 		return "vector[x="+MathUtil.round(this.x, 3)+",y="+MathUtil.round(this.y, 3)+",z="+MathUtil.round(this.z, 3)+"]";
 	}

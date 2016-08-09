@@ -20,12 +20,14 @@ public class PlayerValueMap<T> extends HashMap<T, Player> implements PlayerDataS
 	// -------
 	// EVENTS
 	// -------
-	@Override public boolean contains(Player player)
+	@Override
+	public boolean contains(Player player)
 	{
 		return super.containsValue(player);
 	}
 
-	@Override public boolean removePlayer(Player player)
+	@Override
+	public boolean removePlayer(Player player)
 	{
 		return entrySet().removeIf((entry)->
 		{
@@ -33,7 +35,8 @@ public class PlayerValueMap<T> extends HashMap<T, Player> implements PlayerDataS
 		});
 	}
 
-	@Override public void onLeave(Player player)
+	@Override
+	public void onLeave(Player player)
 	{
 
 	}

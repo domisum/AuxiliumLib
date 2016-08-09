@@ -14,8 +14,8 @@ public class BlockUtil
 		setMaterialAndData(block, material, data, false);
 	}
 
-	@SuppressWarnings("deprecation") public static void setMaterialAndData(Block block, Material material, byte data,
-			boolean physics)
+	@SuppressWarnings("deprecation")
+	public static void setMaterialAndData(Block block, Material material, byte data, boolean physics)
 	{
 		block.setTypeIdAndData(material.getId(), data, false);
 	}

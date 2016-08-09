@@ -98,7 +98,8 @@ public class PlayerVelocityMonitorManager implements Listener
 	// -------
 	// EVENTS
 	// -------
-	@EventHandler public void playerMove(PlayerMoveEvent event)
+	@EventHandler
+	public void playerMove(PlayerMoveEvent event)
 	{
 		Player player = event.getPlayer();
 
