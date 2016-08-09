@@ -10,6 +10,13 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 public class ItemStackBuilder
 {
 
@@ -150,7 +157,7 @@ public class ItemStackBuilder
 
 	protected List<String> processLore(List<String> oldLore)
 	{
-		List<String> lore = new ArrayList<String>();
+		List<String> lore = new ArrayList<>();
 
 		for(String l : oldLore)
 		{
