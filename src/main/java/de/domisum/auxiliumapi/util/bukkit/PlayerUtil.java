@@ -2,6 +2,9 @@ package de.domisum.auxiliumapi.util.bukkit;
 
 import de.domisum.auxiliumapi.util.java.ReflectionUtil;
 import net.minecraft.server.v1_9_R1.EntityLiving;
+import net.minecraft.server.v1_9_R1.EntityPlayer;
+import org.bukkit.craftbukkit.v1_9_R1.entity.CraftLivingEntity;
+import org.bukkit.craftbukkit.v1_9_R1.entity.CraftPlayer;
 import org.bukkit.entity.Damageable;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -108,15 +111,19 @@ public class PlayerUtil
 	}
 
 	// DAMAGING
-	public static void causeDamage(Player player, EntityLiving target, double damage)
-	{
-		causeDamage(player, (LivingEntity) target.getBukkitEntity(), damage);
-	}
-
 	public static void causeDamage(Player player, LivingEntity target, double damage)
 	{
+		causeDamage(player, ((CraftLivingEntity) target).getHandle(), damage);
+	}
+
+	public static void causeDamage(Player player, EntityLiving target, double damage)
+	{
 		// unsure if this works
-		target.damage(damage, player);
+		// have to do this in this manner, because
+		EntityPlayer entityPlayer = ((CraftPlayer) player).getHandle();
+		target.lastDamager = entityPlayer;
+		target.killer = entityPlayer;
+		((LivingEntity) target.getBukkitEntity()).damage(damage);
 	}
 
 }
