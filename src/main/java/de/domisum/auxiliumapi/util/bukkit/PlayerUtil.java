@@ -1,6 +1,7 @@
 package de.domisum.auxiliumapi.util.bukkit;
 
 import de.domisum.auxiliumapi.util.java.ReflectionUtil;
+import net.md_5.bungee.api.ChatColor;
 import net.minecraft.server.v1_9_R1.EntityLiving;
 import net.minecraft.server.v1_9_R1.EntityPlayer;
 import org.bukkit.craftbukkit.v1_9_R1.entity.CraftLivingEntity;
@@ -17,6 +18,12 @@ import java.lang.reflect.Method;
 
 public class PlayerUtil
 {
+
+	// MESSAGING
+	public static void sendStatusMessage(Player player, String message)
+	{
+		player.sendMessage(ChatColor.GRAY.toString()+ChatColor.ITALIC+"["+message+"]");
+	}
 
 	// MANIPULATION
 	public static void clear(Player player)
