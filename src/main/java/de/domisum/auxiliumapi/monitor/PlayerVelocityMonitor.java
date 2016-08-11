@@ -1,35 +1,38 @@
 package de.domisum.auxiliumapi.monitor;
 
+import de.domisum.auxiliumapi.util.java.annotations.APIUsage;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
+@APIUsage
 public class PlayerVelocityMonitor
 {
 
 	// CONSTANTS
-	protected static final int TIMEOUT_DURATION_MS = 20*1000;
+	private static final int TIMEOUT_DURATION_MS = 20*1000;
 
 	// REFERENCES
-	protected Player player;
+	private Player player;
 
 	// STATUS
-	protected boolean terminated = false;
+	private boolean terminated = false;
 
-	protected Vector playerVelocity = new Vector(0, 0, 0);
-	protected long lastTick;
-	protected long lastMove;
+	private Vector playerVelocity = new Vector(0, 0, 0);
+	private long lastTick;
+	private long lastMove;
 
-	protected long lastCheck = System.currentTimeMillis();
+	private long lastCheck = System.currentTimeMillis();
 
 
 	// -------
 	// CONSTRUCTOR
 	// -------
-	protected PlayerVelocityMonitor(Player player)
+	PlayerVelocityMonitor(Player player)
 	{
 		this.player = player;
 	}
 
+	@APIUsage
 	public void terminate()
 	{
 		this.terminated = true;
@@ -39,16 +42,13 @@ public class PlayerVelocityMonitor
 	// -------
 	// GETTERS
 	// -------
+	@APIUsage
 	public boolean isTooYoung()
 	{
 		return (this.lastTick == 0) && (this.lastMove == 0);
 	}
 
-	public Player getPlayer()
-	{
-		return this.player;
-	}
-
+	@APIUsage
 	public Vector getVelocity()
 	{
 		this.lastCheck = System.currentTimeMillis();
@@ -56,18 +56,25 @@ public class PlayerVelocityMonitor
 		return this.playerVelocity.clone();
 	}
 
+	Player getPlayer()
+	{
+		return this.player;
+	}
+
+	@APIUsage
 	public boolean isTerminated()
 	{
 		return this.terminated;
 	}
 
+	@APIUsage
 	public boolean isTimedOut()
 	{
 		return (this.lastCheck+TIMEOUT_DURATION_MS) < System.currentTimeMillis();
 	}
 
 
-	protected long getDurationSinceLastMoveMs()
+	private long getDurationSinceLastMoveMs()
 	{
 		return System.currentTimeMillis()-this.lastMove;
 	}
@@ -76,13 +83,13 @@ public class PlayerVelocityMonitor
 	// -------
 	// UPDATE
 	// -------
-	protected void updatePlayerVelocity(Vector velocity)
+	void updatePlayerVelocity(Vector velocity)
 	{
 		this.playerVelocity = velocity;
 		this.lastMove = System.currentTimeMillis();
 	}
 
-	protected void tick()
+	void tick()
 	{
 		this.lastTick = System.currentTimeMillis();
 

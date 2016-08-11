@@ -1,14 +1,18 @@
 package de.domisum.auxiliumapi.util.math;
 
+import de.domisum.auxiliumapi.util.java.annotations.APIUsage;
+
 public class MathUtil
 {
 
 	// NUMBERS
+	@APIUsage
 	public static double getDelta(double a, double b)
 	{
 		return Math.abs(a-b);
 	}
 
+	@APIUsage
 	public static double mix(double firstNumber, double firstPart, double secondNumber, double secondPart)
 	{
 		double firstPercentage = firstPart/(firstPart+secondPart);
@@ -17,6 +21,7 @@ public class MathUtil
 		return (firstPercentage*firstNumber)+(secondPercentage*secondNumber);
 	}
 
+	@APIUsage
 	public static double mix(double firstNumber, double firstPart, double secondNumber)
 	{
 		double firstPercentage = firstPart;
@@ -27,11 +32,13 @@ public class MathUtil
 
 
 	// ANGLE
+	@APIUsage
 	public static boolean isAngleNearRad(double a, double b, double maxD)
 	{
 		return isAngleNearDeg(Math.toDegrees(a), Math.toDegrees(b), maxD);
 	}
 
+	@APIUsage
 	public static boolean isAngleNearDeg(double a, double b, double maxD)
 	{
 		double delta = Math.abs(a-b)%360;
@@ -43,6 +50,7 @@ public class MathUtil
 
 
 	// HELPER
+	@APIUsage
 	public static double round(double number, int digits)
 	{
 		int factor = 1;

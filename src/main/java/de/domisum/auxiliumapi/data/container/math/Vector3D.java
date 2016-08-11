@@ -1,6 +1,7 @@
 package de.domisum.auxiliumapi.data.container.math;
 
 import de.domisum.auxiliumapi.data.container.block.BlockCoordinate;
+import de.domisum.auxiliumapi.util.java.annotations.APIUsage;
 import de.domisum.auxiliumapi.util.math.MathUtil;
 import org.bukkit.Location;
 import org.bukkit.util.Vector;
@@ -8,14 +9,18 @@ import org.bukkit.util.Vector;
 public class Vector3D
 {
 
+	@APIUsage
 	public final double x;
+	@APIUsage
 	public final double y;
+	@APIUsage
 	public final double z;
 
 
 	// -------
 	// CONSTRUCTOR
 	// -------
+	@APIUsage
 	public Vector3D(double x, double y, double z)
 	{
 		this.x = x;
@@ -23,22 +28,26 @@ public class Vector3D
 		this.z = z;
 	}
 
+	@APIUsage
 	public Vector3D(Vector bukkitVector)
 	{
 		this(bukkitVector.getX(), bukkitVector.getY(), bukkitVector.getZ());
 	}
 
+	@APIUsage
 	public Vector3D(Location location)
 	{
 		this(location.getX(), location.getY(), location.getZ());
 	}
 
+	@APIUsage
 	public Vector3D()
 	{
 		this(0, 0, 0);
 	}
 
 	@Deprecated
+	@APIUsage
 	@Override
 	public Vector3D clone()
 	{
@@ -55,16 +64,19 @@ public class Vector3D
 	// -------
 	// SELF
 	// -------
+	@APIUsage
 	public double length()
 	{
 		return Math.sqrt(lengthSquared());
 	}
 
+	@APIUsage
 	public double lengthSquared()
 	{
 		return (this.x*this.x)+(this.y*this.y)+(this.z*this.z);
 	}
 
+	@APIUsage
 	public Vector3D normalize()
 	{
 		double length = length();
@@ -72,14 +84,16 @@ public class Vector3D
 		return new Vector3D(this.x/length, this.y/length, this.z/length);
 	}
 
+	@APIUsage
 	public Vector3D invert()
 	{
 		return multiply(-1);
 	}
 
+	@APIUsage
 	public Vector3D orthogonal()
 	{
-		Vector3D independent = null;
+		Vector3D independent;
 		if((this.x == 0) && (this.y == 0))
 			independent = new Vector3D(1, 1, this.z);
 		else
@@ -88,11 +102,13 @@ public class Vector3D
 		return crossProduct(independent);
 	}
 
+	@APIUsage
 	public BlockCoordinate getBlockCoordinate()
 	{
 		return new BlockCoordinate((int) Math.floor(this.x), (int) Math.floor(this.y), (int) Math.floor(this.z));
 	}
 
+	@APIUsage
 	public Vector toBukkit()
 	{
 		return new Vector(this.x, this.y, this.z);
@@ -102,33 +118,39 @@ public class Vector3D
 	// -------
 	// INTERACTION
 	// -------
+	@APIUsage
 	public Vector3D add(Vector3D other)
 	{
 		return new Vector3D(this.x+other.x, this.y+other.y, this.z+other.z);
 	}
 
+	@APIUsage
 	public Vector3D subtract(Vector3D other)
 	{
 		return add(other.invert());
 	}
 
 
+	@APIUsage
 	public Vector3D multiply(double factor)
 	{
 		return new Vector3D(this.x*factor, this.y*factor, this.z*factor);
 	}
 
+	@APIUsage
 	public Vector3D divide(double divisor)
 	{
 		return multiply(1/divisor);
 	}
 
 
+	@APIUsage
 	public double dotProduct(Vector3D other)
 	{
 		return (this.x*other.x)+(this.y*other.y)+(this.z*other.z);
 	}
 
+	@APIUsage
 	public Vector3D crossProduct(Vector3D other)
 	{
 		double nX = (this.y*other.z)-(this.z*other.y);
@@ -139,11 +161,13 @@ public class Vector3D
 	}
 
 
+	@APIUsage
 	public double distanceTo(Vector3D other)
 	{
 		return Math.sqrt(distanceToSquared(other));
 	}
 
+	@APIUsage
 	public double distanceToSquared(Vector3D other)
 	{
 		return subtract(other).length();
@@ -153,11 +177,13 @@ public class Vector3D
 	// -------
 	// QUATERNION
 	// -------
+	@APIUsage
 	public Quaternion getPureQuaternion()
 	{
 		return new Quaternion(0, this.x, this.y, this.z);
 	}
 
+	@APIUsage
 	public Vector3D rotate(Quaternion rotation)
 	{
 		Quaternion thisAsQuaternion = getPureQuaternion();

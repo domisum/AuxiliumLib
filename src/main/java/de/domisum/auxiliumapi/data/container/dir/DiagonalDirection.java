@@ -1,7 +1,10 @@
 package de.domisum.auxiliumapi.data.container.dir;
 
+import de.domisum.auxiliumapi.util.java.annotations.APIUsage;
+
 import java.util.Random;
 
+@APIUsage
 public enum DiagonalDirection
 {
 
@@ -23,7 +26,7 @@ public enum DiagonalDirection
 	// -------
 	// CONSTRUCTOR
 	// -------
-	private DiagonalDirection(int dX, int dZ)
+	DiagonalDirection(int dX, int dZ)
 	{
 		this.dX = dX;
 		this.dZ = dZ;
@@ -33,6 +36,7 @@ public enum DiagonalDirection
 	// -------
 	// GETTERS
 	// -------
+	@APIUsage
 	public Direction2D getRandomStraightChildDirection(Random r)
 	{
 		String[] straightChildDirectionNames = name().split("_");
@@ -41,6 +45,7 @@ public enum DiagonalDirection
 		return Direction2D.valueOf(straightChildDirectionName);
 	}
 
+	@APIUsage
 	public Direction2D getOtherStraightChildDirection(Direction2D dir)
 	{
 		String[] straightChildDirectionNames = name().split("_");
@@ -51,6 +56,7 @@ public enum DiagonalDirection
 			return Direction2D.valueOf(straightChildDirectionNames[0]);
 	}
 
+	@APIUsage
 	public static DiagonalDirection getRandom(Random r)
 	{
 		return values()[r.nextInt(values().length)];

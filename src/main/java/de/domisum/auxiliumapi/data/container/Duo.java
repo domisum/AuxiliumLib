@@ -1,6 +1,8 @@
 package de.domisum.auxiliumapi.data.container;
 
 
+import de.domisum.auxiliumapi.util.java.annotations.APIUsage;
+
 public class Duo<T, U>
 {
 
@@ -26,8 +28,8 @@ public class Duo<T, U>
 
 		Duo<?, ?> other = (Duo<?, ?>) o;
 
-		boolean aEquals = this.a != null ? this.a.equals(other.a) : this.a == other.a;
-		boolean bEquals = this.b != null ? this.b.equals(other.b) : this.b == other.a;
+		boolean aEquals = this.a != null ? this.a.equals(other.a) : other.a == null;
+		boolean bEquals = this.b != null ? this.b.equals(other.b) : other.a == null;
 
 		return aEquals && bEquals;
 	}
@@ -54,9 +56,10 @@ public class Duo<T, U>
 	// -------
 	// GETTERS
 	// -------
+	@APIUsage
 	public Duo<U, T> getInverted()
 	{
-		return new Duo<U, T>(this.b, this.a);
+		return new Duo<>(this.b, this.a);
 	}
 
 }

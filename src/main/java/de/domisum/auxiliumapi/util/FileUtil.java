@@ -1,5 +1,7 @@
 package de.domisum.auxiliumapi.util;
 
+import de.domisum.auxiliumapi.util.java.annotations.APIUsage;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -15,12 +17,14 @@ public class FileUtil
 {
 
 	// READING
+	@APIUsage
 	public static String readFileToString(String path)
 	{
 		File file = new File(path);
 		return readFileToString(file);
 	}
 
+	@APIUsage
 	public static String readFileToString(File file)
 	{
 		StringBuilder sb = new StringBuilder();
@@ -61,11 +65,13 @@ public class FileUtil
 
 
 	// WRITING
+	@APIUsage
 	public static void writeStringToFile(String path, String content)
 	{
 		writeStringToFile(new File(path), content);
 	}
 
+	@APIUsage
 	public static void writeStringToFile(File file, String content)
 	{
 		file.getParentFile().mkdirs();
@@ -84,6 +90,7 @@ public class FileUtil
 
 
 	// COPY
+	@APIUsage
 	public static void copyFile(File origin, File destinationDir)
 	{
 		if(!origin.exists())
@@ -101,11 +108,13 @@ public class FileUtil
 		}
 	}
 
+	@APIUsage
 	public static void copyDirectory(File originFolder, File destinationDir)
 	{
 		copyDirectory(originFolder, destinationDir, null);
 	}
 
+	@APIUsage
 	public static void copyDirectory(File originFolder, File destinationDir, FileFilter fileFilter)
 	{
 		destinationDir.mkdirs();
@@ -129,6 +138,7 @@ public class FileUtil
 	}
 
 
+	@APIUsage
 	public static void copyDirectory(File originFolder, String newName, File destinationDir)
 	{
 		destinationDir.mkdirs();
@@ -149,12 +159,14 @@ public class FileUtil
 
 
 	// DELETING
+	@APIUsage
 	public static void deleteDirectory(File dir)
 	{
 		deleteDirectoryContents(dir);
 		dir.delete();
 	}
 
+	@APIUsage
 	public static void deleteDirectoryContents(File dir)
 	{
 		File[] files = dir.listFiles();
@@ -169,6 +181,7 @@ public class FileUtil
 
 
 	// MISC
+	@APIUsage
 	public static boolean doesFileExist(String path)
 	{
 		File file = new File(path);
@@ -176,6 +189,7 @@ public class FileUtil
 		return file.exists();
 	}
 
+	@APIUsage
 	public static List<File> listFilesRecursively(File dir)
 	{
 		List<File> files = new ArrayList<>();
@@ -191,6 +205,7 @@ public class FileUtil
 		return files;
 	}
 
+	@APIUsage
 	public static boolean isDirectoryEmpty(File dir)
 	{
 		return listFilesRecursively(dir).size() == 0;
@@ -198,6 +213,7 @@ public class FileUtil
 
 
 	// SPECIFIC
+	@APIUsage
 	public static String getIdentifier(File baseDir, File file, String fileExtension)
 	{
 		String id = file.getPath().replaceFirst(baseDir.getPath(), "");
@@ -214,6 +230,7 @@ public class FileUtil
 	// -------
 	// FILE FILTER
 	// -------
+	@APIUsage
 	public static class FileFilter
 	{
 

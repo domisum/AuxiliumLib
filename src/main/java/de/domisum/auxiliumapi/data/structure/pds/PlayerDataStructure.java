@@ -1,14 +1,16 @@
 package de.domisum.auxiliumapi.data.structure.pds;
 
+import de.domisum.auxiliumapi.util.java.annotations.APIUsage;
 import org.bukkit.entity.Player;
 
+@APIUsage
 public interface PlayerDataStructure
 {
 
-	public boolean contains(Player player);
+	boolean contains(Player player);
 
-	public boolean removePlayer(Player player);
+	boolean removePlayer(Player player);
 
-	public void onLeave(Player player);
+	void onLeave(Player player);
 
 }

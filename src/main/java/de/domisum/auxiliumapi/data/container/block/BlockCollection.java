@@ -1,6 +1,8 @@
 package de.domisum.auxiliumapi.data.container.block;
 
 import de.domisum.auxiliumapi.data.container.Duo;
+import de.domisum.auxiliumapi.data.container.abstracts.AbstractBlock;
+import de.domisum.auxiliumapi.util.java.annotations.APIUsage;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -10,6 +12,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+@APIUsage
 public class BlockCollection
 {
 
@@ -23,6 +26,7 @@ public class BlockCollection
 	// -------
 	// CONSTRUCTOR
 	// -------
+	@APIUsage
 	public BlockCollection()
 	{
 
@@ -32,6 +36,7 @@ public class BlockCollection
 	// -------
 	// GETTERS
 	// -------
+	@APIUsage
 	public AbstractBlock get(BlockCoordinate coordinate)
 	{
 		AbstractBlock block = this.blocks.get(coordinate);
@@ -41,6 +46,7 @@ public class BlockCollection
 		return this.DEFAULT_BLOCK;
 	}
 
+	@APIUsage
 	public Duo<BlockCoordinate, BlockCoordinate> getBounds()
 	{
 		int minX = Integer.MAX_VALUE;
@@ -75,14 +81,14 @@ public class BlockCollection
 				maxZ = coord.z;
 		}
 
-		return new Duo<BlockCoordinate, BlockCoordinate>(new BlockCoordinate(minX, minY, minZ),
-				new BlockCoordinate(maxX, maxY, maxZ));
+		return new Duo<>(new BlockCoordinate(minX, minY, minZ), new BlockCoordinate(maxX, maxY, maxZ));
 	}
 
 
 	// -------
 	// SETTERS
 	// -------
+	@APIUsage
 	public void set(BlockCoordinate coordinate, AbstractBlock block)
 	{
 		this.blocks.put(coordinate, block);
@@ -92,6 +98,7 @@ public class BlockCollection
 	// -------
 	// GENERATION
 	// -------
+	@APIUsage
 	public BlockCollection smooth(int minimumSurroundingBlocks, Set<Material> materials, int minimumSurroundingBlocksForFilling,
 			AbstractBlock blockForFilling)
 	{
@@ -135,6 +142,7 @@ public class BlockCollection
 		return newCollection;
 	}
 
+	@APIUsage
 	private int getNumberOfSurroundingBlocks(BlockCoordinate blockCoordinate)
 	{
 		int surroundingBlocks = 0;
@@ -162,6 +170,7 @@ public class BlockCollection
 	// BUILDING
 	// -------
 	@SuppressWarnings("deprecation")
+	@APIUsage
 	public void buildAt(Location location)
 	{
 		for(Entry<BlockCoordinate, AbstractBlock> entry : this.blocks.entrySet())

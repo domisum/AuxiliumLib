@@ -1,6 +1,7 @@
 package de.domisum.auxiliumapi.monitor;
 
 import de.domisum.auxiliumapi.AuxiliumAPI;
+import de.domisum.auxiliumapi.util.java.annotations.APIUsage;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -18,10 +19,10 @@ public class PlayerVelocityMonitorManager implements Listener
 {
 
 	// REFERENCES
-	protected Map<Player, PlayerVelocityMonitor> playerVelocityMonitors = new HashMap<>();
+	private Map<Player, PlayerVelocityMonitor> playerVelocityMonitors = new HashMap<>();
 
 	// STATUS
-	protected BukkitTask updateTask;
+	private BukkitTask updateTask;
 
 
 	// -------
@@ -32,7 +33,7 @@ public class PlayerVelocityMonitorManager implements Listener
 		registerListener();
 	}
 
-	protected void registerListener()
+	private void registerListener()
 	{
 		Plugin plugin = AuxiliumAPI.getPlugin();
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
@@ -42,6 +43,7 @@ public class PlayerVelocityMonitorManager implements Listener
 	// -------
 	// REGISTRATION
 	// -------
+	@APIUsage
 	public static PlayerVelocityMonitor getFor(Player player)
 	{
 		PlayerVelocityMonitorManager pvmm = AuxiliumAPI.getPlayerVelocityMonitorManager();
@@ -59,7 +61,7 @@ public class PlayerVelocityMonitorManager implements Listener
 	// -------
 	// UPDATE
 	// -------
-	protected void startUpdateTask()
+	private void startUpdateTask()
 	{
 		if(this.updateTask != null)
 			return;
@@ -67,7 +69,7 @@ public class PlayerVelocityMonitorManager implements Listener
 		this.updateTask = Bukkit.getScheduler().runTaskTimer(AuxiliumAPI.getPlugin(), ()->update(), 1, 1);
 	}
 
-	protected void stopUpdateTask()
+	private void stopUpdateTask()
 	{
 		if(this.updateTask == null)
 			return;
@@ -76,7 +78,7 @@ public class PlayerVelocityMonitorManager implements Listener
 		this.updateTask = null;
 	}
 
-	protected void update()
+	private void update()
 	{
 		Iterator<PlayerVelocityMonitor> iterator = this.playerVelocityMonitors.values().iterator();
 		while(iterator.hasNext())

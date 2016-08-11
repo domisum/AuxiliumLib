@@ -1,5 +1,6 @@
 package de.domisum.auxiliumapi.util;
 
+import de.domisum.auxiliumapi.util.java.annotations.APIUsage;
 import org.bukkit.ChatColor;
 
 import java.util.ArrayList;
@@ -9,6 +10,7 @@ public class TextUtil
 {
 
 	// BASIC
+	@APIUsage
 	public static String replaceLast(String string, String from, String to)
 	{
 		int pos = string.lastIndexOf(from);
@@ -18,6 +20,7 @@ public class TextUtil
 		return string;
 	}
 
+	@APIUsage
 	public static String repeat(String string, int repeats)
 	{
 		String result = "";
@@ -29,6 +32,7 @@ public class TextUtil
 
 
 	// NUMBERS
+	@APIUsage
 	public static String asRomanNumeral(int number)
 	{
 		if((number < 1) || (number > 3999))
@@ -101,6 +105,7 @@ public class TextUtil
 
 
 	// COMPLEX
+	@APIUsage
 	public static List<String> splitTextIntoLines(String text, int maxLineLength)
 	{
 		List<String> lines = new ArrayList<>();
@@ -137,6 +142,7 @@ public class TextUtil
 		return lines;
 	}
 
+	@APIUsage
 	public static String getSymbolMeter(char symbol, int value, int maxValue, String onColor, String offColor)
 	{
 		String meter = onColor+"";
@@ -148,7 +154,9 @@ public class TextUtil
 	}
 
 
-	protected String getListAsString(List<?> list)
+	// TO STRING
+	@APIUsage
+	public static String getListAsString(List<?> list)
 	{
 		String string = "list[";
 

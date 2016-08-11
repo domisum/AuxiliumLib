@@ -1,16 +1,19 @@
 package de.domisum.auxiliumapi.util.java;
 
 import de.domisum.auxiliumapi.AuxiliumAPI;
+import de.domisum.auxiliumapi.util.java.annotations.APIUsage;
 import org.bukkit.Bukkit;
 
 public class ThreadUtil
 {
 
+	@APIUsage
 	public static boolean sleep(long ms)
 	{
 		return sleep(ms, 0);
 	}
 
+	@APIUsage
 	public static boolean sleepNs(long ns)
 	{
 		long ms = ns/(1000*1000);
@@ -19,6 +22,7 @@ public class ThreadUtil
 		return sleep(ms, nsOnly);
 	}
 
+	@APIUsage
 	public static boolean sleep(long ms, long ns)
 	{
 		try
@@ -34,6 +38,7 @@ public class ThreadUtil
 	}
 
 
+	@APIUsage
 	public static boolean join(Thread thread)
 	{
 		try
@@ -49,6 +54,7 @@ public class ThreadUtil
 	}
 
 
+	@APIUsage
 	public static boolean wait(Object object)
 	{
 		try
@@ -65,6 +71,7 @@ public class ThreadUtil
 		}
 	}
 
+	@APIUsage
 	public static void notifyAll(Object object)
 	{
 		synchronized(object)
@@ -73,7 +80,7 @@ public class ThreadUtil
 		}
 	}
 
-
+	@APIUsage
 	public static Thread runDelayed(Runnable run, long ms)
 	{
 		Runnable delay = ()->
@@ -91,6 +98,7 @@ public class ThreadUtil
 
 
 	// BUKKIT
+	@APIUsage
 	public static void runSync(Runnable run)
 	{
 		Bukkit.getScheduler().runTask(AuxiliumAPI.getPlugin(), run);

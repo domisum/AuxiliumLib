@@ -1,5 +1,6 @@
 package de.domisum.auxiliumapi.util.bukkit;
 
+import de.domisum.auxiliumapi.util.java.annotations.APIUsage;
 import net.minecraft.server.v1_9_R1.NBTTagCompound;
 import net.minecraft.server.v1_9_R1.NBTTagList;
 import org.bukkit.ChatColor;
@@ -84,6 +85,7 @@ public class ItemStackBuilder
 	// -------
 	// SETTERS
 	// -------
+	@APIUsage
 	public ItemStackBuilder material(Material material)
 	{
 		this.material = material;
@@ -91,6 +93,7 @@ public class ItemStackBuilder
 		return this;
 	}
 
+	@APIUsage
 	public ItemStackBuilder amount(int amount)
 	{
 		this.amount = amount;
@@ -98,6 +101,7 @@ public class ItemStackBuilder
 		return this;
 	}
 
+	@APIUsage
 	public ItemStackBuilder durability(int durability)
 	{
 		this.durability = (short) durability;
@@ -106,6 +110,7 @@ public class ItemStackBuilder
 	}
 
 
+	@APIUsage
 	public ItemStackBuilder displayName(String displayName)
 	{
 		this.displayName = ChatColor.WHITE+displayName;
@@ -113,6 +118,7 @@ public class ItemStackBuilder
 		return this;
 	}
 
+	@APIUsage
 	public ItemStackBuilder lore(String... loreArray)
 	{
 		this.lore = processLore(new ArrayList<>(Arrays.asList(loreArray)));
@@ -120,6 +126,7 @@ public class ItemStackBuilder
 		return this;
 	}
 
+	@APIUsage
 	public ItemStackBuilder addLore(List<String> additionalLore)
 	{
 		additionalLore = processLore(additionalLore);
@@ -132,6 +139,7 @@ public class ItemStackBuilder
 		return this;
 	}
 
+	@APIUsage
 	public ItemStackBuilder flags(ItemFlag... flags)
 	{
 		this.flags = flags;
@@ -140,6 +148,7 @@ public class ItemStackBuilder
 	}
 
 
+	@APIUsage
 	public ItemStackBuilder enchantment(Enchantment enchantment, int level)
 	{
 		this.enchantments.put(enchantment, level);
@@ -147,6 +156,7 @@ public class ItemStackBuilder
 		return this;
 	}
 
+	@APIUsage
 	public ItemStackBuilder setGlowing(boolean glowing)
 	{
 		this.glowing = glowing;
@@ -154,7 +164,7 @@ public class ItemStackBuilder
 		return this;
 	}
 
-
+	@APIUsage
 	protected List<String> processLore(List<String> oldLore)
 	{
 		List<String> lore = new ArrayList<>();
@@ -173,6 +183,7 @@ public class ItemStackBuilder
 	// -------
 	// BUILDING
 	// -------
+	@APIUsage
 	public ItemStack build()
 	{
 		if(this.material == null)
@@ -199,6 +210,7 @@ public class ItemStackBuilder
 		return itemStack;
 	}
 
+	@APIUsage
 	protected static ItemStack makeGlow(ItemStack itemStack)
 	{
 		net.minecraft.server.v1_9_R1.ItemStack nmsStack = CraftItemStack.asNMSCopy(itemStack);

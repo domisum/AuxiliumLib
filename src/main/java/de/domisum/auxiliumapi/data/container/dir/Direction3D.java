@@ -1,7 +1,10 @@
 package de.domisum.auxiliumapi.data.container.dir;
 
+import de.domisum.auxiliumapi.util.java.annotations.APIUsage;
+
 import java.util.Random;
 
+@APIUsage
 public enum Direction3D
 {
 
@@ -22,7 +25,7 @@ public enum Direction3D
 	// -------
 	// CONSTRUCTOR
 	// -------
-	private Direction3D(int dX, int dY, int dZ)
+	Direction3D(int dX, int dY, int dZ)
 	{
 		this.dX = dX;
 		this.dY = dY;
@@ -33,6 +36,7 @@ public enum Direction3D
 	// -------
 	// GETTERS
 	// -------
+	@APIUsage
 	public static Direction3D getRandom(Random r)
 	{
 		return values()[r.nextInt(values().length)];

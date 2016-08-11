@@ -1,10 +1,13 @@
 package de.domisum.auxiliumapi.data.container.block;
 
 import de.domisum.auxiliumapi.data.container.dir.Axis;
+import de.domisum.auxiliumapi.util.java.annotations.APIUsage;
 
+@APIUsage
 public class BlockRotator
 {
 
+	@APIUsage
 	public static byte rotateWood(byte data, Axis axis)
 	{
 		if(axis == Axis.Y)

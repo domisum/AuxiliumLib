@@ -1,5 +1,7 @@
 package de.domisum.auxiliumapi.data.container;
 
+import de.domisum.auxiliumapi.util.java.annotations.APIUsage;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,6 +24,7 @@ public class DataRegister
 	// -------
 	// GETTERS
 	// -------
+	@APIUsage
 	public Object get(String key)
 	{
 		Object value = this.data.get(key);
@@ -31,6 +34,7 @@ public class DataRegister
 		return value;
 	}
 
+	@APIUsage
 	public boolean doesValueExist(String key)
 	{
 		return this.data.get(key) != null;
@@ -40,6 +44,7 @@ public class DataRegister
 	// -------
 	// SETTERS
 	// -------
+	@APIUsage
 	public DataRegister set(String key, Object object)
 	{
 		this.data.put(key, object);
@@ -51,7 +56,7 @@ public class DataRegister
 	// -------
 	// DATA REGISTER EXCEPTION
 	// -------
-	public class DataRegisterException extends RuntimeException
+	private class DataRegisterException extends RuntimeException
 	{
 
 		// CONSTANTS
@@ -61,12 +66,7 @@ public class DataRegister
 		// -------
 		// CONSTRUCTOR
 		// -------
-		public DataRegisterException()
-		{
-
-		}
-
-		public DataRegisterException(String message)
+		private DataRegisterException(String message)
 		{
 			super(message);
 		}

@@ -1,5 +1,6 @@
 package de.domisum.auxiliumapi.util.bukkit;
 
+import de.domisum.auxiliumapi.util.java.annotations.APIUsage;
 import de.domisum.auxiliumapi.util.java.ReflectionUtil;
 import net.md_5.bungee.api.ChatColor;
 import net.minecraft.server.v1_9_R1.EntityLiving;
@@ -20,12 +21,14 @@ public class PlayerUtil
 {
 
 	// MESSAGING
+	@APIUsage
 	public static void sendStatusMessage(Player player, String message)
 	{
 		player.sendMessage(ChatColor.GRAY.toString()+ChatColor.ITALIC+"["+message+"]");
 	}
 
 	// MANIPULATION
+	@APIUsage
 	public static void clear(Player player)
 	{
 		player.getInventory().clear();
@@ -44,6 +47,7 @@ public class PlayerUtil
 		removeArrows(player);
 	}
 
+	@APIUsage
 	public static void removeArrows(Player player)
 	{
 		// reflection makes this plugin compatible with multiple versions
@@ -66,6 +70,7 @@ public class PlayerUtil
 		}
 	}
 
+	@APIUsage
 	public static void respawn(Player player)
 	{
 		try
@@ -104,6 +109,7 @@ public class PlayerUtil
 		}
 	}
 
+	@APIUsage
 	public static void heal(Player player, double health)
 	{
 		if(health <= 0)
@@ -118,11 +124,13 @@ public class PlayerUtil
 	}
 
 	// DAMAGING
+	@APIUsage
 	public static void causeDamage(Player player, LivingEntity target, double damage)
 	{
 		causeDamage(player, ((CraftLivingEntity) target).getHandle(), damage);
 	}
 
+	@APIUsage
 	public static void causeDamage(Player player, EntityLiving target, double damage)
 	{
 		// unsure if this works

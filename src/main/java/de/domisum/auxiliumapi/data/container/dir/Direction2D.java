@@ -1,10 +1,13 @@
 package de.domisum.auxiliumapi.data.container.dir;
 
+import de.domisum.auxiliumapi.util.java.annotations.APIUsage;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
+@APIUsage
 public enum Direction2D
 {
 
@@ -33,14 +36,16 @@ public enum Direction2D
 	// -------
 	// GETTERS
 	// -------
+	@APIUsage
 	public static Direction2D getRandom(Random r)
 	{
 		return values()[r.nextInt(values().length)];
 	}
 
+	@APIUsage
 	public Direction2D getRandomOther(Random r)
 	{
-		Direction2D dir = null;
+		Direction2D dir;
 		do
 			dir = getRandom(r);
 		while(dir == this);
@@ -48,6 +53,7 @@ public enum Direction2D
 		return dir;
 	}
 
+	@APIUsage
 	public Direction2D getOpposite()
 	{
 		if(this == NORTH)
@@ -63,6 +69,7 @@ public enum Direction2D
 	}
 
 
+	@APIUsage
 	public static List<Direction2D> getValuesAsList()
 	{
 		return new ArrayList<>(Arrays.asList(values()));

@@ -1,7 +1,9 @@
 package de.domisum.auxiliumapi.data.container.block;
 
 import de.domisum.auxiliumapi.data.container.dir.Direction2D;
+import de.domisum.auxiliumapi.util.java.annotations.APIUsage;
 
+@APIUsage
 public class BlockCoordinate implements Comparable<BlockCoordinate>
 {
 
@@ -14,6 +16,7 @@ public class BlockCoordinate implements Comparable<BlockCoordinate>
 	// -------
 	// CONSTRUCTOR
 	// -------
+	@APIUsage
 	public BlockCoordinate(int x, int y, int z)
 	{
 		this.x = x;
@@ -21,6 +24,7 @@ public class BlockCoordinate implements Comparable<BlockCoordinate>
 		this.z = z;
 	}
 
+	@APIUsage
 	public BlockCoordinate(int x, int z)
 	{
 		this(x, 0, z);
@@ -72,22 +76,26 @@ public class BlockCoordinate implements Comparable<BlockCoordinate>
 	// -------
 	// INTERACTION
 	// -------
+	@APIUsage
 	public BlockCoordinate add(int dX, int dY, int dZ)
 	{
 		return new BlockCoordinate(this.x+dX, this.y+dY, this.z+dZ);
 	}
 
+	@APIUsage
 	public BlockCoordinate add(Direction2D dir2d)
 	{
 		return add(dir2d.dX, 0, dir2d.dZ);
 	}
 
 
+	@APIUsage
 	public double getDistance(BlockCoordinate other)
 	{
 		return Math.sqrt(getDistanceSquared(other));
 	}
 
+	@APIUsage
 	public double getDistanceSquared(BlockCoordinate other)
 	{
 		int dX = other.x-this.x;

@@ -2,6 +2,7 @@ package de.domisum.auxiliumapi;
 
 import de.domisum.auxiliumapi.data.structure.pds.PlayerDataStructureListener;
 import de.domisum.auxiliumapi.monitor.PlayerVelocityMonitorManager;
+import de.domisum.auxiliumapi.util.java.annotations.APIUsage;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.logging.Logger;
@@ -21,7 +22,7 @@ public class AuxiliumAPI
 	// -------
 	// CONSTRUCTOR
 	// -------
-	protected AuxiliumAPI(JavaPlugin plugin)
+	private AuxiliumAPI(JavaPlugin plugin)
 	{
 		instance = this;
 		this.plugin = plugin;
@@ -29,6 +30,7 @@ public class AuxiliumAPI
 		onEnable();
 	}
 
+	@APIUsage
 	public static void enable(JavaPlugin plugin)
 	{
 		if(instance != null)
@@ -37,6 +39,7 @@ public class AuxiliumAPI
 		new AuxiliumAPI(plugin);
 	}
 
+	@APIUsage
 	public static void disable()
 	{
 		if(instance == null)
@@ -46,7 +49,7 @@ public class AuxiliumAPI
 		instance = null;
 	}
 
-	protected void onEnable()
+	private void onEnable()
 	{
 		this.playerDataStructureListener = new PlayerDataStructureListener();
 		this.playerVelocityMonitorManager = new PlayerVelocityMonitorManager();
@@ -54,7 +57,7 @@ public class AuxiliumAPI
 		getLogger().info(this.getClass().getSimpleName()+" has been enabled");
 	}
 
-	protected void onDisable()
+	private void onDisable()
 	{
 		instance = null;
 		getLogger().info(this.getClass().getSimpleName()+" has been disabled");
@@ -64,11 +67,7 @@ public class AuxiliumAPI
 	// -------
 	// GETTERS
 	// -------
-	public static boolean isEnabled()
-	{
-		return instance != null;
-	}
-
+	@APIUsage
 	public static AuxiliumAPI getInstance()
 	{
 		if(instance == null)

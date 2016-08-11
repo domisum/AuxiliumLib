@@ -2,6 +2,7 @@ package de.domisum.auxiliumapi.util.java;
 
 import com.google.common.reflect.ClassPath;
 import com.google.common.reflect.ClassPath.ClassInfo;
+import de.domisum.auxiliumapi.util.java.annotations.APIUsage;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -12,6 +13,7 @@ import java.util.Set;
 public class ClazzUtil
 {
 
+	@APIUsage
 	public static Class<?> getClass(String path)
 	{
 		try
@@ -26,6 +28,7 @@ public class ClazzUtil
 		return null;
 	}
 
+	@APIUsage
 	public static List<Class<?>> getClasses(String path)
 	{
 		ClassPath classPath;

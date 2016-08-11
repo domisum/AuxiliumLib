@@ -1,6 +1,7 @@
 package de.domisum.auxiliumapi.util.bukkit;
 
 import de.domisum.auxiliumapi.AuxiliumAPI;
+import de.domisum.auxiliumapi.util.java.annotations.APIUsage;
 import de.domisum.auxiliumapi.util.java.ThreadUtil;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_9_R1.entity.CraftLivingEntity;
@@ -35,6 +36,7 @@ public class PlayerCausedExplosion implements Listener
 	// -------
 	// CONSTRUCTOR
 	// -------
+	@APIUsage
 	public PlayerCausedExplosion(Location location, Player player)
 	{
 		this.location = location;
@@ -56,6 +58,7 @@ public class PlayerCausedExplosion implements Listener
 	// -------
 	// SETTERS
 	// -------
+	@APIUsage
 	public PlayerCausedExplosion setPower(double power)
 	{
 		this.power = power;
@@ -63,6 +66,7 @@ public class PlayerCausedExplosion implements Listener
 		return this;
 	}
 
+	@APIUsage
 	public PlayerCausedExplosion setFire(boolean fire)
 	{
 		this.fire = fire;
@@ -70,6 +74,7 @@ public class PlayerCausedExplosion implements Listener
 		return this;
 	}
 
+	@APIUsage
 	public PlayerCausedExplosion setBreakBlocks(boolean breakBlocks)
 	{
 		this.breakBlocks = breakBlocks;
@@ -77,6 +82,7 @@ public class PlayerCausedExplosion implements Listener
 		return this;
 	}
 
+	@APIUsage
 	public PlayerCausedExplosion setDamageSelf(boolean damageSelf)
 	{
 		this.damageSelf = damageSelf;
@@ -88,6 +94,7 @@ public class PlayerCausedExplosion implements Listener
 	// -------
 	// EXPLOSION
 	// -------
+	@APIUsage
 	public void detonate()
 	{
 		ThreadUtil.runSync(()->detonateSync());

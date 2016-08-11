@@ -1,5 +1,7 @@
 package de.domisum.auxiliumapi.util;
 
+import de.domisum.auxiliumapi.util.java.annotations.APIUsage;
+
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
@@ -10,11 +12,13 @@ import java.io.IOException;
 public class ImageUtil
 {
 
+	@APIUsage
 	public static BufferedImage loadImage(String path)
 	{
 		return loadImage(new File(path));
 	}
 
+	@APIUsage
 	public static BufferedImage loadImage(File file)
 	{
 		try
@@ -30,6 +34,7 @@ public class ImageUtil
 	}
 
 
+	@APIUsage
 	public static void writeImage(File file, BufferedImage image)
 	{
 		if(image == null)
@@ -46,6 +51,7 @@ public class ImageUtil
 	}
 
 
+	@APIUsage
 	public static int[][] getPixels(BufferedImage image)
 	{
 		final byte[] pixels = ((DataBufferByte) image.getRaster().getDataBuffer()).getData();
@@ -98,6 +104,7 @@ public class ImageUtil
 		return result;
 	}
 
+	@APIUsage
 	public static BufferedImage getImageFromPixels(int[] pixels, int width, int height)
 	{
 		BufferedImage bi = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);

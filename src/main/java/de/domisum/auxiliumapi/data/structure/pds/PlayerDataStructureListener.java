@@ -38,9 +38,9 @@ public class PlayerDataStructureListener implements Listener
 	// -------
 	// REGISTRATION
 	// -------
-	public void registerPlayerDataStructure(PlayerDataStructure pds)
+	void registerPlayerDataStructure(PlayerDataStructure pds)
 	{
-		this.playerDataStructures.add(new WeakReference<PlayerDataStructure>(pds));
+		this.playerDataStructures.add(new WeakReference<>(pds));
 	}
 
 
