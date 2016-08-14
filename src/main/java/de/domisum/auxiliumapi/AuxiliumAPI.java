@@ -71,8 +71,7 @@ public class AuxiliumAPI
 	public static AuxiliumAPI getInstance()
 	{
 		if(instance == null)
-			throw new IllegalArgumentException(
-					"An instance of AuxiliumAPI has to be constructed before usage of the advanced classes.");
+			throw new IllegalArgumentException("An instance of AuxiliumAPI has to be constructed before usage");
 
 		return instance;
 	}
