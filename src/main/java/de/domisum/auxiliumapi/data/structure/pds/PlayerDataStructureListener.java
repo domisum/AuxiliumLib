@@ -6,7 +6,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.plugin.Plugin;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -30,7 +30,7 @@ public class PlayerDataStructureListener implements Listener
 
 	private void registerListener()
 	{
-		JavaPlugin plugin = AuxiliumAPI.getPlugin();
+		Plugin plugin = AuxiliumAPI.getPlugin();
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 	}
 

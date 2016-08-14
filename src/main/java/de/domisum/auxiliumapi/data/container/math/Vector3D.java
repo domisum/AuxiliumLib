@@ -4,8 +4,10 @@ import de.domisum.auxiliumapi.data.container.block.BlockCoordinate;
 import de.domisum.auxiliumapi.util.java.annotations.APIUsage;
 import de.domisum.auxiliumapi.util.math.MathUtil;
 import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.util.Vector;
 
+@APIUsage
 public class Vector3D
 {
 
@@ -112,6 +114,11 @@ public class Vector3D
 	public Vector toBukkit()
 	{
 		return new Vector(this.x, this.y, this.z);
+	}
+
+	public Location toLocation(World world)
+	{
+		return new Location(world, this.x, this.y, this.z);
 	}
 
 

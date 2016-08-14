@@ -3,7 +3,7 @@ package de.domisum.auxiliumapi;
 import de.domisum.auxiliumapi.data.structure.pds.PlayerDataStructureListener;
 import de.domisum.auxiliumapi.monitor.PlayerVelocityMonitorManager;
 import de.domisum.auxiliumapi.util.java.annotations.APIUsage;
-import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.plugin.Plugin;
 
 import java.util.logging.Logger;
 
@@ -12,7 +12,7 @@ public class AuxiliumAPI
 
 	// REFERENCES
 	private static AuxiliumAPI instance;
-	private JavaPlugin plugin;
+	private Plugin plugin;
 
 	// MANAGERS
 	private PlayerDataStructureListener playerDataStructureListener;
@@ -22,7 +22,7 @@ public class AuxiliumAPI
 	// -------
 	// CONSTRUCTOR
 	// -------
-	private AuxiliumAPI(JavaPlugin plugin)
+	private AuxiliumAPI(Plugin plugin)
 	{
 		instance = this;
 		this.plugin = plugin;
@@ -31,7 +31,7 @@ public class AuxiliumAPI
 	}
 
 	@APIUsage
-	public static void enable(JavaPlugin plugin)
+	public static void enable(Plugin plugin)
 	{
 		if(instance != null)
 			return;
@@ -76,7 +76,7 @@ public class AuxiliumAPI
 		return instance;
 	}
 
-	public static JavaPlugin getPlugin()
+	public static Plugin getPlugin()
 	{
 		return getInstance().plugin;
 	}

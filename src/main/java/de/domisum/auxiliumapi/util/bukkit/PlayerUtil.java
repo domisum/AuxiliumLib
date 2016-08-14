@@ -1,22 +1,24 @@
 package de.domisum.auxiliumapi.util.bukkit;
 
-import de.domisum.auxiliumapi.util.java.annotations.APIUsage;
 import de.domisum.auxiliumapi.util.java.ReflectionUtil;
+import de.domisum.auxiliumapi.util.java.annotations.APIUsage;
 import net.md_5.bungee.api.ChatColor;
 import net.minecraft.server.v1_9_R1.EntityLiving;
 import net.minecraft.server.v1_9_R1.EntityPlayer;
 import org.bukkit.craftbukkit.v1_9_R1.entity.CraftLivingEntity;
 import org.bukkit.craftbukkit.v1_9_R1.entity.CraftPlayer;
-import org.bukkit.entity.Damageable;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Collection;
 
+@APIUsage
 public class PlayerUtil
 {
 
@@ -27,7 +29,9 @@ public class PlayerUtil
 		player.sendMessage(ChatColor.GRAY.toString()+ChatColor.ITALIC+"["+message+"]");
 	}
 
+
 	// MANIPULATION
+	// inventory
 	@APIUsage
 	public static void clear(Player player)
 	{
@@ -47,6 +51,29 @@ public class PlayerUtil
 		removeArrows(player);
 	}
 
+	@APIUsage
+	public static void removeItemStacksFromInventory(Player player, Collection<ItemStack> itemStacksToRemove)
+	{
+		ItemStack[] contents = player.getInventory().getContents();
+		for(int i = 0; i < contents.length; i++)
+		{
+			ItemStack invItemStack = contents[i];
+			if(invItemStack == null)
+				continue;
+
+			for(ItemStack toRemove : itemStacksToRemove)
+				if(toRemove.isSimilar(invItemStack))
+				{
+					contents[i] = null;
+					break;
+				}
+		}
+
+		player.getInventory().setContents(contents);
+	}
+
+
+	// appearance
 	@APIUsage
 	public static void removeArrows(Player player)
 	{
@@ -70,6 +97,8 @@ public class PlayerUtil
 		}
 	}
 
+
+	// health and death status
 	@APIUsage
 	public static void respawn(Player player)
 	{
@@ -115,13 +144,12 @@ public class PlayerUtil
 		if(health <= 0)
 			return;
 
-		Damageable da = player;
-
-		if((da.getHealth()+health) < da.getMaxHealth())
-			player.setHealth(da.getHealth()+health);
+		if((player.getHealth()+health) < player.getMaxHealth())
+			player.setHealth(player.getHealth()+health);
 		else
-			player.setHealth(da.getMaxHealth());
+			player.setHealth(player.getMaxHealth());
 	}
+
 
 	// DAMAGING
 	@APIUsage

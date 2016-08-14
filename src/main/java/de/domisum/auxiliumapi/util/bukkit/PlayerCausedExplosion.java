@@ -1,8 +1,8 @@
 package de.domisum.auxiliumapi.util.bukkit;
 
 import de.domisum.auxiliumapi.AuxiliumAPI;
-import de.domisum.auxiliumapi.util.java.annotations.APIUsage;
 import de.domisum.auxiliumapi.util.java.ThreadUtil;
+import de.domisum.auxiliumapi.util.java.annotations.APIUsage;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_9_R1.entity.CraftLivingEntity;
 import org.bukkit.craftbukkit.v1_9_R1.entity.CraftPlayer;
@@ -12,7 +12,7 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
-import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.plugin.Plugin;
 
 public class PlayerCausedExplosion implements Listener
 {
@@ -50,7 +50,7 @@ public class PlayerCausedExplosion implements Listener
 			return;
 
 		listener = this;
-		JavaPlugin plugin = AuxiliumAPI.getPlugin();
+		Plugin plugin = AuxiliumAPI.getPlugin();
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 	}
 
