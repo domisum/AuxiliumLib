@@ -177,7 +177,7 @@ public class Vector3D
 	@APIUsage
 	public double distanceToSquared(Vector3D other)
 	{
-		return subtract(other).length();
+		return subtract(other).lengthSquared();
 	}
 
 
