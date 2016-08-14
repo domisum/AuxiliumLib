@@ -73,19 +73,19 @@ public class AbstractItemStack
 	@APIUsage
 	public Material getMaterial()
 	{
-		return material;
+		return this.material;
 	}
 
 	@APIUsage
 	public int getAmount()
 	{
-		return amount;
+		return this.amount;
 	}
 
 	@APIUsage
 	public short getDurability()
 	{
-		return durability;
+		return this.durability;
 	}
 
 	@APIUsage
@@ -100,8 +100,8 @@ public class AbstractItemStack
 			if(!this.lore.isEmpty())
 				itemMeta.setLore(this.lore);
 
-		if(material == Material.POTION && potionEffect != null)
-			potionEffect.applyTo((PotionMeta) itemMeta);
+		if(this.material == Material.POTION && this.potionEffect != null)
+			this.potionEffect.applyTo((PotionMeta) itemMeta);
 
 		itemStack.setItemMeta(itemMeta);
 		return itemStack;

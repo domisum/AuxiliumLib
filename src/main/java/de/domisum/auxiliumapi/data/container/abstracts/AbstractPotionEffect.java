@@ -38,17 +38,17 @@ public class AbstractPotionEffect
 	// -------
 	private PotionEffectType getType()
 	{
-		if(type_ == null)
+		if(this.type_ == null)
 			determinePotionEffectType();
 
-		return type_;
+		return this.type_;
 	}
 
 	private void determinePotionEffectType()
 	{
-		type_ = PotionEffectType.getByName(type);
-		if(type == null)
-			throw new IllegalArgumentException("The potion effect type '"+type+"' does not exist");
+		this.type_ = PotionEffectType.getByName(this.type);
+		if(this.type == null)
+			throw new IllegalArgumentException("The potion effect type '"+this.type+"' does not exist");
 	}
 
 
@@ -58,7 +58,7 @@ public class AbstractPotionEffect
 	@APIUsage
 	public void applyTo(PotionMeta potionMeta)
 	{
-		PotionEffect effect = new PotionEffect(getType(), duration, amplifier);
+		PotionEffect effect = new PotionEffect(getType(), this.duration, this.amplifier);
 		potionMeta.addCustomEffect(effect, true);
 	}
 
