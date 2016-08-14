@@ -1,4 +1,4 @@
-package de.domisum.auxiliumapi.util;
+package de.domisum.auxiliumapi.util.keys;
 
 import de.domisum.auxiliumapi.util.java.annotations.APIUsage;
 import de.domisum.auxiliumapi.util.math.RandomUtil;
