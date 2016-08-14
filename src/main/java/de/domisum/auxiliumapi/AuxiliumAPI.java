@@ -59,7 +59,6 @@ public class AuxiliumAPI
 
 	private void onDisable()
 	{
-		instance = null;
 		getLogger().info(this.getClass().getSimpleName()+" has been disabled");
 	}
 
