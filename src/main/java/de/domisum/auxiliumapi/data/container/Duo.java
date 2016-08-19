@@ -29,7 +29,7 @@ public class Duo<T, U>
 		Duo<?, ?> other = (Duo<?, ?>) o;
 
 		boolean aEquals = this.a != null ? this.a.equals(other.a) : other.a == null;
-		boolean bEquals = this.b != null ? this.b.equals(other.b) : other.a == null;
+		boolean bEquals = this.b != null ? this.b.equals(other.b) : other.b == null;
 
 		return aEquals && bEquals;
 	}
@@ -37,10 +37,12 @@ public class Duo<T, U>
 	@Override
 	public int hashCode()
 	{
-		int aHash = (this.a != null ? this.a.hashCode() : 0);
-		int bHash = (this.b != null ? this.b.hashCode() : 0);
+		int hashCode = 13;
 
-		return (aHash*bHash)+(aHash-bHash);
+		hashCode = hashCode*37+(this.a != null ? this.a.hashCode() : 0);
+		hashCode = hashCode*37+(this.b != null ? this.b.hashCode() : 0);
+
+		return hashCode;
 	}
 
 	@Override

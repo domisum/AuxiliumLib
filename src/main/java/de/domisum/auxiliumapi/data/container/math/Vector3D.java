@@ -48,12 +48,28 @@ public class Vector3D
 		this(0, 0, 0);
 	}
 
-	@Deprecated
-	@APIUsage
 	@Override
-	public Vector3D clone()
+	public boolean equals(Object o)
 	{
-		return new Vector3D(this.x, this.y, this.z);
+		if(!(o instanceof Vector3D))
+			return false;
+
+		Vector3D other = (Vector3D) o;
+		return other.x == this.x && other.y == this.y && other.z == this.z;
+	}
+
+	public int hashCode()
+	{
+		int hashCode = 13;
+
+		long xLong = Double.doubleToLongBits(this.x);
+		long yLong = Double.doubleToLongBits(this.y);
+		long zLong = Double.doubleToLongBits(this.z);
+		hashCode = hashCode*31+((int) (xLong^(xLong>>>32)));
+		hashCode = hashCode*31+((int) (yLong^(yLong>>>32)));
+		hashCode = hashCode*31+((int) (zLong^(zLong>>>32)));
+
+		return hashCode;
 	}
 
 	@Override
