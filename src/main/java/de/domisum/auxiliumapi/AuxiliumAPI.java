@@ -70,7 +70,7 @@ public class AuxiliumAPI
 	public static AuxiliumAPI getInstance()
 	{
 		if(instance == null)
-			throw new IllegalArgumentException("An instance of AuxiliumAPI has to be constructed before usage");
+			throw new IllegalArgumentException(AuxiliumAPI.class.getSimpleName()+" has to be initialized before usage");
 
 		return instance;
 	}
