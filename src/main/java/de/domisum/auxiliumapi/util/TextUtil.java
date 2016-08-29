@@ -142,6 +142,16 @@ public class TextUtil
 		return lines;
 	}
 
+	public static List<String> splitTextIntoLinesConsideringNewLines(String text, int maxLineLength)
+	{
+		List<String> lines = new ArrayList<>();
+		String[] splitByNewLine = text.split("\\n");
+		for(String s : splitByNewLine)
+			lines.addAll(splitTextIntoLines(s.trim(), maxLineLength));
+
+		return lines;
+	}
+
 	@APIUsage
 	public static String getSymbolMeter(char symbol, int value, int maxValue, String onColor, String offColor)
 	{
