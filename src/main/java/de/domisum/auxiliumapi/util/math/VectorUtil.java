@@ -10,12 +10,6 @@ public class VectorUtil
 
 	// MISC
 	@APIUsage
-	public static double getYawFromDirection(Vector3D direction)
-	{
-		return Math.toDegrees(Math.atan2(direction.z, direction.x))-90;
-	}
-
-	@APIUsage
 	public static Vector2D getDirectionVector(double yaw)
 	{
 		double dX = -Math.sin(yaw);
@@ -24,10 +18,24 @@ public class VectorUtil
 		return new Vector2D(dX, dZ);
 	}
 
+
+	// MINECRAFT
+	@APIUsage
+	public static double getYawFromDirection(Vector3D direction)
+	{
+		return Math.toDegrees(Math.atan2(direction.z, direction.x))-90;
+	}
+
 	@APIUsage
 	public static Vector3D getCenter(Vector3D vector)
 	{
 		return new Vector3D(Math.floor(vector.x)+.5, Math.floor(vector.y)+.5, Math.floor(vector.z)+.5);
+	}
+
+	@APIUsage
+	public static Vector3D convertOffsetToMinecraftCoordinates(Vector3D offset)
+	{
+		return new Vector3D(-offset.x, offset.y, -offset.z);
 	}
 
 
