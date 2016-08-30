@@ -221,7 +221,7 @@ public class ItemStackBuilder
 			SkullMeta skullMeta = (SkullMeta) itemMeta;
 			skullMeta.setOwner(this.skullOwner);
 		}
-		
+
 		itemStack.setItemMeta(itemMeta);
 		return itemStack;
 	}
