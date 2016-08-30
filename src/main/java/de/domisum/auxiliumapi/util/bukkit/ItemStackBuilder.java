@@ -10,6 +10,7 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.SkullMeta;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -23,17 +24,18 @@ public class ItemStackBuilder
 
 	// PROPERTIES
 	// basic
-	protected Material material;
-	protected int amount = 1;
-	protected short durability = 0;
+	private Material material;
+	private int amount = 1;
+	private short durability = 0;
 
 	// itemmeta
-	protected String displayName;
-	protected List<String> lore;
-	protected ItemFlag[] flags;
-	protected Map<Enchantment, Integer> enchantments = new HashMap<>();
+	private String displayName;
+	private List<String> lore;
+	private ItemFlag[] flags;
+	private Map<Enchantment, Integer> enchantments = new HashMap<>();
 
-	protected boolean glowing = false;
+	private boolean glowing = false;
+	private String skullOwner;
 
 
 	// -------
@@ -44,12 +46,15 @@ public class ItemStackBuilder
 		this.material = material;
 	}
 
+	@APIUsage
 	public ItemStackBuilder(ItemStack itemStack)
 	{
+		// base values
 		this.material = itemStack.getType();
 		this.amount = itemStack.getAmount();
 		this.durability = itemStack.getDurability();
 
+		// item meta
 		ItemMeta itemMeta = itemStack.getItemMeta();
 		if(itemMeta.hasDisplayName())
 			this.displayName = itemMeta.getDisplayName();
@@ -60,11 +65,12 @@ public class ItemStackBuilder
 		if(!itemFlags.isEmpty())
 			this.flags = itemFlags.toArray(new ItemFlag[itemFlags.size()]);
 
+		// enchantments
 		this.enchantments = itemMeta.getEnchants();
 		if(this.enchantments.size() == 0)
 			this.enchantments = null;
 
-		// glowing
+		// misc
 		glow:
 		if(this.enchantments == null)
 		{
@@ -79,12 +85,16 @@ public class ItemStackBuilder
 
 			this.glowing = true;
 		}
+
+		if(itemMeta instanceof SkullMeta)
+			this.skullOwner = ((SkullMeta) itemMeta).getOwner();
 	}
 
 
 	// -------
 	// SETTERS
 	// -------
+	// BASE VALUES
 	@APIUsage
 	public ItemStackBuilder material(Material material)
 	{
@@ -110,6 +120,7 @@ public class ItemStackBuilder
 	}
 
 
+	// ITEM META
 	@APIUsage
 	public ItemStackBuilder displayName(String displayName)
 	{
@@ -148,6 +159,7 @@ public class ItemStackBuilder
 	}
 
 
+	// ENCHANTMENTS
 	@APIUsage
 	public ItemStackBuilder enchantment(Enchantment enchantment, int level)
 	{
@@ -156,8 +168,10 @@ public class ItemStackBuilder
 		return this;
 	}
 
+
+	// MISC
 	@APIUsage
-	public ItemStackBuilder setGlowing(boolean glowing)
+	public ItemStackBuilder glowing(boolean glowing)
 	{
 		this.glowing = glowing;
 
@@ -165,18 +179,11 @@ public class ItemStackBuilder
 	}
 
 	@APIUsage
-	protected List<String> processLore(List<String> oldLore)
+	public ItemStackBuilder skullOwner(String skullOwner)
 	{
-		List<String> lore = new ArrayList<>();
+		this.skullOwner = skullOwner;
 
-		for(String l : oldLore)
-		{
-			String[] splitLine = l.split("\\n");
-			for(String s : splitLine)
-				lore.add(ChatColor.WHITE+s);
-		}
-
-		return lore;
+		return this;
 	}
 
 
@@ -207,6 +214,15 @@ public class ItemStackBuilder
 			if(this.enchantments == null ? true : this.enchantments.size() == 0)
 				itemStack = makeGlow(itemStack);
 
+		if(this.skullOwner != null)
+		{
+			if(!(itemMeta instanceof SkullMeta) || this.durability != 3)
+				throw new IllegalArgumentException("Skull owner cannot be applied to a non-skull item!");
+
+			SkullMeta skullMeta = (SkullMeta) itemMeta;
+			skullMeta.setOwner(this.skullOwner);
+		}
+
 		return itemStack;
 	}
 
@@ -229,6 +245,24 @@ public class ItemStackBuilder
 		nmsStack.setTag(tag);
 
 		return CraftItemStack.asCraftMirror(nmsStack);
+	}
+
+
+	// -------
+	// UTIL
+	// -------
+	private List<String> processLore(List<String> oldLore)
+	{
+		List<String> lore = new ArrayList<>();
+
+		for(String l : oldLore)
+		{
+			String[] splitLine = l.split("\\n");
+			for(String s : splitLine)
+				lore.add(ChatColor.WHITE+s);
+		}
+
+		return lore;
 	}
 
 }
