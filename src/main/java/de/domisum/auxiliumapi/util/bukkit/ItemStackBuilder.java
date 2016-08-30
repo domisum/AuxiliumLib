@@ -205,7 +205,6 @@ public class ItemStackBuilder
 			itemMeta.setLore(this.lore);
 		if(this.flags != null)
 			itemMeta.addItemFlags(this.flags);
-		itemStack.setItemMeta(itemMeta);
 
 		if(this.enchantments != null)
 			itemStack.addUnsafeEnchantments(this.enchantments);
@@ -222,7 +221,8 @@ public class ItemStackBuilder
 			SkullMeta skullMeta = (SkullMeta) itemMeta;
 			skullMeta.setOwner(this.skullOwner);
 		}
-
+		
+		itemStack.setItemMeta(itemMeta);
 		return itemStack;
 	}
 
