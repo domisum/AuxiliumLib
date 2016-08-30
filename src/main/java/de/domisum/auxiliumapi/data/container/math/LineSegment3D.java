@@ -24,27 +24,37 @@ public class LineSegment3D
 	}
 
 
+	// CONVERSION
+	@APIUsage
+	public Line3D toLine()
+	{
+		return new Line3D(this.a, this.b.subtract(this.a));
+	}
+
+
 	// -------
 	// GETTERS
 	// -------
 	@APIUsage
 	public double getLength()
 	{
-		return Math.sqrt(getLengthSquared());
+		return this.a.distanceTo(this.b);
 	}
 
 	@APIUsage
 	public double getLengthSquared()
 	{
-		return this.b.subtract(this.a).lengthSquared();
+		return this.a.distanceToSquared(this.b);
 	}
 
-
-	// CONVERSION
 	@APIUsage
-	public Line3D toLine()
+	public boolean containsPoint(Vector3D point)
 	{
-		return new Line3D(this.a, this.b.subtract(this.a));
+		if(!toLine().containsPoint(point))
+			return false;
+
+		double delta = Math.abs(point.distanceTo(this.a)+point.distanceTo(this.b)-getLength());
+		return delta < Line3D.THRESHOLD;
 	}
 
 
@@ -73,10 +83,51 @@ public class LineSegment3D
 	}
 
 	@APIUsage
-	public double getDistanceTo(LineSegment3D lineSegment)
+	public double getDistanceTo(LineSegment3D other)
 	{
-		// TODO fix for line segments, this is just reusing the infinite line code
-		return toLine().getDistanceTo(lineSegment.toLine());
+		LineSegment3D shortestConnection = toLine().getShortestConnection(other.toLine());
+		boolean aOnSegment = containsPoint(shortestConnection.a);
+		boolean bOnSegment = other.containsPoint(shortestConnection.b);
+
+		// if(aOnLine && bOnLine) else
+		if(aOnSegment && !bOnSegment)
+		{
+			Vector3D newB = other.a;
+			if(shortestConnection.a.distanceToSquared(other.b) < shortestConnection.a.distanceToSquared(newB))
+				newB = other.b;
+
+			shortestConnection = new LineSegment3D(shortestConnection.a, newB);
+		}
+		else if(!aOnSegment && bOnSegment)
+		{
+			Vector3D newA = this.a;
+			if(shortestConnection.b.distanceToSquared(this.b) < shortestConnection.b.distanceToSquared(newA))
+				newA = this.b;
+
+			shortestConnection = new LineSegment3D(newA, shortestConnection.b);
+		}
+		else if(!aOnSegment && !bOnSegment)
+		{
+			LineSegment3D newShortestConnection = new LineSegment3D(this.a, other.a);
+			double shortestDistanceSquared = this.a.distanceToSquared(other.a);
+
+			if(this.a.distanceToSquared(other.b) < shortestDistanceSquared)
+			{
+				shortestDistanceSquared = this.a.distanceToSquared(other.b);
+				newShortestConnection = new LineSegment3D(this.a, other.b);
+			}
+			if(this.b.distanceToSquared(other.a) < shortestDistanceSquared)
+			{
+				shortestDistanceSquared = this.b.distanceToSquared(other.a);
+				newShortestConnection = new LineSegment3D(this.b, other.a);
+			}
+			if(this.b.distanceToSquared(other.b) < shortestDistanceSquared)
+				newShortestConnection = new LineSegment3D(this.b, other.b);
+
+			shortestConnection = newShortestConnection;
+		}
+
+		return shortestConnection.getLength();
 	}
 
 }

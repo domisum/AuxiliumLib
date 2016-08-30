@@ -6,6 +6,9 @@ import de.domisum.auxiliumapi.util.java.annotations.APIUsage;
 public class Line3D
 {
 
+	// CONSTANTS
+	public static final double THRESHOLD = 0.0000001d;
+
 	// PROPERTIES
 	@APIUsage
 	public final Vector3D base;
@@ -27,6 +30,13 @@ public class Line3D
 	// -------
 	// GETTERS
 	// -------
+	@APIUsage
+	public boolean containsPoint(Vector3D point)
+	{
+		Vector3D crossProduct = this.direction.crossProduct(point.subtract(this.base));
+		return crossProduct.lengthSquared() <= THRESHOLD;
+	}
+
 	@APIUsage
 	public Vector3D getPointOnLineClosestToPoint(Vector3D point)
 	{
