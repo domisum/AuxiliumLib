@@ -14,23 +14,24 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.plugin.Plugin;
 
+@APIUsage
 public class PlayerCausedExplosion implements Listener
 {
 
 	// REFERENCES
-	protected static PlayerCausedExplosion listener;
-	protected static Player currentPlayer;
+	private static PlayerCausedExplosion listener;
+	private static Player currentPlayer;
 
-	protected Player player;
+	private Player player;
 
 	// PROPERTIES
-	protected Location location;
+	private Location location;
 
-	protected double power = 4;
-	protected boolean fire = false;
-	protected boolean breakBlocks = true;
+	private double power = 4;
+	private boolean fire = false;
+	private boolean breakBlocks = true;
 
-	protected boolean damageSelf = true;
+	private boolean damageSelf = true;
 
 
 	// -------
@@ -44,7 +45,7 @@ public class PlayerCausedExplosion implements Listener
 		this.player = player;
 	}
 
-	protected void registerListener()
+	private void registerListener()
 	{
 		if(listener != null)
 			return;
@@ -97,10 +98,10 @@ public class PlayerCausedExplosion implements Listener
 	@APIUsage
 	public void detonate()
 	{
-		ThreadUtil.runSync(()->detonateSync());
+		ThreadUtil.runSync(this::detonateSync);
 	}
 
-	protected void detonateSync()
+	private void detonateSync()
 	{
 		registerListener();
 		currentPlayer = this.player;

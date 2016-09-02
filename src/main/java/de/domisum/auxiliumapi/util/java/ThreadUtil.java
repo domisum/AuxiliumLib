@@ -59,6 +59,7 @@ public class ThreadUtil
 	{
 		try
 		{
+			//noinspection SynchronizationOnLocalVariableOrMethodParameter
 			synchronized(object)
 			{
 				object.wait();
@@ -74,6 +75,7 @@ public class ThreadUtil
 	@APIUsage
 	public static void notifyAll(Object object)
 	{
+		//noinspection SynchronizationOnLocalVariableOrMethodParameter
 		synchronized(object)
 		{
 			object.notifyAll();

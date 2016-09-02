@@ -66,7 +66,7 @@ public class PlayerVelocityMonitorManager implements Listener
 		if(this.updateTask != null)
 			return;
 
-		this.updateTask = Bukkit.getScheduler().runTaskTimer(AuxiliumAPI.getPlugin(), ()->update(), 1, 1);
+		this.updateTask = Bukkit.getScheduler().runTaskTimer(AuxiliumAPI.getPlugin(), this::update, 1, 1);
 	}
 
 	private void stopUpdateTask()

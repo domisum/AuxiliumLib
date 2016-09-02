@@ -2,6 +2,7 @@ package de.domisum.auxiliumapi.util.math;
 
 import de.domisum.auxiliumapi.util.java.annotations.APIUsage;
 
+@APIUsage
 public class PhysicsUtil
 {
 

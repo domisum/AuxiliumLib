@@ -6,6 +6,7 @@ import org.bukkit.Bukkit;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 
+@APIUsage
 public class ReflectionUtil
 {
 
@@ -91,7 +92,7 @@ public class ReflectionUtil
 
 		try
 		{
-			return clazz.getConstructor().newInstance(args);
+			return clazz.getConstructor(classes).newInstance(args);
 		}
 		catch(InstantiationException|IllegalAccessException|IllegalArgumentException|InvocationTargetException|NoSuchMethodException|SecurityException e)
 		{

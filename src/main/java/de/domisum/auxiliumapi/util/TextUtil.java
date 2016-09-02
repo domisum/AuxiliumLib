@@ -6,6 +6,7 @@ import org.bukkit.ChatColor;
 import java.util.ArrayList;
 import java.util.List;
 
+@APIUsage
 public class TextUtil
 {
 

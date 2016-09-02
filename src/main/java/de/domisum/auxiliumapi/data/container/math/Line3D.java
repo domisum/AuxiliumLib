@@ -7,7 +7,7 @@ public class Line3D
 {
 
 	// CONSTANTS
-	public static final double THRESHOLD = 0.0000001d;
+	static final double THRESHOLD = 0.0000001d;
 
 	// PROPERTIES
 	@APIUsage

@@ -24,10 +24,9 @@ public class MathUtil
 	@APIUsage
 	public static double mix(double firstNumber, double firstPart, double secondNumber)
 	{
-		double firstPercentage = firstPart;
-		double secondPercentage = 1-firstPercentage;
+		double secondPercentage = 1-firstPart;
 
-		return (firstPercentage*firstNumber)+(secondPercentage*secondNumber);
+		return (firstPart*firstNumber)+(secondPercentage*secondNumber);
 	}
 
 

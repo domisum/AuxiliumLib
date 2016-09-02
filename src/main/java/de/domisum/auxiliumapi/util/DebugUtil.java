@@ -7,6 +7,7 @@ import org.bukkit.entity.Player;
 
 import java.util.logging.Level;
 
+@APIUsage
 public class DebugUtil
 {
 

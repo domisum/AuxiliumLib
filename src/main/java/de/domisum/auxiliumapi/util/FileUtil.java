@@ -13,6 +13,7 @@ import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
 
+@APIUsage
 public class FileUtil
 {
 
@@ -250,7 +251,7 @@ public class FileUtil
 		// -------
 		// GETTERS
 		// -------
-		public boolean isFiltered(File file)
+		boolean isFiltered(File file)
 		{
 			for(String filter : this.containsFilters)
 				if(file.getPath().contains(filter))
@@ -267,6 +268,7 @@ public class FileUtil
 		// -------
 		// CHANGERS
 		// -------
+		@APIUsage
 		public FileFilter addContains(String filter)
 		{
 			this.containsFilters.add(filter);
@@ -274,6 +276,7 @@ public class FileUtil
 			return this;
 		}
 
+		@APIUsage
 		public FileFilter addEndsWith(String filter)
 		{
 			this.endsWithFilters.add(filter);

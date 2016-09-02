@@ -5,6 +5,7 @@ import de.domisum.auxiliumapi.util.java.annotations.APIUsage;
 
 import java.util.Random;
 
+@APIUsage
 public class RandomUtil
 {
 

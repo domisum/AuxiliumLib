@@ -4,6 +4,7 @@ import de.domisum.auxiliumapi.util.java.annotations.APIUsage;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 
+@APIUsage
 public class BlockUtil
 {
 

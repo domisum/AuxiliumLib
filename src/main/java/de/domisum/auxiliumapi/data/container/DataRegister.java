@@ -5,6 +5,7 @@ import de.domisum.auxiliumapi.util.java.annotations.APIUsage;
 import java.util.HashMap;
 import java.util.Map;
 
+@APIUsage
 public class DataRegister
 {
 
@@ -15,6 +16,7 @@ public class DataRegister
 	// -------
 	// CONSTRUCTOR
 	// -------
+	@APIUsage
 	public DataRegister()
 	{
 
