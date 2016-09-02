@@ -95,6 +95,18 @@ public class Vector3D
 	}
 
 	@APIUsage
+	public double xzLength()
+	{
+		return Math.sqrt(xzLengthSquared());
+	}
+
+	@APIUsage
+	public double xzLengthSquared()
+	{
+		return (this.x*this.x)+(this.z*this.z);
+	}
+
+	@APIUsage
 	public Vector3D normalize()
 	{
 		double length = length();
@@ -194,6 +206,22 @@ public class Vector3D
 	public double distanceToSquared(Vector3D other)
 	{
 		return subtract(other).lengthSquared();
+	}
+
+
+	// -------
+	// LINE
+	// -------
+	@APIUsage
+	public Line3D getLineTowards(Vector3D other)
+	{
+		return new Line3D(this, other.subtract(this));
+	}
+
+	@APIUsage
+	public LineSegment3D getLineSegmentTowards(Vector3D other)
+	{
+		return new LineSegment3D(this, other);
 	}
 
 
