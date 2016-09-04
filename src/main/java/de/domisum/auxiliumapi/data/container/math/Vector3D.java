@@ -160,6 +160,12 @@ public class Vector3D
 	}
 
 	@APIUsage
+	public Vector3D add(double dX, double dY, double dZ)
+	{
+		return new Vector3D(this.x+dX, this.y+dY, this.z+dZ);
+	}
+
+	@APIUsage
 	public Vector3D subtract(Vector3D other)
 	{
 		return add(other.invert());
