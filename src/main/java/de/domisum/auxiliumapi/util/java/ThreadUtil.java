@@ -83,6 +83,16 @@ public class ThreadUtil
 	}
 
 	@APIUsage
+	public static Thread runAsync(Runnable run, String description)
+	{
+		Thread thread = new Thread(run);
+		thread.setName("asyncTask-"+description);
+		thread.start();
+
+		return thread;
+	}
+
+	@APIUsage
 	public static Thread runDelayed(Runnable run, long ms)
 	{
 		Runnable delay = ()->
