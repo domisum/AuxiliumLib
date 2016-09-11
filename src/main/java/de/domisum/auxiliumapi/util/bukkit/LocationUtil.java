@@ -79,4 +79,15 @@ public class LocationUtil
 		return handLocation;
 	}
 
+
+	// CHUNK
+	@APIUsage
+	public static boolean isChunkLoaded(Location location)
+	{
+		int chunkX = location.getBlockX()>>4;
+		int chunkZ = location.getBlockZ()>>4;
+
+		return location.getWorld().isChunkLoaded(chunkX, chunkZ);
+	}
+
 }
