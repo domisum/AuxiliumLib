@@ -1,7 +1,9 @@
 package de.domisum.auxiliumapi.util;
 
 import de.domisum.auxiliumapi.util.java.annotations.APIUsage;
+import de.domisum.auxiliumapi.util.math.MathUtil;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -184,6 +186,22 @@ public class TextUtil
 				string += ";";
 		}
 
+		string += "]";
+		return string;
+	}
+
+	@APIUsage
+	public static String getLocationAsString(Location location)
+	{
+		String worldName = location.getWorld() != null ? "'"+location.getWorld().getName()+"'" : "null";
+
+		String string = "[";
+		string += "world="+worldName+",";
+		string += "x="+MathUtil.round(location.getX(), 3)+",";
+		string += "y="+MathUtil.round(location.getY(), 3)+",";
+		string += "z="+MathUtil.round(location.getZ(), 3)+",";
+		string += "yaw="+MathUtil.round(location.getYaw(), 1)+",";
+		string += "pitch="+MathUtil.round(location.getPitch(), 1);
 		string += "]";
 		return string;
 	}
