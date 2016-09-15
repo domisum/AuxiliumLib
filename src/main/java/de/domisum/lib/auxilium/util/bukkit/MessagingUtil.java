@@ -25,16 +25,7 @@ public class MessagingUtil
 	@APIUsage
 	public static void sendStatusMessage(Player player, String message)
 	{
-		sendStatusMessage(player, message, true);
-	}
-
-	@APIUsage
-	public static void sendStatusMessage(Player player, String message, boolean surroundWithBrackets)
-	{
-		player.sendMessage(ChatColor.GRAY.toString()+ChatColor.ITALIC+(surroundWithBrackets ? "[" : "")+message+(
-				surroundWithBrackets ?
-						"]" :
-						""));
+		player.sendMessage(ChatColor.GRAY.toString()+ChatColor.ITALIC+"["+message+"]");
 	}
 
 }
