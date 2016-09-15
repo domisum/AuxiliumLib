@@ -2,7 +2,6 @@ package de.domisum.lib.auxilium.util.bukkit;
 
 import de.domisum.lib.auxilium.util.java.ReflectionUtil;
 import de.domisum.lib.auxilium.util.java.annotations.APIUsage;
-import net.md_5.bungee.api.ChatColor;
 import net.minecraft.server.v1_9_R1.EntityLiving;
 import net.minecraft.server.v1_9_R1.EntityPlayer;
 import org.bukkit.craftbukkit.v1_9_R1.entity.CraftLivingEntity;
@@ -21,14 +20,6 @@ import java.util.Collection;
 @APIUsage
 public class PlayerUtil
 {
-
-	// MESSAGING
-	@APIUsage
-	public static void sendStatusMessage(Player player, String message)
-	{
-		player.sendMessage(ChatColor.GRAY.toString()+ChatColor.ITALIC+"["+message+"]");
-	}
-
 
 	// MANIPULATION
 	// inventory
