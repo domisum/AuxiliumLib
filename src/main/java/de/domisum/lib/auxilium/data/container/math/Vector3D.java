@@ -171,6 +171,13 @@ public class Vector3D
 		return add(other.invert());
 	}
 
+	@APIUsage
+	public Vector3D moveTowards(Vector3D other, double distance)
+	{
+		Vector3D dir = other.subtract(this).normalize();
+		return this.add(dir.multiply(distance));
+	}
+
 
 	@APIUsage
 	public Vector3D multiply(double factor)

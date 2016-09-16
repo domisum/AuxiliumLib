@@ -31,6 +31,15 @@ public class LineSegment3D
 		return new Line3D(this.a, this.b.subtract(this.a));
 	}
 
+	@APIUsage
+	public LineSegment3D getShortenedBothEnds(double distance)
+	{
+		Vector3D newA = this.a.moveTowards(this.b, distance);
+		Vector3D newB = this.b.moveTowards(this.a, distance);
+
+		return new LineSegment3D(newA, newB);
+	}
+
 
 	// -------
 	// GETTERS
