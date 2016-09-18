@@ -32,7 +32,7 @@ public class ProfilerStopWatch
 	@APIUsage
 	public void stop()
 	{
-		if(this.endNano == -1)
+		if(this.endNano != -1)
 			throw new IllegalStateException("The stopwatch has already been stopped");
 
 		this.endNano = System.nanoTime();
