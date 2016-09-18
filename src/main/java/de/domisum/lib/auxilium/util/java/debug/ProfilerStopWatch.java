@@ -10,6 +10,7 @@ public class ProfilerStopWatch
 	// PROPERTIES
 	private String name;
 	private long startNano;
+	private long endNano = -1;
 
 
 	// -------
@@ -22,9 +23,19 @@ public class ProfilerStopWatch
 		this.startNano = System.nanoTime();
 	}
 
+	@Override
 	public String toString()
 	{
-		return "[name="+this.name+";elapsedMs="+MathUtil.round(getElapsedMilli(), 5)+"]";
+		return "[name="+this.name+";active="+isActive()+";elapsedMs="+MathUtil.round(getElapsedMilli(), 3)+"]";
+	}
+
+	@APIUsage
+	public void stop()
+	{
+		if(this.endNano == -1)
+			throw new IllegalStateException("The stopwatch has already been stopped");
+
+		this.endNano = System.nanoTime();
 	}
 
 
@@ -38,9 +49,15 @@ public class ProfilerStopWatch
 	}
 
 	@APIUsage
+	public boolean isActive()
+	{
+		return this.endNano == -1;
+	}
+
+	@APIUsage
 	public long getElapsedNano()
 	{
-		return System.nanoTime()-this.startNano;
+		return (this.endNano == -1 ? System.nanoTime() : this.endNano)-this.startNano;
 	}
 
 	@APIUsage
