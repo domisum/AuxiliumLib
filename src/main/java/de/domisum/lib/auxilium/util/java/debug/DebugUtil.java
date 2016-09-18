@@ -1,4 +1,4 @@
-package de.domisum.lib.auxilium.util;
+package de.domisum.lib.auxilium.util.java.debug;
 
 import de.domisum.lib.auxilium.util.java.annotations.APIUsage;
 import de.domisum.lib.auxilium.AuxiliumLib;
