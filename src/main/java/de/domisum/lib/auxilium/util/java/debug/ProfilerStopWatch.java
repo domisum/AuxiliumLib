@@ -20,13 +20,22 @@ public class ProfilerStopWatch
 	public ProfilerStopWatch(String name)
 	{
 		this.name = name;
-		this.startNano = System.nanoTime();
 	}
 
 	@Override
 	public String toString()
 	{
 		return "[name="+this.name+";active="+isActive()+";elapsedMs="+MathUtil.round(getElapsedMilli(), 3)+"]";
+	}
+
+
+	// -------
+	// START/STOP
+	// -------
+	@APIUsage
+	public void start()
+	{
+		this.startNano = System.nanoTime();
 	}
 
 	@APIUsage
