@@ -66,6 +66,14 @@ public enum Direction2D
 	@APIUsage
 	public static Direction2D getFromYaw(float yaw)
 	{
+		yaw %= 360;
+
+		while(yaw < -180)
+			yaw += 360;
+
+		while(yaw > 180)
+			yaw -= 360;
+
 		if(yaw < -135.0f)
 			return NORTH;
 		if(yaw < -45.0f)
