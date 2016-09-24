@@ -37,12 +37,6 @@ public enum Direction2D
 	// GETTERS
 	// -------
 	@APIUsage
-	public static Direction2D getRandom(Random r)
-	{
-		return values()[r.nextInt(values().length)];
-	}
-
-	@APIUsage
 	public Direction2D getRandomOther(Random r)
 	{
 		Direction2D dir;
@@ -68,6 +62,27 @@ public enum Direction2D
 		return null;
 	}
 
+
+	@APIUsage
+	public static Direction2D getFromYaw(float yaw)
+	{
+		if(yaw < -135.0f)
+			return NORTH;
+		if(yaw < -45.0f)
+			return EAST;
+		if(yaw < 45.0f)
+			return SOUTH;
+		if(yaw < 135.0f)
+			return WEST;
+		//if(yaw >= 135.0f)
+		return NORTH;
+	}
+
+	@APIUsage
+	public static Direction2D getRandom(Random r)
+	{
+		return values()[r.nextInt(values().length)];
+	}
 
 	@APIUsage
 	public static List<Direction2D> getValuesAsList()
