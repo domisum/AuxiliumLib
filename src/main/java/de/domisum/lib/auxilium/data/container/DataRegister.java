@@ -61,10 +61,6 @@ public class DataRegister
 	private class DataRegisterException extends RuntimeException
 	{
 
-		// CONSTANTS
-		private static final long serialVersionUID = 1L;
-
-
 		// -------
 		// CONSTRUCTOR
 		// -------
