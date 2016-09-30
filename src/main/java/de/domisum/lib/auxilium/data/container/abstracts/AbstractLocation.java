@@ -1,5 +1,6 @@
 package de.domisum.lib.auxilium.data.container.abstracts;
 
+import de.domisum.lib.auxilium.data.container.math.Vector3D;
 import de.domisum.lib.auxilium.util.java.annotations.APIUsage;
 import de.domisum.lib.auxilium.util.java.annotations.DeserializationNoArgsConstructor;
 import de.domisum.lib.auxilium.util.java.annotations.SetByDeserialization;
@@ -81,6 +82,12 @@ public class AbstractLocation
 			throw new IllegalStateException("The world '"+this.world+"' of the abstract location is not loaded");
 
 		return new Location(bukkitWorld, this.x, this.y, this.z, this.yaw, this.pitch);
+	}
+
+	@APIUsage
+	public Vector3D getPosition()
+	{
+		return new Vector3D(this.x, this.y, this.z);
 	}
 
 }
