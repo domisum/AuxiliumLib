@@ -6,9 +6,25 @@ import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
+/**
+ * Class with helper methods to make Bukkit {@code Loction} handling easier
+ */
+@APIUsage
 public class LocationUtil
 {
 
+	/**
+	 * Returns a location with the coordinates of the {@code base} Location
+	 * and the yaw and pitch modified in such a way that a character would be
+	 * looking at the {@code target} Location.
+	 * <p>
+	 * If this is used for players, make sure to use the {@code #getEyeLocation()} Location
+	 * as the {@code base}, otherwise the player will look up too far.
+	 *
+	 * @param base   the base location
+	 * @param target the location to look at
+	 * @return the copy of base that "looks" towards target
+	 */
 	@APIUsage
 	public static Location lookAt(Location base, Location target)
 	{
@@ -26,12 +42,31 @@ public class LocationUtil
 		return lookingLocation;
 	}
 
+	/**
+	 * Determines the center Location of a block.
+	 * <p>
+	 * The center location is determined by taking the coordinates
+	 * of each block coordinate and adding {@code 0.5} to each component.
+	 *
+	 * @param block the block
+	 * @return the center location
+	 * @see #getCenter(Location)
+	 */
 	@APIUsage
 	public static Location getCenter(Block block)
 	{
 		return block.getLocation().add(0.5, 0.5, 0.5);
 	}
 
+	/**
+	 * Determines the center location of the block at the parameter Location.
+	 * <p>
+	 * Very similar to {@link #getCenter(Block)}
+	 *
+	 * @param location the location of the block
+	 * @return the center location
+	 * @see #getCenter(Block)
+	 */
 	@APIUsage
 	public static Location getCenter(Location location)
 	{
@@ -39,6 +74,19 @@ public class LocationUtil
 				location.getYaw(), location.getPitch());
 	}
 
+	/**
+	 * Determines the floor center location of the block at the parameter Location.
+	 * <p>
+	 * The floor center Location is determined very similarly to the center Location.
+	 * The only difference is that the y-component of the block is not modified,
+	 * leaving it at an integer value. This means the Location determined by this method is on the ground.
+	 * <p>
+	 * The parameter Location remains unchagned.
+	 *
+	 * @param location the location of the Block
+	 * @return the floor location
+	 * @see #getCenter(Location)
+	 */
 	@APIUsage
 	public static Location getFloorCenter(Location location)
 	{
