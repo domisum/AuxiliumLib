@@ -4,6 +4,9 @@ import de.domisum.lib.auxilium.util.java.annotations.APIUsage;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 
+/**
+ * A utility class to make changes to blocks easier.
+ */
 @APIUsage
 public class BlockUtil
 {
