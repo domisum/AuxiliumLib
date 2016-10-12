@@ -5,15 +5,18 @@ import de.domisum.lib.auxilium.util.java.annotations.DeserializationNoArgsConstr
 import de.domisum.lib.auxilium.util.java.annotations.SetByDeserialization;
 import org.bukkit.Material;
 
+/**
+ * Class for serializing and deserializing blocks
+ */
 @APIUsage
 public class AbstractBlock
 {
 
 	// PROPERTIES
 	@SetByDeserialization
-	public Material material;
+	public final Material material;
 	@SetByDeserialization
-	public byte data;
+	public final byte data;
 
 
 	// -------
@@ -22,9 +25,14 @@ public class AbstractBlock
 	@DeserializationNoArgsConstructor
 	public AbstractBlock()
 	{
-
+		this.material = null;
+		this.data = 0;
 	}
 
+	/**
+	 * @param material The material of the block
+	 * @param data     the subId of the block
+	 */
 	@APIUsage
 	public AbstractBlock(Material material, byte data)
 	{
