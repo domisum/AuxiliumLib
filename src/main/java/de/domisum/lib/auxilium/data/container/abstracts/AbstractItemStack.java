@@ -10,6 +10,9 @@ import org.bukkit.inventory.meta.PotionMeta;
 
 import java.util.List;
 
+/**
+ * Class for serializing and deserializing ItemStacks
+ */
 @APIUsage
 public class AbstractItemStack
 {
@@ -40,6 +43,11 @@ public class AbstractItemStack
 
 	}
 
+	/**
+	 * Creates an AbstractItemStack from the supplied ItemStack
+	 *
+	 * @param itemStack the ItemStack to generate the AbstractItemStack from
+	 */
 	@APIUsage
 	public AbstractItemStack(ItemStack itemStack)
 	{
@@ -59,6 +67,11 @@ public class AbstractItemStack
 		}
 	}
 
+	/**
+	 * Creates an AbstractItemStack with the supplied Material and default values for everything else
+	 *
+	 * @param material The material of the AbstractItemStack
+	 */
 	@APIUsage
 	public AbstractItemStack(Material material)
 	{
