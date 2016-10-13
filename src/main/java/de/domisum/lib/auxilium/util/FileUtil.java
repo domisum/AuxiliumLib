@@ -206,7 +206,11 @@ public class FileUtil
 	{
 		List<File> files = new ArrayList<>();
 
-		for(File file : dir.listFiles())
+		File[] filesArray = dir.listFiles();
+		if(filesArray == null)
+			throw new IllegalArgumentException("The directory '"+dir.getPath()+"' does not exist");
+
+		for(File file : filesArray)
 		{
 			files.add(file);
 
