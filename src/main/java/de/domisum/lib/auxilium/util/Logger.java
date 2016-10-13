@@ -11,7 +11,7 @@ public class Logger
 {
 
 	// CONSTANTS
-	private static final SimpleDateFormat timeFormat = new SimpleDateFormat("z yyyy/MM/dd HH:mm:ss,SSSS", Locale.ENGLISH);
+	private static final SimpleDateFormat timeFormat = new SimpleDateFormat("z yyyy/MM/dd HH:mm:ss.SSSS", Locale.ENGLISH);
 
 
 	// -------
