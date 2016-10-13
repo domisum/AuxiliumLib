@@ -11,7 +11,9 @@ import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @APIUsage
 public class FileUtil
@@ -134,7 +136,7 @@ public class FileUtil
 		for(File file : originFolder.listFiles())
 		{
 			if(filePathFilter != null)
-				if(filePathFilter.isFiltered(file))
+				if(filePathFilter.isFilteredOut(file))
 					continue;
 
 			if(file.isFile())
@@ -197,7 +199,6 @@ public class FileUtil
 	public static boolean doesFileExist(String path)
 	{
 		File file = new File(path);
-
 		return file.exists();
 	}
 
@@ -250,8 +251,9 @@ public class FileUtil
 	public static class FilePathFilter
 	{
 
-		private List<String> containsFilters = new ArrayList<>();
-		private List<String> endsWithFilters = new ArrayList<>();
+		private Set<String> startsWithFilters = new HashSet<>();
+		private Set<String> containsFilters = new HashSet<>();
+		private Set<String> endsWithFilters = new HashSet<>();
 
 
 		// -------
@@ -266,14 +268,18 @@ public class FileUtil
 		// -------
 		// GETTERS
 		// -------
-		boolean isFiltered(File file)
+		boolean isFilteredOut(File file)
 		{
+			for(String filter : this.startsWithFilters)
+				if(file.getAbsolutePath().startsWith(filter))
+					return true;
+
 			for(String filter : this.containsFilters)
-				if(file.getPath().contains(filter))
+				if(file.getAbsolutePath().contains(filter))
 					return true;
 
 			for(String filter : this.endsWithFilters)
-				if(file.getPath().endsWith(filter))
+				if(file.getAbsolutePath().endsWith(filter))
 					return true;
 
 			return false;
@@ -284,10 +290,16 @@ public class FileUtil
 		// CHANGERS
 		// -------
 		@APIUsage
+		public FilePathFilter addStartsWith(String filter)
+		{
+			this.startsWithFilters.add(filter);
+			return this;
+		}
+
+		@APIUsage
 		public FilePathFilter addContains(String filter)
 		{
 			this.containsFilters.add(filter);
-
 			return this;
 		}
 
@@ -295,7 +307,6 @@ public class FileUtil
 		public FilePathFilter addEndsWith(String filter)
 		{
 			this.endsWithFilters.add(filter);
-
 			return this;
 		}
 
