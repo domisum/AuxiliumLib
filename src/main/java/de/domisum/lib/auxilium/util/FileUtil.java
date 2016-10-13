@@ -94,10 +94,21 @@ public class FileUtil
 	@APIUsage
 	public static void copyFile(File origin, File destinationDir)
 	{
+		copyFile(origin, destinationDir, origin.getName());
+	}
+
+	@APIUsage
+	public static void copyFile(File origin, File destinationDir, String newFileName)
+	{
 		if(!origin.exists())
 			return;
 
-		File destination = new File(destinationDir, origin.getName());
+		// if the destination dir doesn't exist and Files.copy()
+		// is called regardless, NoSuchFileException is thrown
+		if(!destinationDir.exists())
+			destinationDir.mkdirs();
+
+		File destination = new File(destinationDir, newFileName);
 
 		try
 		{
