@@ -116,14 +116,14 @@ public class FileUtil
 	}
 
 	@APIUsage
-	public static void copyDirectory(File originFolder, File destinationDir, FileFilter fileFilter)
+	public static void copyDirectory(File originFolder, File destinationDir, FilePathFilter filePathFilter)
 	{
 		destinationDir.mkdirs();
 
 		for(File file : originFolder.listFiles())
 		{
-			if(fileFilter != null)
-				if(fileFilter.isFiltered(file))
+			if(filePathFilter != null)
+				if(filePathFilter.isFiltered(file))
 					continue;
 
 			if(file.isFile())
@@ -133,7 +133,7 @@ public class FileUtil
 				File deeperDestination = new File(destinationDir, file.getName());
 				deeperDestination.mkdirs();
 
-				copyDirectory(file, deeperDestination, fileFilter);
+				copyDirectory(file, deeperDestination, filePathFilter);
 			}
 		}
 	}
@@ -232,7 +232,7 @@ public class FileUtil
 	// FILE FILTER
 	// -------
 	@APIUsage
-	public static class FileFilter
+	public static class FilePathFilter
 	{
 
 		private List<String> containsFilters = new ArrayList<>();
@@ -242,7 +242,7 @@ public class FileUtil
 		// -------
 		// CONSTRUCTOR
 		// -------
-		public FileFilter()
+		public FilePathFilter()
 		{
 
 		}
@@ -269,7 +269,7 @@ public class FileUtil
 		// CHANGERS
 		// -------
 		@APIUsage
-		public FileFilter addContains(String filter)
+		public FilePathFilter addContains(String filter)
 		{
 			this.containsFilters.add(filter);
 
@@ -277,7 +277,7 @@ public class FileUtil
 		}
 
 		@APIUsage
-		public FileFilter addEndsWith(String filter)
+		public FilePathFilter addEndsWith(String filter)
 		{
 			this.endsWithFilters.add(filter);
 
