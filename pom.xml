@@ -20,6 +20,7 @@
 	</repositories>
 
 	<dependencies>
+		<!-- EXTERNAL LIBRARIES -->
 		<dependency>
 			<groupId>org.spigotmc</groupId>
 			<artifactId>spigot-api</artifactId>
@@ -31,6 +32,13 @@
 			<groupId>org.bukkit</groupId>
 			<artifactId>craftbukkit</artifactId>
 			<version>1.9.2-R0.1-SNAPSHOT</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>  <!-- provides annotations to avoid boilerplate code -->
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.16.10</version>
 			<scope>provided</scope>
 		</dependency>
 	</dependencies>
