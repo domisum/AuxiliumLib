@@ -11,7 +11,8 @@ public class Logger
 {
 
 	// CONSTANTS
-	private static final SimpleDateFormat timeFormat = new SimpleDateFormat("z yyyy/MM/dd HH:mm:ss.SSS", Locale.ENGLISH);
+	@APIUsage public static final SimpleDateFormat TIME_FORMAT = new SimpleDateFormat("z yyyy/MM/dd HH:mm:ss.SSS",
+			Locale.ENGLISH);
 
 
 	// -------
@@ -55,7 +56,7 @@ public class Logger
 	{
 		Date currentTime = new Date(System.currentTimeMillis());
 
-		return "["+timeFormat.format(currentTime)+"]";
+		return "["+TIME_FORMAT.format(currentTime)+"]";
 	}
 
 }
