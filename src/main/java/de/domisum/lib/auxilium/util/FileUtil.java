@@ -23,8 +23,7 @@ public class FileUtil
 	@APIUsage
 	public static String readFileToString(String path)
 	{
-		File file = new File(path);
-		return readFileToString(file);
+		return readFileToString(new File(path));
 	}
 
 	@APIUsage
@@ -32,11 +31,8 @@ public class FileUtil
 	{
 		StringBuilder sb = new StringBuilder();
 
-		BufferedReader br = null;
-		try
+		try(BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(file), "UTF8"));)
 		{
-			br = new BufferedReader(new InputStreamReader(new FileInputStream(file), "UTF8"));
-
 			String line = br.readLine();
 			while(line != null)
 			{
@@ -51,18 +47,6 @@ public class FileUtil
 		{
 			e.printStackTrace();
 			return null;
-		}
-		finally
-		{
-			if(br != null)
-				try
-				{
-					br.close();
-				}
-				catch(IOException e)
-				{
-					e.printStackTrace();
-				}
 		}
 	}
 
@@ -79,11 +63,9 @@ public class FileUtil
 	{
 		file.getParentFile().mkdirs();
 
-		try
+		try(FileWriter fw = new FileWriter(file))
 		{
-			FileWriter fw = new FileWriter(file);
 			fw.write(content);
-			fw.close();
 		}
 		catch(IOException e)
 		{
