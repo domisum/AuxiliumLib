@@ -31,7 +31,7 @@ public class FileUtil
 	{
 		StringBuilder sb = new StringBuilder();
 
-		try(BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(file), "UTF8"));)
+		try(BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(file), "UTF8")))
 		{
 			String line = br.readLine();
 			while(line != null)
