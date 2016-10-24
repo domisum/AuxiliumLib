@@ -39,11 +39,11 @@ public class PropertiesFileWrapper
 	*/
 	private void loadFromFile()
 	{
-		properties = new Properties();
+		this.properties = new Properties();
 
-		try(InputStream inputStream = new FileInputStream(filePath))
+		try(InputStream inputStream = new FileInputStream(this.filePath))
 		{
-			properties.load(inputStream);
+			this.properties.load(inputStream);
 		}
 		catch(java.io.IOException e)
 		{
@@ -60,7 +60,7 @@ public class PropertiesFileWrapper
 	{
 		try(OutputStream outputStream = new FileOutputStream(file))
 		{
-			properties.store(outputStream, comment);
+			this.properties.store(outputStream, comment);
 		}
 		catch(java.io.IOException e)
 		{
@@ -75,10 +75,10 @@ public class PropertiesFileWrapper
 	@APIUsage
 	public String get(String key)
 	{
-		if(!properties.containsKey(key))
-			throw new IllegalArgumentException("The properties file '"+filePath+"' does not contain the key '"+key+"'");
+		if(!this.properties.containsKey(key))
+			throw new IllegalArgumentException("The properties file '"+this.filePath+"' does not contain the key '"+key+"'");
 
-		return properties.getProperty(key);
+		return this.properties.getProperty(key);
 	}
 
 
@@ -88,7 +88,7 @@ public class PropertiesFileWrapper
 	@APIUsage
 	public void set(String key, String value)
 	{
-		properties.setProperty(key, value);
+		this.properties.setProperty(key, value);
 	}
 
 }
