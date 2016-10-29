@@ -165,8 +165,13 @@ public class FileUtil
 	@APIUsage
 	public static void deleteDirectoryContents(File dir)
 	{
-		File[] files = dir.listFiles();
-		for(File f : files)
+		if(dir == null)
+			throw new IllegalArgumentException("The directory can't be null");
+
+		if(!dir.exists())
+			return;
+
+		for(File f : dir.listFiles())
 		{
 			if(f.isFile())
 				f.delete();
