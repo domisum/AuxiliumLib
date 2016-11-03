@@ -1,11 +1,12 @@
 package de.domisum.lib.auxilium.util.bukkit;
 
-import de.domisum.lib.auxilium.util.java.annotations.APIUsage;
 import de.domisum.lib.auxilium.AuxiliumLib;
 import de.domisum.lib.auxilium.util.java.ThreadUtil;
+import de.domisum.lib.auxilium.util.java.annotations.APIUsage;
 import org.bukkit.Location;
 import org.bukkit.craftbukkit.v1_9_R1.entity.CraftLivingEntity;
 import org.bukkit.craftbukkit.v1_9_R1.entity.CraftPlayer;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -56,6 +57,16 @@ public class PlayerCausedExplosion implements Listener
 	}
 
 
+	/*
+	// GETTERS
+	*/
+	@APIUsage
+	protected boolean shouldDamage(Entity entity)
+	{
+		return true;
+	}
+
+
 	// -------
 	// SETTERS
 	// -------
@@ -63,7 +74,6 @@ public class PlayerCausedExplosion implements Listener
 	public PlayerCausedExplosion setPower(double power)
 	{
 		this.power = power;
-
 		return this;
 	}
 
@@ -71,7 +81,6 @@ public class PlayerCausedExplosion implements Listener
 	public PlayerCausedExplosion setFire(boolean fire)
 	{
 		this.fire = fire;
-
 		return this;
 	}
 
@@ -79,7 +88,6 @@ public class PlayerCausedExplosion implements Listener
 	public PlayerCausedExplosion setBreakBlocks(boolean breakBlocks)
 	{
 		this.breakBlocks = breakBlocks;
-
 		return this;
 	}
 
@@ -87,7 +95,6 @@ public class PlayerCausedExplosion implements Listener
 	public PlayerCausedExplosion setDamageSelf(boolean damageSelf)
 	{
 		this.damageSelf = damageSelf;
-
 		return this;
 	}
 
@@ -120,9 +127,6 @@ public class PlayerCausedExplosion implements Listener
 	@EventHandler(priority = EventPriority.LOWEST)
 	public void entityDeathByExplosion(EntityDeathEvent event)
 	{
-		// this listener is only active during the explosion, so the damage in here can automatically be attributed to the player
-		// and can only be caused by the explosion
-
 		if(currentPlayer == null)
 			return;
 
@@ -133,16 +137,18 @@ public class PlayerCausedExplosion implements Listener
 	@EventHandler(priority = EventPriority.LOWEST)
 	public void entityDamageByExplosion(EntityDamageEvent event)
 	{
-		// this listener is only active during the explosion, so the damage in here can automatically be attributed to the player
-		// and can only be caused by the explosion
-
 		if(currentPlayer == null)
 			return;
 
+		Entity entity = event.getEntity();
+
 		// prevent self damage if disabled
 		if(!this.damageSelf)
-			if(event.getEntity() == currentPlayer)
+			if(entity == currentPlayer)
 				event.setCancelled(true);
+
+		if(!shouldDamage(entity))
+			event.setCancelled(true);
 	}
 
 }
