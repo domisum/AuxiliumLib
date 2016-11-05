@@ -1,9 +1,12 @@
 package de.domisum.lib.auxilium.data.container.abstracts;
 
+import de.domisum.lib.auxilium.data.container.block.BlockCoordinate;
 import de.domisum.lib.auxilium.util.java.annotations.APIUsage;
 import de.domisum.lib.auxilium.util.java.annotations.DeserializationNoArgsConstructor;
 import de.domisum.lib.auxilium.util.java.annotations.SetByDeserialization;
 import org.bukkit.Material;
+import org.bukkit.World;
+import org.bukkit.block.Block;
 
 /**
  * Class for serializing and deserializing blocks
@@ -13,15 +16,13 @@ public class AbstractBlock
 {
 
 	// PROPERTIES
-	@SetByDeserialization
-	public final Material material;
-	@SetByDeserialization
-	public final byte data;
+	@SetByDeserialization public final Material material;
+	@SetByDeserialization public final byte data;
 
 
-	// -------
-	// CONSTRUCTOR
-	// -------
+	/*
+	// INITIALIZATION
+	*/
 	@DeserializationNoArgsConstructor
 	public AbstractBlock()
 	{
@@ -38,6 +39,26 @@ public class AbstractBlock
 	{
 		this.material = material;
 		this.data = data;
+	}
+
+
+	@APIUsage
+	public AbstractBlock(World world, BlockCoordinate blockCoordinate)
+	{
+		this(world.getBlockAt(blockCoordinate.x, blockCoordinate.y, blockCoordinate.z));
+	}
+
+	@APIUsage
+	public AbstractBlock(World world, int x, int y, int z)
+	{
+		this(world.getBlockAt(x, y, z));
+	}
+
+	@APIUsage
+	public AbstractBlock(Block block)
+	{
+		this.material = block.getType();
+		this.data = block.getData();
 	}
 
 }

@@ -1,8 +1,8 @@
 package de.domisum.lib.auxilium.data.container.block;
 
-import de.domisum.lib.auxilium.util.java.annotations.APIUsage;
 import de.domisum.lib.auxilium.data.container.Duo;
 import de.domisum.lib.auxilium.data.container.abstracts.AbstractBlock;
+import de.domisum.lib.auxilium.util.java.annotations.APIUsage;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -10,14 +10,13 @@ import org.bukkit.block.Block;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
 
 @APIUsage
 public class BlockCollection
 {
 
 	// CONSTANTS
-	private AbstractBlock DEFAULT_BLOCK = new AbstractBlock(Material.AIR, (byte) 0);
+	private static final AbstractBlock DEFAULT_BLOCK = new AbstractBlock(Material.AIR, (byte) 0);
 
 	// PROPERTIES
 	private Map<BlockCoordinate, AbstractBlock> blocks = new HashMap<>();
@@ -32,10 +31,21 @@ public class BlockCollection
 
 	}
 
+	@APIUsage
+	public BlockCollection(Map<BlockCoordinate, AbstractBlock> blocks)
+	{
+		this.blocks = blocks;
+	}
+
 
 	// -------
 	// GETTERS
 	// -------
+	public Map<BlockCoordinate, AbstractBlock> getBlocks()
+	{
+		return this.blocks;
+	}
+
 	@APIUsage
 	public AbstractBlock get(BlockCoordinate coordinate)
 	{
@@ -43,8 +53,15 @@ public class BlockCollection
 		if(block != null)
 			return block;
 
-		return this.DEFAULT_BLOCK;
+		return DEFAULT_BLOCK;
 	}
+
+	@APIUsage
+	public boolean isSet(BlockCoordinate coordinate)
+	{
+		return this.blocks.containsKey(coordinate);
+	}
+
 
 	@APIUsage
 	public Duo<BlockCoordinate, BlockCoordinate> getBounds()
@@ -92,77 +109,6 @@ public class BlockCollection
 	public void set(BlockCoordinate coordinate, AbstractBlock block)
 	{
 		this.blocks.put(coordinate, block);
-	}
-
-
-	// -------
-	// GENERATION
-	// -------
-	@APIUsage
-	public BlockCollection smooth(int minimumSurroundingBlocks, Set<Material> materials, int minimumSurroundingBlocksForFilling,
-			AbstractBlock blockForFilling)
-	{
-		boolean debug = false;
-
-		BlockCollection newCollection = new BlockCollection();
-		Duo<BlockCoordinate, BlockCoordinate> bounds = getBounds();
-
-		for(int x = bounds.a.x; x <= bounds.b.x; x++)
-			for(int y = bounds.a.y; y <= bounds.b.y; y++)
-				for(int z = bounds.a.z; z <= bounds.b.z; z++)
-				{
-					BlockCoordinate coord = new BlockCoordinate(x, y, z);
-					AbstractBlock block = get(coord);
-					int numberOfSurroundingBlocks = getNumberOfSurroundingBlocks(coord);
-
-					if(numberOfSurroundingBlocks <= minimumSurroundingBlocks)
-						if(materials.contains(block.material))
-						{
-							if(debug)
-								block = new AbstractBlock(Material.GLASS, (byte) 0);
-							else
-								continue;
-						}
-
-					if(numberOfSurroundingBlocks >= minimumSurroundingBlocksForFilling)
-						if(block.material == Material.AIR)
-						{
-							if(debug)
-								block = new AbstractBlock(Material.GLASS, (byte) 1);
-							else
-								block = blockForFilling;
-						}
-
-					if(block.material == Material.AIR)
-						continue;
-
-					newCollection.set(coord, block);
-				}
-
-		return newCollection;
-	}
-
-	@APIUsage
-	private int getNumberOfSurroundingBlocks(BlockCoordinate blockCoordinate)
-	{
-		int surroundingBlocks = 0;
-
-		int searchRadius = 1;
-		for(int dX = -searchRadius; dX <= searchRadius; dX++)
-			for(int dY = -searchRadius; dY <= searchRadius; dY++)
-				for(int dZ = -searchRadius; dZ <= searchRadius; dZ++)
-				{
-					if((dX == 0) && (dY == 0) && (dZ == 0))
-						continue;
-
-					AbstractBlock block = get(blockCoordinate.add(dX, dY, dZ));
-					if(block.material.isSolid())
-						surroundingBlocks += 1;
-				}
-
-		// System.out.println("bc: " + blockCoordinate + " surroundingBlocks: " + surroundingBlocks);
-
-		return surroundingBlocks;
 	}
 
 

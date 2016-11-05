@@ -1,7 +1,8 @@
 package de.domisum.lib.auxilium.data.container.block;
 
-import de.domisum.lib.auxilium.util.java.annotations.APIUsage;
 import de.domisum.lib.auxilium.data.container.dir.Direction2D;
+import de.domisum.lib.auxilium.util.java.annotations.APIUsage;
+import org.bukkit.block.Block;
 
 @APIUsage
 public class BlockCoordinate implements Comparable<BlockCoordinate>
@@ -16,6 +17,14 @@ public class BlockCoordinate implements Comparable<BlockCoordinate>
 	// -------
 	// CONSTRUCTOR
 	// -------
+	@APIUsage
+	public BlockCoordinate(Block block)
+	{
+		this.x = block.getX();
+		this.y = block.getY();
+		this.z = block.getZ();
+	}
+
 	@APIUsage
 	public BlockCoordinate(int x, int y, int z)
 	{
@@ -44,13 +53,18 @@ public class BlockCoordinate implements Comparable<BlockCoordinate>
 	@Override
 	public int hashCode()
 	{
-		return (this.x*503)+(this.y*1000003)+this.z;
+		int hash = 0;
+		hash |= (this.x%4096)<<20; // 12 bits long, in [0;11]
+		hash |= this.y<<12; // 8 bits (2^8 = 256) long, in [12;19]
+		hash |= (this.z%4096); // 12 bits long, in [20;31]
+
+		return hash;
 	}
 
 	@Override
 	public String toString()
 	{
-		return "BlockCoordinate[x="+this.x+",y="+this.y+",z="+this.z+"]";
+		return "[x="+this.x+",y="+this.y+",z="+this.z+"]";
 	}
 
 
@@ -83,9 +97,21 @@ public class BlockCoordinate implements Comparable<BlockCoordinate>
 	}
 
 	@APIUsage
+	public BlockCoordinate add(BlockCoordinate other)
+	{
+		return add(other.x, other.y, other.z);
+	}
+
+	@APIUsage
 	public BlockCoordinate add(Direction2D dir2d)
 	{
 		return add(dir2d.dX, 0, dir2d.dZ);
+	}
+
+	@APIUsage
+	public BlockCoordinate opposite()
+	{
+		return new BlockCoordinate(-this.x, -this.y, -this.z);
 	}
 
 
