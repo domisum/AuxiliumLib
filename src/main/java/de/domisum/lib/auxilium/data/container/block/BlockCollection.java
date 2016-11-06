@@ -41,6 +41,7 @@ public class BlockCollection
 	// -------
 	// GETTERS
 	// -------
+	@APIUsage
 	public Map<BlockCoordinate, AbstractBlock> getBlocks()
 	{
 		return this.blocks;
@@ -108,6 +109,12 @@ public class BlockCollection
 	@APIUsage
 	public void set(BlockCoordinate coordinate, AbstractBlock block)
 	{
+		if(block == null)
+		{
+			this.blocks.remove(coordinate);
+			return;
+		}
+
 		this.blocks.put(coordinate, block);
 	}
 
