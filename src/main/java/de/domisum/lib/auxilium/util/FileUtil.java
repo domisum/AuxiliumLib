@@ -192,6 +192,12 @@ public class FileUtil
 	@APIUsage
 	public static List<File> listFilesRecursively(File dir)
 	{
+		return listFilesRecursively(dir, true);
+	}
+
+	@APIUsage
+	public static List<File> listFilesRecursively(File dir, boolean includeDirs)
+	{
 		List<File> files = new ArrayList<>();
 
 		File[] filesArray = dir.listFiles();
@@ -200,10 +206,15 @@ public class FileUtil
 
 		for(File file : filesArray)
 		{
-			files.add(file);
-
 			if(file.isDirectory())
-				files.addAll(listFilesRecursively(file));
+			{
+				files.addAll(listFilesRecursively(file, includeDirs));
+
+				if(!includeDirs)
+					continue;
+			}
+
+			files.add(file);
 		}
 
 		return files;
