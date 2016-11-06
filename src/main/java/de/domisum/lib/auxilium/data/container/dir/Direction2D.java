@@ -23,9 +23,9 @@ public enum Direction2D
 	public final int dZ;
 
 
-	// -------
-	// CONSTRUCTOR
-	// -------
+	/*
+	// INITIALIZATION
+	*/
 	Direction2D(int dX, int dZ)
 	{
 		this.dX = dX;
@@ -33,20 +33,9 @@ public enum Direction2D
 	}
 
 
-	// -------
+	/*
 	// GETTERS
-	// -------
-	@APIUsage
-	public Direction2D getRandomOther(Random r)
-	{
-		Direction2D dir;
-		do
-			dir = getRandom(r);
-		while(dir == this);
-
-		return dir;
-	}
-
+	*/
 	@APIUsage
 	public Direction2D getOpposite()
 	{
@@ -58,6 +47,31 @@ public enum Direction2D
 			return WEST;
 		if(this == WEST)
 			return EAST;
+
+		return null;
+	}
+
+	@APIUsage
+	public Direction2D getRandomOther(Random r)
+	{
+		Direction2D dir;
+		do
+			dir = getRandom(r);
+		while(dir == this);
+
+		return dir;
+	}
+
+
+	/*
+	// UTIL
+	*/
+	@APIUsage
+	public static Direction2D getFromOffset(int dX, int dZ)
+	{
+		for(Direction2D d : Direction2D.values())
+			if(d.dX == dX && d.dZ == dZ)
+				return d;
 
 		return null;
 	}
@@ -91,6 +105,7 @@ public enum Direction2D
 	{
 		return values()[r.nextInt(values().length)];
 	}
+
 
 	@APIUsage
 	public static List<Direction2D> getValuesAsList()
