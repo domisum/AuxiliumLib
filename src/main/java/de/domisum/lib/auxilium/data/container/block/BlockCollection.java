@@ -118,6 +118,13 @@ public class BlockCollection
 		this.blocks.put(coordinate, block);
 	}
 
+	@APIUsage
+	public void set(BlockCollection blockCollection)
+	{
+		for(Entry<BlockCoordinate, AbstractBlock> entry : blockCollection.blocks.entrySet())
+			blocks.put(entry.getKey(), entry.getValue());
+	}
+
 
 	// -------
 	// BUILDING
