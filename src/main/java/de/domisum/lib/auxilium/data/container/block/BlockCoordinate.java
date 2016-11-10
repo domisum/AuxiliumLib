@@ -4,6 +4,8 @@ import de.domisum.lib.auxilium.data.container.dir.Direction2D;
 import de.domisum.lib.auxilium.util.java.annotations.APIUsage;
 import org.bukkit.block.Block;
 
+import javax.annotation.Nonnull;
+
 @APIUsage
 public class BlockCoordinate implements Comparable<BlockCoordinate>
 {
@@ -69,7 +71,7 @@ public class BlockCoordinate implements Comparable<BlockCoordinate>
 
 
 	@Override
-	public int compareTo(BlockCoordinate other)
+	public int compareTo(@Nonnull BlockCoordinate other)
 	{
 		int dX = other.x-this.x;
 		if(dX != 0)
@@ -107,6 +109,20 @@ public class BlockCoordinate implements Comparable<BlockCoordinate>
 	{
 		return add(dir2d.dX, 0, dir2d.dZ);
 	}
+
+
+	@APIUsage
+	public BlockCoordinate subtract(int dX, int dY, int dZ)
+	{
+		return add(-dX, -dY, -dZ);
+	}
+
+	@APIUsage
+	public BlockCoordinate subtract(BlockCoordinate other)
+	{
+		return add(other.opposite());
+	}
+
 
 	@APIUsage
 	public BlockCoordinate opposite()
