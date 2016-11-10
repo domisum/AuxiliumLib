@@ -3,6 +3,9 @@ package de.domisum.lib.auxilium.util.math;
 import de.domisum.lib.auxilium.data.container.math.Vector3D;
 import de.domisum.lib.auxilium.util.java.annotations.APIUsage;
 
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Random;
 
 @APIUsage
@@ -26,19 +29,37 @@ public class RandomUtil
 	@APIUsage
 	public static int nextInt(int bound)
 	{
-		return getRandom().nextInt(bound);
+		return nextInt(bound, getRandom());
 	}
 
 	@APIUsage
-	public static double nextDouble()
+	public static int nextInt(int bound, Random r)
 	{
-		return getRandom().nextDouble();
+		return r.nextInt(bound);
+	}
+
+	@APIUsage
+	public static double nextDouble(int bound)
+	{
+		return nextDouble(bound, getRandom());
+	}
+
+	@APIUsage
+	public static double nextDouble(int bound, Random r)
+	{
+		return r.nextDouble();
 	}
 
 	@APIUsage
 	public static boolean nextBoolean()
 	{
-		return getRandom().nextBoolean();
+		return nextBoolean(getRandom());
+	}
+
+	@APIUsage
+	public static boolean nextBoolean(Random r)
+	{
+		return r.nextBoolean();
 	}
 
 
@@ -47,11 +68,11 @@ public class RandomUtil
 	@APIUsage
 	public static double distribute(double base, double maxDifference)
 	{
-		return distribute(getRandom(), base, maxDifference);
+		return distribute(base, maxDifference, getRandom());
 	}
 
 	@APIUsage
-	public static double distribute(Random r, double base, double maxDifference)
+	public static double distribute(double base, double maxDifference, Random r)
 	{
 		return base+((r.nextBoolean() ? 1 : -1)*r.nextDouble()*maxDifference);
 	}
@@ -59,31 +80,37 @@ public class RandomUtil
 	@APIUsage
 	public static int distribute(int base, int maxDifference)
 	{
-		return distribute(getRandom(), base, maxDifference);
+		return distribute(base, maxDifference, getRandom());
 	}
 
 	@APIUsage
-	public static int distribute(Random r, int base, int maxDifference)
+	public static int distribute(int base, int maxDifference, Random r)
 	{
-		return (int) Math.round(distribute(r, (double) base, maxDifference)); // cast to double so it picks the double method
+		return (int) Math.round(distribute((double) base, maxDifference, r)); // cast to double so it picks the double method
 	}
 
 	@APIUsage
 	public static int getFromRange(int min, int max)
 	{
-		return min+(nextInt((max-min)+1));
+		return getFromRange(min, max, getRandom());
+	}
+
+	@APIUsage
+	public static int getFromRange(int min, int max, Random r)
+	{
+		return min+(nextInt((max-min)+1, r));
 	}
 
 
 	// vector
 	@APIUsage
-	public static Vector3D getRandomUnitVector()
+	public static Vector3D getUnitVector()
 	{
-		return getRandomUnitVector(RandomUtil.getRandom());
+		return getUnitVector(RandomUtil.getRandom());
 	}
 
 	@APIUsage
-	public static Vector3D getRandomUnitVector(Random random)
+	public static Vector3D getUnitVector(Random random)
 	{
 		double theta = random.nextDouble()*2*Math.PI;
 		double r = (random.nextDouble()*2)-1;
@@ -94,6 +121,36 @@ public class RandomUtil
 		double y = rootComponent*Math.sin(theta);
 
 		return new Vector3D(x, y, r);
+	}
+
+
+	// collection
+	public static <E> E getElement(List<E> list)
+	{
+		return getElement(list, getRandom());
+	}
+
+	public static <E> E getElement(List<E> list, Random r)
+	{
+		int randomIndex = nextInt(list.size()-1, r);
+		return list.get(randomIndex);
+	}
+
+	public static <E> E getElement(Collection<E> coll)
+	{
+		return getElement(coll, getRandom());
+	}
+
+	public static <E> E getElement(Collection<E> coll, Random r)
+	{
+		int randomIndex = nextInt(coll.size()-1, r);
+
+		Iterator<E> iterator = coll.iterator();
+		E latestElement = null;
+		for(int i = 0; i <= randomIndex; i++)
+			latestElement = iterator.next();
+
+		return latestElement;
 	}
 
 }
