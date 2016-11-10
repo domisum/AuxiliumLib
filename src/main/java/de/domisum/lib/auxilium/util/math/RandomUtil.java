@@ -125,22 +125,26 @@ public class RandomUtil
 
 
 	// collection
+	@APIUsage
 	public static <E> E getElement(List<E> list)
 	{
 		return getElement(list, getRandom());
 	}
 
+	@APIUsage
 	public static <E> E getElement(List<E> list, Random r)
 	{
 		int randomIndex = nextInt(list.size()-1, r);
 		return list.get(randomIndex);
 	}
 
+	@APIUsage
 	public static <E> E getElement(Collection<E> coll)
 	{
 		return getElement(coll, getRandom());
 	}
 
+	@APIUsage
 	public static <E> E getElement(Collection<E> coll, Random r)
 	{
 		int randomIndex = nextInt(coll.size()-1, r);
