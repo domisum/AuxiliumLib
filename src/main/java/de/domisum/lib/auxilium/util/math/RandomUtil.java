@@ -134,7 +134,7 @@ public class RandomUtil
 	@APIUsage
 	public static <E> E getElement(List<E> list, Random r)
 	{
-		int randomIndex = nextInt(list.size()-1, r);
+		int randomIndex = getFromRange(0, list.size()-1, r);
 		return list.get(randomIndex);
 	}
 
@@ -147,7 +147,7 @@ public class RandomUtil
 	@APIUsage
 	public static <E> E getElement(Collection<E> coll, Random r)
 	{
-		int randomIndex = nextInt(coll.size()-1, r);
+		int randomIndex = getFromRange(0, coll.size()-1, r);
 
 		Iterator<E> iterator = coll.iterator();
 		E latestElement = null;
