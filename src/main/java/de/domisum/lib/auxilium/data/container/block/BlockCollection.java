@@ -133,13 +133,13 @@ public class BlockCollection
 	@APIUsage
 	public void buildAt(Location location)
 	{
-		Map<BlockCoordinate, AbstractBlock> weakBlocks = new HashMap<>();
+		Map<BlockCoordinate, AbstractBlock> fragileBlocks = new HashMap<>();
 
 		for(Entry<BlockCoordinate, AbstractBlock> entry : this.blocks.entrySet())
 		{
 			if(!entry.getValue().material.isSolid())
 			{
-				weakBlocks.put(entry.getKey(), entry.getValue());
+				fragileBlocks.put(entry.getKey(), entry.getValue());
 				continue;
 			}
 
@@ -147,7 +147,7 @@ public class BlockCollection
 			BlockUtil.setMaterialAndData(loc.getBlock(), entry.getValue().material, entry.getValue().data, false);
 		}
 
-		for(Entry<BlockCoordinate, AbstractBlock> entry : weakBlocks.entrySet())
+		for(Entry<BlockCoordinate, AbstractBlock> entry : fragileBlocks.entrySet())
 		{
 			Location loc = location.clone().add(entry.getKey().x, entry.getKey().y, entry.getKey().z);
 			BlockUtil.setMaterialAndData(loc.getBlock(), entry.getValue().material, entry.getValue().data, false);
