@@ -134,7 +134,11 @@ public class RandomUtil
 	@APIUsage
 	public static <E> E getElement(List<E> list, Random r)
 	{
+		if(list.size() == 0)
+			throw new IllegalArgumentException("The list has to have at least 1 element");
+
 		int randomIndex = getFromRange(0, list.size()-1, r);
+
 		return list.get(randomIndex);
 	}
 
@@ -147,6 +151,9 @@ public class RandomUtil
 	@APIUsage
 	public static <E> E getElement(Collection<E> coll, Random r)
 	{
+		if(coll.size() == 0)
+			throw new IllegalArgumentException("The collection has to have at least 1 element");
+
 		int randomIndex = getFromRange(0, coll.size()-1, r);
 
 		Iterator<E> iterator = coll.iterator();
