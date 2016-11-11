@@ -2,10 +2,10 @@ package de.domisum.lib.auxilium.data.container.block;
 
 import de.domisum.lib.auxilium.data.container.Duo;
 import de.domisum.lib.auxilium.data.container.abstracts.AbstractBlock;
+import de.domisum.lib.auxilium.util.bukkit.BlockUtil;
 import de.domisum.lib.auxilium.util.java.annotations.APIUsage;
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.block.Block;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -122,7 +122,7 @@ public class BlockCollection
 	public void set(BlockCollection blockCollection)
 	{
 		for(Entry<BlockCoordinate, AbstractBlock> entry : blockCollection.blocks.entrySet())
-			blocks.put(entry.getKey(), entry.getValue());
+			this.blocks.put(entry.getKey(), entry.getValue());
 	}
 
 
@@ -133,13 +133,24 @@ public class BlockCollection
 	@APIUsage
 	public void buildAt(Location location)
 	{
+		Map<BlockCoordinate, AbstractBlock> weakBlocks = new HashMap<>();
+
 		for(Entry<BlockCoordinate, AbstractBlock> entry : this.blocks.entrySet())
 		{
-			Location loc = location.clone().add(entry.getKey().x, entry.getKey().y, entry.getKey().z);
+			if(!entry.getValue().material.isSolid())
+			{
+				weakBlocks.put(entry.getKey(), entry.getValue());
+				continue;
+			}
 
-			Block block = loc.getBlock();
-			block.setType(entry.getValue().material);
-			block.setData(entry.getValue().data);
+			Location loc = location.clone().add(entry.getKey().x, entry.getKey().y, entry.getKey().z);
+			BlockUtil.setMaterialAndData(loc.getBlock(), entry.getValue().material, entry.getValue().data, false);
+		}
+
+		for(Entry<BlockCoordinate, AbstractBlock> entry : weakBlocks.entrySet())
+		{
+			Location loc = location.clone().add(entry.getKey().x, entry.getKey().y, entry.getKey().z);
+			BlockUtil.setMaterialAndData(loc.getBlock(), entry.getValue().material, entry.getValue().data, false);
 		}
 	}
 
