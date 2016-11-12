@@ -39,13 +39,13 @@ public class RandomUtil
 	}
 
 	@APIUsage
-	public static double nextDouble(int bound)
+	public static double nextDouble()
 	{
-		return nextDouble(bound, getRandom());
+		return nextDouble(getRandom());
 	}
 
 	@APIUsage
-	public static double nextDouble(int bound, Random r)
+	public static double nextDouble(Random r)
 	{
 		return r.nextDouble();
 	}
