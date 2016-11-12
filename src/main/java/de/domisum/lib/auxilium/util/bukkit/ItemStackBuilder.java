@@ -208,6 +208,17 @@ public class ItemStackBuilder
 	}
 
 	/**
+	 * @param additionalLoreArray the new lines to add to the lore
+	 * @return this
+	 * @see #addLore(List)
+	 */
+	@APIUsage
+	public ItemStackBuilder addLore(String... additionalLoreArray)
+	{
+		return addLore(new ArrayList<>(Arrays.asList(additionalLoreArray)));
+	}
+
+	/**
 	 * Adds the lore lines from the parameter to the already existing lore lines.
 	 * <p>
 	 * If no lore existed before this metode is used, it works like {@code lore(String...)}
