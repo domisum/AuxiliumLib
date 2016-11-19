@@ -58,6 +58,7 @@ public class AbstractBlock
 	public AbstractBlock(Block block)
 	{
 		this.material = block.getType();
+		//noinspection deprecation
 		this.data = block.getData();
 	}
 
