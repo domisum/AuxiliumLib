@@ -19,7 +19,9 @@ import java.util.Set;
 public class FileUtil
 {
 
-	// READING
+	/*
+	// READ
+	*/
 	@APIUsage
 	public static String readFileToString(String path)
 	{
@@ -51,7 +53,9 @@ public class FileUtil
 	}
 
 
-	// WRITING
+	/*
+	// WRITE
+	*/
 	@APIUsage
 	public static void writeStringToFile(String path, String content)
 	{
@@ -61,10 +65,10 @@ public class FileUtil
 	@APIUsage
 	public static void writeStringToFile(File file, String content)
 	{
-		file.getParentFile().mkdirs();
-
 		try(FileWriter fw = new FileWriter(file))
 		{
+			createParentDirectory(file);
+
 			fw.write(content);
 		}
 		catch(IOException e)
@@ -74,7 +78,9 @@ public class FileUtil
 	}
 
 
+	/*
 	// COPY
+	*/
 	@APIUsage
 	public static void copyFile(File origin, File destinationDir)
 	{
@@ -87,15 +93,10 @@ public class FileUtil
 		if(!origin.exists())
 			return;
 
-		// if the destination dir doesn't exist and Files.copy()
-		// is called regardless, NoSuchFileException is thrown
-		if(!destinationDir.exists())
-			destinationDir.mkdirs();
-
 		File destination = new File(destinationDir, newFileName);
-
 		try
 		{
+			createDirectory(destinationDir);
 			Files.copy(origin.toPath(), destination.toPath(), StandardCopyOption.REPLACE_EXISTING);
 		}
 		catch(IOException e)
@@ -113,23 +114,30 @@ public class FileUtil
 	@APIUsage
 	public static void copyDirectory(File originFolder, File destinationDir, FilePathFilter filePathFilter)
 	{
-		destinationDir.mkdirs();
-
-		for(File file : originFolder.listFiles())
+		try
 		{
-			if(filePathFilter != null)
-				if(filePathFilter.isFilteredOut(file))
-					continue;
+			createDirectory(destinationDir);
 
-			if(file.isFile())
-				copyFile(file, destinationDir);
-			else if(file.isDirectory())
+			for(File file : listFiles(originFolder))
 			{
-				File deeperDestination = new File(destinationDir, file.getName());
-				deeperDestination.mkdirs();
+				if(filePathFilter != null)
+					if(filePathFilter.isFilteredOut(file))
+						continue;
 
-				copyDirectory(file, deeperDestination, filePathFilter);
+				if(file.isFile())
+					copyFile(file, destinationDir);
+				else if(file.isDirectory())
+				{
+					File deeperDestination = new File(destinationDir, file.getName());
+					createDirectory(deeperDestination);
+
+					copyDirectory(file, deeperDestination, filePathFilter);
+				}
 			}
+		}
+		catch(IOException e)
+		{
+			e.printStackTrace();
 		}
 	}
 
@@ -137,57 +145,108 @@ public class FileUtil
 	@APIUsage
 	public static void copyDirectory(File originFolder, String newName, File destinationDir)
 	{
-		destinationDir.mkdirs();
-
-		for(File file : originFolder.listFiles())
+		try
 		{
-			if(file.isFile())
-				copyFile(file, destinationDir);
-			else if(file.isDirectory())
-			{
-				File deeperDestination = new File(destinationDir, newName != null ? newName : file.getName());
-				deeperDestination.mkdirs();
+			createDirectory(destinationDir);
 
-				copyDirectory(file, null, deeperDestination);
+			for(File file : listFiles(originFolder))
+			{
+				if(file.isFile())
+					copyFile(file, destinationDir);
+				else if(file.isDirectory())
+				{
+					File deeperDestination = new File(destinationDir, newName != null ? newName : file.getName());
+					createDirectory(deeperDestination);
+
+					copyDirectory(file, null, deeperDestination);
+				}
 			}
+		}
+		catch(IOException e)
+		{
+			e.printStackTrace();
 		}
 	}
 
 
-	// DELETING
+	/*
+	// DELETE
+	*/
 	@APIUsage
-	public static void deleteDirectory(File dir)
+	public static void deleteDirectory(File dir) throws IOException
 	{
 		deleteDirectoryContents(dir);
-		dir.delete();
+		deleteFile(dir);
 	}
 
 	@APIUsage
-	public static void deleteDirectoryContents(File dir)
+	public static void deleteDirectoryContents(File dir) throws IOException
 	{
 		if(dir == null)
 			throw new IllegalArgumentException("The directory can't be null");
 
-		if(!dir.exists())
-			return;
-
-		for(File f : dir.listFiles())
+		for(File f : listFiles(dir))
 		{
 			if(f.isFile())
-				f.delete();
+				deleteFile(f);
 			else
 				deleteDirectory(f);
 		}
 	}
 
+	private static void deleteFile(File file) throws IOException
+	{
+		boolean success = file.delete();
+		if(!success)
+			throw new IOException("Deleting file/dir '"+file+"' failed");
+	}
 
+
+	/*
+	// DIRECTORY
+	*/
+	private static void createParentDirectory(File file) throws IOException
+	{
+		createDirectory(file.getAbsoluteFile().getParentFile());
+	}
+
+	private static void createDirectory(File dir) throws IOException
+	{
+		if(dir.isDirectory())
+			return;
+
+		boolean success = dir.mkdirs();
+		if(!success)
+			throw new IOException("Failed to create directory directory '"+dir+"'");
+	}
+
+
+	/*
 	// MISC
+	*/
 	@APIUsage
 	public static boolean doesFileExist(String path)
 	{
 		File file = new File(path);
 		return file.exists();
 	}
+
+	@APIUsage
+	public static boolean isDirectoryEmpty(File dir)
+	{
+		return listFilesRecursively(dir).size() == 0;
+	}
+
+
+	@APIUsage
+	public static File[] listFiles(File dir)
+	{
+		if(!dir.isDirectory())
+			return new File[0];
+
+		return dir.listFiles();
+	}
+
 
 	@APIUsage
 	public static List<File> listFilesRecursively(File dir)
@@ -220,12 +279,6 @@ public class FileUtil
 		return files;
 	}
 
-	@APIUsage
-	public static boolean isDirectoryEmpty(File dir)
-	{
-		return listFilesRecursively(dir).size() == 0;
-	}
-
 
 	// SPECIFIC
 	@APIUsage
@@ -242,9 +295,9 @@ public class FileUtil
 	}
 
 
-	// -------
+	/*
 	// FILE FILTER
-	// -------
+	*/
 	@APIUsage
 	public static class FilePathFilter
 	{
