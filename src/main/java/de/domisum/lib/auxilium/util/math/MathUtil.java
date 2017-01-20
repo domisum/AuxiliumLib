@@ -36,6 +36,24 @@ public class MathUtil
 	}
 
 
+	@APIUsage
+	public static double remapLinear(double from1, double from2, double to1, double to2, double value)
+	{
+		if(from2 < from1)
+			throw new IllegalArgumentException("from2 ("+from2+") can't be lower than from1 ("+from1+")");
+
+		if(to2 < to1)
+			throw new IllegalArgumentException("to2 ("+to2+") can't be lower than to1 ("+to1+")");
+
+		double distToFrom1 = value-from1;
+		double relativeClosenesTo1 = distToFrom1/(from2-from1);
+
+		double distToTo1 = relativeClosenesTo1*(to2-to1);
+
+		return to1+distToTo1;
+	}
+
+
 	// ANGLE
 	@APIUsage
 	public static boolean isAngleNearRad(double a, double b, double maxD)

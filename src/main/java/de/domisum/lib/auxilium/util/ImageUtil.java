@@ -38,6 +38,10 @@ public class ImageUtil
 	@APIUsage
 	public static void writeImage(File file, BufferedImage image)
 	{
+		File parent = file.getAbsoluteFile().getParentFile();
+		if(!parent.exists())
+			throw new IllegalArgumentException("The parent folder '"+parent+"' of the image path does not exist");
+
 		if(image == null)
 			throw new IllegalArgumentException("The image can't be null");
 
