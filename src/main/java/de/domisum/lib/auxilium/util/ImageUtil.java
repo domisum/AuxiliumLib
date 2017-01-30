@@ -71,7 +71,7 @@ public class ImageUtil
 			for(int pixel = 0, row = 0, col = 0; pixel < pixels.length; pixel += pixelLength)
 			{
 				int argb = 0;
-				argb += ((pixels[pixel]&0xff)<<24); // alpha
+				//argb += ((pixels[pixel]&0xff)<<24); // alpha
 				argb += (pixels[pixel+1]&0xff); // blue
 				argb += ((pixels[pixel+2]&0xff)<<8); // green
 				argb += ((pixels[pixel+3]&0xff)<<16); // red
@@ -91,7 +91,7 @@ public class ImageUtil
 			for(int pixel = 0, row = 0, col = 0; pixel < pixels.length; pixel += pixelLength)
 			{
 				int argb = 0;
-				argb += -16777216; // 255 alpha
+				//argb += -16777216; // 255 alpha
 				argb += (pixels[pixel]&0xff); // blue
 				argb += ((pixels[pixel+1]&0xff)<<8); // green
 				argb += ((pixels[pixel+2]&0xff)<<16); // red
