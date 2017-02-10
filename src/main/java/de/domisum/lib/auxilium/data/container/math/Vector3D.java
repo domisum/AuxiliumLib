@@ -1,11 +1,7 @@
 package de.domisum.lib.auxilium.data.container.math;
 
-import de.domisum.lib.auxilium.data.container.block.BlockCoordinate;
 import de.domisum.lib.auxilium.util.java.annotations.APIUsage;
 import de.domisum.lib.auxilium.util.math.MathUtil;
-import org.bukkit.Location;
-import org.bukkit.World;
-import org.bukkit.util.Vector;
 
 /**
  * Class to describe a Vector in 3 Dimensions.
@@ -17,12 +13,9 @@ import org.bukkit.util.Vector;
 public class Vector3D
 {
 
-	@APIUsage
-	public final double x;
-	@APIUsage
-	public final double y;
-	@APIUsage
-	public final double z;
+	@APIUsage public final double x;
+	@APIUsage public final double y;
+	@APIUsage public final double z;
 
 
 	// -------
@@ -42,28 +35,6 @@ public class Vector3D
 		this.x = x;
 		this.y = y;
 		this.z = z;
-	}
-
-	/**
-	 * Constructs a Vector3D from a Bukkit vector, copying its x-, y- and z-value.
-	 *
-	 * @param bukkitVector The Bukkit vector to copy
-	 */
-	@APIUsage
-	public Vector3D(Vector bukkitVector)
-	{
-		this(bukkitVector.getX(), bukkitVector.getY(), bukkitVector.getZ());
-	}
-
-	/**
-	 * Constructs a Vector3D from a Bukkit location, copying its x- y- and z-coordinate.
-	 *
-	 * @param location The location to copy
-	 */
-	@APIUsage
-	public Vector3D(Location location)
-	{
-		this(location.getX(), location.getY(), location.getZ());
 	}
 
 	/**
@@ -228,41 +199,6 @@ public class Vector3D
 
 		return crossProduct(independent);
 	}
-
-	/**
-	 * Returns a BlockCoordinate with the coordinates of the vector, floored to the nearest integer.
-	 *
-	 * @return BlockCoordinate with the coordinates of this vector
-	 */
-	@APIUsage
-	public BlockCoordinate getBlockCoordinate()
-	{
-		return new BlockCoordinate((int) Math.floor(this.x), (int) Math.floor(this.y), (int) Math.floor(this.z));
-	}
-
-	/**
-	 * Returns a Bukkit vector with the coordinates of this vector.
-	 *
-	 * @return Bukkit vector with the coordinates of this vector.
-	 */
-	@APIUsage
-	public Vector toBukkit()
-	{
-		return new Vector(this.x, this.y, this.z);
-	}
-
-	/**
-	 * Returns a Bukkit location from the World supplied through the argument and the coordinates of this vector.
-	 *
-	 * @param world the World in which the location should lie
-	 * @return the Location
-	 */
-	@APIUsage
-	public Location toLocation(World world)
-	{
-		return new Location(world, this.x, this.y, this.z);
-	}
-
 
 	// -------
 	// INTERACTION

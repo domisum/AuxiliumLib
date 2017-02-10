@@ -1,8 +1,6 @@
 package de.domisum.lib.auxilium.util.java;
 
-import de.domisum.lib.auxilium.AuxiliumLib;
 import de.domisum.lib.auxilium.util.java.annotations.APIUsage;
-import org.bukkit.Bukkit;
 
 public class ThreadUtil
 {
@@ -106,14 +104,6 @@ public class ThreadUtil
 		thread.start();
 
 		return thread;
-	}
-
-
-	// BUKKIT
-	@APIUsage
-	public static void runSync(Runnable run)
-	{
-		Bukkit.getScheduler().runTask(AuxiliumLib.getPlugin(), run);
 	}
 
 }
