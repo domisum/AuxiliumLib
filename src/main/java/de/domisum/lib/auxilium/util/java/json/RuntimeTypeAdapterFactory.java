@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package de.domisum.lib.auxilium.data.json;
+package de.domisum.lib.auxilium.util.java.json;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;

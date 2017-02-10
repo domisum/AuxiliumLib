@@ -1,4 +1,4 @@
-package de.domisum.lib.auxilium.util.java;
+package de.domisum.lib.auxilium.util.java.json;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
