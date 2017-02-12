@@ -40,7 +40,7 @@ public class ImageUtil
 	{
 		File parent = file.getAbsoluteFile().getParentFile();
 		if(!parent.exists())
-			throw new IllegalArgumentException("The parent folder '"+parent+"' of the image path does not exist");
+			parent.mkdirs();
 
 		if(image == null)
 			throw new IllegalArgumentException("The image can't be null");
