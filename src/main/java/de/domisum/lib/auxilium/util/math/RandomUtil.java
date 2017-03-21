@@ -17,8 +17,7 @@ public class RandomUtil
 
 
 	// BASIC
-	@APIUsage
-	public static Random getRandom()
+	@APIUsage public static Random getRandom()
 	{
 		if(random == null)
 			random = new Random();
@@ -26,38 +25,32 @@ public class RandomUtil
 		return random;
 	}
 
-	@APIUsage
-	public static int nextInt(int bound)
+	@APIUsage public static int nextInt(int bound)
 	{
 		return nextInt(bound, getRandom());
 	}
 
-	@APIUsage
-	public static int nextInt(int bound, Random r)
+	@APIUsage public static int nextInt(int bound, Random r)
 	{
 		return r.nextInt(bound);
 	}
 
-	@APIUsage
-	public static double nextDouble()
+	@APIUsage public static double nextDouble()
 	{
 		return nextDouble(getRandom());
 	}
 
-	@APIUsage
-	public static double nextDouble(Random r)
+	@APIUsage public static double nextDouble(Random r)
 	{
 		return r.nextDouble();
 	}
 
-	@APIUsage
-	public static boolean nextBoolean()
+	@APIUsage public static boolean nextBoolean()
 	{
 		return nextBoolean(getRandom());
 	}
 
-	@APIUsage
-	public static boolean nextBoolean(Random r)
+	@APIUsage public static boolean nextBoolean(Random r)
 	{
 		return r.nextBoolean();
 	}
@@ -65,52 +58,53 @@ public class RandomUtil
 
 	// COMPLEX
 	// number
-	@APIUsage
-	public static double distribute(double base, double maxDifference)
+	@APIUsage public static double distribute(double base, double maxDifference)
 	{
 		return distribute(base, maxDifference, getRandom());
 	}
 
-	@APIUsage
-	public static double distribute(double base, double maxDifference, Random r)
+	@APIUsage public static double distribute(double base, double maxDifference, Random r)
 	{
 		return base+((r.nextBoolean() ? 1 : -1)*r.nextDouble()*maxDifference);
 	}
 
-	@APIUsage
-	public static int distribute(int base, int maxDifference)
+	@APIUsage public static int distribute(int base, int maxDifference)
 	{
 		return distribute(base, maxDifference, getRandom());
 	}
 
-	@APIUsage
-	public static int distribute(int base, int maxDifference, Random r)
+	@APIUsage public static int distribute(int base, int maxDifference, Random r)
 	{
 		return (int) Math.round(distribute((double) base, maxDifference, r)); // cast to double so it picks the double method
 	}
 
-	@APIUsage
-	public static int getFromRange(int min, int max)
+	@APIUsage public static int getFromRange(int min, int max)
 	{
 		return getFromRange(min, max, getRandom());
 	}
 
-	@APIUsage
-	public static int getFromRange(int min, int max, Random r)
+	@APIUsage public static int getFromRange(int min, int max, Random r)
 	{
 		return min+(nextInt((max-min)+1, r));
 	}
 
+	@APIUsage public static double getFromRange(double min, double max)
+	{
+		return getFromRange(min, max, getRandom());
+	}
+
+	@APIUsage public static double getFromRange(double min, double max, Random r)
+	{
+		return min+nextDouble(r)*(max-min);
+	}
 
 	// vector
-	@APIUsage
-	public static Vector3D getUnitVector()
+	@APIUsage public static Vector3D getUnitVector()
 	{
 		return getUnitVector(RandomUtil.getRandom());
 	}
 
-	@APIUsage
-	public static Vector3D getUnitVector(Random random)
+	@APIUsage public static Vector3D getUnitVector(Random random)
 	{
 		double theta = random.nextDouble()*2*Math.PI;
 		double r = (random.nextDouble()*2)-1;
@@ -125,14 +119,12 @@ public class RandomUtil
 
 
 	// collection
-	@APIUsage
-	public static <E> E getElement(List<E> list)
+	@APIUsage public static <E> E getElement(List<E> list)
 	{
 		return getElement(list, getRandom());
 	}
 
-	@APIUsage
-	public static <E> E getElement(List<E> list, Random r)
+	@APIUsage public static <E> E getElement(List<E> list, Random r)
 	{
 		if(list.size() == 0)
 			throw new IllegalArgumentException("The list has to have at least 1 element");
@@ -142,14 +134,12 @@ public class RandomUtil
 		return list.get(randomIndex);
 	}
 
-	@APIUsage
-	public static <E> E getElement(Collection<E> coll)
+	@APIUsage public static <E> E getElement(Collection<E> coll)
 	{
 		return getElement(coll, getRandom());
 	}
 
-	@APIUsage
-	public static <E> E getElement(Collection<E> coll, Random r)
+	@APIUsage public static <E> E getElement(Collection<E> coll, Random r)
 	{
 		if(coll.size() == 0)
 			throw new IllegalArgumentException("The collection has to have at least 1 element");
