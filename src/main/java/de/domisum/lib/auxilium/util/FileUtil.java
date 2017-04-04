@@ -5,8 +5,10 @@ import de.domisum.lib.auxilium.util.java.annotations.APIUsage;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
@@ -20,16 +22,24 @@ public class FileUtil
 {
 
 	// READ
-	@APIUsage public static String readFileToString(String path)
+	@APIUsage public String readFileToString(File file)
 	{
-		return readFileToString(new File(path));
+		try
+		{
+			return readInputStreamToString(new FileInputStream(file));
+		}
+		catch(FileNotFoundException e)
+		{
+			e.printStackTrace();
+			return null;
+		}
 	}
 
-	@APIUsage public static String readFileToString(File file)
+	@APIUsage public static String readInputStreamToString(InputStream inputStream)
 	{
 		StringBuilder sb = new StringBuilder();
 
-		try(BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(file), "UTF8")))
+		try(BufferedReader br = new BufferedReader(new InputStreamReader(inputStream, "UTF8")))
 		{
 			String line = br.readLine();
 			while(line != null)
