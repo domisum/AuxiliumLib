@@ -190,13 +190,13 @@ public class FileUtil
 
 
 	// DELETE
-	@APIUsage public static void deleteDirectory(File dir) throws IOException
+	@APIUsage public static void deleteDirectory(File dir)
 	{
 		deleteDirectoryContents(dir);
 		deleteFile(dir);
 	}
 
-	@APIUsage public static void deleteDirectoryContents(File dir) throws IOException
+	@APIUsage public static void deleteDirectoryContents(File dir)
 	{
 		if(dir == null)
 			throw new IllegalArgumentException("The directory can't be null");
@@ -210,11 +210,18 @@ public class FileUtil
 		}
 	}
 
-	private static void deleteFile(File file) throws IOException
+	private static void deleteFile(File file)
 	{
-		boolean success = file.delete();
-		if(!success)
-			throw new IOException("Deleting file/dir '"+file+"' failed");
+		try
+		{
+			boolean success = file.delete();
+			if(!success)
+				throw new IOException("Deleting file/dir '"+file+"' failed");
+		}
+		catch(IOException e)
+		{
+			e.printStackTrace();
+		}
 	}
 
 
