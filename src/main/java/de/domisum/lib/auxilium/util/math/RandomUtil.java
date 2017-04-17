@@ -16,7 +16,7 @@ public class RandomUtil
 	private static Random random;
 
 
-	// BASIC
+	// basic
 	@APIUsage public static Random getRandom()
 	{
 		if(random == null)
@@ -56,7 +56,6 @@ public class RandomUtil
 	}
 
 
-	// COMPLEX
 	// number
 	@APIUsage public static double distribute(double base, double maxDifference)
 	{
@@ -98,6 +97,7 @@ public class RandomUtil
 		return min+nextDouble(r)*(max-min);
 	}
 
+
 	// vector
 	@APIUsage public static Vector3D getUnitVector()
 	{
@@ -118,7 +118,7 @@ public class RandomUtil
 	}
 
 
-	// collection
+	// random element
 	@APIUsage public static <E> E getElement(List<E> list)
 	{
 		return getElement(list, getRandom());
@@ -152,6 +152,21 @@ public class RandomUtil
 			latestElement = iterator.next();
 
 		return latestElement;
+	}
+
+
+	@APIUsage public static <E> E getElement(E[] array)
+	{
+		return getElement(array, getRandom());
+	}
+
+	@APIUsage public static <E> E getElement(E[] array, Random r)
+	{
+		if(array.length == 0)
+			throw new IllegalArgumentException("The array has to have at least 1 element");
+
+		int randomIndex = getFromRange(0, array.length-1, r);
+		return array[randomIndex];
 	}
 
 }
