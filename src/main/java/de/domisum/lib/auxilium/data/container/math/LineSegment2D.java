@@ -22,7 +22,7 @@ public class LineSegment2D
 	// OBJECT
 	@Override public String toString()
 	{
-		return "LineSegment2D{"+"a="+a+", b="+b+'}';
+		return "LineSegment2D{"+"a="+this.a+", b="+this.b+'}';
 	}
 
 

@@ -1,17 +1,19 @@
 package de.domisum.lib.auxilium.data.container.math;
 
 import de.domisum.lib.auxilium.data.container.bound.DoubleBounds2D;
+import de.domisum.lib.auxilium.util.java.annotations.APIUsage;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+@APIUsage
 public class Polygon2D
 {
 
 	// data
-	public final List<Vector2D> points;
+	@APIUsage public final List<Vector2D> points;
 
 	// helper
 	private List<LineSegment2D> lines;
@@ -19,7 +21,7 @@ public class Polygon2D
 
 
 	// INIT
-	public Polygon2D(List<Vector2D> points)
+	@APIUsage public Polygon2D(List<Vector2D> points)
 	{
 		if(points.size() <= 2)
 			throw new IllegalArgumentException("A polygon has to have at least 3 points");
@@ -34,7 +36,7 @@ public class Polygon2D
 
 
 	// GETTERS
-	public List<LineSegment2D> getLines()
+	@APIUsage public List<LineSegment2D> getLines()
 	{
 		if(this.lines == null)
 			determineLines();
@@ -42,7 +44,7 @@ public class Polygon2D
 		return new ArrayList<>(this.lines);
 	}
 
-	public DoubleBounds2D getBoundingBox()
+	@APIUsage public DoubleBounds2D getBoundingBox()
 	{
 		if(this.boundingBox == null)
 			determineBoundingBox();
