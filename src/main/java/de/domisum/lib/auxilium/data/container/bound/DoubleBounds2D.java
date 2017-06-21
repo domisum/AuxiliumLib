@@ -1,4 +1,4 @@
-package de.domisum.lib.auxilium.data.container;
+package de.domisum.lib.auxilium.data.container.bound;
 
 import de.domisum.lib.auxilium.data.container.math.Vector2D;
 import de.domisum.lib.auxilium.util.java.annotations.APIUsage;

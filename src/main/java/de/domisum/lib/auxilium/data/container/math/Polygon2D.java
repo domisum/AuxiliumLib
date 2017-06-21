@@ -1,6 +1,6 @@
 package de.domisum.lib.auxilium.data.container.math;
 
-import de.domisum.lib.auxilium.data.container.DoubleBounds2D;
+import de.domisum.lib.auxilium.data.container.bound.DoubleBounds2D;
 
 import java.util.ArrayList;
 import java.util.Arrays;
