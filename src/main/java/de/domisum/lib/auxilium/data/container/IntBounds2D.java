@@ -13,18 +13,12 @@ public class IntBounds2D
 
 
 	// INIT
-	@APIUsage public IntBounds2D(int minX, int maxX, int minY, int maxY)
+	@APIUsage public IntBounds2D(int x1, int x2, int y1, int y2)
 	{
-		if(minX > maxX)
-			throw new IllegalArgumentException("minX can't be greater than maxX ("+minX+","+maxX+")");
-
-		if(minY > maxY)
-			throw new IllegalArgumentException("minY can't be greater than maxY ("+minY+","+maxY+")");
-
-		this.minX = minX;
-		this.maxX = maxX;
-		this.minY = minY;
-		this.maxY = maxY;
+		this.minX = Math.min(x1, x2);
+		this.maxX = Math.max(x1, x2);
+		this.minY = Math.min(y1, y2);
+		this.maxY = Math.max(y1, y2);
 	}
 
 
