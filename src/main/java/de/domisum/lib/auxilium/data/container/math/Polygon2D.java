@@ -15,10 +15,6 @@ public class Polygon2D
 	// data
 	@APIUsage public final List<Vector2D> points;
 
-	// helper
-	private List<LineSegment2D> lines;
-	private DoubleBounds2D boundingBox;
-
 
 	// INIT
 	@APIUsage public Polygon2D(List<Vector2D> points)
@@ -35,26 +31,58 @@ public class Polygon2D
 	}
 
 
+	// OBJECT
+	@Override public String toString()
+	{
+		return "Polygon2D{"+"points="+this.points+'}';
+	}
+
+
 	// GETTERS
 	@APIUsage public List<LineSegment2D> getLines()
 	{
-		if(this.lines == null)
-			determineLines();
+		List<LineSegment2D> lines = new ArrayList<>();
 
-		return new ArrayList<>(this.lines);
+		Vector2D last = null;
+		for(Vector2D v : this.points)
+		{
+			if(last != null)
+				lines.add(new LineSegment2D(last, v));
+
+			last = v;
+		}
+
+		lines.add(new LineSegment2D(last, this.points.get(0)));
+
+		return lines;
 	}
 
 	@APIUsage public DoubleBounds2D getBoundingBox()
 	{
-		if(this.boundingBox == null)
-			determineBoundingBox();
+		double minX = Double.MAX_VALUE;
+		double maxX = -Double.MAX_VALUE;
+		double minY = Double.MAX_VALUE;
+		double maxY = -Double.MAX_VALUE;
 
-		return this.boundingBox;
+		for(Vector2D p : this.points)
+		{
+			if(p.x < minX)
+				minX = p.x;
+			if(p.x > maxX)
+				maxX = p.x;
+
+			if(p.y < minY)
+				minY = p.y;
+			if(p.y > maxY)
+				maxY = p.y;
+		}
+
+		return new DoubleBounds2D(minX, maxX, minY, maxY);
 	}
 
 
 	// CHECKS
-	public boolean contains(Vector2D point)
+	@APIUsage public boolean contains(Vector2D point)
 	{
 		DoubleBounds2D boundingBox = getBoundingBox();
 		List<LineSegment2D> lines = getLines();
@@ -79,45 +107,41 @@ public class Polygon2D
 		return intersections%2 == 1;
 	}
 
-
-	// HELPER
-	private void determineLines()
+	@APIUsage public boolean overlaps(Polygon2D other)
 	{
-		this.lines = new ArrayList<>();
+		// do lines intersect? if yes, the polygons overlap
+		for(LineSegment2D lineSegment2D : getLines())
+			for(LineSegment2D ls : other.getLines())
+				if(lineSegment2D.intersects(ls))
+					return true;
 
-		Vector2D last = null;
-		for(Vector2D v : this.points)
-		{
-			if(last != null)
-				this.lines.add(new LineSegment2D(last, v));
+		// is a point of the other polygon contained in this polygon? if yes, the polygons overlap
+		if(contains(other.points.get(0)))
+			return true;
 
-			last = v;
-		}
+		// is a point of this polygon contained in the other polygon? if yes, the polygons overlap
+		if(other.contains(this.points.get(0)))
+			return true;
 
-		this.lines.add(new LineSegment2D(last, this.points.get(0)));
+		// if none of the above, the polygons dont overlap
+		return false;
 	}
 
-	private void determineBoundingBox()
-	{
-		double minX = Double.MAX_VALUE;
-		double maxX = -Double.MAX_VALUE;
-		double minY = Double.MAX_VALUE;
-		double maxY = -Double.MAX_VALUE;
 
+	// CALCULATIONS
+	@APIUsage public double getArea()
+	{
+		double sum = 0;
+
+		Vector2D last = this.points.get(this.points.size()-1);
 		for(Vector2D p : this.points)
 		{
-			if(p.x < minX)
-				minX = p.x;
-			if(p.x > maxX)
-				maxX = p.x;
+			sum += last.x*p.y-p.x*last.y;
 
-			if(p.y < minY)
-				minY = p.y;
-			if(p.y > maxY)
-				maxY = p.y;
+			last = p;
 		}
 
-		this.boundingBox = new DoubleBounds2D(minX, maxX, minY, maxY);
+		return Math.abs(sum/2);
 	}
 
 }
