@@ -2,7 +2,10 @@ package de.domisum.lib.auxilium.data.container.math;
 
 import de.domisum.lib.auxilium.data.container.bound.DoubleBounds2D;
 import de.domisum.lib.auxilium.util.java.annotations.APIUsage;
+import lombok.EqualsAndHashCode;
 
+@EqualsAndHashCode
+@APIUsage
 public class LineSegment2D
 {
 
@@ -12,7 +15,7 @@ public class LineSegment2D
 
 
 	// INIT
-	public LineSegment2D(Vector2D a, Vector2D b)
+	@APIUsage public LineSegment2D(Vector2D a, Vector2D b)
 	{
 		this.a = a;
 		this.b = b;
@@ -61,7 +64,7 @@ public class LineSegment2D
 
 
 	// CHECKS
-	public boolean intersects(LineSegment2D other)
+	@APIUsage public boolean intersects(LineSegment2D other)
 	{
 		// http://www.geeksforgeeks.org/check-if-two-given-line-segments-intersect/
 
@@ -90,7 +93,7 @@ public class LineSegment2D
 		return true;
 	}
 
-	public boolean contains(Vector2D point)
+	@APIUsage public boolean contains(Vector2D point)
 	{
 		double distance = getDistanceTo(point);
 
