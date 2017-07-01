@@ -144,4 +144,37 @@ public class Polygon2D
 		return Math.abs(sum/2);
 	}
 
+	@APIUsage public double getDistanceTo(Vector2D point)
+	{
+		if(contains(point))
+			return 0;
+
+		double minDistance = Double.MAX_VALUE;
+
+		for(LineSegment2D lineSegment2D : getLines())
+		{
+			double distance = lineSegment2D.getDistanceTo(point);
+			if(distance < minDistance)
+				minDistance = distance;
+		}
+
+		return minDistance;
+	}
+
+	@APIUsage public double getDistanceTo(Polygon2D other)
+	{
+		if(overlaps(other))
+			return 0;
+
+		return Math.min(getPointsDistanceTo(this, other), getPointsDistanceTo(other, this));
+	}
+
+
+	// HELPER
+	private double getPointsDistanceTo(Polygon2D pointPolygon, Polygon2D polygon)
+	{
+		//noinspection ConstantConditions
+		return pointPolygon.points.stream().mapToDouble(polygon::getDistanceTo).min().getAsDouble();
+	}
+
 }
