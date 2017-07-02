@@ -15,6 +15,9 @@ public class Polygon2D
 	// data
 	@APIUsage public final List<Vector2D> points;
 
+	private List<LineSegment2D> lines;
+	private DoubleBounds2D boundingBox;
+
 
 	// INIT
 	@APIUsage public Polygon2D(List<Vector2D> points)
@@ -41,24 +44,29 @@ public class Polygon2D
 	// GETTERS
 	@APIUsage public List<LineSegment2D> getLines()
 	{
-		List<LineSegment2D> lines = new ArrayList<>();
+		if(this.lines != null)
+			return this.lines;
+
+		this.lines = new ArrayList<>();
 
 		Vector2D last = null;
 		for(Vector2D v : this.points)
 		{
 			if(last != null)
-				lines.add(new LineSegment2D(last, v));
+				this.lines.add(new LineSegment2D(last, v));
 
 			last = v;
 		}
+		this.lines.add(new LineSegment2D(last, this.points.get(0)));
 
-		lines.add(new LineSegment2D(last, this.points.get(0)));
-
-		return lines;
+		return this.lines;
 	}
 
 	@APIUsage public DoubleBounds2D getBoundingBox()
 	{
+		if(this.boundingBox != null)
+			return this.boundingBox;
+
 		double minX = Double.MAX_VALUE;
 		double maxX = -Double.MAX_VALUE;
 		double minY = Double.MAX_VALUE;
@@ -77,7 +85,8 @@ public class Polygon2D
 				maxY = p.y;
 		}
 
-		return new DoubleBounds2D(minX, maxX, minY, maxY);
+		this.boundingBox = new DoubleBounds2D(minX, maxX, minY, maxY);
+		return this.boundingBox;
 	}
 
 
