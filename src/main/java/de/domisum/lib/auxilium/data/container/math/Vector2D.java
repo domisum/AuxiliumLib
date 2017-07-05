@@ -104,10 +104,19 @@ public class Vector2D
 		// https://software.intel.com/en-us/forums/intel-visual-fortran-compiler-for-windows/topic/515013
 
 		double angle = Math.atan2(other.y, other.x)-Math.atan2(this.y, this.x);
+
+		// get into range
 		if(angle < 0)
 			angle += 2*Math.PI;
+		if(angle > 2*Math.PI)
+			angle -= 2*Math.PI;
+
+		// if angle > 180deg, change to equivalent angle < 180deg
+		if(angle > Math.PI)
+			angle = 2*Math.PI-angle;
 
 		return angle;
 	}
 
 }
+
