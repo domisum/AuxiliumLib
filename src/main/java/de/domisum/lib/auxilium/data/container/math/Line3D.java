@@ -7,7 +7,7 @@ public class Line3D
 {
 
 	// CONSTANTS
-	public static final double THRESHOLD = 1d/(1000d*1000*1000);
+	public static final double THRESHOLD = 1d/(1000d*1000d*1000d);
 
 	// PROPERTIES
 	@APIUsage public final Vector3D base;

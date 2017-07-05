@@ -93,6 +93,12 @@ public class LineSegment2D
 		return true;
 	}
 
+	@APIUsage public boolean isColinear(LineSegment2D other)
+	{
+		return getPointArrangement(this.a, this.b, other.a) == PointArrangement.COLINEAR
+				&& getPointArrangement(this.a, this.b, other.b) == PointArrangement.COLINEAR;
+	}
+
 	@APIUsage public boolean contains(Vector2D point)
 	{
 		double distance = getDistanceTo(point);
