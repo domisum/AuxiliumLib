@@ -22,7 +22,7 @@ public class FileUtil
 {
 
 	// READ
-	@APIUsage public String readFileToString(File file)
+	@APIUsage public static String readFileToString(File file)
 	{
 		try
 		{
