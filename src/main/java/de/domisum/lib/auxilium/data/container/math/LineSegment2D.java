@@ -40,6 +40,11 @@ public class LineSegment2D
 		return this.a.distanceToSquared(this.b);
 	}
 
+	@APIUsage public Vector2D getDirection()
+	{
+		return this.b.subtract(this.a);
+	}
+
 
 	// DISTANCE
 	@APIUsage public double getDistanceTo(Vector2D point)
