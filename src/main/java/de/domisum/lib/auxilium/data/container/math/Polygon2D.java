@@ -17,6 +17,7 @@ public class Polygon2D
 
 	private List<LineSegment2D> lines;
 	private DoubleBounds2D boundingBox;
+	private Vector2D pointCenter;
 
 
 	// INIT
@@ -89,6 +90,20 @@ public class Polygon2D
 		return this.boundingBox;
 	}
 
+	@APIUsage public Vector2D getPointCenter()
+	{
+		if(this.pointCenter == null)
+		{
+			Vector2D pointSum = new Vector2D();
+			for(Vector2D p : this.points)
+				pointSum = pointSum.add(p);
+
+			this.pointCenter = pointSum.divide(this.points.size());
+		}
+
+		return this.pointCenter;
+	}
+
 
 	// CHECKS
 	@APIUsage public boolean contains(Vector2D point)
@@ -112,6 +127,16 @@ public class Polygon2D
 		for(LineSegment2D ls : lines)
 			if(ray.intersects(ls))
 				intersections++;
+
+		for(int i = 0; i < this.points.size(); i++)
+		{
+			Vector2D p = this.points.get(i);
+			LineSegment2D line = getLines().get(i);
+
+			if(ray.contains(p))
+				if(ray.isColinear(line))
+					intersections--;
+		}
 
 		return intersections%2 == 1;
 	}
