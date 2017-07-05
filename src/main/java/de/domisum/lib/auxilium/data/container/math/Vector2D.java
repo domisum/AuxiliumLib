@@ -56,6 +56,17 @@ public class Vector2D
 		return new Vector2D(-this.x, -this.y);
 	}
 
+	@APIUsage public Vector2D orthogonal()
+	{
+		Vector3D this3D = new Vector3D(this.x, this.y, 0);
+		Vector3D upright = new Vector3D(0, 0, 1);
+
+		Vector3D orthogonal3D = this3D.crossProduct(upright);
+		Vector2D orthogonal = new Vector2D(orthogonal3D.x, orthogonal3D.y).normalize();
+
+		return orthogonal;
+	}
+
 
 	@APIUsage public Vector2D multiply(double factor)
 	{
