@@ -67,6 +67,20 @@ public class LineSegment2D
 		return point.distanceTo(pointOnSegment);
 	}
 
+	@APIUsage public double getDistanceTo(LineSegment2D other)
+	{
+		if(this.intersects(other))
+			return 0;
+
+		double minDistance = Double.MAX_VALUE;
+		minDistance = Math.min(minDistance, this.getDistanceTo(other.a));
+		minDistance = Math.min(minDistance, this.getDistanceTo(other.b));
+		minDistance = Math.min(minDistance, other.getDistanceTo(this.a));
+		minDistance = Math.min(minDistance, other.getDistanceTo(this.b));
+
+		return minDistance;
+	}
+
 
 	// CHECKS
 	@APIUsage public boolean intersects(LineSegment2D other)
