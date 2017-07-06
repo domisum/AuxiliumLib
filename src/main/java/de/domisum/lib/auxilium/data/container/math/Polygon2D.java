@@ -120,7 +120,7 @@ public class Polygon2D
 			if(ls.contains(point))
 				return true;
 
-		Vector2D pointOutside = new Vector2D(boundingBox.minX-1, point.y);
+		Vector2D pointOutside = new Vector2D(boundingBox.minX-1, boundingBox.minY-1);
 		LineSegment2D ray = new LineSegment2D(pointOutside, point);
 
 		int intersections = 0;
