@@ -9,8 +9,7 @@ public class TextUtil
 {
 
 	// BASIC
-	@APIUsage
-	public static String replaceLast(String string, String from, String to)
+	@APIUsage public static String replaceLast(String string, String from, String to)
 	{
 		int pos = string.lastIndexOf(from);
 		if(pos > -1)
@@ -19,8 +18,7 @@ public class TextUtil
 		return string;
 	}
 
-	@APIUsage
-	public static String repeat(String string, int repeats)
+	@APIUsage public static String repeat(String string, int repeats)
 	{
 		String result = "";
 		for(int i = 0; i < repeats; i++)
@@ -31,81 +29,81 @@ public class TextUtil
 
 
 	// NUMBERS
-	@APIUsage
-	public static String asRomanNumeral(int number)
+	@APIUsage public static String asRomanNumeral(int number)
 	{
 		if((number < 1) || (number > 3999))
 			throw new IllegalArgumentException(
 					"Only numbers from 1 to 3999 can be represented as roman numerals; number given: "+number);
 
-		String roman = "";
-		for(; number >= 1000; number -= 1000)
-			roman += "M";
+		int numberLeft = number;
 
-		if(number >= 900)
-		{
-			roman += "CM";
-			number -= 900;
-		}
-		else if(number >= 500)
-		{
-			roman += "D";
-			number -= 500;
-		}
-		else if(number >= 400)
-		{
-			roman += "CD";
-			number -= 400;
-		}
+		StringBuilder roman = new StringBuilder();
+		for(; numberLeft >= 1000; numberLeft -= 1000)
+			roman.append("M");
 
-		for(; number >= 100; number -= 100)
-			roman += "C";
-
-		if(number >= 90)
+		if(numberLeft >= 900)
 		{
-			roman += "XC";
-			number -= 90;
+			roman.append("CM");
+			numberLeft -= 900;
 		}
-		else if(number >= 50)
+		else if(numberLeft >= 500)
 		{
-			roman += "L";
-			number -= 50;
+			roman.append("D");
+			numberLeft -= 500;
 		}
-		else if(number >= 40)
+		else if(numberLeft >= 400)
 		{
-			roman += "XL";
-			number -= 40;
+			roman.append("CD");
+			numberLeft -= 400;
 		}
 
-		for(; number >= 10; number -= 10)
-			roman += "X";
+		for(; numberLeft >= 100; numberLeft -= 100)
+			roman.append("C");
 
-		if(number == 9)
+		if(numberLeft >= 90)
 		{
-			roman += "IX";
-			number -= 9;
+			roman.append("XC");
+			numberLeft -= 90;
 		}
-		else if(number >= 5)
+		else if(numberLeft >= 50)
 		{
-			roman += "V";
-			number -= 5;
+			roman.append("L");
+			numberLeft -= 50;
 		}
-		else if(number == 4)
+		else if(numberLeft >= 40)
 		{
-			roman += "IV";
-			number -= 4;
+			roman.append("XL");
+			numberLeft -= 40;
 		}
 
-		for(; number >= 1; number--)
-			roman += "I";
+		for(; numberLeft >= 10; numberLeft -= 10)
+			roman.append("X");
 
-		return roman;
+		if(numberLeft == 9)
+		{
+			roman.append("IX");
+			numberLeft -= 9;
+		}
+		else if(numberLeft >= 5)
+		{
+			roman.append("V");
+			numberLeft -= 5;
+		}
+		else if(numberLeft == 4)
+		{
+			roman.append("IV");
+			numberLeft -= 4;
+		}
+
+		for(; numberLeft >= 1; numberLeft--)
+			roman.append("I");
+
+		return roman.toString();
 	}
 
 
 	// TO STRING
-	@APIUsage
-	public static String getListAsString(List<?> list)
+	@APIUsage public static String getListAsString(List<?> list)
 	{
 		String string = "list[";
 
