@@ -318,7 +318,7 @@ public class FileUtil
 
 
 		// GETTERS
-		boolean isFilteredOut(File file)
+		protected boolean isFilteredOut(File file)
 		{
 			for(String filter : this.startsWithFilters)
 				if(file.getAbsolutePath().startsWith(filter))
