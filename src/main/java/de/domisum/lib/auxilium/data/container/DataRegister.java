@@ -13,21 +13,8 @@ public class DataRegister
 	private Map<String, Object> data = new HashMap<>();
 
 
-	// -------
-	// CONSTRUCTOR
-	// -------
-	@APIUsage
-	public DataRegister()
-	{
-
-	}
-
-
-	// -------
 	// GETTERS
-	// -------
-	@APIUsage
-	public Object get(String key)
+	@APIUsage public Object get(String key)
 	{
 		Object value = this.data.get(key);
 		if(value == null)
@@ -36,18 +23,14 @@ public class DataRegister
 		return value;
 	}
 
-	@APIUsage
-	public boolean doesValueExist(String key)
+	@APIUsage public boolean doesValueExist(String key)
 	{
 		return this.data.get(key) != null;
 	}
 
 
-	// -------
 	// SETTERS
-	// -------
-	@APIUsage
-	public DataRegister set(String key, Object object)
+	@APIUsage public DataRegister set(String key, Object object)
 	{
 		this.data.put(key, object);
 
@@ -55,15 +38,11 @@ public class DataRegister
 	}
 
 
-	// -------
 	// DATA REGISTER EXCEPTION
-	// -------
 	private class DataRegisterException extends RuntimeException
 	{
 
-		// -------
 		// CONSTRUCTOR
-		// -------
 		private DataRegisterException(String message)
 		{
 			super(message);
