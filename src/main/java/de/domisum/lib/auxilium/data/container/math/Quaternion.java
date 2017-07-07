@@ -8,27 +8,21 @@ public class Quaternion
 {
 
 	// PROPERTIES
-	@APIUsage
-	public final double w;
-	@APIUsage
-	public final double x;
-	@APIUsage
-	public final double y;
-	@APIUsage
-	public final double z;
+	@APIUsage public final double w;
+	@APIUsage public final double x;
+	@APIUsage public final double y;
+	@APIUsage public final double z;
 
 
 	// -------
 	// CONSTRUCTOR
 	// -------
-	@APIUsage
-	public Quaternion()
+	@APIUsage public Quaternion()
 	{
 		this(0, new Vector3D(1, 0, 0)); // vector can't be null-vector since this fucks everything up
 	}
 
-	@APIUsage
-	public Quaternion(double w, double x, double y, double z)
+	@APIUsage public Quaternion(double w, double x, double y, double z)
 	{
 		this.w = w;
 		this.x = x;
@@ -36,8 +30,7 @@ public class Quaternion
 		this.z = z;
 	}
 
-	@APIUsage
-	public Quaternion(double angleRad, Vector3D vector)
+	@APIUsage public Quaternion(double angleRad, Vector3D vector)
 	{
 		double cos = Math.cos(angleRad/2);
 		double sin = Math.sin(angleRad/2);
@@ -48,16 +41,14 @@ public class Quaternion
 		this.z = sin*vector.z;
 	}
 
-	@Override
-	public String toString()
+	@Override public String toString()
 	{
 		return "quaternion[w="+MathUtil.round(this.w, 3)+",x="+MathUtil.round(this.x, 3)+",y="+MathUtil.round(this.y, 3)+",z="
 				+MathUtil.round(this.z, 3)+"]";
 	}
 
 
-	@APIUsage
-	public static Quaternion getRotationFromTo(Vector3D vector1, Vector3D vector2)
+	@APIUsage public static Quaternion getRotationFromTo(Vector3D vector1, Vector3D vector2)
 	{
 		double norm = Math.sqrt(vector1.lengthSquared()*vector2.lengthSquared());
 		double w = norm+vector1.dotProduct(vector2);
@@ -79,33 +70,28 @@ public class Quaternion
 	// -------
 	// SELF
 	// -------
-	@APIUsage
-	public double length()
+	@APIUsage public double length()
 	{
 		return Math.sqrt((this.w*this.w)+(this.x*this.x)+(this.y*this.y)+(this.z*this.z));
 	}
 
-	@APIUsage
-	public Quaternion normalize()
+	@APIUsage public Quaternion normalize()
 	{
 		return multiply(1/length());
 	}
 
-	@APIUsage
-	public Quaternion inverse()
+	@APIUsage public Quaternion inverse()
 	{
 		double d = (this.w*this.w)+(this.x*this.x)+(this.y*this.y)+(this.z*this.z);
 		return new Quaternion(this.w/d, -this.x/d, -this.y/d, -this.z/d);
 	}
 
-	@APIUsage
-	public Quaternion conjugate()
+	@APIUsage public Quaternion conjugate()
 	{
 		return new Quaternion(this.w, -this.x, -this.y, -this.z);
 	}
 
-	@APIUsage
-	public Vector3D getVector()
+	@APIUsage public Vector3D getVector()
 	{
 		return new Vector3D(this.x, this.y, this.z);
 	}
@@ -114,14 +100,12 @@ public class Quaternion
 	// -------
 	// COMBINE
 	// -------
-	@APIUsage
-	public Quaternion add(Quaternion b)
+	@APIUsage public Quaternion add(Quaternion b)
 	{
 		return new Quaternion(this.w+b.w, this.x+b.x, this.y+b.y, this.z+b.z);
 	}
 
-	@APIUsage
-	public Quaternion multiply(Quaternion b)
+	@APIUsage public Quaternion multiply(Quaternion b)
 	{
 		double nW = (this.w*b.w)-(this.x*b.x)-(this.y*b.y)-(this.z*b.z);
 		double nX = ((this.w*b.x)+(this.x*b.w)+(this.y*b.z))-(this.z*b.y);
@@ -130,14 +114,12 @@ public class Quaternion
 		return new Quaternion(nW, nX, nY, nZ);
 	}
 
-	@APIUsage
-	public Quaternion multiply(double d)
+	@APIUsage public Quaternion multiply(double d)
 	{
 		return new Quaternion(this.w*d, this.x*d, this.y*d, this.z*d);
 	}
 
-	@APIUsage
-	public Quaternion divide(Quaternion b)
+	@APIUsage public Quaternion divide(Quaternion b)
 	{
 		return multiply(b.inverse());
 	}

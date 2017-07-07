@@ -14,8 +14,7 @@ import java.util.Set;
 public class ClazzUtil
 {
 
-	@APIUsage
-	public static Class<?> getClass(String path)
+	@APIUsage public static Class<?> getClass(String path)
 	{
 		try
 		{
@@ -29,8 +28,7 @@ public class ClazzUtil
 		return null;
 	}
 
-	@APIUsage
-	public static List<Class<?>> getClasses(String path)
+	@APIUsage public static List<Class<?>> getClasses(String path)
 	{
 		ClassPath classPath;
 		try

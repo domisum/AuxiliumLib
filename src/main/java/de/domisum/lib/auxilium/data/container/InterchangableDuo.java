@@ -14,8 +14,7 @@ public class InterchangableDuo<T, U> extends Duo<T, U>
 		super(a, b);
 	}
 
-	@Override
-	public boolean equals(Object o)
+	@Override public boolean equals(Object o)
 	{
 		if(!(o instanceof InterchangableDuo))
 			return false;
@@ -33,8 +32,7 @@ public class InterchangableDuo<T, U> extends Duo<T, U>
 		return rightOrderEquals || invertedOrderEquals;
 	}
 
-	@Override
-	public int hashCode()
+	@Override public int hashCode()
 	{
 		int hashCode = 13;
 

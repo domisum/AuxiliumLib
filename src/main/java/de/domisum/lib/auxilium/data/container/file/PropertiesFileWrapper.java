@@ -55,8 +55,7 @@ public class PropertiesFileWrapper
 	/*
 	// SAVING
 	*/
-	@APIUsage
-	public void saveToFile(File file, String comment)
+	@APIUsage public void saveToFile(File file, String comment)
 	{
 		try(OutputStream outputStream = new FileOutputStream(file))
 		{
@@ -72,8 +71,7 @@ public class PropertiesFileWrapper
 	/*
 	// GETTERS
 	*/
-	@APIUsage
-	public String get(String key)
+	@APIUsage public String get(String key)
 	{
 		if(!this.properties.containsKey(key))
 			throw new IllegalArgumentException("The properties file '"+this.filePath+"' does not contain the key '"+key+"'");
@@ -85,8 +83,7 @@ public class PropertiesFileWrapper
 	/*
 	// SETTERS
 	*/
-	@APIUsage
-	public void set(String key, String value)
+	@APIUsage public void set(String key, String value)
 	{
 		this.properties.setProperty(key, value);
 	}

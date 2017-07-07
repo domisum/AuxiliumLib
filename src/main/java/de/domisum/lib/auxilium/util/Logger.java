@@ -18,32 +18,28 @@ public class Logger
 	// -------
 	// LOGGING
 	// -------
-	@APIUsage
-	public static void info(String message)
+	@APIUsage public static void info(String message)
 	{
 		String formattedMessage = getTimePrefix()+" [INFO] "+message;
 
 		System.out.println(formattedMessage);
 	}
 
-	@APIUsage
-	public static void warn(String message)
+	@APIUsage public static void warn(String message)
 	{
 		String formattedMessage = getTimePrefix()+" [WARN] "+message;
 
 		System.out.println(formattedMessage);
 	}
 
-	@APIUsage
-	public static void err(String message)
+	@APIUsage public static void err(String message)
 	{
 		String formattedMessage = getTimePrefix()+" [ERR] "+message;
 
 		System.err.println(formattedMessage);
 	}
 
-	@APIUsage
-	public static void err(String message, Exception e)
+	@APIUsage public static void err(String message, Exception e)
 	{
 		err(message);
 
@@ -51,8 +47,7 @@ public class Logger
 			e.printStackTrace();
 	}
 
-	@APIUsage
-	private static String getTimePrefix()
+	@APIUsage private static String getTimePrefix()
 	{
 		Date currentTime = new Date(System.currentTimeMillis());
 

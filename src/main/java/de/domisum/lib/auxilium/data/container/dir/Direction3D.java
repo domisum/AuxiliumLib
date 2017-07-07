@@ -36,8 +36,7 @@ public enum Direction3D
 	// -------
 	// GETTERS
 	// -------
-	@APIUsage
-	public static Direction3D getRandom(Random r)
+	@APIUsage public static Direction3D getRandom(Random r)
 	{
 		return values()[r.nextInt(values().length)];
 	}

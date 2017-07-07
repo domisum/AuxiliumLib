@@ -29,8 +29,7 @@ public class Vector3D
 	 * @param y the y coordinate
 	 * @param z the z coordinate
 	 */
-	@APIUsage
-	public Vector3D(double x, double y, double z)
+	@APIUsage public Vector3D(double x, double y, double z)
 	{
 		this.x = x;
 		this.y = y;
@@ -40,8 +39,7 @@ public class Vector3D
 	/**
 	 * Constructs a null-Vector3D, where, x, y and z are set to 0.
 	 */
-	@APIUsage
-	public Vector3D()
+	@APIUsage public Vector3D()
 	{
 		this(0, 0, 0);
 	}
@@ -56,8 +54,7 @@ public class Vector3D
 	 * @param o The object to compare to
 	 * @return whether the object describes the same coordinate
 	 */
-	@Override
-	public boolean equals(Object o)
+	@Override public boolean equals(Object o)
 	{
 		if(!(o instanceof Vector3D))
 			return false;
@@ -95,8 +92,7 @@ public class Vector3D
 	 *
 	 * @return This Vector3D, represented in String form
 	 */
-	@Override
-	public String toString()
+	@Override public String toString()
 	{
 		return "vector[x="+MathUtil.round(this.x, 3)+",y="+MathUtil.round(this.y, 3)+",z="+MathUtil.round(this.z, 3)+"]";
 	}
@@ -111,8 +107,7 @@ public class Vector3D
 	 *
 	 * @return the length of the vector
 	 */
-	@APIUsage
-	public double length()
+	@APIUsage public double length()
 	{
 		return Math.sqrt(lengthSquared());
 	}
@@ -125,8 +120,7 @@ public class Vector3D
 	 *
 	 * @return the length of the vector squared.
 	 */
-	@APIUsage
-	public double lengthSquared()
+	@APIUsage public double lengthSquared()
 	{
 		return (this.x*this.x)+(this.y*this.y)+(this.z*this.z);
 	}
@@ -136,8 +130,7 @@ public class Vector3D
 	 *
 	 * @return length of the x-z-component of the vector
 	 */
-	@APIUsage
-	public double xzLength()
+	@APIUsage public double xzLength()
 	{
 		return Math.sqrt(xzLengthSquared());
 	}
@@ -150,8 +143,7 @@ public class Vector3D
 	 *
 	 * @return length of the x-z-component of the vector, squared
 	 */
-	@APIUsage
-	public double xzLengthSquared()
+	@APIUsage public double xzLengthSquared()
 	{
 		return (this.x*this.x)+(this.z*this.z);
 	}
@@ -161,8 +153,7 @@ public class Vector3D
 	 *
 	 * @return normalized copy of this vector
 	 */
-	@APIUsage
-	public Vector3D normalize()
+	@APIUsage public Vector3D normalize()
 	{
 		double length = length();
 
@@ -174,8 +165,7 @@ public class Vector3D
 	 *
 	 * @return inverted copy of this vector
 	 */
-	@APIUsage
-	public Vector3D invert()
+	@APIUsage public Vector3D invert()
 	{
 		return multiply(-1);
 	}
@@ -188,8 +178,7 @@ public class Vector3D
 	 *
 	 * @return vector orthogonal to this vector
 	 */
-	@APIUsage
-	public Vector3D orthogonal()
+	@APIUsage public Vector3D orthogonal()
 	{
 		Vector3D independent;
 		if((this.x == 0) && (this.y == 0))
@@ -211,8 +200,7 @@ public class Vector3D
 	 * @param other the vector to add to this one
 	 * @return new vector that is the sum of both vectors
 	 */
-	@APIUsage
-	public Vector3D add(Vector3D other)
+	@APIUsage public Vector3D add(Vector3D other)
 	{
 		return new Vector3D(this.x+other.x, this.y+other.y, this.z+other.z);
 	}
@@ -226,8 +214,7 @@ public class Vector3D
 	 * @param dZ the z-value to add to this vector
 	 * @return new vector that is the sum of both vectors
 	 */
-	@APIUsage
-	public Vector3D add(double dX, double dY, double dZ)
+	@APIUsage public Vector3D add(double dX, double dY, double dZ)
 	{
 		return new Vector3D(this.x+dX, this.y+dY, this.z+dZ);
 	}
@@ -242,8 +229,7 @@ public class Vector3D
 	 * @return new vector that is the difference of both vectors
 	 * @see #add(Vector3D)
 	 */
-	@APIUsage
-	public Vector3D subtract(Vector3D other)
+	@APIUsage public Vector3D subtract(Vector3D other)
 	{
 		return add(other.invert());
 	}
@@ -262,8 +248,7 @@ public class Vector3D
 	 * @param distance the distance moved towards the vector
 	 * @return the moved copy of this vector
 	 */
-	@APIUsage
-	public Vector3D moveTowards(Vector3D other, double distance)
+	@APIUsage public Vector3D moveTowards(Vector3D other, double distance)
 	{
 		Vector3D dir = other.subtract(this).normalize();
 		return this.add(dir.multiply(distance));
@@ -279,8 +264,7 @@ public class Vector3D
 	 * @return the multiplied copy of this vector
 	 * @see #multiply(double)
 	 */
-	@APIUsage
-	public Vector3D multiply(double factor)
+	@APIUsage public Vector3D multiply(double factor)
 	{
 		return new Vector3D(this.x*factor, this.y*factor, this.z*factor);
 	}
@@ -295,8 +279,7 @@ public class Vector3D
 	 * @return the divided vector
 	 * @see #divide(double)
 	 */
-	@APIUsage
-	public Vector3D divide(double divisor)
+	@APIUsage public Vector3D divide(double divisor)
 	{
 		return multiply(1/divisor);
 	}
@@ -308,8 +291,7 @@ public class Vector3D
 	 * @param other the other vector
 	 * @return the dot product
 	 */
-	@APIUsage
-	public double dotProduct(Vector3D other)
+	@APIUsage public double dotProduct(Vector3D other)
 	{
 		return (this.x*other.x)+(this.y*other.y)+(this.z*other.z);
 	}
@@ -322,8 +304,7 @@ public class Vector3D
 	 * @param other the other vector
 	 * @return the crossProduct of the vectors in a new Vector3D
 	 */
-	@APIUsage
-	public Vector3D crossProduct(Vector3D other)
+	@APIUsage public Vector3D crossProduct(Vector3D other)
 	{
 		double nX = (this.y*other.z)-(this.z*other.y);
 		double nY = (this.z*other.x)-(this.x*other.z);
@@ -338,8 +319,7 @@ public class Vector3D
 	 * @param other the other vector
 	 * @return the distance
 	 */
-	@APIUsage
-	public double distanceTo(Vector3D other)
+	@APIUsage public double distanceTo(Vector3D other)
 	{
 		return Math.sqrt(distanceToSquared(other));
 	}
@@ -353,8 +333,7 @@ public class Vector3D
 	 * @param other the other vector
 	 * @return the distance
 	 */
-	@APIUsage
-	public double distanceToSquared(Vector3D other)
+	@APIUsage public double distanceToSquared(Vector3D other)
 	{
 		return subtract(other).lengthSquared();
 	}
@@ -370,8 +349,7 @@ public class Vector3D
 	 * @param other the other point
 	 * @return the line
 	 */
-	@APIUsage
-	public Line3D getLineTowards(Vector3D other)
+	@APIUsage public Line3D getLineTowards(Vector3D other)
 	{
 		return new Line3D(this, other.subtract(this));
 	}
@@ -383,8 +361,7 @@ public class Vector3D
 	 * @param other the other endpoint
 	 * @return the line segment
 	 */
-	@APIUsage
-	public LineSegment3D getLineSegmentBetween(Vector3D other)
+	@APIUsage public LineSegment3D getLineSegmentBetween(Vector3D other)
 	{
 		return new LineSegment3D(this, other);
 	}
@@ -400,8 +377,7 @@ public class Vector3D
 	 *
 	 * @return the pure quaternion
 	 */
-	@APIUsage
-	public Quaternion getPureQuaternion()
+	@APIUsage public Quaternion getPureQuaternion()
 	{
 		return new Quaternion(0, this.x, this.y, this.z);
 	}
@@ -412,8 +388,7 @@ public class Vector3D
 	 * @param rotation the rotation quaternion
 	 * @return the rotated copy of this vector
 	 */
-	@APIUsage
-	public Vector3D rotate(Quaternion rotation)
+	@APIUsage public Vector3D rotate(Quaternion rotation)
 	{
 		Quaternion thisAsQuaternion = getPureQuaternion();
 		Quaternion resultQuaternion = rotation.conjugate().multiply(thisAsQuaternion).multiply(rotation);

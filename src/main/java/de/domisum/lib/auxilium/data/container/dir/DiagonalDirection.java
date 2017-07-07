@@ -36,8 +36,7 @@ public enum DiagonalDirection
 	// -------
 	// GETTERS
 	// -------
-	@APIUsage
-	public Direction2D getRandomStraightChildDirection(Random r)
+	@APIUsage public Direction2D getRandomStraightChildDirection(Random r)
 	{
 		String[] straightChildDirectionNames = name().split("_");
 		String straightChildDirectionName = straightChildDirectionNames[r.nextInt(straightChildDirectionNames.length)];
@@ -45,8 +44,7 @@ public enum DiagonalDirection
 		return Direction2D.valueOf(straightChildDirectionName);
 	}
 
-	@APIUsage
-	public Direction2D getOtherStraightChildDirection(Direction2D dir)
+	@APIUsage public Direction2D getOtherStraightChildDirection(Direction2D dir)
 	{
 		String[] straightChildDirectionNames = name().split("_");
 
@@ -56,8 +54,7 @@ public enum DiagonalDirection
 			return Direction2D.valueOf(straightChildDirectionNames[0]);
 	}
 
-	@APIUsage
-	public static DiagonalDirection getRandom(Random r)
+	@APIUsage public static DiagonalDirection getRandom(Random r)
 	{
 		return values()[r.nextInt(values().length)];
 	}

@@ -7,17 +7,14 @@ public class LineSegment3D
 {
 
 	// PROPERTIES
-	@APIUsage
-	public final Vector3D a;
-	@APIUsage
-	public final Vector3D b;
+	@APIUsage public final Vector3D a;
+	@APIUsage public final Vector3D b;
 
 
 	// -------
 	// CONSTRUCTOR
 	// -------
-	@APIUsage
-	public LineSegment3D(Vector3D a, Vector3D b)
+	@APIUsage public LineSegment3D(Vector3D a, Vector3D b)
 	{
 		this.a = a;
 		this.b = b;
@@ -25,14 +22,12 @@ public class LineSegment3D
 
 
 	// CONVERSION
-	@APIUsage
-	public Line3D toLine()
+	@APIUsage public Line3D toLine()
 	{
 		return new Line3D(this.a, this.b.subtract(this.a));
 	}
 
-	@APIUsage
-	public LineSegment3D getShortenedBothEnds(double distance)
+	@APIUsage public LineSegment3D getShortenedBothEnds(double distance)
 	{
 		Vector3D newA = this.a.moveTowards(this.b, distance);
 		Vector3D newB = this.b.moveTowards(this.a, distance);
@@ -44,20 +39,17 @@ public class LineSegment3D
 	// -------
 	// GETTERS
 	// -------
-	@APIUsage
-	public double getLength()
+	@APIUsage public double getLength()
 	{
 		return this.a.distanceTo(this.b);
 	}
 
-	@APIUsage
-	public double getLengthSquared()
+	@APIUsage public double getLengthSquared()
 	{
 		return this.a.distanceToSquared(this.b);
 	}
 
-	@APIUsage
-	public boolean containsPoint(Vector3D point)
+	@APIUsage public boolean containsPoint(Vector3D point)
 	{
 		if(!toLine().containsPoint(point))
 			return false;
@@ -70,8 +62,7 @@ public class LineSegment3D
 	// -------
 	// DISTANCE
 	// -------
-	@APIUsage
-	public double getDistanceTo(Vector3D point)
+	@APIUsage public double getDistanceTo(Vector3D point)
 	{
 		// http://geomalgorithms.com/a02-_lines.html
 
@@ -91,8 +82,7 @@ public class LineSegment3D
 		return point.distanceTo(pointOnSegment);
 	}
 
-	@APIUsage
-	public double getDistanceTo(LineSegment3D other)
+	@APIUsage public double getDistanceTo(LineSegment3D other)
 	{
 		LineSegment3D shortestConnection = toLine().getShortestConnection(other.toLine());
 		boolean aOnSegment = containsPoint(shortestConnection.a);

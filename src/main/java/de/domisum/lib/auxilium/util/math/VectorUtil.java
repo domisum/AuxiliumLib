@@ -9,8 +9,7 @@ public class VectorUtil
 {
 
 	// MISC
-	@APIUsage
-	public static Vector2D getDirectionVector(double yaw)
+	@APIUsage public static Vector2D getDirectionVector(double yaw)
 	{
 		double dX = -Math.sin(yaw);
 		double dZ = Math.cos(yaw);
@@ -20,28 +19,24 @@ public class VectorUtil
 
 
 	// MINECRAFT
-	@APIUsage
-	public static double getYawFromDirection(Vector3D direction)
+	@APIUsage public static double getYawFromDirection(Vector3D direction)
 	{
 		return Math.toDegrees(Math.atan2(direction.z, direction.x))-90;
 	}
 
-	@APIUsage
-	public static Vector3D getCenter(Vector3D vector)
+	@APIUsage public static Vector3D getCenter(Vector3D vector)
 	{
 		return new Vector3D(Math.floor(vector.x)+.5, Math.floor(vector.y)+.5, Math.floor(vector.z)+.5);
 	}
 
-	@APIUsage
-	public static Vector3D convertOffsetToMinecraftCoordinates(Vector3D offset)
+	@APIUsage public static Vector3D convertOffsetToMinecraftCoordinates(Vector3D offset)
 	{
 		return new Vector3D(-offset.x, offset.y, -offset.z);
 	}
 
 
 	// ROTATION
-	@APIUsage
-	public static Vector3D rotateOnXZPlane(Vector3D vector, double degrees)
+	@APIUsage public static Vector3D rotateOnXZPlane(Vector3D vector, double degrees)
 	{
 		double rad = Math.toRadians(-degrees);
 
@@ -53,8 +48,7 @@ public class VectorUtil
 
 
 	// DISTANCES
-	@APIUsage
-	public static double getDistanceFromLineToPoint(Vector2D l1, Vector2D l2, Vector2D p)
+	@APIUsage public static double getDistanceFromLineToPoint(Vector2D l1, Vector2D l2, Vector2D p)
 	{
 		// is this even right? may be just for line segment instead of infinite line
 

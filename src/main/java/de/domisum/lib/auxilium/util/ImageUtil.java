@@ -13,14 +13,12 @@ import java.io.IOException;
 public class ImageUtil
 {
 
-	@APIUsage
-	public static BufferedImage loadImage(String path)
+	@APIUsage public static BufferedImage loadImage(String path)
 	{
 		return loadImage(new File(path));
 	}
 
-	@APIUsage
-	public static BufferedImage loadImage(File file)
+	@APIUsage public static BufferedImage loadImage(File file)
 	{
 		try
 		{
@@ -35,8 +33,7 @@ public class ImageUtil
 	}
 
 
-	@APIUsage
-	public static void writeImage(File file, BufferedImage image)
+	@APIUsage public static void writeImage(File file, BufferedImage image)
 	{
 		File parent = file.getAbsoluteFile().getParentFile();
 		if(!parent.exists())
@@ -56,8 +53,7 @@ public class ImageUtil
 	}
 
 
-	@APIUsage
-	public static int[][] getPixels(BufferedImage image)
+	@APIUsage public static int[][] getPixels(BufferedImage image)
 	{
 		final byte[] pixels = ((DataBufferByte) image.getRaster().getDataBuffer()).getData();
 		final int width = image.getWidth();
@@ -109,8 +105,7 @@ public class ImageUtil
 		return result;
 	}
 
-	@APIUsage
-	public static BufferedImage getImageFromPixels(int[] pixels, int width, int height)
+	@APIUsage public static BufferedImage getImageFromPixels(int[] pixels, int width, int height)
 	{
 		BufferedImage bi = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 		WritableRaster raster = (WritableRaster) bi.getData();

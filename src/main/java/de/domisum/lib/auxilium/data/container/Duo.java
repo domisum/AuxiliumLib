@@ -20,8 +20,7 @@ public class Duo<T, U>
 		this.b = b;
 	}
 
-	@Override
-	public boolean equals(Object o)
+	@Override public boolean equals(Object o)
 	{
 		if(!(o instanceof Duo))
 			return false;
@@ -34,8 +33,7 @@ public class Duo<T, U>
 		return aEquals && bEquals;
 	}
 
-	@Override
-	public int hashCode()
+	@Override public int hashCode()
 	{
 		int hashCode = 13;
 
@@ -45,8 +43,7 @@ public class Duo<T, U>
 		return hashCode;
 	}
 
-	@Override
-	public String toString()
+	@Override public String toString()
 	{
 		String aString = this.a != null ? this.a.toString() : "null";
 		String bString = this.b != null ? this.b.toString() : "null";
@@ -58,8 +55,7 @@ public class Duo<T, U>
 	// -------
 	// GETTERS
 	// -------
-	@APIUsage
-	public Duo<U, T> getInverted()
+	@APIUsage public Duo<U, T> getInverted()
 	{
 		return new Duo<>(this.b, this.a);
 	}

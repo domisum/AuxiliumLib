@@ -5,14 +5,12 @@ import de.domisum.lib.auxilium.util.java.annotations.APIUsage;
 public class ThreadUtil
 {
 
-	@APIUsage
-	public static boolean sleep(long ms)
+	@APIUsage public static boolean sleep(long ms)
 	{
 		return sleep(ms, 0);
 	}
 
-	@APIUsage
-	public static boolean sleepNs(long ns)
+	@APIUsage public static boolean sleepNs(long ns)
 	{
 		long ms = ns/(1000*1000);
 		long nsOnly = ns%(1000*1000);
@@ -20,8 +18,7 @@ public class ThreadUtil
 		return sleep(ms, nsOnly);
 	}
 
-	@APIUsage
-	public static boolean sleep(long ms, long ns)
+	@APIUsage public static boolean sleep(long ms, long ns)
 	{
 		try
 		{
@@ -36,8 +33,7 @@ public class ThreadUtil
 	}
 
 
-	@APIUsage
-	public static boolean join(Thread thread)
+	@APIUsage public static boolean join(Thread thread)
 	{
 		try
 		{
@@ -52,8 +48,7 @@ public class ThreadUtil
 	}
 
 
-	@APIUsage
-	public static boolean wait(Object object)
+	@APIUsage public static boolean wait(Object object)
 	{
 		try
 		{
@@ -70,8 +65,7 @@ public class ThreadUtil
 		}
 	}
 
-	@APIUsage
-	public static void notifyAll(Object object)
+	@APIUsage public static void notifyAll(Object object)
 	{
 		//noinspection SynchronizationOnLocalVariableOrMethodParameter
 		synchronized(object)
@@ -80,8 +74,7 @@ public class ThreadUtil
 		}
 	}
 
-	@APIUsage
-	public static Thread runAsync(Runnable run, String description)
+	@APIUsage public static Thread runAsync(Runnable run, String description)
 	{
 		Thread thread = new Thread(run);
 		thread.setName("asyncTask-"+description);
@@ -90,8 +83,7 @@ public class ThreadUtil
 		return thread;
 	}
 
-	@APIUsage
-	public static Thread runDelayed(Runnable run, long ms)
+	@APIUsage public static Thread runDelayed(Runnable run, long ms)
 	{
 		Runnable delay = ()->
 		{

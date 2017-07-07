@@ -6,8 +6,7 @@ import de.domisum.lib.auxilium.util.java.annotations.APIUsage;
 public class PhysicsUtil
 {
 
-	@APIUsage
-	public static double getTimeFromDistanceAndAcceleration(double distance, double acceleration)
+	@APIUsage public static double getTimeFromDistanceAndAcceleration(double distance, double acceleration)
 	{
 		// s = 0.5 * a * t^2
 		// t^2 = 2s / a
