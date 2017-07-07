@@ -2,6 +2,8 @@ package de.domisum.lib.auxilium.data.container;
 
 import de.domisum.lib.auxilium.util.java.annotations.APIUsage;
 
+import java.util.Objects;
+
 @APIUsage
 public class InterchangableDuo<T, U> extends Duo<T, U>
 {
@@ -21,15 +23,10 @@ public class InterchangableDuo<T, U> extends Duo<T, U>
 
 		InterchangableDuo<?, ?> other = (InterchangableDuo<?, ?>) o;
 
-		boolean aEquals = this.a != null ? this.a.equals(other.a) : other.a == null;
-		boolean bEquals = this.b != null ? this.b.equals(other.b) : other.b == null;
-		boolean rightOrderEquals = aEquals && bEquals;
+		boolean defaultOrderEquals = Objects.equals(this.a, other.a) && Objects.equals(this.b, other.b);
+		boolean invertedOrderEquals = Objects.equals(this.a, other.b) && Objects.equals(this.b, other.a);
 
-		boolean aEqualsB = this.a != null ? this.a.equals(other.b) : other.b == null;
-		boolean bEqualsA = this.b != null ? this.b.equals(other.a) : other.a == null;
-		boolean invertedOrderEquals = aEqualsB && bEqualsA;
-
-		return rightOrderEquals || invertedOrderEquals;
+		return defaultOrderEquals || invertedOrderEquals;
 	}
 
 	@Override public int hashCode()
