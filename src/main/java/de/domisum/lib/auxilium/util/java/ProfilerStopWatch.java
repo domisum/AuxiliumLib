@@ -13,9 +13,7 @@ public class ProfilerStopWatch
 	private long endNano = -1;
 
 
-	// -------
-	// CONSTRUCTOR
-	// -------
+	// INIT
 	@APIUsage public ProfilerStopWatch(String name)
 	{
 		this.name = name;
@@ -27,9 +25,7 @@ public class ProfilerStopWatch
 	}
 
 
-	// -------
 	// START/STOP
-	// -------
 	@APIUsage public void start()
 	{
 		this.startNano = System.nanoTime();
@@ -44,9 +40,7 @@ public class ProfilerStopWatch
 	}
 
 
-	// -------
 	// GETTERS
-	// -------
 	@APIUsage public long getStartNano()
 	{
 		return this.startNano;

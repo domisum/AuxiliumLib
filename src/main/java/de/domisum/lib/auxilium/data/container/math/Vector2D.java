@@ -13,7 +13,7 @@ public class Vector2D
 	@APIUsage public final double y;
 
 
-	// CONSTRUCTOR
+	// INIT
 	@APIUsage public Vector2D(double x, double y)
 	{
 		this.x = x;

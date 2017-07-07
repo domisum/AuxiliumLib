@@ -8,9 +8,7 @@ import java.util.Random;
 public enum DiagonalDirection
 {
 
-	// -------
 	// VALUES
-	// -------
 	// @formatter:off
 	NORTH_EAST(1,-1),
 	SOUTH_EAST(1, 1),
@@ -23,9 +21,7 @@ public enum DiagonalDirection
 	public final int dZ;
 
 
-	// -------
-	// CONSTRUCTOR
-	// -------
+	// INIT
 	DiagonalDirection(int dX, int dZ)
 	{
 		this.dX = dX;
@@ -33,9 +29,7 @@ public enum DiagonalDirection
 	}
 
 
-	// -------
 	// GETTERS
-	// -------
 	@APIUsage public Direction2D getRandomStraightChildDirection(Random r)
 	{
 		String[] straightChildDirectionNames = name().split("_");

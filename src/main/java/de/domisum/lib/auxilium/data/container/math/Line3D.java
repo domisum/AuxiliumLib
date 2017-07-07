@@ -14,9 +14,7 @@ public class Line3D
 	@APIUsage public final Vector3D direction;
 
 
-	// -------
-	// CONSTRUCTOR
-	// -------
+	// INIT
 	@APIUsage public Line3D(Vector3D base, Vector3D direction)
 	{
 		this.base = base;
@@ -24,9 +22,7 @@ public class Line3D
 	}
 
 
-	// -------
 	// GETTERS
-	// -------
 	@APIUsage public boolean containsPoint(Vector3D point)
 	{
 		Vector3D crossProduct = this.direction.crossProduct(point.subtract(this.base));
@@ -72,9 +68,7 @@ public class Line3D
 	}
 
 
-	// -------
 	// DISTANCE
-	// -------
 	@APIUsage public double getDistanceTo(Vector3D point)
 	{
 		// http://mathworld.wolfram.com/Point-LineDistance3-Dimensional.html

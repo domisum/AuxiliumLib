@@ -11,9 +11,7 @@ public class LineSegment3D
 	@APIUsage public final Vector3D b;
 
 
-	// -------
-	// CONSTRUCTOR
-	// -------
+	// INIT
 	@APIUsage public LineSegment3D(Vector3D a, Vector3D b)
 	{
 		this.a = a;
@@ -36,9 +34,7 @@ public class LineSegment3D
 	}
 
 
-	// -------
 	// GETTERS
-	// -------
 	@APIUsage public double getLength()
 	{
 		return this.a.distanceTo(this.b);
@@ -59,9 +55,7 @@ public class LineSegment3D
 	}
 
 
-	// -------
 	// DISTANCE
-	// -------
 	@APIUsage public double getDistanceTo(Vector3D point)
 	{
 		// http://geomalgorithms.com/a02-_lines.html

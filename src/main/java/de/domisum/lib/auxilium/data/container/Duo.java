@@ -11,9 +11,7 @@ public class Duo<T, U>
 	public final U b;
 
 
-	// -------
-	// CONSTRUCTOR
-	// -------
+	// INIT
 	public Duo(T a, U b)
 	{
 		this.a = a;
@@ -52,9 +50,7 @@ public class Duo<T, U>
 	}
 
 
-	// -------
 	// GETTERS
-	// -------
 	@APIUsage public Duo<U, T> getInverted()
 	{
 		return new Duo<>(this.b, this.a);

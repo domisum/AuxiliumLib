@@ -15,9 +15,7 @@ public class Logger
 			Locale.ENGLISH);
 
 
-	// -------
 	// LOGGING
-	// -------
 	@APIUsage public static void info(String message)
 	{
 		String formattedMessage = getTimePrefix()+" [INFO] "+message;

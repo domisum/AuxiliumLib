@@ -42,7 +42,7 @@ public class DataRegister
 	private class DataRegisterException extends RuntimeException
 	{
 
-		// CONSTRUCTOR
+		// INIT
 		private DataRegisterException(String message)
 		{
 			super(message);

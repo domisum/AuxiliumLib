@@ -14,9 +14,7 @@ public class Quaternion
 	@APIUsage public final double z;
 
 
-	// -------
-	// CONSTRUCTOR
-	// -------
+	// INIT
 	@APIUsage public Quaternion()
 	{
 		this(0, new Vector3D(1, 0, 0)); // vector can't be null-vector since this fucks everything up
@@ -67,9 +65,7 @@ public class Quaternion
 	}
 
 
-	// -------
 	// SELF
-	// -------
 	@APIUsage public double length()
 	{
 		return Math.sqrt((this.w*this.w)+(this.x*this.x)+(this.y*this.y)+(this.z*this.z));
@@ -97,9 +93,7 @@ public class Quaternion
 	}
 
 
-	// -------
 	// COMBINE
-	// -------
 	@APIUsage public Quaternion add(Quaternion b)
 	{
 		return new Quaternion(this.w+b.w, this.x+b.x, this.y+b.y, this.z+b.z);

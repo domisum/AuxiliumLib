@@ -8,7 +8,7 @@ import java.util.Objects;
 public class InterchangeableDuo<T, U> extends Duo<T, U>
 {
 
-	// CONSTRUCTOR
+	// INIT
 	public InterchangeableDuo(T a, U b)
 	{
 		super(a, b);

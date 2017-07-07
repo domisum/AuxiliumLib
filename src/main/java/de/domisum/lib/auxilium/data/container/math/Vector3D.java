@@ -18,9 +18,7 @@ public class Vector3D
 	@APIUsage public final double z;
 
 
-	// -------
-	// CONSTRUCTOR
-	// -------
+	// INIT
 
 	/**
 	 * Constructs a Vector3D from the x-, y- and z-coordinate
@@ -98,9 +96,7 @@ public class Vector3D
 	}
 
 
-	// -------
 	// SELF
-	// -------
 
 	/**
 	 * Returns the length of the vector.
@@ -189,9 +185,7 @@ public class Vector3D
 		return crossProduct(independent);
 	}
 
-	// -------
 	// INTERACTION
-	// -------
 
 	/**
 	 * Returns a new vector that adds the coordinates of this vector to the coordinates of the vector supplied
@@ -339,9 +333,7 @@ public class Vector3D
 	}
 
 
-	// -------
 	// LINE
-	// -------
 
 	/**
 	 * Creates a line through this point and the point from the argument.
@@ -367,9 +359,7 @@ public class Vector3D
 	}
 
 
-	// -------
 	// QUATERNION
-	// -------
 
 	/**
 	 * Creates a pure quaternion from this vector.

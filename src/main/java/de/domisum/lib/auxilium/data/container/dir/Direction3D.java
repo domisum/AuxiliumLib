@@ -22,9 +22,7 @@ public enum Direction3D
 	public final int dZ;
 
 
-	// -------
-	// CONSTRUCTOR
-	// -------
+	// INIT
 	Direction3D(int dX, int dY, int dZ)
 	{
 		this.dX = dX;
@@ -33,9 +31,7 @@ public enum Direction3D
 	}
 
 
-	// -------
 	// GETTERS
-	// -------
 	@APIUsage public static Direction3D getRandom(Random r)
 	{
 		return values()[r.nextInt(values().length)];
