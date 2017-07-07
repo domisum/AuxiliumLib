@@ -150,8 +150,7 @@ public final class RuntimeTypeAdapterFactory<T> implements TypeAdapterFactory
 	 * Creates a new runtime type adapter using for {@code baseType} using {@code
 	 * typeFieldName} as the type field name. Type field names are case sensitive.
 	 */
-	@APIUsage
-	public static <T> RuntimeTypeAdapterFactory<T> of(Class<T> baseType, String typeFieldName)
+	@APIUsage public static <T> RuntimeTypeAdapterFactory<T> of(Class<T> baseType, String typeFieldName)
 	{
 		return new RuntimeTypeAdapterFactory<>(baseType, typeFieldName);
 	}
@@ -160,8 +159,7 @@ public final class RuntimeTypeAdapterFactory<T> implements TypeAdapterFactory
 	 * Creates a new runtime type adapter for {@code baseType} using {@code "type"} as
 	 * the type field name.
 	 */
-	@APIUsage
-	public static <T> RuntimeTypeAdapterFactory<T> of(Class<T> baseType)
+	@APIUsage public static <T> RuntimeTypeAdapterFactory<T> of(Class<T> baseType)
 	{
 		return new RuntimeTypeAdapterFactory<>(baseType, "type");
 	}
@@ -173,8 +171,7 @@ public final class RuntimeTypeAdapterFactory<T> implements TypeAdapterFactory
 	 * @throws IllegalArgumentException if either {@code type} or {@code label}
 	 *                                  have already been registered on this type adapter.
 	 */
-	@APIUsage
-	public RuntimeTypeAdapterFactory<T> registerSubtype(Class<? extends T> type, String label)
+	@APIUsage public RuntimeTypeAdapterFactory<T> registerSubtype(Class<? extends T> type, String label)
 	{
 		if(type == null || label == null)
 		{
@@ -196,14 +193,12 @@ public final class RuntimeTypeAdapterFactory<T> implements TypeAdapterFactory
 	 * @throws IllegalArgumentException if either {@code type} or its simple name
 	 *                                  have already been registered on this type adapter.
 	 */
-	@APIUsage
-	public RuntimeTypeAdapterFactory<T> registerSubtype(Class<? extends T> type)
+	@APIUsage public RuntimeTypeAdapterFactory<T> registerSubtype(Class<? extends T> type)
 	{
 		return registerSubtype(type, type.getSimpleName());
 	}
 
-	@Override
-	public <R> TypeAdapter<R> create(Gson gson, TypeToken<R> type)
+	@Override public <R> TypeAdapter<R> create(Gson gson, TypeToken<R> type)
 	{
 		if(type.getRawType() != this.baseType)
 		{
@@ -221,8 +216,7 @@ public final class RuntimeTypeAdapterFactory<T> implements TypeAdapterFactory
 
 		return new TypeAdapter<R>()
 		{
-			@Override
-			public R read(JsonReader in) throws IOException
+			@Override public R read(JsonReader in) throws IOException
 			{
 				JsonElement jsonElement = Streams.parse(in);
 				JsonElement labelJsonElement = jsonElement.getAsJsonObject().remove(RuntimeTypeAdapterFactory.this.typeFieldName);
@@ -243,8 +237,7 @@ public final class RuntimeTypeAdapterFactory<T> implements TypeAdapterFactory
 				return delegate.fromJsonTree(jsonElement);
 			}
 
-			@Override
-			public void write(JsonWriter out, R value) throws IOException
+			@Override public void write(JsonWriter out, R value) throws IOException
 			{
 				Class<?> srcType = value.getClass();
 				String label = RuntimeTypeAdapterFactory.this.subtypeToLabel.get(srcType);
