@@ -141,9 +141,8 @@ public class FileUtil
 
 			for(File file : listFiles(originFolder))
 			{
-				if(filePathFilter != null)
-					if(filePathFilter.isFilteredOut(file))
-						continue;
+				if(filePathFilter != null && filePathFilter.isFilteredOut(file))
+					continue;
 
 				if(file.isFile())
 					copyFile(file, destinationDir);
@@ -318,18 +317,7 @@ public class FileUtil
 		private Set<String> endsWithFilters = new HashSet<>();
 
 
-		// -------
-		// CONSTRUCTOR
-		// -------
-		public FilePathFilter()
-		{
-
-		}
-
-
-		// -------
 		// GETTERS
-		// -------
 		boolean isFilteredOut(File file)
 		{
 			for(String filter : this.startsWithFilters)
@@ -348,9 +336,7 @@ public class FileUtil
 		}
 
 
-		// -------
 		// CHANGERS
-		// -------
 		@APIUsage public FilePathFilter addStartsWith(String filter)
 		{
 			this.startsWithFilters.add(filter);
