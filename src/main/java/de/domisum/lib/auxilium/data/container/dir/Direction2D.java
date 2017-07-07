@@ -23,9 +23,7 @@ public enum Direction2D
 	public final int dZ;
 
 
-	/*
 	// INITIALIZATION
-	*/
 	Direction2D(int dX, int dZ)
 	{
 		this.dX = dX;
@@ -33,11 +31,8 @@ public enum Direction2D
 	}
 
 
-	/*
 	// GETTERS
-	*/
-	@APIUsage
-	public Direction2D getOpposite()
+	@APIUsage public Direction2D getOpposite()
 	{
 		if(this == NORTH)
 			return SOUTH;
@@ -51,8 +46,7 @@ public enum Direction2D
 		return null;
 	}
 
-	@APIUsage
-	public Direction2D getRandomOther(Random r)
+	@APIUsage public Direction2D getRandomOther(Random r)
 	{
 		Direction2D dir;
 		do
@@ -63,11 +57,8 @@ public enum Direction2D
 	}
 
 
-	/*
 	// UTIL
-	*/
-	@APIUsage
-	public static Direction2D getFromOffset(int dX, int dZ)
+	@APIUsage public static Direction2D getFromOffset(int dX, int dZ)
 	{
 		for(Direction2D d : Direction2D.values())
 			if(d.dX == dX && d.dZ == dZ)
@@ -77,38 +68,36 @@ public enum Direction2D
 	}
 
 
-	@APIUsage
-	public static Direction2D getFromYaw(float yaw)
+	@APIUsage public static Direction2D getFromYaw(float yaw)
 	{
-		yaw %= 360;
+		double adjustedYaw = yaw%360;
 
-		while(yaw < -180)
-			yaw += 360;
+		while(adjustedYaw < -180)
+			adjustedYaw += 360;
 
-		while(yaw > 180)
-			yaw -= 360;
+		while(adjustedYaw > 180)
+			adjustedYaw -= 360;
 
-		if(yaw < -135.0f)
+
+		if(adjustedYaw < -135.0f)
 			return NORTH;
-		if(yaw < -45.0f)
+		if(adjustedYaw < -45.0f)
 			return EAST;
-		if(yaw < 45.0f)
+		if(adjustedYaw < 45.0f)
 			return SOUTH;
-		if(yaw < 135.0f)
+		if(adjustedYaw < 135.0f)
 			return WEST;
-		//if(yaw >= 135.0f)
+		//if(adjustedYaw >= 135.0f)
 		return NORTH;
 	}
 
-	@APIUsage
-	public static Direction2D getRandom(Random r)
+	@APIUsage public static Direction2D getRandom(Random r)
 	{
 		return values()[r.nextInt(values().length)];
 	}
 
 
-	@APIUsage
-	public static List<Direction2D> getValuesAsList()
+	@APIUsage public static List<Direction2D> getValuesAsList()
 	{
 		return new ArrayList<>(Arrays.asList(values()));
 	}
