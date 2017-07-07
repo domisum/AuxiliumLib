@@ -105,7 +105,7 @@ public class TextUtil
 	// TO STRING
 	@APIUsage public static String getListAsString(List<?> list)
 	{
-		String string = "list[";
+		StringBuilder string = new StringBuilder("list[");
 
 		for(int i = 0; i < list.size(); i++)
 		{
@@ -114,14 +114,14 @@ public class TextUtil
 			if(obj != null)
 				objectString = obj.toString();
 
-			string += objectString;
+			string.append(objectString);
 
 			if(i < (list.size()-1))
-				string += ";";
+				string.append(";");
 		}
 
-		string += "]";
-		return string;
+		string.append("]");
+		return string.toString();
 	}
 
 }
