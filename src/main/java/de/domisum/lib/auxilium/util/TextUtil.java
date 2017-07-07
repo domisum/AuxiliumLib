@@ -20,11 +20,11 @@ public class TextUtil
 
 	@APIUsage public static String repeat(String string, int repeats)
 	{
-		String result = "";
+		StringBuilder result = new StringBuilder();
 		for(int i = 0; i < repeats; i++)
-			result += string;
+			result.append(string);
 
-		return result;
+		return result.toString();
 	}
 
 
