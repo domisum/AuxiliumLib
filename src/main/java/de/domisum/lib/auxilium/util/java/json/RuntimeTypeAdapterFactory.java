@@ -132,15 +132,12 @@ public final class RuntimeTypeAdapterFactory<T> implements TypeAdapterFactory
 	private final Map<Class<?>, String> subtypeToLabel = new LinkedHashMap<>();
 
 
-	// -------
 	// CONSTRUCTOR
-	// -------
 	private RuntimeTypeAdapterFactory(Class<?> baseType, String typeFieldName)
 	{
 		if(typeFieldName == null || baseType == null)
-		{
-			throw new NullPointerException();
-		}
+			throw new IllegalArgumentException("baseType and typeFieldName can't be null");
+
 		this.baseType = baseType;
 		this.typeFieldName = typeFieldName;
 	}
