@@ -133,9 +133,8 @@ public class Polygon2D
 			Vector2D p = this.points.get(i);
 			LineSegment2D line = getLines().get(i);
 
-			if(ray.contains(p))
-				if(ray.isColinear(line))
-					intersections--;
+			if(ray.contains(p) && ray.isColinear(line))
+				intersections--;
 		}
 
 		return intersections%2 == 1;
