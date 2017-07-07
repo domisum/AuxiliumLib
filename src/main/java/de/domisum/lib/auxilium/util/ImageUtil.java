@@ -64,7 +64,10 @@ public class ImageUtil
 		if(hasAlphaChannel)
 		{
 			final int pixelLength = 4;
-			for(int pixel = 0, row = 0, col = 0; pixel < pixels.length; pixel += pixelLength)
+
+			int row = 0;
+			int col = 0;
+			for(int pixel = 0; pixel < pixels.length; pixel += pixelLength)
 			{
 				int argb = 0;
 				//argb += ((pixels[pixel]&0xff)<<24); // alpha
@@ -84,7 +87,10 @@ public class ImageUtil
 		else
 		{
 			final int pixelLength = 3;
-			for(int pixel = 0, row = 0, col = 0; pixel < pixels.length; pixel += pixelLength)
+
+			int row = 0;
+			int col = 0;
+			for(int pixel = 0; pixel < pixels.length; pixel += pixelLength)
 			{
 				int argb = 0;
 				//argb += -16777216; // 255 alpha
