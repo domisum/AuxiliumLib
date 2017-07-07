@@ -31,74 +31,39 @@ public class TextUtil
 	// NUMBERS
 	@APIUsage public static String asRomanNumeral(int number)
 	{
-		if((number < 1) || (number > 3999))
+		if(number < 1 || number > 3999)
 			throw new IllegalArgumentException(
 					"Only numbers from 1 to 3999 can be represented as roman numerals; number given: "+number);
 
 		int numberLeft = number;
-
 		StringBuilder roman = new StringBuilder();
-		for(; numberLeft >= 1000; numberLeft -= 1000)
-			roman.append("M");
 
-		if(numberLeft >= 900)
-		{
-			roman.append("CM");
-			numberLeft -= 900;
-		}
-		else if(numberLeft >= 500)
-		{
-			roman.append("D");
-			numberLeft -= 500;
-		}
-		else if(numberLeft >= 400)
-		{
-			roman.append("CD");
-			numberLeft -= 400;
-		}
+		int[] numbers = new int[] {1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1};
+		String[] symbols = new String[] {"M", "CM", "D", "CD", "C", "XC", "L", "XL", "X", "IX", "V", "IV", "I"};
 
-		for(; numberLeft >= 100; numberLeft -= 100)
-			roman.append("C");
+		for(int i = 0; i < numbers.length; i++)
+		{
+			// append until no longer applicable
+			boolean changed = true;
+			while(changed)
+			{
+				int newNumber = romanNumeralAppendIfApplicable(numberLeft, roman, numbers[i], symbols[i]);
 
-		if(numberLeft >= 90)
-		{
-			roman.append("XC");
-			numberLeft -= 90;
+				changed = newNumber != numberLeft;
+				numberLeft = newNumber;
+			}
 		}
-		else if(numberLeft >= 50)
-		{
-			roman.append("L");
-			numberLeft -= 50;
-		}
-		else if(numberLeft >= 40)
-		{
-			roman.append("XL");
-			numberLeft -= 40;
-		}
-
-		for(; numberLeft >= 10; numberLeft -= 10)
-			roman.append("X");
-
-		if(numberLeft == 9)
-		{
-			roman.append("IX");
-			numberLeft -= 9;
-		}
-		else if(numberLeft >= 5)
-		{
-			roman.append("V");
-			numberLeft -= 5;
-		}
-		else if(numberLeft == 4)
-		{
-			roman.append("IV");
-			numberLeft -= 4;
-		}
-
-		for(; numberLeft >= 1; numberLeft--)
-			roman.append("I");
 
 		return roman.toString();
+	}
+
+	private static int romanNumeralAppendIfApplicable(int numberLeft, StringBuilder romanNumeral, int minimum, String toAppend)
+	{
+		if(numberLeft < minimum)
+			return numberLeft;
+
+		romanNumeral.append(toAppend);
+		return numberLeft-minimum;
 	}
 
 
