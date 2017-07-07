@@ -29,12 +29,10 @@ public class InterchangeableDuo<T, U> extends Duo<T, U>
 
 	@Override public int hashCode()
 	{
-		int hashCode = 13;
+		// not using default hashCode practices because
+		// two InterchangeableDuos with inverted a and b should give the same hashCode
 
-		hashCode += this.a != null ? this.a.hashCode() : 0;
-		hashCode += this.b != null ? this.b.hashCode() : 0;
-
-		return hashCode;
+		return Objects.hashCode(this.a)+Objects.hashCode(this.b);
 	}
 
 }
