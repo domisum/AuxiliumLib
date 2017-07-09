@@ -14,11 +14,11 @@ public class Base64Key
 	// GENERATION
 	@APIUsage public static String generate(int length)
 	{
-		String key = "";
+		StringBuilder key = new StringBuilder();
 		for(int i = 0; i < length; i++)
-			key += getRandomCharacter();
+			key.append(getRandomCharacter());
 
-		return key;
+		return key.toString();
 	}
 
 	private static char getRandomCharacter()
