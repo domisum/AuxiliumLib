@@ -70,7 +70,7 @@ public class TextUtil
 	// TO STRING
 	@APIUsage public static String getListAsString(List<?> list)
 	{
-		StringBuilder string = new StringBuilder("list[");
+		StringBuilder string = new StringBuilder();
 
 		for(int i = 0; i < list.size(); i++)
 		{
@@ -85,7 +85,6 @@ public class TextUtil
 				string.append(";");
 		}
 
-		string.append("]");
 		return string.toString();
 	}
 
