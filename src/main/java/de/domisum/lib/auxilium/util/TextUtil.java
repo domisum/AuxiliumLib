@@ -3,6 +3,7 @@ package de.domisum.lib.auxilium.util;
 import de.domisum.lib.auxilium.util.java.annotations.APIUsage;
 
 import java.util.List;
+import java.util.Objects;
 
 @APIUsage
 public class TextUtil
@@ -75,14 +76,10 @@ public class TextUtil
 		for(int i = 0; i < list.size(); i++)
 		{
 			Object obj = list.get(i);
-			String objectString = "null";
-			if(obj != null)
-				objectString = obj.toString();
-
-			string.append(objectString);
+			string.append(Objects.toString(obj));
 
 			if(i < (list.size()-1))
-				string.append(";");
+				string.append(", ");
 		}
 
 		return string.toString();
