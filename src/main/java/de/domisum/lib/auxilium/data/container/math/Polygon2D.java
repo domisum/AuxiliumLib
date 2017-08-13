@@ -2,6 +2,7 @@ package de.domisum.lib.auxilium.data.container.math;
 
 import de.domisum.lib.auxilium.data.container.bound.DoubleBounds2D;
 import de.domisum.lib.auxilium.util.java.annotations.APIUsage;
+import lombok.ToString;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -16,8 +17,11 @@ public class Polygon2D
 	@APIUsage public final List<Vector2D> points;
 
 	private List<LineSegment2D> lines;
+	private List<PolygonCorner> corners;
 	private DoubleBounds2D boundingBox;
 	private Vector2D pointCenter;
+
+	private Boolean clockwise; // using Boolean so it can be null before it has been determined
 
 
 	// INIT
@@ -45,22 +49,51 @@ public class Polygon2D
 	// GETTERS
 	@APIUsage public List<LineSegment2D> getLines()
 	{
-		if(this.lines != null)
-			return this.lines;
-
-		this.lines = new ArrayList<>();
-
-		Vector2D last = null;
-		for(Vector2D v : this.points)
+		if(this.lines == null)
 		{
-			if(last != null)
-				this.lines.add(new LineSegment2D(last, v));
+			this.lines = new ArrayList<>();
 
-			last = v;
+			Vector2D last = null;
+			for(Vector2D v : this.points)
+			{
+				if(last != null)
+					this.lines.add(new LineSegment2D(last, v));
+
+				last = v;
+			}
+			this.lines.add(new LineSegment2D(last, this.points.get(0)));
+
+			this.lines = Collections.unmodifiableList(this.lines);
 		}
-		this.lines.add(new LineSegment2D(last, this.points.get(0)));
 
 		return this.lines;
+	}
+
+	@APIUsage public List<PolygonCorner> getCorners()
+	{
+		if(this.corners == null)
+		{
+			this.corners = new ArrayList<>();
+
+			// start with last linesegment
+			LineSegment2D before = getLines().get(getLines().size()-1);
+			for(LineSegment2D ls : getLines())
+			{
+				double angleDeg = before.getDirection().getAngleToDeg(ls.getDirection());
+
+				boolean convex = (angleDeg < 0)^isClockwise();
+				PolygonCornerOrientation orientation = convex ?
+						PolygonCornerOrientation.CONVEX :
+						PolygonCornerOrientation.CONCAVE;
+				this.corners.add(new PolygonCorner(angleDeg, orientation));
+
+				before = ls;
+			}
+
+			this.corners = Collections.unmodifiableList(this.corners);
+		}
+
+		return this.corners;
 	}
 
 	@APIUsage public DoubleBounds2D getBoundingBox()
@@ -160,6 +193,21 @@ public class Polygon2D
 		return false;
 	}
 
+	@APIUsage public boolean isClockwise()
+	{
+		if(this.clockwise != null)
+			return this.clockwise;
+
+		// https://stackoverflow.com/a/1165943/4755690
+
+		double sum = 0;
+		for(LineSegment2D ls : getLines())
+			sum += (ls.b.x-ls.a.x)*(ls.a.y+ls.b.y);
+
+		this.clockwise = sum > 0;
+		return this.clockwise;
+	}
+
 
 	// CALCULATIONS
 	@APIUsage public double getArea()
@@ -219,6 +267,30 @@ public class Polygon2D
 	{
 		//noinspection ConstantConditions
 		return pointPolygon.points.stream().mapToDouble(polygon::getDistanceTo).min().getAsDouble();
+	}
+
+
+	// POLYGON CORNER
+	@ToString
+	public static class PolygonCorner
+	{
+
+		public final double angleDegAbs;
+		public final PolygonCornerOrientation orientation;
+
+
+		// INIT
+		public PolygonCorner(double angleDeg, PolygonCornerOrientation orientation)
+		{
+			this.angleDegAbs = Math.abs(angleDeg);
+			this.orientation = orientation;
+		}
+
+	}
+
+	public enum PolygonCornerOrientation
+	{
+		CONCAVE, CONVEX
 	}
 
 }
