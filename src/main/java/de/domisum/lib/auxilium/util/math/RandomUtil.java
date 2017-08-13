@@ -184,4 +184,19 @@ public class RandomUtil
 		return array[randomIndex];
 	}
 
+
+	// chance
+	@APIUsage public static boolean getByChance(double chance)
+	{
+		return getByChance(chance, getRandom());
+	}
+
+	@APIUsage public static boolean getByChance(double chance, Random random)
+	{
+		if(chance < 0 || chance > 1)
+			throw new IllegalArgumentException("The chance has to be between 0 and 1");
+
+		return nextDouble(random) < chance;
+	}
+
 }
