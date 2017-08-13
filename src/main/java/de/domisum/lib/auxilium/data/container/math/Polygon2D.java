@@ -203,6 +203,17 @@ public class Polygon2D
 	}
 
 
+	// SELF
+	@APIUsage public Polygon2D move(Vector2D movement)
+	{
+		List<Vector2D> movedPoints = new ArrayList<>();
+		for(Vector2D p : this.points)
+			movedPoints.add(p.add(movement));
+
+		return new Polygon2D(movedPoints);
+	}
+
+
 	// HELPER
 	private double getPointsDistanceTo(Polygon2D pointPolygon, Polygon2D polygon)
 	{
