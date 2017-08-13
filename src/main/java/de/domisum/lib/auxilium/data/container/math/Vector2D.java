@@ -105,25 +105,24 @@ public class Vector2D
 		return subtract(other).lengthSquared();
 	}
 
+	/**
+	 * Returns the angleDegAbs between this and the other vector in the range of 0 - pi (0 - 180 degree) in radians.
+	 *
+	 * @param other the other vector
+	 * @return the angleDegAbs in radians
+	 */
 	@APIUsage public double getAngleToRad(Vector2D other)
 	{
 		// https://software.intel.com/en-us/forums/intel-visual-fortran-compiler-for-windows/topic/515013
 
-		double angle = Math.atan2(other.y, other.x)-Math.atan2(this.y, this.x);
-
-		// get into range
-		if(angle < 0)
-			angle += 2*Math.PI;
-		if(angle > 2*Math.PI)
-			angle -= 2*Math.PI;
-
-		// if angle > 180deg, change to equivalent angle < 180deg
-		if(angle > Math.PI)
-			angle = 2*Math.PI-angle;
-
-		return angle;
+		return (Math.atan2(other.y, other.x)-Math.atan2(this.y, this.x)+2*Math.PI)%(2*Math.PI)-Math.PI;
 	}
 
+	/**
+	 * @param other the other vector
+	 * @return the angleDegAbs in degrees
+	 * @see #getAngleToRad(Vector2D)
+	 */
 	@APIUsage public double getAngleToDeg(Vector2D other)
 	{
 		return Math.toDegrees(getAngleToRad(other));
