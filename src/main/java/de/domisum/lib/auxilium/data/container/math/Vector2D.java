@@ -105,12 +105,7 @@ public class Vector2D
 		return subtract(other).lengthSquared();
 	}
 
-	/**
-	 * Calculates the angle between this vector and the vector passed by the arguments and returns it in radians.
-	 *
-	 * @return the angle in radians
-	 */
-	@APIUsage public double getAngleTo(Vector2D other)
+	@APIUsage public double getAngleToRad(Vector2D other)
 	{
 		// https://software.intel.com/en-us/forums/intel-visual-fortran-compiler-for-windows/topic/515013
 
@@ -127,6 +122,11 @@ public class Vector2D
 			angle = 2*Math.PI-angle;
 
 		return angle;
+	}
+
+	@APIUsage public double getAngleToDeg(Vector2D other)
+	{
+		return Math.toDegrees(getAngleToRad(other));
 	}
 
 }
