@@ -1,5 +1,6 @@
 package de.domisum.lib.auxilium.util.math;
 
+import de.domisum.lib.auxilium.data.container.math.Vector2D;
 import de.domisum.lib.auxilium.data.container.math.Vector3D;
 import de.domisum.lib.auxilium.util.java.annotations.APIUsage;
 
@@ -99,12 +100,12 @@ public class RandomUtil
 
 
 	// vector
-	@APIUsage public static Vector3D getUnitVector()
+	@APIUsage public static Vector3D getUnitVector3D()
 	{
-		return getUnitVector(RandomUtil.getRandom());
+		return getUnitVector3D(getRandom());
 	}
 
-	@APIUsage public static Vector3D getUnitVector(Random random)
+	@APIUsage public static Vector3D getUnitVector3D(Random random)
 	{
 		double theta = random.nextDouble()*2*Math.PI;
 		double r = (random.nextDouble()*2)-1;
@@ -115,6 +116,20 @@ public class RandomUtil
 		double y = rootComponent*Math.sin(theta);
 
 		return new Vector3D(x, y, r);
+	}
+
+	@APIUsage public static Vector2D getUnitVector2D()
+	{
+		return getUnitVector2D(getRandom());
+	}
+
+	@APIUsage public static Vector2D getUnitVector2D(Random random)
+	{
+		double angleRad = getFromRange(0, 2*Math.PI, random);
+		double x = Math.cos(angleRad);
+		double y = Math.sin(angleRad);
+
+		return new Vector2D(x, y);
 	}
 
 
