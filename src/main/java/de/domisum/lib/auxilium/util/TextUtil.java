@@ -67,6 +67,13 @@ public class TextUtil
 		return numberLeft-minimum;
 	}
 
+	@APIUsage public static String secondsToMinuteSeconds(int seconds)
+	{
+		int leftoverSeconds = seconds%60;
+
+		return (seconds/60)+":"+(leftoverSeconds < 10 ? "0" : "")+leftoverSeconds;
+	}
+
 
 	// TO STRING
 	@APIUsage public static String getListAsString(List<?> list)
