@@ -69,9 +69,12 @@ public class TextUtil
 
 	@APIUsage public static String secondsToMinuteSeconds(int seconds)
 	{
-		int leftoverSeconds = seconds%60;
+		boolean negative = seconds < 0;
+		if(negative)
+			seconds = -seconds;
 
-		return (seconds/60)+":"+(leftoverSeconds < 10 ? "0" : "")+leftoverSeconds;
+		int leftoverSeconds = seconds%60;
+		return (negative ? "-" : "")+(seconds/60)+":"+(leftoverSeconds < 10 ? "0" : "")+leftoverSeconds;
 	}
 
 
