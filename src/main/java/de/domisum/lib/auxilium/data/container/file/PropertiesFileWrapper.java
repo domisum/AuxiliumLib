@@ -14,34 +14,25 @@ import java.util.Properties;
 public class PropertiesFileWrapper
 {
 
-	// PROPERTIES
-	private String filePath;
-
-	// REFERENCES
+	private File file;
 	@Getter private Properties properties;
 
 
-	/*
-	// INITIALIZATION
-	*/
-	@APIUsage
-
-	public PropertiesFileWrapper(String filePath)
+	// INIT
+	@APIUsage public PropertiesFileWrapper(File file)
 	{
-		this.filePath = filePath;
+		this.file = file;
 
 		loadFromFile();
 	}
 
 
-	/*
 	// LOADING
-	*/
 	private void loadFromFile()
 	{
 		this.properties = new Properties();
 
-		try(InputStream inputStream = new FileInputStream(this.filePath))
+		try(InputStream inputStream = new FileInputStream(this.file))
 		{
 			this.properties.load(inputStream);
 		}
@@ -52,12 +43,10 @@ public class PropertiesFileWrapper
 	}
 
 
-	/*
 	// SAVING
-	*/
-	@APIUsage public void saveToFile(File file, String comment)
+	@APIUsage public void save(String comment)
 	{
-		try(OutputStream outputStream = new FileOutputStream(file))
+		try(OutputStream outputStream = new FileOutputStream(this.file))
 		{
 			this.properties.store(outputStream, comment);
 		}
@@ -68,21 +57,17 @@ public class PropertiesFileWrapper
 	}
 
 
-	/*
 	// GETTERS
-	*/
 	@APIUsage public String get(String key)
 	{
 		if(!this.properties.containsKey(key))
-			throw new IllegalArgumentException("The properties file '"+this.filePath+"' does not contain the key '"+key+"'");
+			throw new IllegalArgumentException("The properties file does not contain the key '"+key+"'");
 
 		return this.properties.getProperty(key);
 	}
 
 
-	/*
 	// SETTERS
-	*/
 	@APIUsage public void set(String key, String value)
 	{
 		this.properties.setProperty(key, value);
