@@ -78,6 +78,20 @@ public class PropertiesFileWrapper
 		return this.properties.getProperty(key);
 	}
 
+	@APIUsage public int getInt(String key)
+	{
+		String valueString = get(key);
+
+		try
+		{
+			return Integer.parseInt(valueString);
+		}
+		catch(NumberFormatException e)
+		{
+			throw new NumberFormatException("The value saved at '"+key+"' is no integer");
+		}
+	}
+
 
 	// SETTERS
 	@APIUsage public void set(String key, String value)
