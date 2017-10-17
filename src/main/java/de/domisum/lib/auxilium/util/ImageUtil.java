@@ -123,8 +123,6 @@ public class ImageUtil
 
 	public static BufferedImage getImageFromPixels(int[][] pixels)
 	{
-		// TODO test this code, idk if the dimensions are proper
-
 		if(pixels.length == 0 || pixels[0].length == 0)
 			throw new IllegalArgumentException("The array has to have at least a length of 1 in each direction");
 
