@@ -30,8 +30,7 @@ public class FileUtil
 		}
 		catch(FileNotFoundException e)
 		{
-			e.printStackTrace();
-			return null;
+			throw new RuntimeException(e);
 		}
 	}
 
