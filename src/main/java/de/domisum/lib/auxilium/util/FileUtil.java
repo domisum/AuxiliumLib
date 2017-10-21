@@ -4,8 +4,6 @@ import de.domisum.lib.auxilium.util.java.annotations.APIUsage;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
@@ -24,14 +22,8 @@ public class FileUtil
 	// READ
 	@APIUsage public static String readFileToString(File file)
 	{
-		try
-		{
-			return readInputStreamToString(new FileInputStream(file));
-		}
-		catch(FileNotFoundException e)
-		{
-			throw new RuntimeException(e);
-		}
+		byte[] contentBytes = readFileToByteArray(file);
+		return new String(contentBytes);
 	}
 
 	@APIUsage public static String readInputStreamToString(InputStream inputStream)
@@ -65,8 +57,7 @@ public class FileUtil
 		}
 		catch(IOException e)
 		{
-			e.printStackTrace();
-			return null;
+			throw new RuntimeException(e);
 		}
 	}
 
