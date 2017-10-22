@@ -70,15 +70,17 @@ public class FileUtil
 
 	@APIUsage public static void writeStringToFile(File file, String content)
 	{
-		try(FileWriter fw = new FileWriter(file))
+		try
 		{
 			createParentDirectory(file);
-
-			fw.write(content);
+			try(FileWriter fw = new FileWriter(file))
+			{
+				fw.write(content);
+			}
 		}
 		catch(IOException e)
 		{
-			e.printStackTrace();
+			throw new RuntimeException(e);
 		}
 	}
 
