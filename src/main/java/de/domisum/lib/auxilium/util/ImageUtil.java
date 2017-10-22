@@ -20,16 +20,17 @@ public class ImageUtil
 
 	@APIUsage public static BufferedImage loadImage(File file)
 	{
+		if(!file.exists())
+			throw new IllegalArgumentException("The file '"+file.getAbsoluteFile().getPath()+"' does not exits");
+
 		try
 		{
 			return ImageIO.read(file);
 		}
 		catch(IOException e)
 		{
-			e.printStackTrace();
+			throw new RuntimeException(e);
 		}
-
-		return null;
 	}
 
 
