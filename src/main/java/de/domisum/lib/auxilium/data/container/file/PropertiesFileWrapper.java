@@ -41,7 +41,8 @@ public class PropertiesFileWrapper
 	private void loadFromFile()
 	{
 		if(!this.file.exists())
-			throw new InvalidConfigurationException("The '"+this.displayName+"' file does not exist ("+this.file.getPath()+")");
+			throw new InvalidConfigurationException(
+					"The '"+this.displayName+"' file does not exist ("+this.file.getAbsoluteFile().getAbsolutePath()+")");
 
 		this.properties = new Properties();
 		try(InputStream inputStream = new FileInputStream(this.file))
