@@ -233,6 +233,20 @@ public class FileUtil
 	}
 
 
+	// TEMP
+	@APIUsage public static File createTempFile(String prefix, String fileExtension)
+	{
+		try
+		{
+			return File.createTempFile(prefix, "."+fileExtension);
+		}
+		catch(IOException e)
+		{
+			throw new RuntimeException(e);
+		}
+	}
+
+
 	// MISC
 	@APIUsage public static boolean doesFileExist(String path)
 	{
