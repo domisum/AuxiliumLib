@@ -48,11 +48,24 @@ public abstract class Ticker
 
 	public synchronized void stop()
 	{
+		requestStop();
+		waitForStop();
+	}
+
+	public synchronized void requestStop()
+	{
 		if(this.tickThread == null)
 			return;
 
 		this.tickThreadRunning = false;
 		this.tickThread.interrupt();
+	}
+
+	public synchronized void waitForStop()
+	{
+		if(this.tickThread == null)
+			return;
+
 		if(Thread.currentThread() != this.tickThread)
 			ThreadUtil.join(this.tickThread);
 		this.tickThread = null;
