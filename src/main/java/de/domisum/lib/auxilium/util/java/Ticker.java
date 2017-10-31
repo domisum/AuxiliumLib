@@ -15,12 +15,12 @@ public abstract class Ticker
 
 
 	// INIT
-	protected Ticker(Duration tickInterval)
+	public Ticker(Duration tickInterval)
 	{
 		this(tickInterval, "ticker");
 	}
 
-	protected Ticker(Duration tickInterval, String threadName)
+	public Ticker(Duration tickInterval, String threadName)
 	{
 		this.tickInterval = tickInterval;
 		this.threadName = threadName;
