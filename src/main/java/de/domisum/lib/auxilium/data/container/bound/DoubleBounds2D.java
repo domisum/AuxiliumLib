@@ -2,6 +2,7 @@ package de.domisum.lib.auxilium.data.container.bound;
 
 import de.domisum.lib.auxilium.data.container.math.Vector2D;
 import de.domisum.lib.auxilium.util.java.annotations.APIUsage;
+import de.domisum.lib.auxilium.util.math.MathUtil;
 
 public class DoubleBounds2D
 {
@@ -32,6 +33,16 @@ public class DoubleBounds2D
 			return false;
 
 		return true;
+	}
+
+
+	// TRANSFORMS
+	@APIUsage public Vector2D toRelative(Vector2D absolute)
+	{
+		double rX = MathUtil.remapLinear(this.minX, this.maxX, 0, 1, absolute.x);
+		double rY = MathUtil.remapLinear(this.minY, this.maxY, 0, 1, absolute.y);
+
+		return new Vector2D(rX, rY);
 	}
 
 }
