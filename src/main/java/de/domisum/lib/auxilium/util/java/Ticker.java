@@ -33,13 +33,7 @@ public abstract class Ticker
 		if(this.tickThread != null)
 			return;
 
-		this.tickThread = new Thread(()->{
-			while(this.tickThreadRunning)
-			{
-				tick();
-				ThreadUtil.sleep(this.tickInterval.toMillis());
-			}
-		});
+		this.tickThread = new Thread(this::run);
 
 		this.tickThread.setName(this.threadName);
 		this.tickThreadRunning = true;
@@ -71,6 +65,23 @@ public abstract class Ticker
 		this.tickThread = null;
 	}
 
+
+	private void run()
+	{
+		while(this.tickThreadRunning)
+		{
+			try
+			{
+				tick();
+			}
+			catch(Exception e)
+			{
+				e.printStackTrace();
+			}
+
+			ThreadUtil.sleep(this.tickInterval.toMillis());
+		}
+	}
 
 	protected abstract void tick();
 
