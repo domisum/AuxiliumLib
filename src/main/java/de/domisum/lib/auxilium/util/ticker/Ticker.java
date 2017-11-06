@@ -1,4 +1,6 @@
-package de.domisum.lib.auxilium.util.java;
+package de.domisum.lib.auxilium.util.ticker;
+
+import de.domisum.lib.auxilium.util.java.ThreadUtil;
 
 import java.time.Duration;
 
@@ -79,7 +81,8 @@ public abstract class Ticker
 				e.printStackTrace();
 			}
 
-			ThreadUtil.sleep(this.tickInterval.toMillis());
+			if(this.tickThreadRunning)
+				ThreadUtil.sleep(this.tickInterval.toMillis());
 		}
 	}
 
