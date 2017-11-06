@@ -1,7 +1,6 @@
 package de.domisum.lib.auxilium.util.ticker;
 
 import de.domisum.lib.auxilium.util.java.annotations.APIUsage;
-import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
@@ -45,7 +44,6 @@ public class IntervalTaskTicker extends Ticker
 
 	// TASK
 	@RequiredArgsConstructor
-	@EqualsAndHashCode(of = {"task"})
 	private class IntervalTask
 	{
 
