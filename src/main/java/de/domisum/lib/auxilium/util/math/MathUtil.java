@@ -1,17 +1,17 @@
 package de.domisum.lib.auxilium.util.math;
 
-import de.domisum.lib.auxilium.util.java.annotations.APIUsage;
+import de.domisum.lib.auxilium.util.java.annotations.API;
 
 public class MathUtil
 {
 
 	// NUMBERS
-	@APIUsage public static double getDelta(double a, double b)
+	@API public static double getDelta(double a, double b)
 	{
 		return Math.abs(a-b);
 	}
 
-	@APIUsage public static double mix(double firstNumber, double firstPart, double secondNumber, double secondPart)
+	@API public static double mix(double firstNumber, double firstPart, double secondNumber, double secondPart)
 	{
 		double firstPercentage = firstPart/(firstPart+secondPart);
 		double secondPercentage = 1-firstPercentage;
@@ -19,20 +19,20 @@ public class MathUtil
 		return (firstPercentage*firstNumber)+(secondPercentage*secondNumber);
 	}
 
-	@APIUsage public static double mix(double firstNumber, double firstPart, double secondNumber)
+	@API public static double mix(double firstNumber, double firstPart, double secondNumber)
 	{
 		double secondPercentage = 1-firstPart;
 
 		return (firstPart*firstNumber)+(secondPercentage*secondNumber);
 	}
 
-	@APIUsage public static double clampAbs(double number, double maximumAbs)
+	@API public static double clampAbs(double number, double maximumAbs)
 	{
 		return (number < 0 ? -1 : 1)*Math.min(Math.abs(number), maximumAbs);
 	}
 
 
-	@APIUsage public static double remapLinear(double from1, double from2, double to1, double to2, double value)
+	@API public static double remapLinear(double from1, double from2, double to1, double to2, double value)
 	{
 		if(from2 < from1)
 			throw new IllegalArgumentException("from2 ("+from2+") can't be lower than from1 ("+from1+")");
@@ -50,12 +50,12 @@ public class MathUtil
 
 
 	// ANGLE
-	@APIUsage public static boolean isAngleNearRad(double a, double b, double maxD)
+	@API public static boolean isAngleNearRad(double a, double b, double maxD)
 	{
 		return isAngleNearDeg(Math.toDegrees(a), Math.toDegrees(b), maxD);
 	}
 
-	@APIUsage public static boolean isAngleNearDeg(double a, double b, double maxD)
+	@API public static boolean isAngleNearDeg(double a, double b, double maxD)
 	{
 		double delta = Math.abs(a-b)%360;
 		if(delta > 180)
@@ -66,7 +66,7 @@ public class MathUtil
 
 
 	// HELPER
-	@APIUsage public static double round(double number, int digits)
+	@API public static double round(double number, int digits)
 	{
 		int factor = 1;
 		for(int i = 0; i < digits; i++)

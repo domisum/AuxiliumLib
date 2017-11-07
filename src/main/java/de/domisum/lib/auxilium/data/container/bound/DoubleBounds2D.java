@@ -1,20 +1,20 @@
 package de.domisum.lib.auxilium.data.container.bound;
 
 import de.domisum.lib.auxilium.data.container.math.Vector2D;
-import de.domisum.lib.auxilium.util.java.annotations.APIUsage;
+import de.domisum.lib.auxilium.util.java.annotations.API;
 import de.domisum.lib.auxilium.util.math.MathUtil;
 
 public class DoubleBounds2D
 {
 
-	@APIUsage public final double minX;
-	@APIUsage public final double maxX;
-	@APIUsage public final double minY;
-	@APIUsage public final double maxY;
+	@API public final double minX;
+	@API public final double maxX;
+	@API public final double minY;
+	@API public final double maxY;
 
 
 	// INIT
-	@APIUsage public DoubleBounds2D(double x1, double x2, double y1, double y2)
+	@API public DoubleBounds2D(double x1, double x2, double y1, double y2)
 	{
 		this.minX = Math.min(x1, x2);
 		this.maxX = Math.max(x1, x2);
@@ -24,7 +24,7 @@ public class DoubleBounds2D
 
 
 	// CHECKS
-	@APIUsage public boolean contains(Vector2D point)
+	@API public boolean contains(Vector2D point)
 	{
 		if(point.x < this.minX || point.x > this.maxX)
 			return false;
@@ -37,7 +37,7 @@ public class DoubleBounds2D
 
 
 	// TRANSFORMS
-	@APIUsage public Vector2D toRelative(Vector2D absolute)
+	@API public Vector2D toRelative(Vector2D absolute)
 	{
 		double rX = MathUtil.remapLinear(this.minX, this.maxX, 0, 1, absolute.x);
 		double rY = MathUtil.remapLinear(this.minY, this.maxY, 0, 1, absolute.y);

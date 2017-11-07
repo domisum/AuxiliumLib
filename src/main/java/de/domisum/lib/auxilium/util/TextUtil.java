@@ -1,16 +1,16 @@
 package de.domisum.lib.auxilium.util;
 
-import de.domisum.lib.auxilium.util.java.annotations.APIUsage;
+import de.domisum.lib.auxilium.util.java.annotations.API;
 
 import java.util.List;
 import java.util.Objects;
 
-@APIUsage
+@API
 public class TextUtil
 {
 
 	// BASIC
-	@APIUsage public static String replaceLast(String string, String from, String to)
+	@API public static String replaceLast(String string, String from, String to)
 	{
 		int pos = string.lastIndexOf(from);
 		if(pos > -1)
@@ -19,7 +19,7 @@ public class TextUtil
 		return string;
 	}
 
-	@APIUsage public static String repeat(String string, int repeats)
+	@API public static String repeat(String string, int repeats)
 	{
 		StringBuilder result = new StringBuilder();
 		for(int i = 0; i < repeats; i++)
@@ -30,7 +30,7 @@ public class TextUtil
 
 
 	// NUMBERS
-	@APIUsage public static String asRomanNumeral(int number)
+	@API public static String asRomanNumeral(int number)
 	{
 		if(number < 1 || number > 3999)
 			throw new IllegalArgumentException(
@@ -67,7 +67,7 @@ public class TextUtil
 		return numberLeft-minimum;
 	}
 
-	@APIUsage public static String secondsToMinuteSeconds(int seconds)
+	@API public static String secondsToMinuteSeconds(int seconds)
 	{
 		boolean negative = seconds < 0;
 		if(negative)
@@ -79,7 +79,7 @@ public class TextUtil
 
 
 	// TO STRING
-	@APIUsage public static String getListAsString(List<?> list)
+	@API public static String getListAsString(List<?> list)
 	{
 		StringBuilder string = new StringBuilder();
 

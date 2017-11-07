@@ -1,9 +1,9 @@
 package de.domisum.lib.auxilium.util.java;
 
-import de.domisum.lib.auxilium.util.java.annotations.APIUsage;
+import de.domisum.lib.auxilium.util.java.annotations.API;
 import de.domisum.lib.auxilium.util.math.MathUtil;
 
-@APIUsage
+@API
 public class ProfilerStopWatch
 {
 
@@ -14,7 +14,7 @@ public class ProfilerStopWatch
 
 
 	// INIT
-	@APIUsage public ProfilerStopWatch(String name)
+	@API public ProfilerStopWatch(String name)
 	{
 		this.name = name;
 	}
@@ -26,12 +26,12 @@ public class ProfilerStopWatch
 
 
 	// START/STOP
-	@APIUsage public void start()
+	@API public void start()
 	{
 		this.startNano = System.nanoTime();
 	}
 
-	@APIUsage public void stop()
+	@API public void stop()
 	{
 		if(this.endNano != -1)
 			throw new IllegalStateException("The stopwatch has already been stopped");
@@ -41,22 +41,22 @@ public class ProfilerStopWatch
 
 
 	// GETTERS
-	@APIUsage public long getStartNano()
+	@API public long getStartNano()
 	{
 		return this.startNano;
 	}
 
-	@APIUsage public boolean isActive()
+	@API public boolean isActive()
 	{
 		return this.endNano == -1;
 	}
 
-	@APIUsage public long getElapsedNano()
+	@API public long getElapsedNano()
 	{
 		return (this.endNano == -1 ? System.nanoTime() : this.endNano)-this.startNano;
 	}
 
-	@APIUsage public double getElapsedMilli()
+	@API public double getElapsedMilli()
 	{
 		return getElapsedNano()/1000d/1000d;
 	}

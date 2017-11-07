@@ -1,7 +1,7 @@
 package de.domisum.lib.auxilium.data.container.math;
 
 import de.domisum.lib.auxilium.data.container.bound.DoubleBounds2D;
-import de.domisum.lib.auxilium.util.java.annotations.APIUsage;
+import de.domisum.lib.auxilium.util.java.annotations.API;
 import lombok.ToString;
 
 import java.util.ArrayList;
@@ -9,12 +9,12 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-@APIUsage
+@API
 public class Polygon2D
 {
 
 	// data
-	@APIUsage public final List<Vector2D> points;
+	@API public final List<Vector2D> points;
 
 	private List<LineSegment2D> lines;
 	private List<PolygonCorner> corners;
@@ -25,7 +25,7 @@ public class Polygon2D
 
 
 	// INIT
-	@APIUsage public Polygon2D(List<Vector2D> points)
+	@API public Polygon2D(List<Vector2D> points)
 	{
 		if(points.size() <= 2)
 			throw new IllegalArgumentException("A polygon has to have at least 3 points");
@@ -47,7 +47,7 @@ public class Polygon2D
 
 
 	// GETTERS
-	@APIUsage public List<LineSegment2D> getLines()
+	@API public List<LineSegment2D> getLines()
 	{
 		if(this.lines == null)
 		{
@@ -69,7 +69,7 @@ public class Polygon2D
 		return this.lines;
 	}
 
-	@APIUsage public List<PolygonCorner> getCorners()
+	@API public List<PolygonCorner> getCorners()
 	{
 		if(this.corners == null)
 		{
@@ -96,7 +96,7 @@ public class Polygon2D
 		return this.corners;
 	}
 
-	@APIUsage public DoubleBounds2D getBoundingBox()
+	@API public DoubleBounds2D getBoundingBox()
 	{
 		if(this.boundingBox != null)
 			return this.boundingBox;
@@ -123,7 +123,7 @@ public class Polygon2D
 		return this.boundingBox;
 	}
 
-	@APIUsage public Vector2D getPointCenter()
+	@API public Vector2D getPointCenter()
 	{
 		if(this.pointCenter == null)
 		{
@@ -139,7 +139,7 @@ public class Polygon2D
 
 
 	// CHECKS
-	@APIUsage public boolean contains(Vector2D point)
+	@API public boolean contains(Vector2D point)
 	{
 		DoubleBounds2D boundingBox = getBoundingBox();
 		List<LineSegment2D> lines = getLines();
@@ -173,7 +173,7 @@ public class Polygon2D
 		return intersections%2 == 1;
 	}
 
-	@APIUsage public boolean overlaps(Polygon2D other)
+	@API public boolean overlaps(Polygon2D other)
 	{
 		// do lines intersect? if yes, the polygons overlap
 		for(LineSegment2D lineSegment2D : getLines())
@@ -193,7 +193,7 @@ public class Polygon2D
 		return false;
 	}
 
-	@APIUsage public boolean isClockwise()
+	@API public boolean isClockwise()
 	{
 		if(this.clockwise != null)
 			return this.clockwise;
@@ -210,7 +210,7 @@ public class Polygon2D
 
 
 	// CALCULATIONS
-	@APIUsage public double getArea()
+	@API public double getArea()
 	{
 		double sum = 0;
 
@@ -225,7 +225,7 @@ public class Polygon2D
 		return Math.abs(sum/2);
 	}
 
-	@APIUsage public double getDistanceTo(Vector2D point)
+	@API public double getDistanceTo(Vector2D point)
 	{
 		if(contains(point))
 			return 0;
@@ -242,7 +242,7 @@ public class Polygon2D
 		return minDistance;
 	}
 
-	@APIUsage public double getDistanceTo(Polygon2D other)
+	@API public double getDistanceTo(Polygon2D other)
 	{
 		if(overlaps(other))
 			return 0;
@@ -252,7 +252,7 @@ public class Polygon2D
 
 
 	// SELF
-	@APIUsage public Polygon2D move(Vector2D movement)
+	@API public Polygon2D move(Vector2D movement)
 	{
 		List<Vector2D> movedPoints = new ArrayList<>();
 		for(Vector2D p : this.points)

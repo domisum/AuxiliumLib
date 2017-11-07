@@ -1,10 +1,10 @@
 package de.domisum.lib.auxilium.data.container;
 
-import de.domisum.lib.auxilium.util.java.annotations.APIUsage;
+import de.domisum.lib.auxilium.util.java.annotations.API;
 
 import java.util.Objects;
 
-@APIUsage
+@API
 public class InterchangeableDuo<T, U> extends Duo<T, U>
 {
 

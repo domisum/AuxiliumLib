@@ -1,7 +1,7 @@
 package de.domisum.lib.auxilium.data.container;
 
 
-import de.domisum.lib.auxilium.util.java.annotations.APIUsage;
+import de.domisum.lib.auxilium.util.java.annotations.API;
 
 public class Duo<T, U>
 {
@@ -51,7 +51,7 @@ public class Duo<T, U>
 
 
 	// GETTERS
-	@APIUsage public Duo<U, T> getInverted()
+	@API public Duo<U, T> getInverted()
 	{
 		return new Duo<>(this.b, this.a);
 	}

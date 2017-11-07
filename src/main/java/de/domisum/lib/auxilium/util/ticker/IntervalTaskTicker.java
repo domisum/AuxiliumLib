@@ -1,6 +1,6 @@
 package de.domisum.lib.auxilium.util.ticker;
 
-import de.domisum.lib.auxilium.util.java.annotations.APIUsage;
+import de.domisum.lib.auxilium.util.java.annotations.API;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
@@ -9,7 +9,7 @@ import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
 
-@APIUsage
+@API
 public class IntervalTaskTicker extends Ticker
 {
 
@@ -26,7 +26,7 @@ public class IntervalTaskTicker extends Ticker
 		super(TICK_INTERVAL, threadName);
 	}
 
-	@APIUsage public void addTask(Runnable task, Duration interval)
+	@API public void addTask(Runnable task, Duration interval)
 	{
 		IntervalTask intervalTask = new IntervalTask(task, interval);
 		this.tasks.add(intervalTask);

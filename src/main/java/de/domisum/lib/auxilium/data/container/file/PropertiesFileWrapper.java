@@ -1,6 +1,6 @@
 package de.domisum.lib.auxilium.data.container.file;
 
-import de.domisum.lib.auxilium.util.java.annotations.APIUsage;
+import de.domisum.lib.auxilium.util.java.annotations.API;
 import de.domisum.lib.auxilium.util.java.exceptions.InvalidConfigurationException;
 import lombok.Getter;
 
@@ -12,7 +12,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Properties;
 
-@APIUsage
+@API
 public class PropertiesFileWrapper
 {
 
@@ -23,12 +23,12 @@ public class PropertiesFileWrapper
 
 
 	// INIT
-	@APIUsage public PropertiesFileWrapper(File file)
+	@API public PropertiesFileWrapper(File file)
 	{
 		this(file, "unnamed");
 	}
 
-	@APIUsage public PropertiesFileWrapper(File file, String displayName)
+	@API public PropertiesFileWrapper(File file, String displayName)
 	{
 		this.file = file;
 		this.displayName = displayName;
@@ -57,7 +57,7 @@ public class PropertiesFileWrapper
 
 
 	// SAVING
-	@APIUsage public void save(String comment)
+	@API public void save(String comment)
 	{
 		try(OutputStream outputStream = new FileOutputStream(this.file))
 		{
@@ -71,7 +71,7 @@ public class PropertiesFileWrapper
 
 
 	// GETTERS
-	@APIUsage public String get(String key)
+	@API public String get(String key)
 	{
 		if(!this.properties.containsKey(key))
 			throw new IllegalArgumentException("The '"+this.displayName+"' properties file does not contain the key '"+key+"'");
@@ -79,7 +79,7 @@ public class PropertiesFileWrapper
 		return this.properties.getProperty(key);
 	}
 
-	@APIUsage public int getInt(String key)
+	@API public int getInt(String key)
 	{
 		String valueString = get(key);
 
@@ -95,7 +95,7 @@ public class PropertiesFileWrapper
 
 
 	// SETTERS
-	@APIUsage public void set(String key, String value)
+	@API public void set(String key, String value)
 	{
 		this.properties.setProperty(key, value);
 	}

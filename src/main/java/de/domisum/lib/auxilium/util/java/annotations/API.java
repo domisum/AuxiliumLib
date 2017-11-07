@@ -1,7 +1,6 @@
 package de.domisum.lib.auxilium.util.java.annotations;
 
-@APIUsage
-public @interface APIUsage
+public @interface API
 {
 
 }

@@ -1,6 +1,6 @@
 package de.domisum.lib.auxilium.util.java.annotations;
 
-@APIUsage
+@API
 public @interface CreatedThroughDeserialization
 {
 

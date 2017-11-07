@@ -1,17 +1,17 @@
 package de.domisum.lib.auxilium.util;
 
-import de.domisum.lib.auxilium.util.java.annotations.APIUsage;
+import de.domisum.lib.auxilium.util.java.annotations.API;
 
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 
-@APIUsage
+@API
 public interface NetworkUtil
 {
 
-	@APIUsage static String getMacAddress()
+	@API static String getMacAddress()
 	{
 		byte[] macAddressAsBytes;
 		try

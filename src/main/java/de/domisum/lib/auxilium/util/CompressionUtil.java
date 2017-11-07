@@ -1,6 +1,6 @@
 package de.domisum.lib.auxilium.util;
 
-import de.domisum.lib.auxilium.util.java.annotations.APIUsage;
+import de.domisum.lib.auxilium.util.java.annotations.API;
 import org.apache.commons.lang3.Validate;
 
 import java.io.ByteArrayOutputStream;
@@ -9,7 +9,7 @@ import java.util.zip.DataFormatException;
 import java.util.zip.Deflater;
 import java.util.zip.Inflater;
 
-@APIUsage
+@API
 public final class CompressionUtil
 {
 
@@ -21,7 +21,7 @@ public final class CompressionUtil
 
 
 	// COMPRESSION
-	@APIUsage public static byte[] compress(byte[] input, Speed compressionSpeed)
+	@API public static byte[] compress(byte[] input, Speed compressionSpeed)
 	{
 		Validate.notNull(input);
 		Validate.notNull(compressionSpeed);
@@ -47,7 +47,7 @@ public final class CompressionUtil
 		}
 	}
 
-	@APIUsage public static byte[] decompress(byte[] input)
+	@API public static byte[] decompress(byte[] input)
 	{
 		Validate.notNull(input);
 
@@ -73,9 +73,9 @@ public final class CompressionUtil
 	public enum Speed
 	{
 		// @formatter:off
-		@APIUsage FAST(Deflater.BEST_SPEED),
-		@APIUsage BALANCED((Deflater.BEST_COMPRESSION+Deflater.BEST_SPEED)/2),
-		@APIUsage QUALITY(Deflater.BEST_COMPRESSION);
+		@API FAST(Deflater.BEST_SPEED),
+		@API BALANCED((Deflater.BEST_COMPRESSION+Deflater.BEST_SPEED)/2),
+		@API QUALITY(Deflater.BEST_COMPRESSION);
 		// @formatter:on
 
 

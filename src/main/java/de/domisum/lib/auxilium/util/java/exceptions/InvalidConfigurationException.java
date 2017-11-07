@@ -1,17 +1,17 @@
 package de.domisum.lib.auxilium.util.java.exceptions;
 
-import de.domisum.lib.auxilium.util.java.annotations.APIUsage;
+import de.domisum.lib.auxilium.util.java.annotations.API;
 
-@APIUsage
+@API
 public class InvalidConfigurationException extends RuntimeException
 {
 
-	@APIUsage public InvalidConfigurationException(String message)
+	@API public InvalidConfigurationException(String message)
 	{
 		super(message);
 	}
 
-	@APIUsage public InvalidConfigurationException(String message, Throwable cause)
+	@API public InvalidConfigurationException(String message, Throwable cause)
 	{
 		super(message, cause);
 	}

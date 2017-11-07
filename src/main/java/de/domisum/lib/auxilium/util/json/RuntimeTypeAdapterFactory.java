@@ -27,7 +27,7 @@ import com.google.gson.internal.Streams;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import de.domisum.lib.auxilium.util.java.annotations.APIUsage;
+import de.domisum.lib.auxilium.util.java.annotations.API;
 
 import java.io.IOException;
 import java.util.LinkedHashMap;
@@ -122,7 +122,7 @@ import java.util.Map;
  *       .registerSubtype(Diamond.class);
  * }</pre>
  */
-@APIUsage
+@API
 public final class RuntimeTypeAdapterFactory<T> implements TypeAdapterFactory
 {
 
@@ -147,7 +147,7 @@ public final class RuntimeTypeAdapterFactory<T> implements TypeAdapterFactory
 	 * Creates a new runtime type adapter using for {@code baseType} using {@code
 	 * typeFieldName} as the type field name. Type field names are case sensitive.
 	 */
-	@APIUsage public static <T> RuntimeTypeAdapterFactory<T> of(Class<T> baseType, String typeFieldName)
+	@API public static <T> RuntimeTypeAdapterFactory<T> of(Class<T> baseType, String typeFieldName)
 	{
 		return new RuntimeTypeAdapterFactory<>(baseType, typeFieldName);
 	}
@@ -156,7 +156,7 @@ public final class RuntimeTypeAdapterFactory<T> implements TypeAdapterFactory
 	 * Creates a new runtime type adapter for {@code baseType} using {@code "type"} as
 	 * the type field name.
 	 */
-	@APIUsage public static <T> RuntimeTypeAdapterFactory<T> of(Class<T> baseType)
+	@API public static <T> RuntimeTypeAdapterFactory<T> of(Class<T> baseType)
 	{
 		return new RuntimeTypeAdapterFactory<>(baseType, "type");
 	}
@@ -168,7 +168,7 @@ public final class RuntimeTypeAdapterFactory<T> implements TypeAdapterFactory
 	 * @throws IllegalArgumentException if either {@code type} or {@code label}
 	 *                                  have already been registered on this type adapter.
 	 */
-	@APIUsage public RuntimeTypeAdapterFactory<T> registerSubtype(Class<? extends T> type, String label)
+	@API public RuntimeTypeAdapterFactory<T> registerSubtype(Class<? extends T> type, String label)
 	{
 		if(type == null || label == null)
 			throw new IllegalArgumentException("type and label can't be null");
@@ -189,7 +189,7 @@ public final class RuntimeTypeAdapterFactory<T> implements TypeAdapterFactory
 	 * @throws IllegalArgumentException if either {@code type} or its simple name
 	 *                                  have already been registered on this type adapter.
 	 */
-	@APIUsage public RuntimeTypeAdapterFactory<T> registerSubtype(Class<? extends T> type)
+	@API public RuntimeTypeAdapterFactory<T> registerSubtype(Class<? extends T> type)
 	{
 		return registerSubtype(type, type.getSimpleName());
 	}

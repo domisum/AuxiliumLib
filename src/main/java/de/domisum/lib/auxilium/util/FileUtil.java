@@ -1,6 +1,6 @@
 package de.domisum.lib.auxilium.util;
 
-import de.domisum.lib.auxilium.util.java.annotations.APIUsage;
+import de.domisum.lib.auxilium.util.java.annotations.API;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -15,18 +15,18 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-@APIUsage
+@API
 public class FileUtil
 {
 
 	// READ
-	@APIUsage public static String readFileToString(File file)
+	@API public static String readFileToString(File file)
 	{
 		byte[] contentBytes = readFileToByteArray(file);
 		return new String(contentBytes);
 	}
 
-	@APIUsage public static String readInputStreamToString(InputStream inputStream)
+	@API public static String readInputStreamToString(InputStream inputStream)
 	{
 		StringBuilder sb = new StringBuilder();
 
@@ -49,7 +49,7 @@ public class FileUtil
 		}
 	}
 
-	@APIUsage public static byte[] readFileToByteArray(File file)
+	@API public static byte[] readFileToByteArray(File file)
 	{
 		try
 		{
@@ -63,12 +63,12 @@ public class FileUtil
 
 
 	// WRITE
-	@APIUsage public static void writeStringToFile(String path, String content)
+	@API public static void writeStringToFile(String path, String content)
 	{
 		writeStringToFile(new File(path), content);
 	}
 
-	@APIUsage public static void writeStringToFile(File file, String content)
+	@API public static void writeStringToFile(File file, String content)
 	{
 		try
 		{
@@ -84,7 +84,7 @@ public class FileUtil
 		}
 	}
 
-	@APIUsage public static void writeByteArrayToFile(File file, byte[] data)
+	@API public static void writeByteArrayToFile(File file, byte[] data)
 	{
 		try
 		{
@@ -98,12 +98,12 @@ public class FileUtil
 
 
 	// COPY
-	@APIUsage public static void copyFile(File origin, File destinationDir)
+	@API public static void copyFile(File origin, File destinationDir)
 	{
 		copyFile(origin, destinationDir, origin.getName());
 	}
 
-	@APIUsage public static void copyFile(File origin, File destinationDir, String newFileName)
+	@API public static void copyFile(File origin, File destinationDir, String newFileName)
 	{
 		if(!origin.exists())
 			return;
@@ -120,12 +120,12 @@ public class FileUtil
 		}
 	}
 
-	@APIUsage public static void copyDirectory(File originFolder, File destinationDir)
+	@API public static void copyDirectory(File originFolder, File destinationDir)
 	{
 		copyDirectory(originFolder, destinationDir, null);
 	}
 
-	@APIUsage public static void copyDirectory(File originFolder, File destinationDir, FilePathFilter filePathFilter)
+	@API public static void copyDirectory(File originFolder, File destinationDir, FilePathFilter filePathFilter)
 	{
 		try
 		{
@@ -154,7 +154,7 @@ public class FileUtil
 	}
 
 
-	@APIUsage public static void copyDirectory(File originFolder, String newName, File destinationDir)
+	@API public static void copyDirectory(File originFolder, String newName, File destinationDir)
 	{
 		try
 		{
@@ -181,13 +181,13 @@ public class FileUtil
 
 
 	// DELETE
-	@APIUsage public static void deleteDirectory(File dir)
+	@API public static void deleteDirectory(File dir)
 	{
 		deleteDirectoryContents(dir);
 		deleteFile(dir);
 	}
 
-	@APIUsage public static void deleteDirectoryContents(File dir)
+	@API public static void deleteDirectoryContents(File dir)
 	{
 		if(dir == null)
 			throw new IllegalArgumentException("The directory can't be null");
@@ -234,7 +234,7 @@ public class FileUtil
 
 
 	// TEMP
-	@APIUsage public static File createTempFile(String prefix, String fileExtension)
+	@API public static File createTempFile(String prefix, String fileExtension)
 	{
 		try
 		{
@@ -248,19 +248,19 @@ public class FileUtil
 
 
 	// MISC
-	@APIUsage public static boolean doesFileExist(String path)
+	@API public static boolean doesFileExist(String path)
 	{
 		File file = new File(path);
 		return file.exists();
 	}
 
-	@APIUsage public static boolean isDirectoryEmpty(File dir)
+	@API public static boolean isDirectoryEmpty(File dir)
 	{
 		return listFilesRecursively(dir).size() == 0;
 	}
 
 
-	@APIUsage public static File[] listFiles(File dir)
+	@API public static File[] listFiles(File dir)
 	{
 		if(!dir.isDirectory())
 			return new File[0];
@@ -269,12 +269,12 @@ public class FileUtil
 	}
 
 
-	@APIUsage public static List<File> listFilesRecursively(File dir)
+	@API public static List<File> listFilesRecursively(File dir)
 	{
 		return listFilesRecursively(dir, true);
 	}
 
-	@APIUsage public static List<File> listFilesRecursively(File dir, boolean includeDirs)
+	@API public static List<File> listFilesRecursively(File dir, boolean includeDirs)
 	{
 		List<File> files = new ArrayList<>();
 
@@ -300,7 +300,7 @@ public class FileUtil
 
 
 	// SPECIFIC
-	@APIUsage public static String getIdentifier(File baseDir, File file, String fileExtension)
+	@API public static String getIdentifier(File baseDir, File file, String fileExtension)
 	{
 		String id = file.getPath().replaceFirst(baseDir.getPath(), "");
 		id = id.replace('\\', '/');
@@ -314,7 +314,7 @@ public class FileUtil
 
 
 	// FILE FILTER
-	@APIUsage
+	@API
 	public static class FilePathFilter
 	{
 
@@ -343,19 +343,19 @@ public class FileUtil
 
 
 		// CHANGERS
-		@APIUsage public FilePathFilter addStartsWith(String filter)
+		@API public FilePathFilter addStartsWith(String filter)
 		{
 			this.startsWithFilters.add(filter);
 			return this;
 		}
 
-		@APIUsage public FilePathFilter addContains(String filter)
+		@API public FilePathFilter addContains(String filter)
 		{
 			this.containsFilters.add(filter);
 			return this;
 		}
 
-		@APIUsage public FilePathFilter addEndsWith(String filter)
+		@API public FilePathFilter addEndsWith(String filter)
 		{
 			this.endsWithFilters.add(filter);
 			return this;

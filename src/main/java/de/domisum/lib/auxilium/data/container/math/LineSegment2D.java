@@ -1,11 +1,11 @@
 package de.domisum.lib.auxilium.data.container.math;
 
 import de.domisum.lib.auxilium.data.container.bound.DoubleBounds2D;
-import de.domisum.lib.auxilium.util.java.annotations.APIUsage;
+import de.domisum.lib.auxilium.util.java.annotations.API;
 import lombok.EqualsAndHashCode;
 
 @EqualsAndHashCode
-@APIUsage
+@API
 public class LineSegment2D
 {
 
@@ -15,7 +15,7 @@ public class LineSegment2D
 
 
 	// INIT
-	@APIUsage public LineSegment2D(Vector2D a, Vector2D b)
+	@API public LineSegment2D(Vector2D a, Vector2D b)
 	{
 		this.a = a;
 		this.b = b;
@@ -30,24 +30,24 @@ public class LineSegment2D
 
 
 	// GETTERS
-	@APIUsage public double getLength()
+	@API public double getLength()
 	{
 		return this.a.distanceTo(this.b);
 	}
 
-	@APIUsage public double getLengthSquared()
+	@API public double getLengthSquared()
 	{
 		return this.a.distanceToSquared(this.b);
 	}
 
-	@APIUsage public Vector2D getDirection()
+	@API public Vector2D getDirection()
 	{
 		return this.b.subtract(this.a);
 	}
 
 
 	// DISTANCE
-	@APIUsage public double getDistanceTo(Vector2D point)
+	@API public double getDistanceTo(Vector2D point)
 	{
 		// http://geomalgorithms.com/a02-_lines.html
 
@@ -67,7 +67,7 @@ public class LineSegment2D
 		return point.distanceTo(pointOnSegment);
 	}
 
-	@APIUsage public double getDistanceTo(LineSegment2D other)
+	@API public double getDistanceTo(LineSegment2D other)
 	{
 		if(this.intersects(other))
 			return 0;
@@ -83,7 +83,7 @@ public class LineSegment2D
 
 
 	// CHECKS
-	@APIUsage public boolean intersects(LineSegment2D other)
+	@API public boolean intersects(LineSegment2D other)
 	{
 		// http://www.geeksforgeeks.org/check-if-two-given-line-segments-intersect/
 
@@ -112,13 +112,13 @@ public class LineSegment2D
 		return true;
 	}
 
-	@APIUsage public boolean isColinear(LineSegment2D other)
+	@API public boolean isColinear(LineSegment2D other)
 	{
 		return getPointArrangement(this.a, this.b, other.a) == PointArrangement.COLINEAR
 				&& getPointArrangement(this.a, this.b, other.b) == PointArrangement.COLINEAR;
 	}
 
-	@APIUsage public boolean contains(Vector2D point)
+	@API public boolean contains(Vector2D point)
 	{
 		double distance = getDistanceTo(point);
 

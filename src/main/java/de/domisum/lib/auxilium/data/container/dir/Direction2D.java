@@ -1,13 +1,13 @@
 package de.domisum.lib.auxilium.data.container.dir;
 
-import de.domisum.lib.auxilium.util.java.annotations.APIUsage;
+import de.domisum.lib.auxilium.util.java.annotations.API;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-@APIUsage
+@API
 public enum Direction2D
 {
 
@@ -32,7 +32,7 @@ public enum Direction2D
 
 
 	// GETTERS
-	@APIUsage public Direction2D getOpposite()
+	@API public Direction2D getOpposite()
 	{
 		if(this == NORTH)
 			return SOUTH;
@@ -46,7 +46,7 @@ public enum Direction2D
 		return null;
 	}
 
-	@APIUsage public Direction2D getRandomOther(Random r)
+	@API public Direction2D getRandomOther(Random r)
 	{
 		Direction2D dir;
 		do
@@ -58,7 +58,7 @@ public enum Direction2D
 
 
 	// UTIL
-	@APIUsage public static Direction2D getFromOffset(int dX, int dZ)
+	@API public static Direction2D getFromOffset(int dX, int dZ)
 	{
 		for(Direction2D d : Direction2D.values())
 			if(d.dX == dX && d.dZ == dZ)
@@ -68,7 +68,7 @@ public enum Direction2D
 	}
 
 
-	@APIUsage public static Direction2D getFromYaw(float yaw)
+	@API public static Direction2D getFromYaw(float yaw)
 	{
 		double adjustedYaw = yaw%360;
 
@@ -91,13 +91,13 @@ public enum Direction2D
 		return NORTH;
 	}
 
-	@APIUsage public static Direction2D getRandom(Random r)
+	@API public static Direction2D getRandom(Random r)
 	{
 		return values()[r.nextInt(values().length)];
 	}
 
 
-	@APIUsage public static List<Direction2D> getValuesAsList()
+	@API public static List<Direction2D> getValuesAsList()
 	{
 		return new ArrayList<>(Arrays.asList(values()));
 	}

@@ -1,8 +1,8 @@
 package de.domisum.lib.auxilium.data.container.dir;
 
-import de.domisum.lib.auxilium.util.java.annotations.APIUsage;
+import de.domisum.lib.auxilium.util.java.annotations.API;
 
-@APIUsage
+@API
 public enum Axis
 {
 

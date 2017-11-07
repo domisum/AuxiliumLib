@@ -2,9 +2,9 @@ package de.domisum.lib.auxilium.util.json;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import de.domisum.lib.auxilium.util.java.annotations.APIUsage;
+import de.domisum.lib.auxilium.util.java.annotations.API;
 
-@APIUsage
+@API
 public class GsonUtil
 {
 
@@ -13,7 +13,7 @@ public class GsonUtil
 	private static Gson prettyGson;
 
 
-	@APIUsage public static Gson get()
+	@API public static Gson get()
 	{
 		if(gson == null)
 			gson = new GsonBuilder().create();
@@ -21,7 +21,7 @@ public class GsonUtil
 		return gson;
 	}
 
-	@APIUsage public static Gson getPretty()
+	@API public static Gson getPretty()
 	{
 		if(prettyGson == null)
 			prettyGson = new GsonBuilder().setPrettyPrinting().create();

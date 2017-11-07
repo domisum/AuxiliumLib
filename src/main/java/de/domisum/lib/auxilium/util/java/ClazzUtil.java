@@ -2,7 +2,7 @@ package de.domisum.lib.auxilium.util.java;
 
 import com.google.common.reflect.ClassPath;
 import com.google.common.reflect.ClassPath.ClassInfo;
-import de.domisum.lib.auxilium.util.java.annotations.APIUsage;
+import de.domisum.lib.auxilium.util.java.annotations.API;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -10,11 +10,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-@APIUsage
+@API
 public class ClazzUtil
 {
 
-	@APIUsage public static Class<?> getClass(String path)
+	@API public static Class<?> getClass(String path)
 	{
 		try
 		{
@@ -28,7 +28,7 @@ public class ClazzUtil
 		return null;
 	}
 
-	@APIUsage public static List<Class<?>> getClasses(String path)
+	@API public static List<Class<?>> getClasses(String path)
 	{
 		ClassPath classPath;
 		try

@@ -1,19 +1,19 @@
 package de.domisum.lib.auxilium.data.container.bound;
 
-import de.domisum.lib.auxilium.util.java.annotations.APIUsage;
+import de.domisum.lib.auxilium.util.java.annotations.API;
 
-@APIUsage
+@API
 public class IntBounds2D
 {
 
-	@APIUsage public final int minX;
-	@APIUsage public final int maxX;
-	@APIUsage public final int minY;
-	@APIUsage public final int maxY;
+	@API public final int minX;
+	@API public final int maxX;
+	@API public final int minY;
+	@API public final int maxY;
 
 
 	// INIT
-	@APIUsage public IntBounds2D(int x1, int x2, int y1, int y2)
+	@API public IntBounds2D(int x1, int x2, int y1, int y2)
 	{
 		this.minX = Math.min(x1, x2);
 		this.maxX = Math.max(x1, x2);
@@ -23,7 +23,7 @@ public class IntBounds2D
 
 
 	// MODIFICATIONS
-	@APIUsage public IntBounds2D expand(int distance)
+	@API public IntBounds2D expand(int distance)
 	{
 		if(distance < 0)
 			throw new IllegalArgumentException("The distance can't be negative");
@@ -31,7 +31,7 @@ public class IntBounds2D
 		return new IntBounds2D(this.minX-distance, this.maxX+distance, this.minY-distance, this.maxY+distance);
 	}
 
-	@APIUsage public IntBounds2D limit(IntBounds2D limit)
+	@API public IntBounds2D limit(IntBounds2D limit)
 	{
 		return new IntBounds2D(Math.max(this.minX, limit.minX), Math.min(this.maxX, limit.maxX), Math.max(this.minY, limit.minY),
 				Math.min(this.maxY, limit.maxY));

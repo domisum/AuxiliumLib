@@ -1,18 +1,18 @@
 package de.domisum.lib.auxilium.data.container.math;
 
-import de.domisum.lib.auxilium.util.java.annotations.APIUsage;
+import de.domisum.lib.auxilium.util.java.annotations.API;
 
-@APIUsage
+@API
 public class LineSegment3D
 {
 
 	// PROPERTIES
-	@APIUsage public final Vector3D a;
-	@APIUsage public final Vector3D b;
+	@API public final Vector3D a;
+	@API public final Vector3D b;
 
 
 	// INIT
-	@APIUsage public LineSegment3D(Vector3D a, Vector3D b)
+	@API public LineSegment3D(Vector3D a, Vector3D b)
 	{
 		this.a = a;
 		this.b = b;
@@ -20,12 +20,12 @@ public class LineSegment3D
 
 
 	// CONVERSION
-	@APIUsage public Line3D toLine()
+	@API public Line3D toLine()
 	{
 		return new Line3D(this.a, this.b.subtract(this.a));
 	}
 
-	@APIUsage public LineSegment3D getShortenedBothEnds(double distance)
+	@API public LineSegment3D getShortenedBothEnds(double distance)
 	{
 		Vector3D newA = this.a.moveTowards(this.b, distance);
 		Vector3D newB = this.b.moveTowards(this.a, distance);
@@ -35,17 +35,17 @@ public class LineSegment3D
 
 
 	// GETTERS
-	@APIUsage public double getLength()
+	@API public double getLength()
 	{
 		return this.a.distanceTo(this.b);
 	}
 
-	@APIUsage public double getLengthSquared()
+	@API public double getLengthSquared()
 	{
 		return this.a.distanceToSquared(this.b);
 	}
 
-	@APIUsage public boolean containsPoint(Vector3D point)
+	@API public boolean containsPoint(Vector3D point)
 	{
 		if(!toLine().containsPoint(point))
 			return false;
@@ -56,7 +56,7 @@ public class LineSegment3D
 
 
 	// DISTANCE
-	@APIUsage public double getDistanceTo(Vector3D point)
+	@API public double getDistanceTo(Vector3D point)
 	{
 		// http://geomalgorithms.com/a02-_lines.html
 
@@ -76,7 +76,7 @@ public class LineSegment3D
 		return point.distanceTo(pointOnSegment);
 	}
 
-	@APIUsage public double getDistanceTo(LineSegment3D other)
+	@API public double getDistanceTo(LineSegment3D other)
 	{
 		LineSegment3D shortestConnection = toLine().getShortestConnection(other.toLine());
 		boolean aOnSegment = containsPoint(shortestConnection.a);

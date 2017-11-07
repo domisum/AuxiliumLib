@@ -1,11 +1,11 @@
 package de.domisum.lib.auxilium.data.container;
 
-import de.domisum.lib.auxilium.util.java.annotations.APIUsage;
+import de.domisum.lib.auxilium.util.java.annotations.API;
 
 import java.util.HashMap;
 import java.util.Map;
 
-@APIUsage
+@API
 public class DataRegister
 {
 
@@ -14,7 +14,7 @@ public class DataRegister
 
 
 	// GETTERS
-	@APIUsage public Object get(String key)
+	@API public Object get(String key)
 	{
 		Object value = this.data.get(key);
 		if(value == null)
@@ -23,14 +23,14 @@ public class DataRegister
 		return value;
 	}
 
-	@APIUsage public boolean doesValueExist(String key)
+	@API public boolean doesValueExist(String key)
 	{
 		return this.data.get(key) != null;
 	}
 
 
 	// SETTERS
-	@APIUsage public DataRegister set(String key, Object object)
+	@API public DataRegister set(String key, Object object)
 	{
 		this.data.put(key, object);
 

@@ -1,9 +1,9 @@
 package de.domisum.lib.auxilium.util.keys;
 
-import de.domisum.lib.auxilium.util.java.annotations.APIUsage;
+import de.domisum.lib.auxilium.util.java.annotations.API;
 import de.domisum.lib.auxilium.util.math.RandomUtil;
 
-@APIUsage
+@API
 public class Base64Key
 {
 
@@ -12,7 +12,7 @@ public class Base64Key
 
 
 	// GENERATION
-	@APIUsage public static String generate(int length)
+	@API public static String generate(int length)
 	{
 		StringBuilder key = new StringBuilder();
 		for(int i = 0; i < length; i++)
