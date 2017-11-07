@@ -1,6 +1,7 @@
 package de.domisum.lib.auxilium.util;
 
 import de.domisum.lib.auxilium.util.java.annotations.APIUsage;
+import org.apache.commons.lang3.Validate;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -8,13 +9,25 @@ import java.util.zip.DataFormatException;
 import java.util.zip.Deflater;
 import java.util.zip.Inflater;
 
-public class CompressionUtil
+@APIUsage
+public final class CompressionUtil
 {
 
-	@APIUsage public static byte[] compress(byte[] input, boolean strongCompression)
+	// INIT
+	private CompressionUtil()
 	{
+		throw new UnsupportedOperationException();
+	}
+
+
+	// COMPRESSION
+	@APIUsage public static byte[] compress(byte[] input, Speed compressionSpeed)
+	{
+		Validate.notNull(input);
+		Validate.notNull(compressionSpeed);
+
 		Deflater compressor = new Deflater();
-		compressor.setLevel(strongCompression ? Deflater.BEST_COMPRESSION : Deflater.BEST_SPEED);
+		compressor.setLevel(compressionSpeed.deflaterLevel);
 		compressor.setInput(input);
 		compressor.finish();
 
@@ -30,14 +43,14 @@ public class CompressionUtil
 		}
 		catch(IOException e)
 		{
-			e.printStackTrace();
+			throw new RuntimeException(e);
 		}
-
-		return null;
 	}
 
 	@APIUsage public static byte[] decompress(byte[] input)
 	{
+		Validate.notNull(input);
+
 		Inflater decompressor = new Inflater();
 		decompressor.setInput(input);
 
@@ -52,10 +65,28 @@ public class CompressionUtil
 		}
 		catch(IOException|DataFormatException e)
 		{
-			e.printStackTrace();
+			throw new RuntimeException(e);
+		}
+	}
+
+
+	public enum Speed
+	{
+		// @formatter:off
+		@APIUsage FAST(Deflater.BEST_SPEED),
+		@APIUsage BALANCED((Deflater.BEST_COMPRESSION+Deflater.BEST_SPEED)/2),
+		@APIUsage QUALITY(Deflater.BEST_COMPRESSION);
+		// @formatter:on
+
+
+		public final int deflaterLevel;
+
+		// INIT
+		Speed(int deflaterLevel)
+		{
+			this.deflaterLevel = deflaterLevel;
 		}
 
-		return null;
 	}
 
 }
