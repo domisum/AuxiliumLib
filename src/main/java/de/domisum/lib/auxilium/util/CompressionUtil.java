@@ -79,7 +79,7 @@ public final class CompressionUtil
 		// @formatter:on
 
 
-		public final int deflaterLevel;
+		private final int deflaterLevel;
 
 		// INIT
 		Speed(int deflaterLevel)
