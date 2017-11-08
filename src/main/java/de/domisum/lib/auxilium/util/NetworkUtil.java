@@ -8,8 +8,14 @@ import java.net.SocketException;
 import java.net.UnknownHostException;
 
 @API
-public interface NetworkUtil
+public final class NetworkUtil
 {
+
+	private NetworkUtil()
+	{
+		throw new UnsupportedOperationException();
+	}
+
 
 	@API static String getMacAddress()
 	{

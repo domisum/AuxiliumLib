@@ -7,8 +7,14 @@ import java.awt.image.DataBufferByte;
 import java.awt.image.WritableRaster;
 
 @API
-public class ImageUtil
+public final class ImageUtil
 {
+
+	// INIT
+	private ImageUtil()
+	{
+		throw new UnsupportedOperationException();
+	}
 
 
 	// TO PIXELS
