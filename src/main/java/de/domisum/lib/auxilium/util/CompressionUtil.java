@@ -1,6 +1,7 @@
 package de.domisum.lib.auxilium.util;
 
 import de.domisum.lib.auxilium.util.java.annotations.API;
+import de.domisum.lib.auxilium.util.java.exceptions.ShouldNeverHappenError;
 import org.apache.commons.lang3.Validate;
 
 import java.io.ByteArrayOutputStream;
@@ -26,6 +27,7 @@ public final class CompressionUtil
 		Validate.notNull(input);
 		Validate.notNull(compressionSpeed);
 
+
 		Deflater compressor = new Deflater();
 		compressor.setLevel(compressionSpeed.deflaterLevel);
 		compressor.setInput(input);
@@ -38,18 +40,18 @@ public final class CompressionUtil
 			while(!compressor.finished())
 				bos.write(buffer, 0, compressor.deflate(buffer));
 
-			bos.close();
 			return bos.toByteArray();
 		}
 		catch(IOException e)
 		{
-			throw new RuntimeException(e);
+			throw new ShouldNeverHappenError(e);
 		}
 	}
 
 	@API public static byte[] decompress(byte[] input)
 	{
 		Validate.notNull(input);
+
 
 		Inflater decompressor = new Inflater();
 		decompressor.setInput(input);
@@ -63,9 +65,13 @@ public final class CompressionUtil
 			bos.close();
 			return bos.toByteArray();
 		}
-		catch(IOException|DataFormatException e)
+		catch(DataFormatException e)
 		{
-			throw new RuntimeException(e);
+			throw new RuntimeException("Invalid data provided:", e);
+		}
+		catch(IOException e)
+		{
+			throw new ShouldNeverHappenError(e);
 		}
 	}
 
