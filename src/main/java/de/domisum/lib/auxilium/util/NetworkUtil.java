@@ -17,7 +17,7 @@ public final class NetworkUtil
 	}
 
 
-	@API static String getMacAddress()
+	@API public static String getMacAddress()
 	{
 		byte[] macAddressAsBytes;
 		try
