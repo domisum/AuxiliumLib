@@ -5,11 +5,12 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.Random;
+import java.util.zip.DataFormatException;
 
 public class CompressionUtilTest
 {
 
-	// TESTS
+	// TESTS: PROPER INPUT
 	@Test public void testEmptyData()
 	{
 		assertCompressDecompressEquals(new byte[] {});
@@ -43,6 +44,13 @@ public class CompressionUtilTest
 
 		for(int i = 0; i < 200; i++)
 			assertCompressDecompressEquals(getPseudorandomData(random.nextInt(128*1024), random));
+	}
+
+
+	// TESTS: ERROR HANDLING
+	@Test public void testInvalidDecompressData()
+	{
+		Assertions.assertThrows(DataFormatException.class, ()->CompressionUtil.decompress(getUniformData(5, 0)));
 	}
 
 
