@@ -1,6 +1,6 @@
 package de.domisum.lib.auxilium.util.java.exceptions;
 
-public class ShouldNeverHappenError extends Error
+public class ShouldNeverHappenError extends AssertionError
 {
 
 	// INIT
