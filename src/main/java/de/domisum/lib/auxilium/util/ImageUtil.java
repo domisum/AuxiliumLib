@@ -2,58 +2,16 @@ package de.domisum.lib.auxilium.util;
 
 import de.domisum.lib.auxilium.util.java.annotations.API;
 
-import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
 import java.awt.image.WritableRaster;
-import java.io.File;
-import java.io.IOException;
 
 @API
 public class ImageUtil
 {
 
-	@API public static BufferedImage loadImage(String path)
-	{
-		return loadImage(new File(path));
-	}
 
-	@API public static BufferedImage loadImage(File file)
-	{
-		if(!file.exists())
-			throw new IllegalArgumentException("The file '"+file.getAbsoluteFile().getPath()+"' does not exits");
-
-		try
-		{
-			return ImageIO.read(file);
-		}
-		catch(IOException e)
-		{
-			throw new RuntimeException(e);
-		}
-	}
-
-
-	@API public static void writeImage(File file, BufferedImage image)
-	{
-		File parent = file.getAbsoluteFile().getParentFile();
-		if(!parent.exists())
-			parent.mkdirs();
-
-		if(image == null)
-			throw new IllegalArgumentException("The image can't be null");
-
-		try
-		{
-			ImageIO.write(image, "png", file);
-		}
-		catch(IOException e)
-		{
-			e.printStackTrace();
-		}
-	}
-
-
+	// TO PIXELS
 	@API public static int[][] getPixels(BufferedImage image)
 	{
 		final byte[] pixels = ((DataBufferByte) image.getRaster().getDataBuffer()).getData();
@@ -112,6 +70,8 @@ public class ImageUtil
 		return result;
 	}
 
+
+	// FROM PIXELS
 	@API public static BufferedImage getImageFromPixels(int[] pixels, int width, int height)
 	{
 		BufferedImage bi = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);

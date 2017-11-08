@@ -2,6 +2,8 @@ package de.domisum.lib.auxilium.util;
 
 import de.domisum.lib.auxilium.util.java.annotations.API;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileWriter;
@@ -61,13 +63,23 @@ public class FileUtil
 		}
 	}
 
-
-	// WRITE
-	@API public static void writeStringToFile(String path, String content)
+	@API public static BufferedImage readImage(File file)
 	{
-		writeStringToFile(new File(path), content);
+		if(!file.exists())
+			throw new IllegalArgumentException("The file '"+file.getAbsoluteFile().getPath()+"' does not exits");
+
+		try
+		{
+			return ImageIO.read(file);
+		}
+		catch(IOException e)
+		{
+			throw new RuntimeException(e);
+		}
 	}
 
+
+	// WRITE
 	@API public static void writeStringToFile(File file, String content)
 	{
 		try
@@ -89,6 +101,25 @@ public class FileUtil
 		try
 		{
 			Files.write(file.toPath(), data);
+		}
+		catch(IOException e)
+		{
+			e.printStackTrace();
+		}
+	}
+
+	@API public static void writeImage(File file, BufferedImage image)
+	{
+		File parent = file.getAbsoluteFile().getParentFile();
+		if(!parent.exists())
+			parent.mkdirs();
+
+		if(image == null)
+			throw new IllegalArgumentException("The image can't be null");
+
+		try
+		{
+			ImageIO.write(image, "png", file);
 		}
 		catch(IOException e)
 		{
