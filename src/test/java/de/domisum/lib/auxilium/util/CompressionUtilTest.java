@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.Random;
-import java.util.zip.DataFormatException;
 
 public class CompressionUtilTest
 {
@@ -50,7 +49,7 @@ public class CompressionUtilTest
 	// TESTS: ERROR HANDLING
 	@Test public void testInvalidDecompressData()
 	{
-		Assertions.assertThrows(DataFormatException.class, ()->CompressionUtil.decompress(getUniformData(5, 0)));
+		Assertions.assertThrows(RuntimeException.class, ()->CompressionUtil.decompress(getUniformData(5, 0)));
 	}
 
 
