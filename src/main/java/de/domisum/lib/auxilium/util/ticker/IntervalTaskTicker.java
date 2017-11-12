@@ -34,7 +34,7 @@ public class IntervalTaskTicker extends Ticker
 
 
 	// TICK
-	@Override protected void tick()
+	@Override protected final void tick()
 	{
 		for(IntervalTask t : this.tasks)
 			if(t.shouldRunNow())
