@@ -5,6 +5,7 @@ import com.google.common.reflect.ClassPath.ClassInfo;
 import de.domisum.lib.auxilium.util.java.annotations.API;
 
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -30,10 +31,9 @@ public class ClazzUtil
 
 	@API public static List<Class<?>> getClasses(String path)
 	{
-		ClassPath classPath;
 		try
 		{
-			classPath = ClassPath.from(ClazzUtil.class.getClassLoader());
+			ClassPath classPath = ClassPath.from(ClazzUtil.class.getClassLoader());
 			Set<ClassInfo> classInfo = classPath.getTopLevelClassesRecursive(path);
 			Iterator<ClassInfo> iterator = classInfo.iterator();
 
@@ -50,10 +50,8 @@ public class ClazzUtil
 		}
 		catch(IOException e)
 		{
-			e.printStackTrace();
+			throw new UncheckedIOException(e);
 		}
-
-		return null;
 	}
 
 }
