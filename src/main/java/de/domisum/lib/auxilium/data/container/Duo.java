@@ -1,53 +1,19 @@
 package de.domisum.lib.auxilium.data.container;
 
-
 import de.domisum.lib.auxilium.util.java.annotations.API;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
+@AllArgsConstructor
+@EqualsAndHashCode
+@ToString
 public class Duo<T, U>
 {
 
 	// VALUES
 	public final T a;
 	public final U b;
-
-
-	// INIT
-	public Duo(T a, U b)
-	{
-		this.a = a;
-		this.b = b;
-	}
-
-	@Override public boolean equals(Object o)
-	{
-		if(!(o instanceof Duo))
-			return false;
-
-		Duo<?, ?> other = (Duo<?, ?>) o;
-
-		boolean aEquals = this.a != null ? this.a.equals(other.a) : other.a == null;
-		boolean bEquals = this.b != null ? this.b.equals(other.b) : other.b == null;
-
-		return aEquals && bEquals;
-	}
-
-	@Override public int hashCode()
-	{
-		int hashCode = 13;
-
-		hashCode = hashCode*37+(this.a != null ? this.a.hashCode() : 0);
-		hashCode = hashCode*37+(this.b != null ? this.b.hashCode() : 0);
-
-		return hashCode;
-	}
-
-	@Override public String toString()
-	{
-		String aString = this.a != null ? this.a.toString() : "null";
-		String bString = this.b != null ? this.b.toString() : "null";
-
-		return "Duo[a='"+aString+"',b='"+bString+"']";
-	}
 
 
 	// GETTERS

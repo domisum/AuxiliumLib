@@ -14,6 +14,8 @@ public class InterchangeableDuo<T, U> extends Duo<T, U>
 		super(a, b);
 	}
 
+
+	// OBJECT
 	@Override public boolean equals(Object o)
 	{
 		if(!(o instanceof InterchangeableDuo))
@@ -29,9 +31,6 @@ public class InterchangeableDuo<T, U> extends Duo<T, U>
 
 	@Override public int hashCode()
 	{
-		// not using default hashCode practices because
-		// two InterchangeableDuos with inverted a and b should give the same hashCode
-
 		return Objects.hashCode(this.a)+Objects.hashCode(this.b);
 	}
 

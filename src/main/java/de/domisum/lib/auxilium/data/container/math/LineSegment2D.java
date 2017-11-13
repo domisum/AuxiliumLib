@@ -2,31 +2,20 @@ package de.domisum.lib.auxilium.data.container.math;
 
 import de.domisum.lib.auxilium.data.container.bound.DoubleBounds2D;
 import de.domisum.lib.auxilium.util.java.annotations.API;
+import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
-@EqualsAndHashCode
 @API
+@AllArgsConstructor
+@EqualsAndHashCode
+@ToString
 public class LineSegment2D
 {
 
 	// PROPERTIES
 	public final Vector2D a;
 	public final Vector2D b;
-
-
-	// INIT
-	@API public LineSegment2D(Vector2D a, Vector2D b)
-	{
-		this.a = a;
-		this.b = b;
-	}
-
-
-	// OBJECT
-	@Override public String toString()
-	{
-		return "LineSegment2D{"+"a="+this.a+", b="+this.b+'}';
-	}
 
 
 	// GETTERS

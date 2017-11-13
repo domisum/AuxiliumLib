@@ -2,9 +2,11 @@ package de.domisum.lib.auxilium.data.container.math;
 
 import de.domisum.lib.auxilium.util.java.annotations.API;
 import de.domisum.lib.auxilium.util.math.MathUtil;
+import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 
 @API
+@AllArgsConstructor
 @EqualsAndHashCode
 public class Vector2D
 {
@@ -14,12 +16,6 @@ public class Vector2D
 
 
 	// INIT
-	@API public Vector2D(double x, double y)
-	{
-		this.x = x;
-		this.y = y;
-	}
-
 	@API public Vector2D()
 	{
 		this(0, 0);

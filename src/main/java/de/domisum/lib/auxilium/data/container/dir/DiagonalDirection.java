@@ -1,10 +1,12 @@
 package de.domisum.lib.auxilium.data.container.dir;
 
 import de.domisum.lib.auxilium.util.java.annotations.API;
+import lombok.AllArgsConstructor;
 
 import java.util.Random;
 
 @API
+@AllArgsConstructor
 public enum DiagonalDirection
 {
 
@@ -19,14 +21,6 @@ public enum DiagonalDirection
 
 	public final int dX;
 	public final int dZ;
-
-
-	// INIT
-	DiagonalDirection(int dX, int dZ)
-	{
-		this.dX = dX;
-		this.dZ = dZ;
-	}
 
 
 	// GETTERS

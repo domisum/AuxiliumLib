@@ -1,10 +1,12 @@
 package de.domisum.lib.auxilium.data.container.dir;
 
 import de.domisum.lib.auxilium.util.java.annotations.API;
+import lombok.AllArgsConstructor;
 
 import java.util.Random;
 
 @API
+@AllArgsConstructor
 public enum Direction3D
 {
 
@@ -17,18 +19,10 @@ public enum Direction3D
 	DOWN(0, -1, 0);
 	// @formatter:on
 
+
 	public final int dX;
 	public final int dY;
 	public final int dZ;
-
-
-	// INIT
-	Direction3D(int dX, int dY, int dZ)
-	{
-		this.dX = dX;
-		this.dY = dY;
-		this.dZ = dZ;
-	}
 
 
 	// GETTERS

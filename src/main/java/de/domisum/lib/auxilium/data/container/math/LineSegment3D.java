@@ -1,22 +1,16 @@
 package de.domisum.lib.auxilium.data.container.math;
 
 import de.domisum.lib.auxilium.util.java.annotations.API;
+import lombok.AllArgsConstructor;
 
 @API
+@AllArgsConstructor
 public class LineSegment3D
 {
 
 	// PROPERTIES
 	@API public final Vector3D a;
 	@API public final Vector3D b;
-
-
-	// INIT
-	@API public LineSegment3D(Vector3D a, Vector3D b)
-	{
-		this.a = a;
-		this.b = b;
-	}
 
 
 	// CONVERSION

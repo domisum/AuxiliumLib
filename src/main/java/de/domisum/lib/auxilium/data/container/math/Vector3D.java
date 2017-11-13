@@ -2,6 +2,7 @@ package de.domisum.lib.auxilium.data.container.math;
 
 import de.domisum.lib.auxilium.util.java.annotations.API;
 import de.domisum.lib.auxilium.util.math.MathUtil;
+import lombok.AllArgsConstructor;
 
 /**
  * Class to describe a Vector in 3 Dimensions.
@@ -10,6 +11,7 @@ import de.domisum.lib.auxilium.util.math.MathUtil;
  * while the Vector3D on which the action was performed remains unchanged.
  */
 @API
+@AllArgsConstructor
 public class Vector3D
 {
 
@@ -19,20 +21,6 @@ public class Vector3D
 
 
 	// INIT
-
-	/**
-	 * Constructs a Vector3D from the x-, y- and z-coordinate
-	 *
-	 * @param x the x coordinate
-	 * @param y the y coordinate
-	 * @param z the z coordinate
-	 */
-	@API public Vector3D(double x, double y, double z)
-	{
-		this.x = x;
-		this.y = y;
-		this.z = z;
-	}
 
 	/**
 	 * Constructs a null-Vector3D, where, x, y and z are set to 0.

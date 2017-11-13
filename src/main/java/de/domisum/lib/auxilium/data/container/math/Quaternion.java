@@ -2,8 +2,10 @@ package de.domisum.lib.auxilium.data.container.math;
 
 import de.domisum.lib.auxilium.util.java.annotations.API;
 import de.domisum.lib.auxilium.util.math.MathUtil;
+import lombok.AllArgsConstructor;
 
 @API
+@AllArgsConstructor
 public class Quaternion
 {
 
@@ -18,14 +20,6 @@ public class Quaternion
 	@API public Quaternion()
 	{
 		this(0, new Vector3D(1, 0, 0)); // vector can't be null-vector since this fucks everything up
-	}
-
-	@API public Quaternion(double w, double x, double y, double z)
-	{
-		this.w = w;
-		this.x = x;
-		this.y = y;
-		this.z = z;
 	}
 
 	@API public Quaternion(double angleRad, Vector3D vector)

@@ -1,6 +1,7 @@
 package de.domisum.lib.auxilium.data.container.dir;
 
 import de.domisum.lib.auxilium.util.java.annotations.API;
+import lombok.AllArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -8,6 +9,7 @@ import java.util.List;
 import java.util.Random;
 
 @API
+@AllArgsConstructor
 public enum Direction2D
 {
 
@@ -21,14 +23,6 @@ public enum Direction2D
 
 	public final int dX;
 	public final int dZ;
-
-
-	// INITIALIZATION
-	Direction2D(int dX, int dZ)
-	{
-		this.dX = dX;
-		this.dZ = dZ;
-	}
 
 
 	// GETTERS
