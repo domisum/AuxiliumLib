@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Set;
 
 @API
-public class ClazzUtil
+public class ClassUtil
 {
 
 	@API public static Class<?> getClass(String path)
@@ -33,7 +33,7 @@ public class ClazzUtil
 	{
 		try
 		{
-			ClassPath classPath = ClassPath.from(ClazzUtil.class.getClassLoader());
+			ClassPath classPath = ClassPath.from(ClassUtil.class.getClassLoader());
 			Set<ClassInfo> classInfo = classPath.getTopLevelClassesRecursive(path);
 			Iterator<ClassInfo> iterator = classInfo.iterator();
 
@@ -42,7 +42,7 @@ public class ClazzUtil
 			while(iterator.hasNext())
 			{
 				ClassInfo ci = iterator.next();
-				Class<?> clazz = ClazzUtil.getClass(ci.getName());
+				Class<?> clazz = ClassUtil.getClass(ci.getName());
 				classes.add(clazz);
 			}
 

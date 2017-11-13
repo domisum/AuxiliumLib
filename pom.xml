@@ -28,7 +28,7 @@
 			<optional>true</optional>
 		</dependency>
 
-		<!-- only used for ClazzUtil class, therefore optional-->
+		<!-- only used for ClassUtil class, therefore optional-->
 		<dependency>
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
