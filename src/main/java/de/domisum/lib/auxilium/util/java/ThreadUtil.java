@@ -7,22 +7,9 @@ public class ThreadUtil
 
 	@API public static boolean sleep(long ms)
 	{
-		return sleep(ms, 0);
-	}
-
-	@API public static boolean sleepNs(long ns)
-	{
-		long ms = ns/(1000*1000);
-		long nsOnly = ns%(1000*1000);
-
-		return sleep(ms, nsOnly);
-	}
-
-	@API public static boolean sleep(long ms, long ns)
-	{
 		try
 		{
-			Thread.sleep(ms, (int) ns);
+			Thread.sleep(ms);
 			return true;
 		}
 		catch(InterruptedException e)
@@ -31,7 +18,6 @@ public class ThreadUtil
 			return false;
 		}
 	}
-
 
 	@API public static boolean join(Thread thread)
 	{
@@ -73,6 +59,7 @@ public class ThreadUtil
 			object.notifyAll();
 		}
 	}
+
 
 	@API public static Thread runAsync(Runnable run, String description)
 	{
