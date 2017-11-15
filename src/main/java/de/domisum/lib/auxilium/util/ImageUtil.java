@@ -2,6 +2,9 @@ package de.domisum.lib.auxilium.util;
 
 import de.domisum.lib.auxilium.util.java.annotations.API;
 
+import java.awt.AlphaComposite;
+import java.awt.Color;
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
 import java.awt.image.WritableRaster;
@@ -106,6 +109,21 @@ public final class ImageUtil
 		}
 
 		return getImageFromPixels(linearPixels, width, height);
+	}
+
+
+	// COLOR
+	public static BufferedImage dye(BufferedImage image, Color color)
+	{
+		BufferedImage graphicsImage = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_ARGB);
+
+		Graphics2D graphics2D = graphicsImage.createGraphics();
+		graphics2D.drawImage(image, 0, 0, null);
+		graphics2D.setComposite(AlphaComposite.SrcAtop);
+		graphics2D.setColor(color);
+		graphics2D.fillRect(0, 0, image.getWidth(), image.getHeight());
+
+		return graphicsImage;
 	}
 
 }
