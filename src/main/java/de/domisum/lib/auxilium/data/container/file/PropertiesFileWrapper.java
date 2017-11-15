@@ -10,7 +10,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.HashSet;
 import java.util.Properties;
+import java.util.Set;
 
 @API
 public class PropertiesFileWrapper
@@ -71,6 +73,11 @@ public class PropertiesFileWrapper
 
 
 	// GETTERS
+	@API public Set<String> getKeys()
+	{
+		return new HashSet<>(properties.stringPropertyNames());
+	}
+
 	@API public String get(String key)
 	{
 		if(!this.properties.containsKey(key))
