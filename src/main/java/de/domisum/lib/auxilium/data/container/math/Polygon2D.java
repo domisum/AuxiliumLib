@@ -16,7 +16,7 @@ public class Polygon2D
 	// data
 	@API public final List<Vector2D> points;
 
-	// temp
+	// lazy values for better performance
 	private List<LineSegment2D> lines;
 	private List<PolygonCorner> corners;
 	private DoubleBounds2D boundingBox;
