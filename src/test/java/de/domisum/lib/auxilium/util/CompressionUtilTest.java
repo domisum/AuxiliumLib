@@ -12,29 +12,29 @@ public class CompressionUtilTest
 	// TESTS: PROPER INPUT
 	@Test public void testEmptyData()
 	{
-		assertCompressDecompressEquals(new byte[] {});
+		compressDecompressAndAssertEquals(new byte[] {});
 	}
 
 	@Test public void testUniformData()
 	{
-		assertCompressDecompressEquals(new byte[] {0});
-		assertCompressDecompressEquals(new byte[] {-1});
-		assertCompressDecompressEquals(new byte[] {1});
-		assertCompressDecompressEquals(new byte[] {127});
-		assertCompressDecompressEquals(new byte[] {-128});
+		compressDecompressAndAssertEquals(new byte[] {0});
+		compressDecompressAndAssertEquals(new byte[] {-1});
+		compressDecompressAndAssertEquals(new byte[] {1});
+		compressDecompressAndAssertEquals(new byte[] {127});
+		compressDecompressAndAssertEquals(new byte[] {-128});
 
-		assertCompressDecompressEquals(getUniformData(64, 2));
-		assertCompressDecompressEquals(getUniformData(64, 87));
-		assertCompressDecompressEquals(getUniformData(77, -34));
-		assertCompressDecompressEquals(getUniformData(77, 89));
-		assertCompressDecompressEquals(getUniformData(987977, 0));
-		assertCompressDecompressEquals(getUniformData(987977, 127));
+		compressDecompressAndAssertEquals(getUniformData(64, 2));
+		compressDecompressAndAssertEquals(getUniformData(64, 87));
+		compressDecompressAndAssertEquals(getUniformData(77, -34));
+		compressDecompressAndAssertEquals(getUniformData(77, 89));
+		compressDecompressAndAssertEquals(getUniformData(987977, 0));
+		compressDecompressAndAssertEquals(getUniformData(987977, 127));
 	}
 
 	@Test public void testBigUniformData()
 	{
-		assertCompressDecompressEquals(getUniformData(32*1024*1024, -83));
-		assertCompressDecompressEquals(getUniformData(32*1024*1024, 31));
+		compressDecompressAndAssertEquals(getUniformData(32*1024*1024, -83));
+		compressDecompressAndAssertEquals(getUniformData(32*1024*1024, 31));
 	}
 
 	@Test public void testPseudorandomData()
@@ -42,7 +42,7 @@ public class CompressionUtilTest
 		Random random = new Random(381);
 
 		for(int i = 0; i < 200; i++)
-			assertCompressDecompressEquals(getPseudorandomData(random.nextInt(128*1024), random));
+			compressDecompressAndAssertEquals(getPseudorandomData(random.nextInt(128*1024), random));
 	}
 
 
@@ -71,14 +71,14 @@ public class CompressionUtilTest
 	}
 
 
-	// ASSERT
-	private void assertCompressDecompressEquals(byte[] data)
+	// ACT + ASSERT
+	private void compressDecompressAndAssertEquals(byte[] data)
 	{
 		for(CompressionUtil.Speed speed : CompressionUtil.Speed.values())
-			assertCompressDecompressEquals(data, speed);
+			compressDecompressAndAssertEquals(data, speed);
 	}
 
-	private void assertCompressDecompressEquals(byte[] data, CompressionUtil.Speed speed)
+	private void compressDecompressAndAssertEquals(byte[] data, CompressionUtil.Speed speed)
 	{
 		byte[] compressed = CompressionUtil.compress(data, speed);
 		byte[] decompressed = CompressionUtil.decompress(compressed);
