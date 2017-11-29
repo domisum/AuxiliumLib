@@ -1,8 +1,11 @@
 package de.domisum.lib.auxilium.util.math;
 
 import de.domisum.lib.auxilium.util.java.annotations.API;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
-public class MathUtil
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+public final class MathUtil
 {
 
 	// NUMBERS
@@ -66,13 +69,13 @@ public class MathUtil
 
 
 	// HELPER
-	@API public static double round(double number, int digits)
+	@API public static double round(double numberToRound, int decimalPlaces)
 	{
 		int factor = 1;
-		for(int i = 0; i < digits; i++)
+		for(int i = 0; i < decimalPlaces; i++)
 			factor *= 10;
 
-		return (double) Math.round(number*factor)/factor;
+		return (double) Math.round(numberToRound*factor)/factor;
 	}
 
 }
