@@ -2,6 +2,8 @@ package de.domisum.lib.auxilium.util;
 
 import de.domisum.lib.auxilium.util.java.annotations.API;
 import de.domisum.lib.auxilium.util.java.exceptions.ShouldNeverHappenError;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.Validate;
 
 import java.io.ByteArrayOutputStream;
@@ -11,15 +13,9 @@ import java.util.zip.Deflater;
 import java.util.zip.Inflater;
 
 @API
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class CompressionUtil
 {
-
-	// INIT
-	private CompressionUtil()
-	{
-		throw new UnsupportedOperationException();
-	}
-
 
 	// COMPRESSION
 	@API public static byte[] compress(byte[] input, Speed compressionSpeed)
