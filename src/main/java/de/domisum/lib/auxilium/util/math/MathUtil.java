@@ -3,6 +3,7 @@ package de.domisum.lib.auxilium.util.math;
 import de.domisum.lib.auxilium.util.java.annotations.API;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import org.apache.commons.lang3.Validate;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class MathUtil
@@ -35,20 +36,14 @@ public final class MathUtil
 	}
 
 
-	@API public static double remapLinear(double from1, double from2, double to1, double to2, double value)
+	@API
+	public static double remapLinear(double baseStart, double baseEnd, double targetStart, double targetEnd, double valueToRemap)
 	{
-		if(from2 < from1)
-			throw new IllegalArgumentException("from2 ("+from2+") can't be lower than from1 ("+from1+")");
+		Validate.isTrue(baseStart != baseEnd, "baseStart can't be equal to baseEnd ("+baseStart+")");
+		Validate.isTrue(targetStart != targetEnd, "targetStart can't be equal to targetEnd ("+targetStart+")");
 
-		if(to2 < to1)
-			throw new IllegalArgumentException("to2 ("+to2+") can't be lower than to1 ("+to1+")");
-
-		double distToFrom1 = value-from1;
-		double relativeClosenesTo1 = distToFrom1/(from2-from1);
-
-		double distToTo1 = relativeClosenesTo1*(to2-to1);
-
-		return to1+distToTo1;
+		double proportionFrom1To2 = (valueToRemap-baseStart)/(baseEnd-baseStart);
+		return targetStart+((targetEnd-targetStart)*proportionFrom1To2);
 	}
 
 
