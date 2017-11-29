@@ -68,7 +68,16 @@ public final class MathUtil
 	}
 
 
-	// HELPER
+	/**
+	 * Rounds a double to the specified number of decimal places.
+	 * <p>
+	 * Rounds values equal to or above .5 up (towards positive infinity), values below down (towards negative infinity). <br/>
+	 * Example: Rounds 7.45 with 1 decimal place to 7.5; rounds -7.45 with 1 decimal place to -7.4
+	 *
+	 * @param numberToRound number to be rounded
+	 * @param decimalPlaces the number of decimal places to round
+	 * @return the rounded number
+	 */
 	@API public static double round(double numberToRound, int decimalPlaces)
 	{
 		int factor = 1;
