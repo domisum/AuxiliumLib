@@ -9,26 +9,6 @@ import java.util.Objects;
 public class TextUtil
 {
 
-	// BASIC
-	@API public static String replaceLast(String string, String from, String to)
-	{
-		int pos = string.lastIndexOf(from);
-		if(pos > -1)
-			return string.substring(0, pos)+to+string.substring(pos+from.length(), string.length());
-
-		return string;
-	}
-
-	@API public static String repeat(String string, int repeats)
-	{
-		StringBuilder result = new StringBuilder();
-		for(int i = 0; i < repeats; i++)
-			result.append(string);
-
-		return result.toString();
-	}
-
-
 	// NUMBERS
 	@API public static String asRomanNumeral(int number)
 	{

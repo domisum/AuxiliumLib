@@ -342,7 +342,7 @@ public class FileUtil
 		if(id.startsWith("/"))
 			id = id.substring(1, id.length());
 
-		id = TextUtil.replaceLast(id, fileExtension, "");
+		id = StringUtil.replaceLast(id, fileExtension, "");
 
 		return id;
 	}
