@@ -313,10 +313,11 @@ public class FileUtil
 	{
 		List<File> files = new ArrayList<>();
 
-		File[] filesArray = dir.listFiles();
-		if(filesArray == null)
-			throw new IllegalArgumentException("The directory '"+dir.getPath()+"' does not exist");
+		if(!dir.exists())
+			return files;
 
+		File[] filesArray = dir.listFiles();
+		// noinspection ConstantConditions
 		for(File file : filesArray)
 		{
 			if(file.isDirectory())
