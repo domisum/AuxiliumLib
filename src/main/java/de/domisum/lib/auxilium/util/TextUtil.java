@@ -1,12 +1,15 @@
 package de.domisum.lib.auxilium.util;
 
 import de.domisum.lib.auxilium.util.java.annotations.API;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 import java.util.Objects;
 
 @API
-public class TextUtil
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+public final class TextUtil
 {
 
 	// NUMBERS
@@ -73,6 +76,18 @@ public class TextUtil
 		}
 
 		return string.toString();
+	}
+
+
+	// SPECIAL CHARACTERS
+	public static String replaceUmlauts(String input)
+	{
+		String withoutUmlauts = input;
+
+		withoutUmlauts = withoutUmlauts.replace("ä", "ae").replace("ö", "oe").replace("ü", "ue");
+		withoutUmlauts = withoutUmlauts.replace("Ä", "Ae").replace("Ö", "Oe").replace("Ü", "Ue");
+
+		return withoutUmlauts;
 	}
 
 }
