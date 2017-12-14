@@ -94,6 +94,7 @@ public final class MathUtil
 		if(input >= 1)
 			return 1;
 
+		// 3*x^2-2*x^3
 		return 3*(input*input)-2*(input*input*input);
 	}
 
@@ -107,6 +108,7 @@ public final class MathUtil
 		if(input >= 1)
 			return 1;
 
+		// 6*x^5-15*x^4+10*x^3
 		return 6*(input*input*input*input*input)-15*(input*input*input*input)+10*(input*input*input);
 	}
 
