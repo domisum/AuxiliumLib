@@ -84,7 +84,7 @@ public final class MathUtil
 
 
 	// FUNCTION
-	@API public double smoothStep(double input)
+	@API public static double smoothStep(double input)
 	{
 		// https://en.wikipedia.org/wiki/Smoothstep
 
