@@ -97,4 +97,17 @@ public final class MathUtil
 		return 3*(input*input)-2*(input*input*input);
 	}
 
+	@API public static double smootherStep(double input)
+	{
+		// https://en.wikipedia.org/wiki/Smoothstep#Variations
+
+		if(input <= 0)
+			return 0;
+
+		if(input >= 1)
+			return 1;
+
+		return 6*(input*input*input*input*input)-15*(input*input*input*input)+10*(input*input*input);
+	}
+
 }
