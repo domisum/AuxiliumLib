@@ -82,4 +82,19 @@ public final class MathUtil
 		return (double) Math.round(numberToRound*factor)/factor;
 	}
 
+
+	// FUNCTION
+	public double smoothStep(double input)
+	{
+		// https://en.wikipedia.org/wiki/Smoothstep
+
+		if(input <= 0)
+			return 0;
+
+		if(input >= 1)
+			return 1;
+
+		return 3*(input*input)-2*(input*input*input);
+	}
+
 }
