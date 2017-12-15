@@ -1,5 +1,7 @@
 package de.domisum.lib.auxilium.contracts.storage;
 
+import de.domisum.lib.auxilium.util.java.annotations.API;
+
 /**
  * Interface describing the contract of a storage module. The purpose of the module is to store objects of the type
  * <code>T</code> and be able to retrieve the instances later on. This contract does not guarantee persistence,
@@ -19,13 +21,13 @@ public interface Storage<T> extends Source<T>
 	 *
 	 * @param item the item to store
 	 */
-	void store(T item);
+	@API void store(T item);
 
 	/**
 	 * Removes the item with the supplied id from the storage module.
 	 *
 	 * @param id the id of the item to remove
 	 */
-	void remove(String id);
+	@API void remove(String id);
 
 }
