@@ -12,22 +12,22 @@ import de.domisum.lib.auxilium.util.java.annotations.API;
  *
  * @param <T> the type of item to be stored
  */
-public interface Storage<T> extends Source<T>
+public interface Storage<T, K> extends Source<T, K>
 {
 
 	/**
 	 * Stores a <code>T</code> in this module in order to fetch it later on. If the storage module already contains
-	 * another item with the same id, the old item is discarded and the new item stored in its place.
+	 * another item with the same key, the old item is discarded and the new item stored in its place.
 	 *
 	 * @param item the item to store
 	 */
 	@API void store(T item);
 
 	/**
-	 * Removes the item with the supplied id from the storage module.
+	 * Removes the item with the supplied key from the storage module.
 	 *
-	 * @param id the id of the item to remove
+	 * @param key the key of the item to remove
 	 */
-	@API void remove(String id);
+	@API void remove(K key);
 
 }
