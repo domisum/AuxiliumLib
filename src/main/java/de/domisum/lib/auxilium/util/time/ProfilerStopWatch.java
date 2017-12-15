@@ -1,4 +1,4 @@
-package de.domisum.lib.auxilium.util.java;
+package de.domisum.lib.auxilium.util.time;
 
 import de.domisum.lib.auxilium.util.java.annotations.API;
 import de.domisum.lib.auxilium.util.math.MathUtil;

@@ -1,0 +1,69 @@
+package de.domisum.lib.auxilium.util.time;
+
+import de.domisum.lib.auxilium.util.java.annotations.API;
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+
+import java.time.Duration;
+import java.time.Instant;
+
+@API
+@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
+public class PassiveTimer
+{
+
+	// SETTINGS
+	private final Duration duration;
+
+	// TEMP
+	private Instant startTime = null;
+
+
+	// INIT
+	@API public static PassiveTimer fromDurationAndStart(Duration duration)
+	{
+		PassiveTimer timer = new PassiveTimer(duration);
+		timer.start();
+
+		return timer;
+	}
+
+
+	// TIMER
+	@API public synchronized void start()
+	{
+		if(startTime != null)
+			throw new IllegalStateException("can't start timer that has already been started, use #reset() first");
+
+		startTime = Instant.now();
+	}
+
+	@API public synchronized void reset()
+	{
+		startTime = null;
+	}
+
+
+	@API public synchronized void resetAndStart()
+	{
+		reset();
+		start();
+	}
+
+	@API public synchronized boolean isOver()
+	{
+		if(startTime == null)
+			throw new IllegalStateException("can't check if timer is over if it hasn't been started yet");
+
+		Duration timeSinceStart = getTimeSinceStart();
+		return timeSinceStart.compareTo(duration) >= 0;
+	}
+
+
+	// UTIL
+	private Duration getTimeSinceStart()
+	{
+		return Duration.between(startTime, Instant.now());
+	}
+
+}
