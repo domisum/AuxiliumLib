@@ -20,9 +20,14 @@ public class PassiveTimer
 
 
 	// INIT
+	@API public static PassiveTimer fromDuration(Duration duration)
+	{
+		return new PassiveTimer(duration);
+	}
+
 	@API public static PassiveTimer fromDurationAndStart(Duration duration)
 	{
-		PassiveTimer timer = new PassiveTimer(duration);
+		PassiveTimer timer = fromDuration(duration);
 		timer.start();
 
 		return timer;
