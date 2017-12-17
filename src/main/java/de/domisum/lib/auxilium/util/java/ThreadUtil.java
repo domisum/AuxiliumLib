@@ -72,7 +72,8 @@ public class ThreadUtil
 
 	@API public static Thread runDelayed(Runnable run, long ms)
 	{
-		Runnable delay = ()->{
+		Runnable delay = ()->
+		{
 			sleep(ms);
 			run.run();
 		};
@@ -82,6 +83,20 @@ public class ThreadUtil
 		thread.start();
 
 		return thread;
+	}
+
+
+	@API public static void addShutdownHook(Runnable shutdownHook)
+	{
+		addShutdownHook(shutdownHook, "shutdownHook");
+	}
+
+	@API public static void addShutdownHook(Runnable shutdownHook, String shutdownHookName)
+	{
+		Thread shutdownHookThread = new Thread(shutdownHook);
+		shutdownHookThread.setName(shutdownHookName);
+
+		Runtime.getRuntime().addShutdownHook(shutdownHookThread);
 	}
 
 }
