@@ -3,6 +3,7 @@ package de.domisum.lib.auxilium.contracts.storage;
 import lombok.RequiredArgsConstructor;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -62,7 +63,7 @@ public abstract class InMemoryProxyStorage<T extends InMemoryProxyStorage.Keyabl
 	{
 		checkReady();
 
-		return items.values();
+		return Collections.unmodifiableCollection(items.values());
 	}
 
 	@Override public boolean contains(K key)
