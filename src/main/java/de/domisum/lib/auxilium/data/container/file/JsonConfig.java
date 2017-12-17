@@ -33,12 +33,11 @@ public abstract class JsonConfig
 	protected abstract void validate();
 
 
-	protected void validateStringNotNullNotBlank(String toValidate, String fieldName)
+	protected void validateString(String toValidate, String fieldName)
 	{
-		String failMessage = fieldName+" can't be blank or null";
+		String failMessage = fieldName+" was missing from config";
 
 		Validate.notNull(toValidate, failMessage);
-		Validate.notBlank(toValidate, failMessage);
 	}
 
 	protected void validatePort(int port)
