@@ -32,12 +32,18 @@ public abstract class JsonConfig
 	// VALIDATE
 	protected abstract void validate();
 
+
 	protected void validateStringNotNullNotBlank(String toValidate, String fieldName)
 	{
 		String failMessage = fieldName+" can't be blank or null";
 
 		Validate.notNull(toValidate, failMessage);
 		Validate.notBlank(toValidate, failMessage);
+	}
+
+	protected void validatePort(int port)
+	{
+		Validate.inclusiveBetween(1, 65535, port, "port out of range [1-65535]: "+port);
 	}
 
 }
