@@ -50,7 +50,7 @@ public final class HttpFetchUtil
 			tempFile = File.createTempFile("dl", null);
 
 			FileUtils.copyURLToFile(new URL(url), tempFile);
-			return Optional.ofNullable(FileUtil.readFileToByteArray(tempFile));
+			return Optional.ofNullable(OldFileUtil.readFileToByteArray(tempFile));
 		}
 		catch(IOException e)
 		{

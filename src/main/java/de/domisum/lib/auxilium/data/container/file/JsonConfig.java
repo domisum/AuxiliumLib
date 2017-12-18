@@ -1,6 +1,6 @@
 package de.domisum.lib.auxilium.data.container.file;
 
-import de.domisum.lib.auxilium.util.FileUtil;
+import de.domisum.lib.auxilium.util.OldFileUtil;
 import de.domisum.lib.auxilium.util.java.annotations.API;
 import de.domisum.lib.auxilium.util.json.GsonUtil;
 import org.apache.commons.lang3.Validate;
@@ -16,7 +16,7 @@ public abstract class JsonConfig
 		if(!file.exists())
 			throw new IllegalArgumentException("the file "+file.getPath()+" doesn't exist");
 
-		String fileContent = FileUtil.readFileToString(file);
+		String fileContent = OldFileUtil.readFileToString(file);
 		return parse(fileContent, tClass);
 	}
 
