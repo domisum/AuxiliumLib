@@ -13,6 +13,9 @@ public abstract class JsonConfig
 	// INIT
 	@API public static <T extends JsonConfig> T load(File file, Class<T> tClass)
 	{
+		if(!file.exists())
+			throw new IllegalArgumentException("the file "+file.getPath()+" doesn't exist");
+
 		String fileContent = FileUtil.readFileToString(file);
 		return parse(fileContent, tClass);
 	}
