@@ -1,6 +1,6 @@
 package de.domisum.lib.auxilium.util.java;
 
-public interface ExceptionHandler
+public interface ExceptionHandler<T extends Exception>
 {
 
 	// INIT
@@ -14,6 +14,6 @@ public interface ExceptionHandler
 
 
 	// HANDLE
-	void handle(Exception e);
+	void handle(T e);
 
 }
