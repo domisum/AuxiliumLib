@@ -2,18 +2,20 @@ package de.domisum.lib.auxilium.util;
 
 import de.domisum.lib.auxilium.util.java.IOExceptionHandler;
 import de.domisum.lib.auxilium.util.java.annotations.API;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.UncheckedIOException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.Optional;
 
 @API
-public class FileUtil
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+public final class FileUtil
 {
 
 	// CONSTANTS
@@ -58,13 +60,7 @@ public class FileUtil
 
 	@API public static String readStringOrException(File file, Charset encoding)
 	{
-		final IOException[] exception = new IOException[1];
-
-		Optional<String> string = readString(file, encoding, e->exception[0] = e);
-		if(string.isPresent())
-			return string.get();
-
-		throw new UncheckedIOException(exception[0]);
+		return IOExceptionHandler.getOrException(onFail->readString(file, encoding, onFail));
 	}
 
 
@@ -94,12 +90,7 @@ public class FileUtil
 
 	@API public static void writeStringOrException(File file, String toWrite, Charset encoding)
 	{
-		final IOException[] exception = new IOException[1];
-
-		writeString(file, toWrite, encoding, e->exception[0] = e);
-
-		if(exception[0] != null)
-			throw new UncheckedIOException(exception[0]);
+		IOExceptionHandler.executeOrException(onFail->writeString(file, toWrite, encoding, onFail));
 	}
 
 }

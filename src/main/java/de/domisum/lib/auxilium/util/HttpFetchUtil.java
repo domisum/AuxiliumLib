@@ -14,8 +14,8 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.Optional;
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 @API
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class HttpFetchUtil
 {
 
@@ -53,6 +53,17 @@ public final class HttpFetchUtil
 	}
 
 
+	@API public static String fetchStringOrException(String url)
+	{
+		return fetchStringOrException(url, DEFAULT_STRING_ENCODING);
+	}
+
+	@API public static String fetchStringOrException(String url, Charset encoding)
+	{
+		return IOExceptionHandler.getOrException(onFail->fetchString(url, encoding, onFail));
+	}
+
+
 	// RAW BYTES
 	@API public static Optional<byte[]> fetchRaw(String url)
 	{
@@ -70,6 +81,12 @@ public final class HttpFetchUtil
 			onFail.handle(e);
 			return Optional.empty();
 		}
+	}
+
+
+	@API public static byte[] fetchRawOrException(String url)
+	{
+		return IOExceptionHandler.getOrException(onFail->fetchRaw(url, onFail));
 	}
 
 }
