@@ -17,13 +17,13 @@ public class FileUtil
 {
 
 	// CONSTANTS
-	@API public static final Charset DEFAULT_ENCODING = StandardCharsets.UTF_8;
+	@API public static final Charset DEFAULT_STRING_ENCODING = StandardCharsets.UTF_8;
 
 
 	// READ STRING
 	@API public static Optional<String> readString(File file)
 	{
-		return readString(file, DEFAULT_ENCODING, IOExceptionHandler.noAction());
+		return readString(file, DEFAULT_STRING_ENCODING, IOExceptionHandler.noAction());
 	}
 
 	@API public static Optional<String> readString(File file, Charset encoding)
@@ -33,7 +33,7 @@ public class FileUtil
 
 	@API public static Optional<String> readString(File file, IOExceptionHandler onFail)
 	{
-		return readString(file, DEFAULT_ENCODING, onFail);
+		return readString(file, DEFAULT_STRING_ENCODING, onFail);
 	}
 
 	@API public static Optional<String> readString(File file, Charset encoding, IOExceptionHandler onFail)
@@ -53,7 +53,7 @@ public class FileUtil
 
 	@API public static String readStringOrException(File file)
 	{
-		return readStringOrException(file, DEFAULT_ENCODING);
+		return readStringOrException(file, DEFAULT_STRING_ENCODING);
 	}
 
 	@API public static String readStringOrException(File file, Charset encoding)
@@ -71,7 +71,7 @@ public class FileUtil
 	// WRITE STRING
 	@API public static void writeString(File file, String toWrite, IOExceptionHandler onFail)
 	{
-		writeString(file, toWrite, DEFAULT_ENCODING, onFail);
+		writeString(file, toWrite, DEFAULT_STRING_ENCODING, onFail);
 	}
 
 	@API public static void writeString(File file, String toWrite, Charset encoding, IOExceptionHandler onFail)
@@ -89,7 +89,7 @@ public class FileUtil
 
 	@API public static void writeStringOrException(File file, String toWrite)
 	{
-		writeStringOrException(file, toWrite, DEFAULT_ENCODING);
+		writeStringOrException(file, toWrite, DEFAULT_STRING_ENCODING);
 	}
 
 	@API public static void writeStringOrException(File file, String toWrite, Charset encoding)

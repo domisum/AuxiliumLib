@@ -1,15 +1,17 @@
 package de.domisum.lib.auxilium.util;
 
-import de.domisum.lib.auxilium.util.java.ExceptionHandler;
+import de.domisum.lib.auxilium.data.container.AbstractURL;
+import de.domisum.lib.auxilium.util.java.IOExceptionHandler;
 import de.domisum.lib.auxilium.util.java.annotations.API;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 
-import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.Optional;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
@@ -17,50 +19,56 @@ import java.util.Optional;
 public final class HttpFetchUtil
 {
 
+	// CONSTANTS
+	@API public static final Charset DEFAULT_STRING_ENCODING = StandardCharsets.UTF_8;
 
+
+	// STRING
 	@API public static Optional<String> fetchString(String url)
 	{
-		return fetchString(url, ExceptionHandler.noAction());
+		return fetchString(url, DEFAULT_STRING_ENCODING, IOExceptionHandler.noAction());
 	}
 
-	@API public static Optional<String> fetchString(String url, ExceptionHandler exceptionHandler)
+	@API public static Optional<String> fetchString(String url, Charset encoding)
+	{
+		return fetchString(url, encoding, IOExceptionHandler.noAction());
+	}
+
+	@API public static Optional<String> fetchString(String url, IOExceptionHandler onFail)
+	{
+		return fetchString(url, DEFAULT_STRING_ENCODING, onFail);
+	}
+
+	@API public static Optional<String> fetchString(String url, Charset encoding, IOExceptionHandler onFail)
 	{
 		try
 		{
-			return Optional.of(IOUtils.toString(new URL(url), "UTF-8"));
+			return Optional.of(IOUtils.toString(new URL(url), encoding));
 		}
 		catch(java.io.IOException e)
 		{
-			exceptionHandler.handle(e);
+			onFail.handle(e);
 			return Optional.empty();
 		}
 	}
 
 
-	@API public static Optional<byte[]> fetchRawData(String url)
+	// RAW BYTES
+	@API public static Optional<byte[]> fetchRaw(String url)
 	{
-		return fetchRawData(url, ExceptionHandler.noAction());
+		return fetchRaw(url, IOExceptionHandler.noAction());
 	}
 
-	@API public static Optional<byte[]> fetchRawData(String url, ExceptionHandler exceptionHandler)
+	@API public static Optional<byte[]> fetchRaw(String url, IOExceptionHandler onFail)
 	{
-		File tempFile = null;
-		try
+		try(InputStream inputStream = new AbstractURL(url).toNet().openStream())
 		{
-			tempFile = File.createTempFile("dl", null);
-
-			FileUtils.copyURLToFile(new URL(url), tempFile);
-			return Optional.ofNullable(OldFileUtil.readFileToByteArray(tempFile));
+			return Optional.of(IOUtils.toByteArray(inputStream));
 		}
 		catch(IOException e)
 		{
-			exceptionHandler.handle(e);
+			onFail.handle(e);
 			return Optional.empty();
-		}
-		finally
-		{
-			if(tempFile != null)
-				tempFile.delete();
 		}
 	}
 
