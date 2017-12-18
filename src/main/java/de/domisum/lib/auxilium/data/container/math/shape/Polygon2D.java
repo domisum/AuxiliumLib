@@ -1,7 +1,10 @@
-package de.domisum.lib.auxilium.data.container.math;
+package de.domisum.lib.auxilium.data.container.math.shape;
 
 import de.domisum.lib.auxilium.data.container.bound.DoubleBounds2D;
+import de.domisum.lib.auxilium.data.container.math.LineSegment2D;
+import de.domisum.lib.auxilium.data.container.math.Vector2D;
 import de.domisum.lib.auxilium.util.java.annotations.API;
+import lombok.Getter;
 import lombok.ToString;
 
 import java.util.ArrayList;
@@ -10,11 +13,11 @@ import java.util.Collections;
 import java.util.List;
 
 @API
-public class Polygon2D
+public class Polygon2D implements GeometricShape2D
 {
 
 	// data
-	@API public final List<Vector2D> points;
+	@Getter private final List<Vector2D> points;
 
 	// lazy values for better performance
 	private List<LineSegment2D> lines;
@@ -140,7 +143,7 @@ public class Polygon2D
 
 
 	// CHECKS
-	@API public boolean contains(Vector2D point)
+	@Override @API public boolean contains(Vector2D point)
 	{
 		DoubleBounds2D boundingBox = getBoundingBox();
 		List<LineSegment2D> lines = getLines();
@@ -154,7 +157,7 @@ public class Polygon2D
 			if(ls.contains(point))
 				return true;
 
-		Vector2D pointOutside = new Vector2D(boundingBox.minX-1, boundingBox.minY-1);
+		Vector2D pointOutside = new Vector2D(boundingBox.getMinX()-1, boundingBox.getMinY()-1);
 		LineSegment2D ray = new LineSegment2D(pointOutside, point);
 
 		int intersections = 0;
