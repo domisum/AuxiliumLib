@@ -29,8 +29,8 @@ public class StringUtilTest
 	// TEST ESCAPE REGEX CHAR
 	@Test public void testEscapeRegexCharacters()
 	{
-		Assertions.assertEquals("\\.", StringUtil.escapeCharactersForRegex("."));
-		Assertions.assertEquals("\\\\", StringUtil.escapeCharactersForRegex("\\"));
+		Assertions.assertEquals("\\.", StringUtil.escapeStringForRegex("."));
+		Assertions.assertEquals("\\\\", StringUtil.escapeStringForRegex("\\"));
 	}
 
 }

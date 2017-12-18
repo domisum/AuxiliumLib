@@ -49,7 +49,7 @@ public final class StringUtil
 	}
 
 
-	@API public static String escapeCharactersForRegex(String input)
+	@API public static String escapeStringForRegex(String input)
 	{
 		List<Character> charactersToEscape = Arrays
 				.asList('.', '^', '$', '*', '+', '-', '?', '(', ')', '[', ']', '{', '}', '\\', '|');
