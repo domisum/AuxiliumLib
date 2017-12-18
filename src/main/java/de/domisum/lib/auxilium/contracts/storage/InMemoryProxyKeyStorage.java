@@ -8,11 +8,11 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 @RequiredArgsConstructor
-public abstract class InMemoryProxyStorage<T extends InMemoryProxyStorage.Keyable<K>, K> implements Storage<T, K>
+public abstract class InMemoryProxyKeyStorage<T extends InMemoryProxyKeyStorage.Keyable<K>, K> implements KeyStorage<T, K>
 {
 
 	// REFERENCES
-	private final Storage<T, K> backingStorage;
+	private final KeyStorage<T, K> backingStorage;
 
 	// TEMP
 	private transient Map<K, T> items;
