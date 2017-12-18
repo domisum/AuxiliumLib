@@ -4,6 +4,9 @@ import de.domisum.lib.auxilium.util.java.annotations.API;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
+import java.util.Arrays;
+import java.util.List;
+
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class StringUtil
 {
@@ -43,6 +46,26 @@ public final class StringUtil
 		}
 
 		return common.toString();
+	}
+
+
+	@API public static String escapeCharactersForRegex(String input)
+	{
+		List<Character> charactersToEscape = Arrays
+				.asList('.', '^', '$', '*', '+', '-', '?', '(', ')', '[', ']', '{', '}', '\\', '|');
+
+		String escaped = input;
+		for(int i = 0; i < escaped.length(); i++)
+		{
+			char charAt = escaped.charAt(i);
+			if(charactersToEscape.contains(charAt))
+			{
+				escaped = escaped.substring(0, i)+("\\"+charAt)+escaped.substring(i+1);
+				i++;
+			}
+		}
+
+		return escaped;
 	}
 
 }

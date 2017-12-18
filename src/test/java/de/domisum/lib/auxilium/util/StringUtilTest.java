@@ -25,4 +25,12 @@ public class StringUtilTest
 		Assertions.assertEquals("+-*/", StringUtil.getCommonPrefix("+-*/", "+-*/59"));
 	}
 
+
+	// TEST ESCAPE REGEX CHAR
+	@Test public void testEscapeRegexCharacters()
+	{
+		Assertions.assertEquals("\\.", StringUtil.escapeCharactersForRegex("."));
+		Assertions.assertEquals("\\\\", StringUtil.escapeCharactersForRegex("\\"));
+	}
+
 }
