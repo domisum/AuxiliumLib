@@ -8,9 +8,13 @@ import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 @API
@@ -91,6 +95,61 @@ public final class FileUtil
 	@API public static void writeStringOrException(File file, String toWrite, Charset encoding)
 	{
 		IOExceptionHandler.executeOrException(onFail->writeString(file, toWrite, encoding, onFail));
+	}
+
+
+	// DELETE
+	@API public static void deleteFileOrDirectory(File file)
+	{
+		try
+		{
+			Files.delete(file.toPath());
+		}
+		catch(IOException e)
+		{
+			throw new UncheckedIOException(e);
+		}
+	}
+
+	@API public static void deleteDirectory(File directory)
+	{
+		if(!directory.exists())
+			return;
+		validateIsDirectory(directory);
+
+		deleteDirectoryContents(directory);
+		deleteFileOrDirectory(directory);
+	}
+
+	@API public static void deleteDirectoryContents(File directory)
+	{
+		if(!directory.exists())
+			return;
+		validateIsDirectory(directory);
+
+		for(File file : getDirectoryContents(directory))
+			if(file.isFile())
+				deleteFileOrDirectory(file);
+			else
+				deleteDirectory(file);
+	}
+
+	private static void validateIsDirectory(File directory)
+	{
+		if(directory.isFile())
+			throw new IllegalArgumentException("given directory is file, not directory");
+	}
+
+
+	// DIRECTORY
+	@API public static List<File> getDirectoryContents(File directory)
+	{
+		validateIsDirectory(directory);
+
+		File[] files = directory.listFiles();
+		// noinspection ConstantConditions // can't be null, since it returns null if file is no directory
+		List<File> directoryContents = new ArrayList<>(Arrays.asList(files));
+		return directoryContents;
 	}
 
 }
