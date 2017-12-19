@@ -27,24 +27,42 @@ public class FileUtilTest
 	}
 
 
-	// READ STRING
+	// STRING
 	@Test public void testSimpleReadAndWrite()
 	{
 		String text = "Hello world";
 		File tempFile = createTempFile();
 
-		writeReadAssertEquals(text, tempFile);
+		writeReadAssertEquals(tempFile, text);
 	}
 
-
-	// WRITE STRING
 	@Test public void testWriteInNotExistingFolder()
 	{
 		String text = "meme\nasdf";
 		File tempDir = createTempDirectory();
 		File deeperInTempDir = new File(tempDir, "folder1/folder2");
 
-		writeReadAssertEquals(text, deeperInTempDir);
+		writeReadAssertEquals(deeperInTempDir, text);
+	}
+
+
+	// RAW
+	@Test public void testSimpleWriteReadRaw()
+	{
+		byte[] testData = new byte[] {0, 8, -3, 127};
+		File tempFile = createTempFile();
+
+		writeReadAssertEquals(tempFile, testData);
+	}
+
+	@Test public void testOverwriteRaw()
+	{
+		byte[] testData = new byte[] {-1, -29, 88, 18};
+		byte[] testData2 = new byte[] {0, 8, -3, 127};
+		File tempFile = createTempFile();
+
+		FileUtil.writeRaw(tempFile, testData);
+		writeReadAssertEquals(tempFile, testData2);
 	}
 
 
@@ -90,12 +108,20 @@ public class FileUtilTest
 
 
 	// ACT ASSERT
-	private void writeReadAssertEquals(String text, File file)
+	private void writeReadAssertEquals(File file, String text)
 	{
 		FileUtil.writeString(file, text);
 		String read = FileUtil.readString(file);
 
 		Assertions.assertEquals(text, read, "text was different after write/read");
+	}
+
+	private void writeReadAssertEquals(File file, byte[] raw)
+	{
+		FileUtil.writeRaw(file, raw);
+		byte[] read = FileUtil.readRaw(file);
+
+		Assertions.assertArrayEquals(raw, read, "raw data was different after write/read");
 	}
 
 }

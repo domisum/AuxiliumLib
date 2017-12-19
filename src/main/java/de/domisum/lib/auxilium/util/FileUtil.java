@@ -24,7 +24,7 @@ public final class FileUtil
 	@API public static final Charset DEFAULT_STRING_ENCODING = StandardCharsets.UTF_8;
 
 
-	// READ STRING
+	//  STRING
 	@API public static String readString(File file)
 	{
 		return readString(file, DEFAULT_STRING_ENCODING);
@@ -44,7 +44,6 @@ public final class FileUtil
 	}
 
 
-	// WRITE STRING
 	@API public static void writeString(File file, String toWrite)
 	{
 		writeString(file, toWrite, DEFAULT_STRING_ENCODING);
@@ -55,6 +54,32 @@ public final class FileUtil
 		try
 		{
 			FileUtils.writeStringToFile(file, toWrite, encoding);
+		}
+		catch(IOException e)
+		{
+			throw new UncheckedIOException(e);
+		}
+	}
+
+
+	// RAW
+	@API public static byte[] readRaw(File file)
+	{
+		try
+		{
+			return Files.readAllBytes(file.toPath());
+		}
+		catch(IOException e)
+		{
+			throw new UncheckedIOException(e);
+		}
+	}
+
+	@API public static void writeRaw(File file, byte[] toWrite)
+	{
+		try
+		{
+			Files.write(file.toPath(), toWrite);
 		}
 		catch(IOException e)
 		{
