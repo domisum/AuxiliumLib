@@ -110,7 +110,7 @@ public final class FileUtil
 	{
 		if(!directory.exists())
 			return;
-		validateIsDirectory(directory);
+		validateIsNotFile(directory);
 
 		deleteDirectoryContents(directory);
 		deleteFile(directory);
@@ -120,7 +120,7 @@ public final class FileUtil
 	{
 		if(!directory.exists())
 			return;
-		validateIsDirectory(directory);
+		validateIsNotFile(directory);
 
 		for(File file : getDirectoryContents(directory))
 			if(file.isFile())
@@ -129,7 +129,7 @@ public final class FileUtil
 				deleteDirectory(file);
 	}
 
-	private static void validateIsDirectory(File directory)
+	private static void validateIsNotFile(File directory)
 	{
 		if(directory.isFile())
 			throw new IllegalArgumentException("given directory is file, not directory");
@@ -138,11 +138,13 @@ public final class FileUtil
 
 	@API public static List<File> getDirectoryContents(File directory)
 	{
-		validateIsDirectory(directory);
+		validateIsNotFile(directory);
+		List<File> directoryContents = new ArrayList<>();
 
 		File[] files = directory.listFiles();
-		// noinspection ConstantConditions // can't be null, since it returns null if file is no directory
-		List<File> directoryContents = new ArrayList<>(Arrays.asList(files));
+		if(files != null)
+			directoryContents.addAll(Arrays.asList(files));
+
 		return directoryContents;
 	}
 
