@@ -7,9 +7,10 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.apache.commons.io.IOUtils;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URL;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.Optional;
@@ -24,26 +25,26 @@ public final class HttpFetchUtil
 
 
 	// STRING
-	@API public static Optional<String> fetchString(String url)
+	@API public static Optional<String> fetchString(AbstractURL url)
 	{
 		return fetchString(url, DEFAULT_STRING_ENCODING, IOExceptionHandler.noAction());
 	}
 
-	@API public static Optional<String> fetchString(String url, Charset encoding)
+	@API public static Optional<String> fetchString(AbstractURL url, Charset encoding)
 	{
 		return fetchString(url, encoding, IOExceptionHandler.noAction());
 	}
 
-	@API public static Optional<String> fetchString(String url, IOExceptionHandler onFail)
+	@API public static Optional<String> fetchString(AbstractURL url, IOExceptionHandler onFail)
 	{
 		return fetchString(url, DEFAULT_STRING_ENCODING, onFail);
 	}
 
-	@API public static Optional<String> fetchString(String url, Charset encoding, IOExceptionHandler onFail)
+	@API public static Optional<String> fetchString(AbstractURL url, Charset encoding, IOExceptionHandler onFail)
 	{
 		try
 		{
-			return Optional.of(IOUtils.toString(new URL(url), encoding));
+			return Optional.of(IOUtils.toString(url.toNet(), encoding));
 		}
 		catch(java.io.IOException e)
 		{
@@ -53,26 +54,26 @@ public final class HttpFetchUtil
 	}
 
 
-	@API public static String fetchStringOrException(String url)
+	@API public static String fetchStringOrException(AbstractURL url)
 	{
 		return fetchStringOrException(url, DEFAULT_STRING_ENCODING);
 	}
 
-	@API public static String fetchStringOrException(String url, Charset encoding)
+	@API public static String fetchStringOrException(AbstractURL url, Charset encoding)
 	{
 		return IOExceptionHandler.getOrException(onFail->fetchString(url, encoding, onFail));
 	}
 
 
 	// RAW BYTES
-	@API public static Optional<byte[]> fetchRaw(String url)
+	@API public static Optional<byte[]> fetchRaw(AbstractURL url)
 	{
 		return fetchRaw(url, IOExceptionHandler.noAction());
 	}
 
-	@API public static Optional<byte[]> fetchRaw(String url, IOExceptionHandler onFail)
+	@API public static Optional<byte[]> fetchRaw(AbstractURL url, IOExceptionHandler onFail)
 	{
-		try(InputStream inputStream = new AbstractURL(url).toNet().openStream())
+		try(InputStream inputStream = url.toNet().openStream())
 		{
 			return Optional.of(IOUtils.toByteArray(inputStream));
 		}
@@ -84,9 +85,35 @@ public final class HttpFetchUtil
 	}
 
 
-	@API public static byte[] fetchRawOrException(String url)
+	@API public static byte[] fetchRawOrException(AbstractURL url)
 	{
 		return IOExceptionHandler.getOrException(onFail->fetchRaw(url, onFail));
+	}
+
+
+	// IMAGE
+	@API public static Optional<BufferedImage> fetchImage(AbstractURL url)
+	{
+		return fetchImage(url, IOExceptionHandler.noAction());
+	}
+
+	@API public static Optional<BufferedImage> fetchImage(AbstractURL url, IOExceptionHandler onFail)
+	{
+		try
+		{
+			return Optional.ofNullable(ImageIO.read(url.toNet()));
+		}
+		catch(IOException e)
+		{
+			onFail.handle(e);
+			return Optional.empty();
+		}
+	}
+
+
+	@API public static BufferedImage fetchImageOrException(AbstractURL url)
+	{
+		return IOExceptionHandler.getOrException(onFail->fetchImage(url, onFail));
 	}
 
 }

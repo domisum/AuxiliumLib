@@ -1,12 +1,14 @@
 package de.domisum.lib.auxilium.data.container;
 
 import de.domisum.lib.auxilium.util.java.annotations.API;
+import lombok.ToString;
 
 import java.io.UncheckedIOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 
 @API
+@ToString
 public class AbstractURL
 {
 

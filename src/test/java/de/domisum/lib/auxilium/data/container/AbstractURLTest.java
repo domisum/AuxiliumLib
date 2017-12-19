@@ -21,6 +21,7 @@ public class AbstractURLTest
 
 		Assertions.assertEquals("http://www.google.com/kek", new AbstractURL(googleBase, "kek").toString());
 		Assertions.assertEquals("http://www.google.com/kek", new AbstractURL(googleBase, "kek/").toString());
+		Assertions.assertEquals("http://www.google.com/kek", new AbstractURL(googleBase, "/kek/").toString());
 		Assertions.assertEquals("http://www.google.com/somefile.html", new AbstractURL(googleBase, "somefile.html").toString());
 	}
 
@@ -29,6 +30,13 @@ public class AbstractURLTest
 		Assertions.assertEquals("http://www.google.com", new AbstractURL("http://www.google.com").toNet().toString());
 
 		Assertions.assertThrows(Exception.class, ()->new AbstractURL("invalidurl").toNet());
+	}
+
+
+	@Test public void testToString()
+	{
+		Assertions.assertEquals("http://www.google.com", new AbstractURL("http://www.google.com").toString());
+		Assertions.assertEquals("http://www.google.com", new AbstractURL("http://www.google.com/").toString());
 	}
 
 }
