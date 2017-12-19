@@ -13,7 +13,7 @@ public abstract class JsonConfig
 	// INIT
 	@API public static <T extends JsonConfig> T load(File file, Class<T> tClass)
 	{
-		String fileContent = FileUtil.readStringOrException(file);
+		String fileContent = FileUtil.readString(file);
 		return parse(fileContent, tClass);
 	}
 

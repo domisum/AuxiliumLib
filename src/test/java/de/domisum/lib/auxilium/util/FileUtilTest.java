@@ -21,7 +21,7 @@ public class FileUtilTest
 	{
 		for(File f : filesToTearDown)
 			if(f.isFile())
-				FileUtil.deleteFileOrDirectory(f);
+				FileUtil.deleteFile(f);
 			else
 				FileUtil.deleteDirectory(f);
 	}
@@ -56,9 +56,9 @@ public class FileUtilTest
 		File tempDir = createTempDirectory();
 
 		File textFileInDir = new File(tempDir, "test.txt");
-		FileUtil.writeStringOrException(textFileInDir, sampleText);
+		FileUtil.writeString(textFileInDir, sampleText);
 		File fileDeeper = new File(tempDir, "dir/test2.txt");
-		FileUtil.writeStringOrException(fileDeeper, sampleText);
+		FileUtil.writeString(fileDeeper, sampleText);
 
 
 		FileUtil.deleteDirectory(tempDir);
@@ -92,8 +92,8 @@ public class FileUtilTest
 	// ACT ASSERT
 	private void writeReadAssertEquals(String text, File file)
 	{
-		FileUtil.writeStringOrException(file, text);
-		String read = FileUtil.readStringOrException(file);
+		FileUtil.writeString(file, text);
+		String read = FileUtil.readString(file);
 
 		Assertions.assertEquals(text, read, "text was different after write/read");
 	}

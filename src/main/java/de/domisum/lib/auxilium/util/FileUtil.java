@@ -1,6 +1,5 @@
 package de.domisum.lib.auxilium.util;
 
-import de.domisum.lib.auxilium.util.java.IOExceptionHandler;
 import de.domisum.lib.auxilium.util.java.annotations.API;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -15,7 +14,6 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 @API
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
@@ -27,54 +25,32 @@ public final class FileUtil
 
 
 	// READ STRING
-	@API public static Optional<String> readString(File file)
+	@API public static String readString(File file)
 	{
-		return readString(file, DEFAULT_STRING_ENCODING, IOExceptionHandler.noAction());
+		return readString(file, DEFAULT_STRING_ENCODING);
 	}
 
-	@API public static Optional<String> readString(File file, Charset encoding)
-	{
-		return readString(file, encoding, IOExceptionHandler.noAction());
-	}
-
-	@API public static Optional<String> readString(File file, IOExceptionHandler onFail)
-	{
-		return readString(file, DEFAULT_STRING_ENCODING, onFail);
-	}
-
-	@API public static Optional<String> readString(File file, Charset encoding, IOExceptionHandler onFail)
+	@API public static String readString(File file, Charset encoding)
 	{
 		try
 		{
 			byte[] contentBytes = Files.readAllBytes(file.toPath());
-			return Optional.of(new String(contentBytes, encoding));
+			return new String(contentBytes, encoding);
 		}
 		catch(IOException e)
 		{
-			onFail.handle(e);
-			return Optional.empty();
+			throw new UncheckedIOException(e);
 		}
-	}
-
-
-	@API public static String readStringOrException(File file)
-	{
-		return readStringOrException(file, DEFAULT_STRING_ENCODING);
-	}
-
-	@API public static String readStringOrException(File file, Charset encoding)
-	{
-		return IOExceptionHandler.getOrException(onFail->readString(file, encoding, onFail));
 	}
 
 
 	// WRITE STRING
-	@API public static void writeString(File file, String toWrite, IOExceptionHandler onFail)
+	@API public static void writeString(File file, String toWrite)
 	{
-		writeString(file, toWrite, DEFAULT_STRING_ENCODING, onFail);
+		writeString(file, toWrite, DEFAULT_STRING_ENCODING);
 	}
 
-	@API public static void writeString(File file, String toWrite, Charset encoding, IOExceptionHandler onFail)
+	@API public static void writeString(File file, String toWrite, Charset encoding)
 	{
 		try
 		{
@@ -82,24 +58,13 @@ public final class FileUtil
 		}
 		catch(IOException e)
 		{
-			onFail.handle(e);
+			throw new UncheckedIOException(e);
 		}
 	}
 
 
-	@API public static void writeStringOrException(File file, String toWrite)
-	{
-		writeStringOrException(file, toWrite, DEFAULT_STRING_ENCODING);
-	}
-
-	@API public static void writeStringOrException(File file, String toWrite, Charset encoding)
-	{
-		IOExceptionHandler.executeOrException(onFail->writeString(file, toWrite, encoding, onFail));
-	}
-
-
-	// DELETE
-	@API public static void deleteFileOrDirectory(File file)
+	// DIRECTORY
+	@API public static void deleteFile(File file)
 	{
 		try
 		{
@@ -118,7 +83,7 @@ public final class FileUtil
 		validateIsDirectory(directory);
 
 		deleteDirectoryContents(directory);
-		deleteFileOrDirectory(directory);
+		deleteFile(directory);
 	}
 
 	@API public static void deleteDirectoryContents(File directory)
@@ -129,7 +94,7 @@ public final class FileUtil
 
 		for(File file : getDirectoryContents(directory))
 			if(file.isFile())
-				deleteFileOrDirectory(file);
+				deleteFile(file);
 			else
 				deleteDirectory(file);
 	}
@@ -141,7 +106,6 @@ public final class FileUtil
 	}
 
 
-	// DIRECTORY
 	@API public static List<File> getDirectoryContents(File directory)
 	{
 		validateIsDirectory(directory);
