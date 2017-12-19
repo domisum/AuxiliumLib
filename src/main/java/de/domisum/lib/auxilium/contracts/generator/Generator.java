@@ -1,4 +1,4 @@
-package de.domisum.lib.auxilium.contracts;
+package de.domisum.lib.auxilium.contracts.generator;
 
 import de.domisum.lib.auxilium.util.java.annotations.API;
 
