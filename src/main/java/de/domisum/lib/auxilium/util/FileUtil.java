@@ -15,7 +15,6 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.List;
 
 @API
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
@@ -136,10 +135,10 @@ public final class FileUtil
 	}
 
 
-	@API public static List<File> getDirectoryContents(File directory)
+	@API public static Collection<File> getDirectoryContents(File directory)
 	{
 		validateIsNotFile(directory);
-		List<File> directoryContents = new ArrayList<>();
+		Collection<File> directoryContents = new ArrayList<>();
 
 		File[] files = directory.listFiles();
 		if(files != null)
