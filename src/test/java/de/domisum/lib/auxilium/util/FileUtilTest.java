@@ -20,14 +20,15 @@ public class FileUtilTest
 	@AfterEach public void tearDown()
 	{
 		for(File f : filesToTearDown)
-			if(f.isFile())
-				FileUtil.deleteFile(f);
-			else
-				FileUtil.deleteDirectory(f);
+			if(f != null)
+				if(f.isFile())
+					FileUtil.deleteFile(f);
+				else
+					FileUtil.deleteDirectory(f);
 	}
 
 
-	// STRING
+	// TEST: STRING
 	@Test public void testSimpleReadAndWrite()
 	{
 		String text = "Hello world";
@@ -46,7 +47,7 @@ public class FileUtilTest
 	}
 
 
-	// RAW
+	// TEST: RAW
 	@Test public void testSimpleWriteReadRaw()
 	{
 		byte[] testData = new byte[] {0, 8, -3, 127};
@@ -66,7 +67,7 @@ public class FileUtilTest
 	}
 
 
-	// DELETE DIR
+	// TEST: DIRECTORY
 	@Test public void testDeleteNestedDir()
 	{
 		String sampleText = "asdf\nwow";
@@ -81,6 +82,19 @@ public class FileUtilTest
 
 		FileUtil.deleteDirectory(tempDir);
 		Assertions.assertTrue(!tempDir.exists(), "directory wasn't deleted");
+	}
+
+
+	// TEST: TEMP FILES
+	@Test public void testTempFilesExtensions()
+	{
+		File tempFile = FileUtil.createTemporaryFile("zip");
+		filesToTearDown.add(tempFile);
+		Assertions.assertTrue(tempFile.getPath().endsWith(".zip"), "wrong file extension :"+tempFile.getPath());
+
+		File tempFile2 = FileUtil.createTemporaryFile(".bat");
+		filesToTearDown.add(tempFile2);
+		Assertions.assertTrue(tempFile2.getPath().endsWith(".bat"), "wrong file extension :"+tempFile2.getPath());
 	}
 
 
