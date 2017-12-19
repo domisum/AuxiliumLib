@@ -85,7 +85,7 @@ public final class FileUtil
 		{
 			Files.write(file.toPath(), toWrite);
 		}
-		catch(IOException e)
+		catch(IOException e) // TODO should fail on interrupt exception?
 		{
 			throw new UncheckedIOException(e);
 		}
