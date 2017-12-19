@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
 @RequiredArgsConstructor
@@ -52,11 +53,11 @@ public abstract class InMemoryProxyKeyStorage<T extends InMemoryProxyKeyStorage.
 		backingStorage.remove(key);
 	}
 
-	@Override public T fetch(K key)
+	@Override public Optional<T> fetch(K key)
 	{
 		checkReady();
 
-		return items.get(key);
+		return Optional.ofNullable(items.get(key));
 	}
 
 	@Override public Collection<T> fetchAll()
