@@ -1,8 +1,12 @@
 package de.domisum.lib.auxilium.util;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+
 import java.util.Objects;
 
-public class PHR
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+public final class PHR
 {
 
 	public static String r(String text, Object... values)
