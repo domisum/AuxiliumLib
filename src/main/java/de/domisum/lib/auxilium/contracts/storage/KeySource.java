@@ -19,7 +19,7 @@ public interface KeySource<T, K>
 
 	@API default T fetchOrException(K key)
 	{
-		return fetch(key).orElseThrow(()->new NoSuchElementException("storage does not contain element with key: "+key));
+		return fetch(key).orElseThrow(()->new NoSuchElementException("source does not contain element with key: "+key));
 	}
 
 }
