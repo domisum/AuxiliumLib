@@ -1,8 +1,8 @@
 package de.domisum.lib.auxilium.contracts;
 
-public interface Analyzer<I, O>
+public interface Analyzer<InputT, OutputT>
 {
 
-	O analyze(I input);
+	OutputT analyze(InputT input);
 
 }
