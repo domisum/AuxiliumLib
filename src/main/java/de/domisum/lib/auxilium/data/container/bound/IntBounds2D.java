@@ -28,12 +28,12 @@ public class IntBounds2D
 	// GETTERS
 	@API public int getWidth()
 	{
-		return maxX-minX;
+		return maxX-minX+1;
 	}
 
 	@API public int getHeight()
 	{
-		return maxY - minY;
+		return maxY-minY+1;
 	}
 
 
@@ -47,13 +47,13 @@ public class IntBounds2D
 
 	@API public IntBounds2D contractLeft(int distance)
 	{
-		Validate.isTrue(distance <= maxX-minX, "distance has to be smaller than size of bounds");
+		Validate.isTrue(distance < getWidth(), "distance has to be smaller than size of bounds");
 		return new IntBounds2D(minX+distance, maxX, minY, maxY);
 	}
 
 	@API public IntBounds2D contractRight(int distance)
 	{
-		Validate.isTrue(distance <= maxX-minX, "distance has to be smaller than size of bounds");
+		Validate.isTrue(distance < getWidth(), "distance has to be smaller than size of bounds");
 		return new IntBounds2D(minX, maxX-distance, minY, maxY);
 	}
 
@@ -64,13 +64,13 @@ public class IntBounds2D
 
 	@API public IntBounds2D contractTop(int distance)
 	{
-		Validate.isTrue(distance <= maxY-minY, "distance has to be smaller than size of bounds");
+		Validate.isTrue(distance < getHeight(), "distance has to be smaller than size of bounds");
 		return new IntBounds2D(minX, maxX, minY+distance, maxY);
 	}
 
 	@API public IntBounds2D contractBottom(int distance)
 	{
-		Validate.isTrue(distance <= maxY-minY, "distance has to be smaller than size of bounds");
+		Validate.isTrue(distance < getHeight(), "distance has to be smaller than size of bounds");
 		return new IntBounds2D(minX, maxX, minY, maxY-distance);
 	}
 
