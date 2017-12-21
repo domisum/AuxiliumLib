@@ -5,11 +5,11 @@ import de.domisum.lib.auxilium.util.java.annotations.API;
 import java.util.Objects;
 
 @API
-public class InterchangeableDuo<T, U> extends Duo<T, U>
+public class InterchangeableOldDuo<T, U> extends OldDuo<T, U>
 {
 
 	// INIT
-	public InterchangeableDuo(T a, U b)
+	public InterchangeableOldDuo(T a, U b)
 	{
 		super(a, b);
 	}
@@ -18,10 +18,10 @@ public class InterchangeableDuo<T, U> extends Duo<T, U>
 	// OBJECT
 	@Override public boolean equals(Object o)
 	{
-		if(!(o instanceof InterchangeableDuo))
+		if(!(o instanceof InterchangeableOldDuo))
 			return false;
 
-		InterchangeableDuo<?, ?> other = (InterchangeableDuo<?, ?>) o;
+		InterchangeableOldDuo<?, ?> other = (InterchangeableOldDuo<?, ?>) o;
 
 		boolean defaultOrderEquals = Objects.equals(this.a, other.a) && Objects.equals(this.b, other.b);
 		boolean invertedOrderEquals = Objects.equals(this.a, other.b) && Objects.equals(this.b, other.a);

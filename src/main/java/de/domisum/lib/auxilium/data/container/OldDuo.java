@@ -8,7 +8,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @EqualsAndHashCode
 @ToString
-public class Duo<T, U>
+public class OldDuo<T, U>
 {
 
 	// VALUES
@@ -17,9 +17,9 @@ public class Duo<T, U>
 
 
 	// GETTERS
-	@API public Duo<U, T> getInverted()
+	@API public OldDuo<U, T> getInverted()
 	{
-		return new Duo<>(this.b, this.a);
+		return new OldDuo<>(this.b, this.a);
 	}
 
 }

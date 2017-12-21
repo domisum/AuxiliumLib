@@ -2,14 +2,14 @@ package de.domisum.lib.auxilium.data.container;
 
 import de.domisum.lib.auxilium.util.math.RandomUtil;
 
-public class AlwaysUnequalDuo<T, U> extends Duo<T, U>
+public class AlwaysUnequalOldDuo<T, U> extends OldDuo<T, U>
 {
 
 	private int hashCode;
 
 
 	// INIT
-	public AlwaysUnequalDuo(T a, U b)
+	public AlwaysUnequalOldDuo(T a, U b)
 	{
 		super(a, b);
 
