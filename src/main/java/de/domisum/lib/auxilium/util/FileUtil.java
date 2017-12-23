@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.io.UncheckedIOException;
@@ -88,6 +90,20 @@ public final class FileUtil
 			Files.write(file.toPath(), toWrite);
 		}
 		catch(IOException e) // TODO should fail on interrupt exception?
+		{
+			throw new UncheckedIOException(e);
+		}
+	}
+
+
+	// IMAGE
+	@API public static BufferedImage readImage(File file)
+	{
+		try
+		{
+			return ImageIO.read(file);
+		}
+		catch(IOException e)
 		{
 			throw new UncheckedIOException(e);
 		}
