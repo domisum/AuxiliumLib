@@ -47,7 +47,7 @@ public abstract class JsonConfig
 		{
 			Constructor<?> constructor = clazz.getConstructor(clazz);
 			Object jsonConfig = constructor.newInstance();
-			Method method = clazz.getDeclaredMethod("getDeserializers");
+			Method method = clazz.getMethod("getDeserializers");
 
 			return (Collection<Pair<Class<T>, JsonDeserializer<T>>>) method.invoke(jsonConfig);
 		}
