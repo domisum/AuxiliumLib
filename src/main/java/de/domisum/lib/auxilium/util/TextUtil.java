@@ -80,7 +80,7 @@ public final class TextUtil
 
 
 	// SPECIAL CHARACTERS
-	public static String replaceUmlauts(String input)
+	@API public static String replaceUmlauts(String input)
 	{
 		String withoutUmlauts = input;
 
@@ -88,6 +88,14 @@ public final class TextUtil
 		withoutUmlauts = withoutUmlauts.replace("Ä", "Ae").replace("Ö", "Oe").replace("Ü", "Ue");
 
 		return withoutUmlauts;
+	}
+
+	@API public static String getGenitive(String of)
+	{
+		if(of.endsWith("s") || of.endsWith("x"))
+			return of+"'";
+
+		return of+"'s";
 	}
 
 }
