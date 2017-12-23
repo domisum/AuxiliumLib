@@ -5,6 +5,7 @@ import de.domisum.lib.auxilium.util.java.annotations.API;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -12,6 +13,7 @@ import java.io.UncheckedIOException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -92,12 +94,12 @@ public final class FileUtil
 	}
 
 
-	// DIRECTORY
-	@API public static void deleteFile(File file)
+	// COPY
+	@API public static void copyFile(File from, File to)
 	{
 		try
 		{
-			Files.delete(file.toPath());
+			Files.copy(from.toPath(), to.toPath(), StandardCopyOption.REPLACE_EXISTING);
 		}
 		catch(IOException e)
 		{
@@ -105,6 +107,8 @@ public final class FileUtil
 		}
 	}
 
+
+	// DIRECTORY
 	@API public static void deleteDirectory(File directory)
 	{
 		if(!directory.exists())
@@ -191,6 +195,25 @@ public final class FileUtil
 			ThreadUtil.addShutdownHook(()->temporaryDirectories.forEach(FileUtil::deleteDirectory));
 
 		temporaryDirectories.add(directory);
+	}
+
+
+	// GENERAL FILE
+	@API public static void deleteFile(File file)
+	{
+		try
+		{
+			Files.delete(file.toPath());
+		}
+		catch(IOException e)
+		{
+			throw new UncheckedIOException(e);
+		}
+	}
+
+	@API public static String getFileExtension(File file)
+	{
+		return FilenameUtils.getExtension(file.getName());
 	}
 
 }
