@@ -1,11 +1,18 @@
 package de.domisum.lib.auxilium.data.container.file;
 
+import com.google.gson.GsonBuilder;
+import com.google.gson.TypeAdapter;
 import de.domisum.lib.auxilium.util.FileUtil;
 import de.domisum.lib.auxilium.util.java.annotations.API;
-import de.domisum.lib.auxilium.util.json.GsonUtil;
 import org.apache.commons.lang3.Validate;
+import org.apache.commons.lang3.tuple.Pair;
 
 import java.io.File;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Collection;
 
 public abstract class JsonConfig
 {
@@ -19,13 +26,40 @@ public abstract class JsonConfig
 
 	@API public static <T extends JsonConfig> T parse(String json, Class<T> tClass)
 	{
-		T jsonConfig = GsonUtil.get().fromJson(json, tClass);
+		GsonBuilder builder = new GsonBuilder();
+		for(Pair<Class<Object>, TypeAdapter<Object>> pair : getTypeAdaptersStatic(tClass))
+			builder.registerTypeAdapter(pair.getKey(), pair.getValue());
+
+
+		T jsonConfig = builder.create().fromJson(json, tClass);
 
 		if(jsonConfig == null)
 			throw new IllegalArgumentException("empty string to parse to "+tClass.getName()+": '"+json+"'");
 		jsonConfig.validate();
 
 		return jsonConfig;
+	}
+
+	@SuppressWarnings({"JavaReflectionInvocation", "unchecked"})
+	private static <T, C> Collection<Pair<Class<T>, TypeAdapter<T>>> getTypeAdaptersStatic(Class<C> clazz)
+	{
+		try
+		{
+			Constructor<?> constructor = clazz.getConstructor(clazz);
+			Object jsonConfig = constructor.newInstance();
+			Method method = clazz.getDeclaredMethod("getTypeAdapters");
+
+			return (Collection<Pair<Class<T>, TypeAdapter<T>>>) method.invoke(jsonConfig);
+		}
+		catch(NoSuchMethodException|IllegalAccessException|InstantiationException|InvocationTargetException e)
+		{
+			throw new RuntimeException(e);
+		}
+	}
+
+	@API protected <T> Collection<Pair<Class<T>, TypeAdapter<T>>> getTypeAdapters()
+	{
+		return new ArrayList<>();
 	}
 
 
