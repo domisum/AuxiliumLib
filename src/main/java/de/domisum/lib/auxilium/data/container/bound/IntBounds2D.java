@@ -26,8 +26,7 @@ public class IntBounds2D
 		return new IntBounds2D(x, x+width-1, y, y+height-1);
 	}
 
-	// TODO make private
-	@API public IntBounds2D(int x1, int x2, int y1, int y2)
+	@API private IntBounds2D(int x1, int x2, int y1, int y2)
 	{
 		minX = Math.min(x1, x2);
 		maxX = Math.max(x1, x2);
