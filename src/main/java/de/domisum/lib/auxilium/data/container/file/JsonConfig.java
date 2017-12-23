@@ -64,7 +64,7 @@ public abstract class JsonConfig
 
 
 	// VALIDATE
-	protected abstract void validate();
+	public abstract void validate();
 
 
 	protected void validateString(String toValidate, String fieldName)
