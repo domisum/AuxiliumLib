@@ -109,6 +109,18 @@ public final class FileUtil
 		}
 	}
 
+	@API public static void writeImage(File file, BufferedImage image)
+	{
+		try
+		{
+			ImageIO.write(image, getFileExtension(file), file);
+		}
+		catch(IOException e)
+		{
+			throw new UncheckedIOException(e);
+		}
+	}
+
 
 	// COPY
 	@API public static void copyFile(File from, File to)
