@@ -1,7 +1,7 @@
 package de.domisum.lib.auxilium.data.container.file;
 
 import com.google.gson.GsonBuilder;
-import com.google.gson.TypeAdapter;
+import com.google.gson.JsonDeserializer;
 import de.domisum.lib.auxilium.util.FileUtil;
 import de.domisum.lib.auxilium.util.java.annotations.API;
 import org.apache.commons.lang3.Validate;
@@ -27,7 +27,7 @@ public abstract class JsonConfig
 	@API public static <T extends JsonConfig> T parse(String json, Class<T> tClass)
 	{
 		GsonBuilder builder = new GsonBuilder();
-		for(Pair<Class<Object>, TypeAdapter<Object>> pair : getTypeAdaptersStatic(tClass))
+		for(Pair<Class<Object>, JsonDeserializer<Object>> pair : getDeserializers(tClass))
 			builder.registerTypeAdapter(pair.getKey(), pair.getValue());
 
 
@@ -41,15 +41,15 @@ public abstract class JsonConfig
 	}
 
 	@SuppressWarnings({"JavaReflectionInvocation", "unchecked"})
-	private static <T, C> Collection<Pair<Class<T>, TypeAdapter<T>>> getTypeAdaptersStatic(Class<C> clazz)
+	private static <T, C> Collection<Pair<Class<T>, JsonDeserializer<T>>> getDeserializers(Class<C> clazz)
 	{
 		try
 		{
 			Constructor<?> constructor = clazz.getConstructor(clazz);
 			Object jsonConfig = constructor.newInstance();
-			Method method = clazz.getDeclaredMethod("getTypeAdapters");
+			Method method = clazz.getDeclaredMethod("getDeserializers");
 
-			return (Collection<Pair<Class<T>, TypeAdapter<T>>>) method.invoke(jsonConfig);
+			return (Collection<Pair<Class<T>, JsonDeserializer<T>>>) method.invoke(jsonConfig);
 		}
 		catch(NoSuchMethodException|IllegalAccessException|InstantiationException|InvocationTargetException e)
 		{
@@ -57,7 +57,7 @@ public abstract class JsonConfig
 		}
 	}
 
-	@API protected <T> Collection<Pair<Class<T>, TypeAdapter<T>>> getTypeAdapters()
+	@API protected Collection<Pair<Class<?>, JsonDeserializer<?>>> getDeserializers()
 	{
 		return new ArrayList<>();
 	}
