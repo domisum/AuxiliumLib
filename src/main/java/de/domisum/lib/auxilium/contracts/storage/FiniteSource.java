@@ -4,7 +4,7 @@ import de.domisum.lib.auxilium.util.java.annotations.API;
 
 import java.util.Collection;
 
-public interface FiniteKeySource<KeyT, T> extends KeySource<KeyT, T>
+public interface FiniteSource<KeyT, T> extends Source<KeyT, T>
 {
 
 	/**

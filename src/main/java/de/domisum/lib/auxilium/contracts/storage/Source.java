@@ -5,7 +5,7 @@ import de.domisum.lib.auxilium.util.java.annotations.API;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
-public interface KeySource<KeyT, T>
+public interface Source<KeyT, T>
 {
 
 	/**
