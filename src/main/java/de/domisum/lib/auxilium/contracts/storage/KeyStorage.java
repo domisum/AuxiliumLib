@@ -12,7 +12,7 @@ import de.domisum.lib.auxilium.util.java.annotations.API;
  *
  * @param <T> the type of item to be stored
  */
-public interface KeyStorage<T, K> extends FiniteKeySource<T, K>
+public interface KeyStorage<KeyT, T> extends FiniteKeySource<KeyT, T>
 {
 
 	/**
@@ -28,6 +28,6 @@ public interface KeyStorage<T, K> extends FiniteKeySource<T, K>
 	 *
 	 * @param key the key of the item to remove
 	 */
-	@API void remove(K key);
+	@API void remove(KeyT key);
 
 }

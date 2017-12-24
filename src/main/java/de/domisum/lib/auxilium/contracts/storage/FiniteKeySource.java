@@ -4,7 +4,7 @@ import de.domisum.lib.auxilium.util.java.annotations.API;
 
 import java.util.Collection;
 
-public interface FiniteKeySource<T, K> extends KeySource<T, K>
+public interface FiniteKeySource<KeyT, T> extends KeySource<KeyT, T>
 {
 
 	/**
@@ -21,6 +21,6 @@ public interface FiniteKeySource<T, K> extends KeySource<T, K>
 	 * @param key the id of the item to check against
 	 * @return whether this storage module contains an item with the supplied key
 	 */
-	@API boolean contains(K key);
+	@API boolean contains(KeyT key);
 
 }

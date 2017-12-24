@@ -5,7 +5,7 @@ import de.domisum.lib.auxilium.util.java.annotations.API;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
-public interface KeySource<T, K>
+public interface KeySource<KeyT, T>
 {
 
 	/**
@@ -14,10 +14,10 @@ public interface KeySource<T, K>
 	 * @param key the key of the object to retrieve from storage
 	 * @return the T associated with the key
 	 */
-	@API Optional<T> fetch(K key);
+	@API Optional<T> fetch(KeyT key);
 
 
-	@API default T fetchOrException(K key)
+	@API default T fetchOrException(KeyT key)
 	{
 		return fetch(key).orElseThrow(()->new NoSuchElementException("source does not contain element with key: "+key));
 	}

@@ -9,14 +9,15 @@ import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
 @RequiredArgsConstructor
-public abstract class InMemoryProxyKeyStorage<T extends InMemoryProxyKeyStorage.Keyable<K>, K> implements KeyStorage<T, K>
+public abstract class InMemoryProxyKeyStorage<KeyT, T extends InMemoryProxyKeyStorage.Keyable<KeyT>>
+		implements KeyStorage<KeyT, T>
 {
 
 	// REFERENCES
-	private final KeyStorage<T, K> backingStorage;
+	private final KeyStorage<KeyT, T> backingStorage;
 
 	// TEMP
-	private transient Map<K, T> items;
+	private transient Map<KeyT, T> items;
 
 
 	// INIT
@@ -45,7 +46,7 @@ public abstract class InMemoryProxyKeyStorage<T extends InMemoryProxyKeyStorage.
 		backingStorage.store(item);
 	}
 
-	@Override public void remove(K key)
+	@Override public void remove(KeyT key)
 	{
 		checkReady();
 
@@ -53,7 +54,7 @@ public abstract class InMemoryProxyKeyStorage<T extends InMemoryProxyKeyStorage.
 		backingStorage.remove(key);
 	}
 
-	@Override public Optional<T> fetch(K key)
+	@Override public Optional<T> fetch(KeyT key)
 	{
 		checkReady();
 
@@ -67,7 +68,7 @@ public abstract class InMemoryProxyKeyStorage<T extends InMemoryProxyKeyStorage.
 		return Collections.unmodifiableCollection(items.values());
 	}
 
-	@Override public boolean contains(K key)
+	@Override public boolean contains(KeyT key)
 	{
 		checkReady();
 
