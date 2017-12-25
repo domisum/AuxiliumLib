@@ -51,8 +51,21 @@ public final class StringUtil
 
 	@API public static String escapeStringForRegex(String input)
 	{
-		List<Character> charactersToEscape = Arrays
-				.asList('.', '^', '$', '*', '+', '-', '?', '(', ')', '[', ']', '{', '}', '\\', '|');
+		List<Character> charactersToEscape = Arrays.asList('.',
+				'^',
+				'$',
+				'*',
+				'+',
+				'-',
+				'?',
+				'(',
+				')',
+				'[',
+				']',
+				'{',
+				'}',
+				'\\',
+				'|');
 
 		String escaped = input;
 		for(int i = 0; i < escaped.length(); i++)
@@ -66,6 +79,16 @@ public final class StringUtil
 		}
 
 		return escaped;
+	}
+
+
+	@API public static String toArrayString(Object[] array, String delimiter)
+	{
+		StringBuilder combined = new StringBuilder();
+		for(int i = 0; i < array.length; i++)
+			combined.append(array[i]).append(i+1 == array.length ? "" : delimiter);
+
+		return combined.toString();
 	}
 
 }

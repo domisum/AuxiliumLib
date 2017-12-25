@@ -33,4 +33,14 @@ public class StringUtilTest
 		Assertions.assertEquals("\\\\", StringUtil.escapeStringForRegex("\\"));
 	}
 
+
+	// TEST ARRAY TO STRING
+	@Test public void testArrayToString()
+	{
+		Assertions.assertEquals("meme, asdf", StringUtil.toArrayString(new String[] {"meme", "asdf"}, ", "));
+		Assertions.assertEquals(
+				"wow\nnice\nmeme\nxd",
+				StringUtil.toArrayString(new String[] {"wow", "nice", "meme", "xd"}, "\n"));
+	}
+
 }
