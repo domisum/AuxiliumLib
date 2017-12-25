@@ -75,6 +75,9 @@ public final class MathUtil
 	 */
 	@API public static double round(double numberToRound, int decimalPlaces)
 	{
+		if(Double.isNaN(numberToRound))
+			throw new IllegalArgumentException("can't round NaN");
+
 		int factor = 1;
 		for(int i = 0; i < decimalPlaces; i++)
 			factor *= 10;
