@@ -3,10 +3,15 @@ package de.domisum.lib.auxilium.util.java;
 import de.domisum.lib.auxilium.util.java.annotations.API;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class ThreadUtil
 {
+
+	private static final Logger LOGGER = LoggerFactory.getLogger("threadUtil");
+
 
 	@API public static boolean sleep(long ms)
 	{
@@ -15,7 +20,7 @@ public final class ThreadUtil
 			Thread.sleep(ms);
 			return true;
 		}
-		catch(InterruptedException e)
+		catch(InterruptedException ignored)
 		{
 			Thread.currentThread().interrupt();
 			return false;
@@ -29,7 +34,7 @@ public final class ThreadUtil
 			thread.join();
 			return true;
 		}
-		catch(InterruptedException e)
+		catch(InterruptedException ignored)
 		{
 			Thread.currentThread().interrupt();
 			return false;
@@ -48,7 +53,7 @@ public final class ThreadUtil
 			}
 			return true;
 		}
-		catch(InterruptedException e)
+		catch(InterruptedException ignored)
 		{
 			return false;
 		}
@@ -64,28 +69,30 @@ public final class ThreadUtil
 	}
 
 
+	@API public static Thread createAndStartThread(Runnable runnable, String threadName)
+	{
+		Thread thread = new Thread(runnable);
+		thread.setName(threadName);
+		logUncaughtExceptions(thread);
+
+		thread.start();
+		return thread;
+	}
+
 	@API public static Thread runAsync(Runnable run, String description)
 	{
-		Thread thread = new Thread(run);
-		thread.setName("asyncTask-"+description);
-		thread.start();
-
-		return thread;
+		return createAndStartThread(run, "asyncTask-"+description);
 	}
 
 	@API public static Thread runDelayed(Runnable run, long ms)
 	{
-		Runnable delay = ()->
+		Runnable delayed = ()->
 		{
 			sleep(ms);
 			run.run();
 		};
 
-		Thread thread = new Thread(delay);
-		thread.setName("delayedTask");
-		thread.start();
-
-		return thread;
+		return createAndStartThread(delayed, "delayedTask");
 	}
 
 
@@ -100,6 +107,12 @@ public final class ThreadUtil
 		shutdownHookThread.setName(shutdownHookName);
 
 		Runtime.getRuntime().addShutdownHook(shutdownHookThread);
+	}
+
+
+	@API public static void logUncaughtExceptions(Thread thread)
+	{
+		thread.setUncaughtExceptionHandler((t, e)->LOGGER.error("uncaught exception in thread "+t, e));
 	}
 
 }
