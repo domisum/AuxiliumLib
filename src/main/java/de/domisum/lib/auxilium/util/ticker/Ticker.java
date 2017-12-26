@@ -1,11 +1,13 @@
 package de.domisum.lib.auxilium.util.ticker;
 
 import de.domisum.lib.auxilium.util.java.ThreadUtil;
+import de.domisum.lib.auxilium.util.java.annotations.API;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.time.Duration;
 
+@API
 public abstract class Ticker
 {
 
@@ -22,12 +24,12 @@ public abstract class Ticker
 
 
 	// INIT
-	public Ticker(Duration tickInterval)
+	@API protected Ticker(Duration tickInterval)
 	{
 		this(tickInterval, "ticker");
 	}
 
-	public Ticker(Duration tickInterval, String threadName)
+	@API protected Ticker(Duration tickInterval, String threadName)
 	{
 		this.tickInterval = tickInterval;
 		this.threadName = threadName;
@@ -35,25 +37,22 @@ public abstract class Ticker
 
 
 	// TICK
-	public synchronized void start()
+	@API public synchronized void start()
 	{
 		if(tickThread != null)
 			return;
 
-		tickThread = new Thread(this::run);
-
-		tickThread.setName(threadName);
 		tickThreadRunning = true;
-		tickThread.start();
+		tickThread = ThreadUtil.createAndStartThread(this::run, threadName);
 	}
 
-	public synchronized void stop()
+	@API public synchronized void stop()
 	{
 		requestStop();
 		waitForStop();
 	}
 
-	public synchronized void requestStop()
+	@API public synchronized void requestStop()
 	{
 		if(tickThread == null)
 			return;
@@ -62,7 +61,7 @@ public abstract class Ticker
 		tickThread.interrupt();
 	}
 
-	public synchronized void waitForStop()
+	@API public synchronized void waitForStop()
 	{
 		if(tickThread == null)
 			return;
