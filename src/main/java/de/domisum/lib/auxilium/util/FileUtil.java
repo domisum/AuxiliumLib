@@ -12,6 +12,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.io.UncheckedIOException;
+import java.nio.channels.ClosedByInterruptException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -29,7 +30,7 @@ public final class FileUtil
 	@API public static final Charset DEFAULT_STRING_ENCODING = StandardCharsets.UTF_8;
 
 	// TEMP
-	private static Collection<File> temporaryDirectories = new ArrayList<>();
+	private static final Collection<File> temporaryDirectories = new ArrayList<>();
 
 
 	//  STRING
@@ -89,7 +90,11 @@ public final class FileUtil
 		{
 			Files.write(file.toPath(), toWrite);
 		}
-		catch(IOException e) // TODO should fail on interrupt exception?
+		catch(ClosedByInterruptException ignored)
+		{
+			// ignore this, because the thread was interrupted and no result is expected
+		}
+		catch(IOException e)
 		{
 			throw new UncheckedIOException(e);
 		}
