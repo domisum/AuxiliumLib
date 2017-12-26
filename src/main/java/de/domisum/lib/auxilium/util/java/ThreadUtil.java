@@ -79,11 +79,6 @@ public final class ThreadUtil
 		return thread;
 	}
 
-	@API public static Thread runAsync(Runnable run, String description)
-	{
-		return createAndStartThread(run, "asyncTask-"+description);
-	}
-
 	@API public static Thread runDelayed(Runnable run, long ms)
 	{
 		Runnable delayed = ()->
