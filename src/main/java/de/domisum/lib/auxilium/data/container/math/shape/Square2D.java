@@ -26,10 +26,10 @@ public class Square2D implements GeometricShape2D
 	// SHAPE
 	@Override @API public boolean contains(Vector2D point)
 	{
-		if(point.x < minX || point.x > maxX)
+		if((point.getX() < minX) || (point.getX() > maxX))
 			return false;
 
-		if(point.y < minY || point.y > maxY)
+		if((point.getX() < minY) || (point.getX() > maxY))
 			return false;
 
 		return true;

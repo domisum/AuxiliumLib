@@ -112,15 +112,15 @@ public class Polygon2D implements GeometricShape2D
 
 		for(Vector2D p : points)
 		{
-			if(p.x < minX)
-				minX = p.x;
-			if(p.x > maxX)
-				maxX = p.x;
+			if(p.getX() < minX)
+				minX = p.getX();
+			if(p.getX() > maxX)
+				maxX = p.getX();
 
-			if(p.y < minY)
-				minY = p.y;
-			if(p.y > maxY)
-				maxY = p.y;
+			if(p.getY() < minY)
+				minY = p.getY();
+			if(p.getY() > maxY)
+				maxY = p.getY();
 		}
 
 		boundingBox = new DoubleBounds2D(minX, maxX, minY, maxY);
@@ -206,7 +206,7 @@ public class Polygon2D implements GeometricShape2D
 
 		double sum = 0;
 		for(LineSegment2D ls : getLines())
-			sum += (ls.b.x-ls.a.x)*(ls.a.y+ls.b.y);
+			sum += (ls.b.getX()-ls.a.getX())*(ls.a.getY()+ls.b.getY());
 
 		clockwise = sum > 0;
 		return clockwise;
@@ -221,8 +221,7 @@ public class Polygon2D implements GeometricShape2D
 		Vector2D last = points.get(points.size()-1);
 		for(Vector2D p : points)
 		{
-			sum += last.x*p.y-p.x*last.y;
-
+			sum += (last.getX()*p.getY())-(p.getX()*last.getY());
 			last = p;
 		}
 
@@ -294,7 +293,8 @@ public class Polygon2D implements GeometricShape2D
 
 	public enum PolygonCornerOrientation
 	{
-		CONCAVE, CONVEX
+		CONCAVE,
+		CONVEX
 	}
 
 }

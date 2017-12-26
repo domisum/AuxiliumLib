@@ -4,6 +4,7 @@ import de.domisum.lib.auxilium.util.java.annotations.API;
 import de.domisum.lib.auxilium.util.math.MathUtil;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 
 @API
 @AllArgsConstructor
@@ -11,8 +12,8 @@ import lombok.EqualsAndHashCode;
 public class Vector2D
 {
 
-	@API public final double x;
-	@API public final double y;
+	@API @Getter private final double x;
+	@API @Getter private final double y;
 
 
 	// INIT
@@ -111,7 +112,7 @@ public class Vector2D
 	{
 		// https://software.intel.com/en-us/forums/intel-visual-fortran-compiler-for-windows/topic/515013
 
-		return (Math.atan2(other.y, other.x)-Math.atan2(y, x)+2*Math.PI)%(2*Math.PI)-Math.PI;
+		return (((Math.atan2(other.y, other.x)-Math.atan2(y, x))+(2*Math.PI))%(2*Math.PI))-Math.PI;
 	}
 
 	/**

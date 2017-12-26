@@ -80,9 +80,9 @@ public class LineSegment2D
 		PointArrangement thisWithOtherP2 = getPointArrangement(a, b, other.b);
 
 		// special case: all points are colinear
-		if(thisWithOtherP1 == PointArrangement.COLINEAR && thisWithOtherP2 == PointArrangement.COLINEAR)
+		if((thisWithOtherP1 == PointArrangement.COLINEAR) && (thisWithOtherP2 == PointArrangement.COLINEAR))
 		{
-			DoubleBounds2D thisBounds = new DoubleBounds2D(a.x, b.x, a.y, b.y);
+			DoubleBounds2D thisBounds = new DoubleBounds2D(a.getX(), b.getX(), a.getY(), b.getY());
 
 			return thisBounds.contains(other.a) || thisBounds.contains(other.b);
 		}
@@ -123,11 +123,11 @@ public class LineSegment2D
 		Vector2D oneToTwo = p2.subtract(p1);
 		Vector2D twoToThree = p3.subtract(p2);
 
-		double rot = oneToTwo.y*twoToThree.x-twoToThree.y*oneToTwo.x;
+		double rot = (oneToTwo.getY()*twoToThree.getX())-(twoToThree.getY()*oneToTwo.getX());
 		if(Math.abs(rot) < Line3D.THRESHOLD)
 			return PointArrangement.COLINEAR;
 
-		return rot < 0 ? PointArrangement.COUNTERCLOCKWISE : PointArrangement.CLOCKWISE;
+		return (rot < 0) ? PointArrangement.COUNTERCLOCKWISE : PointArrangement.CLOCKWISE;
 	}
 
 	private enum PointArrangement

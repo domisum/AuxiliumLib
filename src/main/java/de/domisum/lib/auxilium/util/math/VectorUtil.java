@@ -3,9 +3,12 @@ package de.domisum.lib.auxilium.util.math;
 import de.domisum.lib.auxilium.data.container.math.Vector2D;
 import de.domisum.lib.auxilium.data.container.math.Vector3D;
 import de.domisum.lib.auxilium.util.java.annotations.API;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
 @API
-public class VectorUtil
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+public final class VectorUtil
 {
 
 	// MISC
@@ -50,10 +53,11 @@ public class VectorUtil
 	// DISTANCES
 	@API public static double getDistanceFromLineToPoint(Vector2D l1, Vector2D l2, Vector2D p)
 	{
-		// is this even right? may be just for line segment instead of infinite line
+		// TODO is this even right? may be just for line segment instead of infinite line
 
-		double normalLength = Math.sqrt(((l2.x-l1.x)*(l2.x-l1.x))+((l2.y-l1.y)*(l2.y-l1.y)));
-		return Math.abs(((p.x-l1.x)*(l2.y-l1.y))-((p.y-l1.y)*(l2.x-l1.x)))/normalLength;
+		double normalLength = Math.sqrt(
+				((l2.getX()-l1.getX())*(l2.getX()-l1.getX()))+((l2.getY()-l1.getY())*(l2.getY()-l1.getY())));
+		return Math.abs(((p.getX()-l1.getX())*(l2.getY()-l1.getY()))-((p.getY()-l1.getY())*(l2.getX()-l1.getX())))/normalLength;
 	}
 
 }
