@@ -82,11 +82,14 @@ public final class StringUtil
 	}
 
 
-	@API public static String toArrayString(Object[] array, String delimiter)
+	@API public static String listToString(List<?> list, String delimiter)
 	{
 		StringBuilder combined = new StringBuilder();
-		for(int i = 0; i < array.length; i++)
-			combined.append(array[i]).append(i+1 == array.length ? "" : delimiter);
+		for(int i = 0; i < list.size(); i++)
+		{
+			combined.append(list.get(i));
+			combined.append(i+1 == list.size() ? "" : delimiter);
+		}
 
 		return combined.toString();
 	}

@@ -3,6 +3,8 @@ package de.domisum.lib.auxilium.util;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
+
 public class StringUtilTest
 {
 
@@ -34,13 +36,11 @@ public class StringUtilTest
 	}
 
 
-	// TEST ARRAY TO STRING
-	@Test public void testArrayToString()
+	// TEST TO STRING
+	@Test public void testListToString()
 	{
-		Assertions.assertEquals("meme, asdf", StringUtil.toArrayString(new String[] {"meme", "asdf"}, ", "));
-		Assertions.assertEquals(
-				"wow\nnice\nmeme\nxd",
-				StringUtil.toArrayString(new String[] {"wow", "nice", "meme", "xd"}, "\n"));
+		Assertions.assertEquals("meme, asdf", StringUtil.listToString(Arrays.asList("meme", "asdf"), ", "));
+		Assertions.assertEquals("wow\nnice\nmeme\nxd", StringUtil.listToString(Arrays.asList("wow", "nice", "meme", "xd"), "\n"));
 	}
 
 }
