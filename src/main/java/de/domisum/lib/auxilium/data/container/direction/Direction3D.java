@@ -1,4 +1,4 @@
-package de.domisum.lib.auxilium.data.container.dir;
+package de.domisum.lib.auxilium.data.container.direction;
 
 import de.domisum.lib.auxilium.util.java.annotations.API;
 import lombok.AllArgsConstructor;
