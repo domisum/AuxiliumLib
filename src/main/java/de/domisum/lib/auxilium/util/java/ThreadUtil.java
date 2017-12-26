@@ -1,8 +1,11 @@
 package de.domisum.lib.auxilium.util.java;
 
 import de.domisum.lib.auxilium.util.java.annotations.API;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
-public class ThreadUtil
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+public final class ThreadUtil
 {
 
 	@API public static boolean sleep(long ms)

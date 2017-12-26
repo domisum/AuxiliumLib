@@ -4,6 +4,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonDeserializer;
 import de.domisum.lib.auxilium.util.FileUtil;
 import de.domisum.lib.auxilium.util.java.annotations.API;
+import de.domisum.lib.auxilium.util.java.exceptions.ShouldNeverHappenError;
 import org.apache.commons.lang3.Validate;
 import org.apache.commons.lang3.tuple.Pair;
 
@@ -54,7 +55,7 @@ public abstract class JsonConfig
 		}
 		catch(NoSuchMethodException|IllegalAccessException|InstantiationException|InvocationTargetException e)
 		{
-			throw new RuntimeException(e);
+			throw new ShouldNeverHappenError(e);
 		}
 	}
 

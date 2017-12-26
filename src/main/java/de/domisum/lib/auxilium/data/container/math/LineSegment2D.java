@@ -21,17 +21,17 @@ public class LineSegment2D
 	// GETTERS
 	@API public double getLength()
 	{
-		return this.a.distanceTo(this.b);
+		return a.distanceTo(b);
 	}
 
 	@API public double getLengthSquared()
 	{
-		return this.a.distanceToSquared(this.b);
+		return a.distanceToSquared(b);
 	}
 
 	@API public Vector2D getDirection()
 	{
-		return this.b.subtract(this.a);
+		return b.subtract(a);
 	}
 
 
@@ -40,32 +40,32 @@ public class LineSegment2D
 	{
 		// http://geomalgorithms.com/a02-_lines.html
 
-		Vector2D v = this.b.subtract(this.a);
-		Vector2D w = point.subtract(this.a);
+		Vector2D v = b.subtract(a);
+		Vector2D w = point.subtract(a);
 
 		double wvProduct = w.dotProduct(v);
 		double vvProduct = v.dotProduct(v);
 		if(wvProduct <= 0)
-			return point.distanceTo(this.a);
+			return point.distanceTo(a);
 		if(v.dotProduct(v) <= wvProduct)
-			return point.distanceTo(this.b);
+			return point.distanceTo(b);
 
 		double productQuot = wvProduct/vvProduct;
-		Vector2D pointOnSegment = this.a.add(v.multiply(productQuot));
+		Vector2D pointOnSegment = a.add(v.multiply(productQuot));
 
 		return point.distanceTo(pointOnSegment);
 	}
 
 	@API public double getDistanceTo(LineSegment2D other)
 	{
-		if(this.intersects(other))
+		if(intersects(other))
 			return 0;
 
 		double minDistance = Double.MAX_VALUE;
-		minDistance = Math.min(minDistance, this.getDistanceTo(other.a));
-		minDistance = Math.min(minDistance, this.getDistanceTo(other.b));
-		minDistance = Math.min(minDistance, other.getDistanceTo(this.a));
-		minDistance = Math.min(minDistance, other.getDistanceTo(this.b));
+		minDistance = Math.min(minDistance, getDistanceTo(other.a));
+		minDistance = Math.min(minDistance, getDistanceTo(other.b));
+		minDistance = Math.min(minDistance, other.getDistanceTo(a));
+		minDistance = Math.min(minDistance, other.getDistanceTo(b));
 
 		return minDistance;
 	}
@@ -76,13 +76,13 @@ public class LineSegment2D
 	{
 		// http://www.geeksforgeeks.org/check-if-two-given-line-segments-intersect/
 
-		PointArrangement thisWithOtherP1 = getPointArrangement(this.a, this.b, other.a);
-		PointArrangement thisWithOtherP2 = getPointArrangement(this.a, this.b, other.b);
+		PointArrangement thisWithOtherP1 = getPointArrangement(a, b, other.a);
+		PointArrangement thisWithOtherP2 = getPointArrangement(a, b, other.b);
 
 		// special case: all points are colinear
 		if(thisWithOtherP1 == PointArrangement.COLINEAR && thisWithOtherP2 == PointArrangement.COLINEAR)
 		{
-			DoubleBounds2D thisBounds = new DoubleBounds2D(this.a.x, this.b.x, this.a.y, this.b.y);
+			DoubleBounds2D thisBounds = new DoubleBounds2D(a.x, b.x, a.y, b.y);
 
 			return thisBounds.contains(other.a) || thisBounds.contains(other.b);
 		}
@@ -92,8 +92,8 @@ public class LineSegment2D
 		if(thisWithOtherP1 == thisWithOtherP2)
 			return false;
 
-		PointArrangement otherWithThisP1 = getPointArrangement(other.a, other.b, this.a);
-		PointArrangement otherWithThisP2 = getPointArrangement(other.a, other.b, this.b);
+		PointArrangement otherWithThisP1 = getPointArrangement(other.a, other.b, a);
+		PointArrangement otherWithThisP2 = getPointArrangement(other.a, other.b, b);
 
 		if(otherWithThisP1 == otherWithThisP2)
 			return false;
@@ -103,8 +103,8 @@ public class LineSegment2D
 
 	@API public boolean isColinear(LineSegment2D other)
 	{
-		return getPointArrangement(this.a, this.b, other.a) == PointArrangement.COLINEAR
-				&& getPointArrangement(this.a, this.b, other.b) == PointArrangement.COLINEAR;
+		return getPointArrangement(a, b, other.a) == PointArrangement.COLINEAR
+				&& getPointArrangement(a, b, other.b) == PointArrangement.COLINEAR;
 	}
 
 	@API public boolean contains(Vector2D point)

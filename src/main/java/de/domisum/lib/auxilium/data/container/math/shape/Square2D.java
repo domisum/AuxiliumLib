@@ -16,20 +16,20 @@ public class Square2D implements GeometricShape2D
 	// INIT
 	@API public Square2D(double x1, double x2, double y1, double y2)
 	{
-		this.minX = Math.min(x1, x2);
-		this.maxX = Math.max(x1, x2);
-		this.minY = Math.min(y1, y2);
-		this.maxY = Math.max(y1, y2);
+		minX = Math.min(x1, x2);
+		maxX = Math.max(x1, x2);
+		minY = Math.min(y1, y2);
+		maxY = Math.max(y1, y2);
 	}
 
 
 	// SHAPE
 	@Override @API public boolean contains(Vector2D point)
 	{
-		if(point.x < this.minX || point.x > this.maxX)
+		if(point.x < minX || point.x > maxX)
 			return false;
 
-		if(point.y < this.minY || point.y > this.maxY)
+		if(point.y < minY || point.y > maxY)
 			return false;
 
 		return true;

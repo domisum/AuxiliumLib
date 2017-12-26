@@ -16,13 +16,13 @@ public class LineSegment3D
 	// CONVERSION
 	@API public Line3D toLine()
 	{
-		return new Line3D(this.a, this.b.subtract(this.a));
+		return new Line3D(a, b.subtract(a));
 	}
 
 	@API public LineSegment3D getShortenedBothEnds(double distance)
 	{
-		Vector3D newA = this.a.moveTowards(this.b, distance);
-		Vector3D newB = this.b.moveTowards(this.a, distance);
+		Vector3D newA = a.moveTowards(b, distance);
+		Vector3D newB = b.moveTowards(a, distance);
 
 		return new LineSegment3D(newA, newB);
 	}
@@ -31,12 +31,12 @@ public class LineSegment3D
 	// GETTERS
 	@API public double getLength()
 	{
-		return this.a.distanceTo(this.b);
+		return a.distanceTo(b);
 	}
 
 	@API public double getLengthSquared()
 	{
-		return this.a.distanceToSquared(this.b);
+		return a.distanceToSquared(b);
 	}
 
 	@API public boolean containsPoint(Vector3D point)
@@ -44,7 +44,7 @@ public class LineSegment3D
 		if(!toLine().containsPoint(point))
 			return false;
 
-		double delta = Math.abs(point.distanceTo(this.a)+point.distanceTo(this.b)-getLength());
+		double delta = Math.abs(point.distanceTo(a)+point.distanceTo(b)-getLength());
 		return delta < Line3D.THRESHOLD;
 	}
 
@@ -54,18 +54,18 @@ public class LineSegment3D
 	{
 		// http://geomalgorithms.com/a02-_lines.html
 
-		Vector3D v = this.b.subtract(this.a);
-		Vector3D w = point.subtract(this.a);
+		Vector3D v = b.subtract(a);
+		Vector3D w = point.subtract(a);
 
 		double wvProduct = w.dotProduct(v);
 		double vvProduct = v.dotProduct(v);
 		if(wvProduct <= 0)
-			return point.distanceTo(this.a);
+			return point.distanceTo(a);
 		if(v.dotProduct(v) <= wvProduct)
-			return point.distanceTo(this.b);
+			return point.distanceTo(b);
 
 		double productQuot = wvProduct/vvProduct;
-		Vector3D pointOnSegment = this.a.add(v.multiply(productQuot));
+		Vector3D pointOnSegment = a.add(v.multiply(productQuot));
 
 		return point.distanceTo(pointOnSegment);
 	}
@@ -87,29 +87,29 @@ public class LineSegment3D
 		}
 		else if(!aOnSegment && bOnSegment)
 		{
-			Vector3D newA = this.a;
-			if(shortestConnection.b.distanceToSquared(this.b) < shortestConnection.b.distanceToSquared(newA))
-				newA = this.b;
+			Vector3D newA = a;
+			if(shortestConnection.b.distanceToSquared(b) < shortestConnection.b.distanceToSquared(newA))
+				newA = b;
 
 			shortestConnection = new LineSegment3D(newA, shortestConnection.b);
 		}
 		else if(!aOnSegment && !bOnSegment)
 		{
-			LineSegment3D newShortestConnection = new LineSegment3D(this.a, other.a);
-			double shortestDistanceSquared = this.a.distanceToSquared(other.a);
+			LineSegment3D newShortestConnection = new LineSegment3D(a, other.a);
+			double shortestDistanceSquared = a.distanceToSquared(other.a);
 
-			if(this.a.distanceToSquared(other.b) < shortestDistanceSquared)
+			if(a.distanceToSquared(other.b) < shortestDistanceSquared)
 			{
-				shortestDistanceSquared = this.a.distanceToSquared(other.b);
-				newShortestConnection = new LineSegment3D(this.a, other.b);
+				shortestDistanceSquared = a.distanceToSquared(other.b);
+				newShortestConnection = new LineSegment3D(a, other.b);
 			}
-			if(this.b.distanceToSquared(other.a) < shortestDistanceSquared)
+			if(b.distanceToSquared(other.a) < shortestDistanceSquared)
 			{
-				shortestDistanceSquared = this.b.distanceToSquared(other.a);
-				newShortestConnection = new LineSegment3D(this.b, other.a);
+				shortestDistanceSquared = b.distanceToSquared(other.a);
+				newShortestConnection = new LineSegment3D(b, other.a);
 			}
-			if(this.b.distanceToSquared(other.b) < shortestDistanceSquared)
-				newShortestConnection = new LineSegment3D(this.b, other.b);
+			if(b.distanceToSquared(other.b) < shortestDistanceSquared)
+				newShortestConnection = new LineSegment3D(b, other.b);
 
 			shortestConnection = newShortestConnection;
 		}

@@ -2,6 +2,7 @@ package de.domisum.lib.auxilium.util;
 
 import de.domisum.lib.auxilium.util.java.annotations.API;
 
+import java.io.UncheckedIOException;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
@@ -28,12 +29,12 @@ public final class NetworkUtil
 		}
 		catch(SocketException|UnknownHostException e)
 		{
-			throw new RuntimeException(e);
+			throw new UncheckedIOException(e);
 		}
 
 		StringBuilder macAddress = new StringBuilder();
 		for(int i = 0; i < macAddressAsBytes.length; i++)
-			macAddress.append(String.format("%02X%s", macAddressAsBytes[i], (i < macAddressAsBytes.length-1) ? "-" : ""));
+			macAddress.append(String.format("%02X%s", macAddressAsBytes[i], (i < (macAddressAsBytes.length-1)) ? "-" : ""));
 
 		return macAddress.toString();
 	}

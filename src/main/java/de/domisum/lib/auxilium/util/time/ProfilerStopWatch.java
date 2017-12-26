@@ -21,19 +21,19 @@ public class ProfilerStopWatch
 	// OBJECT
 	@Override public String toString()
 	{
-		return "[name="+this.name+";active="+isActive()+";elapsedMs="+MathUtil.round(getElapsedMilli(), 3)+"]";
+		return "[name="+name+";active="+isActive()+";elapsedMs="+MathUtil.round(getElapsedMilli(), 3)+"]";
 	}
 
 
 	// GETTERS
 	@API public boolean isActive()
 	{
-		return this.endNano == -1;
+		return endNano == -1;
 	}
 
 	@API public long getElapsedNano()
 	{
-		return (this.endNano == -1 ? System.nanoTime() : this.endNano)-this.startNano;
+		return (endNano == -1 ? System.nanoTime() : endNano)-startNano;
 	}
 
 	@API public double getElapsedMilli()
@@ -45,15 +45,15 @@ public class ProfilerStopWatch
 	// START/STOP
 	@API public void start()
 	{
-		this.startNano = System.nanoTime();
+		startNano = System.nanoTime();
 	}
 
 	@API public void stop()
 	{
-		if(this.endNano != -1)
+		if(endNano != -1)
 			throw new IllegalStateException("The stopwatch has already been stopped");
 
-		this.endNano = System.nanoTime();
+		endNano = System.nanoTime();
 	}
 
 }

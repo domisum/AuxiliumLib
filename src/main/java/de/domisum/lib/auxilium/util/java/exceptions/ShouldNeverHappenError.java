@@ -1,5 +1,6 @@
 package de.domisum.lib.auxilium.util.java.exceptions;
 
+@SuppressWarnings("ClassWithTooManyConstructors")
 public class ShouldNeverHappenError extends AssertionError
 {
 

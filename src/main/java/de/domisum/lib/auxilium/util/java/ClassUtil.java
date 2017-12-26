@@ -42,7 +42,7 @@ public class ClassUtil
 			while(iterator.hasNext())
 			{
 				ClassInfo ci = iterator.next();
-				Class<?> clazz = ClassUtil.getClass(ci.getName());
+				Class<?> clazz = getClass(ci.getName());
 				classes.add(clazz);
 			}
 

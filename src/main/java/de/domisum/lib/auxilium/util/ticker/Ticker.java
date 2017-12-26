@@ -1,15 +1,20 @@
 package de.domisum.lib.auxilium.util.ticker;
 
 import de.domisum.lib.auxilium.util.java.ThreadUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.time.Duration;
 
 public abstract class Ticker
 {
 
+	protected final Logger logger = LoggerFactory.getLogger(getClass());
+
+
 	// SETTINGS
-	private Duration tickInterval;
-	private String threadName;
+	private final Duration tickInterval;
+	private final String threadName;
 
 	// STATUS
 	private Thread tickThread;
@@ -32,14 +37,14 @@ public abstract class Ticker
 	// TICK
 	public synchronized void start()
 	{
-		if(this.tickThread != null)
+		if(tickThread != null)
 			return;
 
-		this.tickThread = new Thread(this::run);
+		tickThread = new Thread(this::run);
 
-		this.tickThread.setName(this.threadName);
-		this.tickThreadRunning = true;
-		this.tickThread.start();
+		tickThread.setName(threadName);
+		tickThreadRunning = true;
+		tickThread.start();
 	}
 
 	public synchronized void stop()
@@ -50,39 +55,39 @@ public abstract class Ticker
 
 	public synchronized void requestStop()
 	{
-		if(this.tickThread == null)
+		if(tickThread == null)
 			return;
 
-		this.tickThreadRunning = false;
-		this.tickThread.interrupt();
+		tickThreadRunning = false;
+		tickThread.interrupt();
 	}
 
 	public synchronized void waitForStop()
 	{
-		if(this.tickThread == null)
+		if(tickThread == null)
 			return;
 
-		if(Thread.currentThread() != this.tickThread)
-			ThreadUtil.join(this.tickThread);
-		this.tickThread = null;
+		if(Thread.currentThread() != tickThread)
+			ThreadUtil.join(tickThread);
+		tickThread = null;
 	}
 
 
 	private void run()
 	{
-		while(this.tickThreadRunning)
+		while(tickThreadRunning)
 		{
 			try
 			{
 				tick();
 			}
-			catch(Exception e)
+			catch(RuntimeException e)
 			{
-				e.printStackTrace();
+				logger.error("Exception occured during tick", e);
 			}
 
-			if(this.tickThreadRunning)
-				ThreadUtil.sleep(this.tickInterval.toMillis());
+			if(tickThreadRunning)
+				ThreadUtil.sleep(tickInterval.toMillis());
 		}
 	}
 

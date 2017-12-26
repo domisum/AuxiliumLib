@@ -27,16 +27,17 @@ public class Quaternion
 		double cos = Math.cos(angleRad/2);
 		double sin = Math.sin(angleRad/2);
 
-		this.w = cos;
-		this.x = sin*vector.x;
-		this.y = sin*vector.y;
-		this.z = sin*vector.z;
+		w = cos;
+		x = sin*vector.x;
+		y = sin*vector.y;
+		z = sin*vector.z;
 	}
 
 	@Override public String toString()
 	{
-		return "quaternion[w="+MathUtil.round(this.w, 3)+",x="+MathUtil.round(this.x, 3)+",y="+MathUtil.round(this.y, 3)+",z="
-				+MathUtil.round(this.z, 3)+"]";
+		return "quaternion[w="+MathUtil.round(w, 3)+",x="+MathUtil.round(x, 3)+",y="+MathUtil.round(y, 3)+",z="+MathUtil.round(
+				z,
+				3)+"]";
 	}
 
 
@@ -62,7 +63,7 @@ public class Quaternion
 	// SELF
 	@API public double length()
 	{
-		return Math.sqrt((this.w*this.w)+(this.x*this.x)+(this.y*this.y)+(this.z*this.z));
+		return Math.sqrt((w*w)+(x*x)+(y*y)+(z*z));
 	}
 
 	@API public Quaternion normalize()
@@ -72,39 +73,39 @@ public class Quaternion
 
 	@API public Quaternion inverse()
 	{
-		double d = (this.w*this.w)+(this.x*this.x)+(this.y*this.y)+(this.z*this.z);
-		return new Quaternion(this.w/d, -this.x/d, -this.y/d, -this.z/d);
+		double d = (w*w)+(x*x)+(y*y)+(z*z);
+		return new Quaternion(w/d, -x/d, -y/d, -z/d);
 	}
 
 	@API public Quaternion conjugate()
 	{
-		return new Quaternion(this.w, -this.x, -this.y, -this.z);
+		return new Quaternion(w, -x, -y, -z);
 	}
 
 	@API public Vector3D getVector()
 	{
-		return new Vector3D(this.x, this.y, this.z);
+		return new Vector3D(x, y, z);
 	}
 
 
 	// COMBINE
 	@API public Quaternion add(Quaternion b)
 	{
-		return new Quaternion(this.w+b.w, this.x+b.x, this.y+b.y, this.z+b.z);
+		return new Quaternion(w+b.w, x+b.x, y+b.y, z+b.z);
 	}
 
 	@API public Quaternion multiply(Quaternion b)
 	{
-		double nW = (this.w*b.w)-(this.x*b.x)-(this.y*b.y)-(this.z*b.z);
-		double nX = ((this.w*b.x)+(this.x*b.w)+(this.y*b.z))-(this.z*b.y);
-		double nY = ((this.w*b.y)-(this.x*b.z))+(this.y*b.w)+(this.z*b.x);
-		double nZ = (((this.w*b.z)+(this.x*b.y))-(this.y*b.x))+(this.z*b.w);
+		double nW = (w*b.w)-(x*b.x)-(y*b.y)-(z*b.z);
+		double nX = ((w*b.x)+(x*b.w)+(y*b.z))-(z*b.y);
+		double nY = ((w*b.y)-(x*b.z))+(y*b.w)+(z*b.x);
+		double nZ = (((w*b.z)+(x*b.y))-(y*b.x))+(z*b.w);
 		return new Quaternion(nW, nX, nY, nZ);
 	}
 
 	@API public Quaternion multiply(double d)
 	{
-		return new Quaternion(this.w*d, this.x*d, this.y*d, this.z*d);
+		return new Quaternion(w*d, x*d, y*d, z*d);
 	}
 
 	@API public Quaternion divide(Quaternion b)

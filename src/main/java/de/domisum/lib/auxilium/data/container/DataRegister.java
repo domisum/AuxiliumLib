@@ -10,13 +10,13 @@ public class DataRegister
 {
 
 	// DATA
-	private Map<String, Object> data = new HashMap<>();
+	private final Map<String, Object> data = new HashMap<>();
 
 
 	// GETTERS
 	@API public Object get(String key)
 	{
-		Object value = this.data.get(key);
+		Object value = data.get(key);
 		if(value == null)
 			throw new DataRegisterException("There is no object mapped to the key '"+key+"'");
 
@@ -25,14 +25,14 @@ public class DataRegister
 
 	@API public boolean doesValueExist(String key)
 	{
-		return this.data.get(key) != null;
+		return data.get(key) != null;
 	}
 
 
 	// SETTERS
 	@API public DataRegister set(String key, Object object)
 	{
-		this.data.put(key, object);
+		data.put(key, object);
 
 		return this;
 	}

@@ -25,7 +25,7 @@ public class Vector2D
 	// OBJECT
 	@Override public String toString()
 	{
-		return "vector[x="+MathUtil.round(this.x, 3)+",y="+MathUtil.round(this.y, 3)+"]";
+		return "vector[x="+MathUtil.round(x, 3)+",y="+MathUtil.round(y, 3)+"]";
 	}
 
 
@@ -37,24 +37,24 @@ public class Vector2D
 
 	@API public double lengthSquared()
 	{
-		return (this.x*this.x)+(this.y*this.y);
+		return (x*x)+(y*y);
 	}
 
 	@API public Vector2D normalize()
 	{
 		double length = length();
 
-		return new Vector2D(this.x/length, this.y/length);
+		return new Vector2D(x/length, y/length);
 	}
 
 	@API public Vector2D invert()
 	{
-		return new Vector2D(-this.x, -this.y);
+		return new Vector2D(-x, -y);
 	}
 
 	@API public Vector2D orthogonal()
 	{
-		Vector3D this3D = new Vector3D(this.x, this.y, 0);
+		Vector3D this3D = new Vector3D(x, y, 0);
 		Vector3D upright = new Vector3D(0, 0, 1);
 
 		Vector3D orthogonal3D = this3D.crossProduct(upright);
@@ -66,7 +66,7 @@ public class Vector2D
 
 	@API public Vector2D multiply(double factor)
 	{
-		return new Vector2D(this.x*factor, this.y*factor);
+		return new Vector2D(x*factor, y*factor);
 	}
 
 	@API public Vector2D divide(double divisor)
@@ -78,7 +78,7 @@ public class Vector2D
 	// INTERACTION
 	@API public Vector2D add(Vector2D other)
 	{
-		return new Vector2D(this.x+other.x, this.y+other.y);
+		return new Vector2D(x+other.x, y+other.y);
 	}
 
 	@API public Vector2D subtract(Vector2D other)
@@ -88,7 +88,7 @@ public class Vector2D
 
 	@API public double dotProduct(Vector2D other)
 	{
-		return (this.x*other.x)+(this.y*other.y);
+		return (x*other.x)+(y*other.y);
 	}
 
 	@API public double distanceTo(Vector2D other)
@@ -111,7 +111,7 @@ public class Vector2D
 	{
 		// https://software.intel.com/en-us/forums/intel-visual-fortran-compiler-for-windows/topic/515013
 
-		return (Math.atan2(other.y, other.x)-Math.atan2(this.y, this.x)+2*Math.PI)%(2*Math.PI)-Math.PI;
+		return (Math.atan2(other.y, other.x)-Math.atan2(y, x)+2*Math.PI)%(2*Math.PI)-Math.PI;
 	}
 
 	/**

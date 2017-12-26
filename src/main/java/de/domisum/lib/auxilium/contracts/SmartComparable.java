@@ -7,27 +7,27 @@ public interface SmartComparable<T> extends Comparable<T>
 
 	@API default boolean isLessThan(T other)
 	{
-		return this.compareTo(other) < 0;
+		return compareTo(other) < 0;
 	}
 
 	@API default boolean isLessThanOrEqual(T other)
 	{
-		return this.compareTo(other) <= 0;
+		return compareTo(other) <= 0;
 	}
 
 	@API default boolean isEqual(T other)
 	{
-		return this.compareTo(other) == 0;
+		return compareTo(other) == 0;
 	}
 
 	@API default boolean isEqualOrGreaterThan(T other)
 	{
-		return this.compareTo(other) >= 0;
+		return compareTo(other) >= 0;
 	}
 
 	@API default boolean isGreaterThan(T other)
 	{
-		return this.compareTo(other) > 0;
+		return compareTo(other) > 0;
 	}
 
 

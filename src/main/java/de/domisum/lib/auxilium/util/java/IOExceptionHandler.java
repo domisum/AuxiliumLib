@@ -13,7 +13,7 @@ public interface IOExceptionHandler extends ExceptionHandler<IOException>
 	// INIT
 	static IOExceptionHandler noAction()
 	{
-		return (e)->
+		return e->
 		{
 			// do nothing
 		};
@@ -26,7 +26,7 @@ public interface IOExceptionHandler extends ExceptionHandler<IOException>
 
 	static void executeOrException(Consumer<IOExceptionHandler> toExecute)
 	{
-		final IOException[] exception = new IOException[1];
+		IOException[] exception = new IOException[1];
 
 		toExecute.accept(e->exception[0] = e);
 
@@ -36,7 +36,7 @@ public interface IOExceptionHandler extends ExceptionHandler<IOException>
 
 	static <T> T getOrException(Converter<IOExceptionHandler, Optional<T>> toGet)
 	{
-		final IOException[] exception = new IOException[1];
+		IOException[] exception = new IOException[1];
 
 		Optional<T> value = toGet.convert(e->exception[0] = e);
 		if(value.isPresent())

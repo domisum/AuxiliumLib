@@ -1,5 +1,6 @@
 package de.domisum.lib.auxilium.contracts.storage;
 
+import de.domisum.lib.auxilium.contracts.storage.InMemoryProxyStorage.Keyable;
 import lombok.RequiredArgsConstructor;
 
 import java.util.Collection;
@@ -9,7 +10,7 @@ import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
 @RequiredArgsConstructor
-public abstract class InMemoryProxyStorage<KeyT, T extends InMemoryProxyStorage.Keyable<KeyT>> implements Storage<KeyT, T>
+public abstract class InMemoryProxyStorage<KeyT, T extends Keyable<KeyT>> implements Storage<KeyT, T>
 {
 
 	// REFERENCES

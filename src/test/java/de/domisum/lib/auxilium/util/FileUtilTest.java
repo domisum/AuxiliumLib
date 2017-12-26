@@ -14,7 +14,7 @@ import java.util.List;
 public class FileUtilTest
 {
 
-	private List<File> filesToTearDown = new ArrayList<>();
+	private final List<File> filesToTearDown = new ArrayList<>();
 
 
 	@AfterEach public void tearDown()
@@ -50,7 +50,7 @@ public class FileUtilTest
 	// TEST: RAW
 	@Test public void testSimpleWriteReadRaw()
 	{
-		byte[] testData = new byte[] {0, 8, -3, 127};
+		byte[] testData = {0, 8, -3, 127};
 		File tempFile = createTempFile();
 
 		writeReadAssertEquals(tempFile, testData);
@@ -58,8 +58,8 @@ public class FileUtilTest
 
 	@Test public void testOverwriteRaw()
 	{
-		byte[] testData = new byte[] {-1, -29, 88, 18};
-		byte[] testData2 = new byte[] {0, 8, -3, 127};
+		byte[] testData = {-1, -29, 88, 18};
+		byte[] testData2 = {0, 8, -3, 127};
 		File tempFile = createTempFile();
 
 		FileUtil.writeRaw(tempFile, testData);

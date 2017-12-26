@@ -6,7 +6,7 @@ public interface ExceptionHandler<T extends Exception>
 	// INIT
 	static ExceptionHandler noAction()
 	{
-		return (e)->
+		return e->
 		{
 			// do nothing
 		};

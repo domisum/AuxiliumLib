@@ -17,7 +17,7 @@ public class IntervalTaskTicker extends Ticker
 	private static final Duration TICK_INTERVAL = Duration.ofMillis(100);
 
 	// TASKS
-	private Set<IntervalTask> tasks = new HashSet<>();
+	private final Set<IntervalTask> tasks = new HashSet<>();
 
 
 	// INIT
@@ -29,16 +29,21 @@ public class IntervalTaskTicker extends Ticker
 	@API public void addTask(Runnable task, Duration interval)
 	{
 		IntervalTask intervalTask = new IntervalTask(task, interval);
-		this.tasks.add(intervalTask);
+		tasks.add(intervalTask);
 	}
 
 
 	// TICK
 	@Override protected final void tick()
 	{
-		for(IntervalTask t : this.tasks)
+		for(IntervalTask t : tasks)
+		{
+			if(Thread.currentThread().isInterrupted())
+				return;
+
 			if(t.shouldRunNow())
 				t.run();
+		}
 	}
 
 
@@ -55,22 +60,14 @@ public class IntervalTaskTicker extends Ticker
 
 		public boolean shouldRunNow()
 		{
-			Duration sinceLastExcecution = Duration.between(this.lastExecution, Instant.now());
-			return sinceLastExcecution.compareTo(this.interval) >= 0;
+			Duration sinceLastExcecution = Duration.between(lastExecution, Instant.now());
+			return sinceLastExcecution.compareTo(interval) >= 0;
 		}
 
 		public void run()
 		{
-			try
-			{
-				this.task.run();
-			}
-			catch(Exception e) // catch all exceptions so ticker doesn't crash because of exception in task
-			{
-				e.printStackTrace();
-			}
-
-			this.lastExecution = Instant.now();
+			task.run();
+			lastExecution = Instant.now();
 		}
 
 	}

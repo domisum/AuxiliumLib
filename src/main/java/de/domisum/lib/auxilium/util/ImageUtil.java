@@ -23,15 +23,15 @@ public final class ImageUtil
 	// TO PIXELS
 	@API public static int[][] getPixels(BufferedImage image)
 	{
-		final byte[] pixels = ((DataBufferByte) image.getRaster().getDataBuffer()).getData();
-		final int width = image.getWidth();
-		final int height = image.getHeight();
-		final boolean hasAlphaChannel = image.getAlphaRaster() != null;
+		byte[] pixels = ((DataBufferByte) image.getRaster().getDataBuffer()).getData();
+		int width = image.getWidth();
+		int height = image.getHeight();
+		boolean hasAlphaChannel = image.getAlphaRaster() != null;
 
 		int[][] result = new int[height][width];
 		if(hasAlphaChannel)
 		{
-			final int pixelLength = 4;
+			int pixelLength = 4;
 
 			int row = 0;
 			int col = 0;
@@ -39,9 +39,9 @@ public final class ImageUtil
 			{
 				int argb = 0;
 				//argb += ((pixels[pixel]&0xff)<<24); // alpha
-				argb += (pixels[pixel+1]&0xff); // blue
-				argb += ((pixels[pixel+2]&0xff)<<8); // green
-				argb += ((pixels[pixel+3]&0xff)<<16); // red
+				argb += pixels[pixel+1]&0xff; // blue
+				argb += (pixels[pixel+2]&0xff)<<8; // green
+				argb += (pixels[pixel+3]&0xff)<<16; // red
 				result[row][col] = argb;
 				col++;
 
@@ -54,7 +54,7 @@ public final class ImageUtil
 		}
 		else
 		{
-			final int pixelLength = 3;
+			int pixelLength = 3;
 
 			int row = 0;
 			int col = 0;
@@ -62,9 +62,9 @@ public final class ImageUtil
 			{
 				int argb = 0;
 				//argb += -16777216; // 255 alpha
-				argb += (pixels[pixel]&0xff); // blue
-				argb += ((pixels[pixel+1]&0xff)<<8); // green
-				argb += ((pixels[pixel+2]&0xff)<<16); // red
+				argb += pixels[pixel]&0xff; // blue
+				argb += (pixels[pixel+1]&0xff)<<8; // green
+				argb += (pixels[pixel+2]&0xff)<<16; // red
 				result[row][col] = argb;
 				col++;
 

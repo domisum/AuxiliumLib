@@ -85,7 +85,7 @@ public class RandomUtil
 
 	@API public static int getFromRange(int min, int max, Random r)
 	{
-		return min+(nextInt((max-min)+1, r));
+		return min+nextInt((max-min)+1, r);
 	}
 
 	@API public static double getFromRange(double min, double max)

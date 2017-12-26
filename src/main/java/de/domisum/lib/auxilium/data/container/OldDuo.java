@@ -19,7 +19,7 @@ public class OldDuo<T, U>
 	// GETTERS
 	@API public OldDuo<U, T> getInverted()
 	{
-		return new OldDuo<>(this.b, this.a);
+		return new OldDuo<>(b, a);
 	}
 
 }

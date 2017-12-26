@@ -46,7 +46,7 @@ public class Vector3D
 			return false;
 
 		Vector3D other = (Vector3D) o;
-		return other.x == this.x && other.y == this.y && other.z == this.z;
+		return other.x == x && other.y == y && other.z == z;
 	}
 
 	/**
@@ -61,12 +61,12 @@ public class Vector3D
 	{
 		int hashCode = 13;
 
-		long xLong = Double.doubleToLongBits(this.x);
-		long yLong = Double.doubleToLongBits(this.y);
-		long zLong = Double.doubleToLongBits(this.z);
-		hashCode = hashCode*31+((int) (xLong^(xLong>>>32)));
-		hashCode = hashCode*31+((int) (yLong^(yLong>>>32)));
-		hashCode = hashCode*31+((int) (zLong^(zLong>>>32)));
+		long xLong = Double.doubleToLongBits(x);
+		long yLong = Double.doubleToLongBits(y);
+		long zLong = Double.doubleToLongBits(z);
+		hashCode = hashCode*31+(int) (xLong^(xLong >>> 32));
+		hashCode = hashCode*31+(int) (yLong^(yLong >>> 32));
+		hashCode = hashCode*31+(int) (zLong^(zLong >>> 32));
 
 		return hashCode;
 	}
@@ -80,7 +80,7 @@ public class Vector3D
 	 */
 	@Override public String toString()
 	{
-		return "vector[x="+MathUtil.round(this.x, 3)+",y="+MathUtil.round(this.y, 3)+",z="+MathUtil.round(this.z, 3)+"]";
+		return "vector[x="+MathUtil.round(x, 3)+",y="+MathUtil.round(y, 3)+",z="+MathUtil.round(z, 3)+"]";
 	}
 
 
@@ -106,7 +106,7 @@ public class Vector3D
 	 */
 	@API public double lengthSquared()
 	{
-		return (this.x*this.x)+(this.y*this.y)+(this.z*this.z);
+		return (x*x)+(y*y)+(z*z);
 	}
 
 	/**
@@ -129,7 +129,7 @@ public class Vector3D
 	 */
 	@API public double xzLengthSquared()
 	{
-		return (this.x*this.x)+(this.z*this.z);
+		return (x*x)+(z*z);
 	}
 
 	/**
@@ -141,7 +141,7 @@ public class Vector3D
 	{
 		double length = length();
 
-		return new Vector3D(this.x/length, this.y/length, this.z/length);
+		return new Vector3D(x/length, y/length, z/length);
 	}
 
 	/**
@@ -165,10 +165,10 @@ public class Vector3D
 	@API public Vector3D orthogonal()
 	{
 		Vector3D independent;
-		if((this.x == 0) && (this.y == 0))
-			independent = new Vector3D(1, 1, this.z);
+		if((x == 0) && (y == 0))
+			independent = new Vector3D(1, 1, z);
 		else
-			independent = new Vector3D(this.x, this.y, this.z+1);
+			independent = new Vector3D(x, y, z+1);
 
 		return crossProduct(independent);
 	}
@@ -184,7 +184,7 @@ public class Vector3D
 	 */
 	@API public Vector3D add(Vector3D other)
 	{
-		return new Vector3D(this.x+other.x, this.y+other.y, this.z+other.z);
+		return new Vector3D(x+other.x, y+other.y, z+other.z);
 	}
 
 	/**
@@ -198,7 +198,7 @@ public class Vector3D
 	 */
 	@API public Vector3D add(double dX, double dY, double dZ)
 	{
-		return new Vector3D(this.x+dX, this.y+dY, this.z+dZ);
+		return new Vector3D(x+dX, y+dY, z+dZ);
 	}
 
 	/**
@@ -233,7 +233,7 @@ public class Vector3D
 	@API public Vector3D moveTowards(Vector3D other, double distance)
 	{
 		Vector3D dir = other.subtract(this).normalize();
-		return this.add(dir.multiply(distance));
+		return add(dir.multiply(distance));
 	}
 
 
@@ -248,7 +248,7 @@ public class Vector3D
 	 */
 	@API public Vector3D multiply(double factor)
 	{
-		return new Vector3D(this.x*factor, this.y*factor, this.z*factor);
+		return new Vector3D(x*factor, y*factor, z*factor);
 	}
 
 	/**
@@ -275,7 +275,7 @@ public class Vector3D
 	 */
 	@API public double dotProduct(Vector3D other)
 	{
-		return (this.x*other.x)+(this.y*other.y)+(this.z*other.z);
+		return (x*other.x)+(y*other.y)+(z*other.z);
 	}
 
 	/**
@@ -288,9 +288,9 @@ public class Vector3D
 	 */
 	@API public Vector3D crossProduct(Vector3D other)
 	{
-		double nX = (this.y*other.z)-(this.z*other.y);
-		double nY = (this.z*other.x)-(this.x*other.z);
-		double nZ = (this.x*other.y)-(this.y*other.x);
+		double nX = (y*other.z)-(z*other.y);
+		double nY = (z*other.x)-(x*other.z);
+		double nZ = (x*other.y)-(y*other.x);
 
 		return new Vector3D(nX, nY, nZ);
 	}
@@ -357,7 +357,7 @@ public class Vector3D
 	 */
 	@API public Quaternion getPureQuaternion()
 	{
-		return new Quaternion(0, this.x, this.y, this.z);
+		return new Quaternion(0, x, y, z);
 	}
 
 	/**

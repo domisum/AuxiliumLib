@@ -5,7 +5,7 @@ import de.domisum.lib.auxilium.util.math.RandomUtil;
 public class AlwaysUnequalOldDuo<T, U> extends OldDuo<T, U>
 {
 
-	private int hashCode;
+	private final int hashCode;
 
 
 	// INIT

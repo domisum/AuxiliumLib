@@ -1,5 +1,6 @@
 package de.domisum.lib.auxilium.util;
 
+import de.domisum.lib.auxilium.util.CompressionUtil.Speed;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -74,11 +75,11 @@ public class CompressionUtilTest
 	// ACT + ASSERT
 	private void compressDecompressAndAssertEquals(byte[] data)
 	{
-		for(CompressionUtil.Speed speed : CompressionUtil.Speed.values())
+		for(Speed speed : Speed.values())
 			compressDecompressAndAssertEquals(data, speed);
 	}
 
-	private void compressDecompressAndAssertEquals(byte[] data, CompressionUtil.Speed speed)
+	private void compressDecompressAndAssertEquals(byte[] data, Speed speed)
 	{
 		byte[] compressed = CompressionUtil.compress(data, speed);
 		byte[] decompressed = CompressionUtil.decompress(compressed);

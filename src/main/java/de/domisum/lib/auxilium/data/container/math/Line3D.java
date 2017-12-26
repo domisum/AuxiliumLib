@@ -25,36 +25,36 @@ public class Line3D
 	// GETTERS
 	@API public boolean containsPoint(Vector3D point)
 	{
-		Vector3D crossProduct = this.direction.crossProduct(point.subtract(this.base));
+		Vector3D crossProduct = direction.crossProduct(point.subtract(base));
 		return crossProduct.lengthSquared() <= THRESHOLD;
 	}
 
 	@API public Vector3D getPointOnLineClosestToPoint(Vector3D point)
 	{
-		Vector3D w = point.subtract(this.base);
+		Vector3D w = point.subtract(base);
 
-		double wvProduct = w.dotProduct(this.direction);
-		double vvProduct = this.direction.dotProduct(this.direction);
+		double wvProduct = w.dotProduct(direction);
+		double vvProduct = direction.dotProduct(direction);
 
 		double productQuot = wvProduct/vvProduct;
-		return this.base.add(this.direction.multiply(productQuot));
+		return base.add(direction.multiply(productQuot));
 	}
 
 	@API public LineSegment3D getShortestConnection(Line3D other)
 	{
 		// http://geomalgorithms.com/a07-_distance.html#dist3D_Segment_to_Segment
 
-		Vector3D w0 = this.base.subtract(other.base);
+		Vector3D w0 = base.subtract(other.base);
 
-		double a = this.direction.dotProduct(this.direction);
-		double b = this.direction.dotProduct(other.direction);
+		double a = direction.dotProduct(direction);
+		double b = direction.dotProduct(other.direction);
 		double c = other.direction.dotProduct(other.direction);
-		double d = this.direction.dotProduct(w0);
+		double d = direction.dotProduct(w0);
 		double e = other.direction.dotProduct(w0);
 
 		double denominator = a*c-b*b;
 		if(denominator == 0) // lines are parallel, choose an arbitrary connection
-			return new LineSegment3D(this.base, other.getPointOnLineClosestToPoint(this.base));
+			return new LineSegment3D(base, other.getPointOnLineClosestToPoint(base));
 
 		double xpNominator = b*e-c*d;
 		double xqNominator = a*e-b*d;
@@ -62,7 +62,7 @@ public class Line3D
 		double xp = xpNominator/denominator;
 		double xq = xqNominator/denominator;
 
-		Vector3D point1 = this.base.add(this.direction.multiply(xp));
+		Vector3D point1 = base.add(direction.multiply(xp));
 		Vector3D point2 = other.base.add(other.direction.multiply(xq));
 		return new LineSegment3D(point1, point2);
 	}
@@ -73,10 +73,10 @@ public class Line3D
 	{
 		// http://mathworld.wolfram.com/Point-LineDistance3-Dimensional.html
 
-		Vector3D pToOne = this.base.subtract(point);
+		Vector3D pToOne = base.subtract(point);
 
-		Vector3D crossProduct = this.direction.crossProduct(pToOne);
-		return crossProduct.length()/this.direction.length();
+		Vector3D crossProduct = direction.crossProduct(pToOne);
+		return crossProduct.length()/direction.length();
 	}
 
 	@API public double getDistanceTo(Line3D other)

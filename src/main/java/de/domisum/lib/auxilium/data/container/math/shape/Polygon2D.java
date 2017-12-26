@@ -46,38 +46,38 @@ public class Polygon2D implements GeometricShape2D
 	// OBJECT
 	@Override public String toString()
 	{
-		return "Polygon2D{"+"points="+this.points+'}';
+		return "Polygon2D{"+"points="+points+'}';
 	}
 
 
 	// GETTERS
 	@API public List<LineSegment2D> getLines()
 	{
-		if(this.lines == null)
+		if(lines == null)
 		{
-			this.lines = new ArrayList<>();
+			lines = new ArrayList<>();
 
 			Vector2D last = null;
-			for(Vector2D v : this.points)
+			for(Vector2D v : points)
 			{
 				if(last != null)
-					this.lines.add(new LineSegment2D(last, v));
+					lines.add(new LineSegment2D(last, v));
 
 				last = v;
 			}
-			this.lines.add(new LineSegment2D(last, this.points.get(0)));
+			lines.add(new LineSegment2D(last, points.get(0)));
 
-			this.lines = Collections.unmodifiableList(this.lines);
+			lines = Collections.unmodifiableList(lines);
 		}
 
-		return this.lines;
+		return lines;
 	}
 
 	@API public List<PolygonCorner> getCorners()
 	{
-		if(this.corners == null)
+		if(corners == null)
 		{
-			this.corners = new ArrayList<>();
+			corners = new ArrayList<>();
 
 			// start with last linesegment
 			LineSegment2D before = getLines().get(getLines().size()-1);
@@ -89,28 +89,28 @@ public class Polygon2D implements GeometricShape2D
 				PolygonCornerOrientation orientation = convex ?
 						PolygonCornerOrientation.CONVEX :
 						PolygonCornerOrientation.CONCAVE;
-				this.corners.add(new PolygonCorner(angleDeg, orientation));
+				corners.add(new PolygonCorner(angleDeg, orientation));
 
 				before = ls;
 			}
 
-			this.corners = Collections.unmodifiableList(this.corners);
+			corners = Collections.unmodifiableList(corners);
 		}
 
-		return this.corners;
+		return corners;
 	}
 
 	@API public DoubleBounds2D getBoundingBox()
 	{
-		if(this.boundingBox != null)
-			return this.boundingBox;
+		if(boundingBox != null)
+			return boundingBox;
 
 		double minX = Double.MAX_VALUE;
 		double maxX = -Double.MAX_VALUE;
 		double minY = Double.MAX_VALUE;
 		double maxY = -Double.MAX_VALUE;
 
-		for(Vector2D p : this.points)
+		for(Vector2D p : points)
 		{
 			if(p.x < minX)
 				minX = p.x;
@@ -123,22 +123,22 @@ public class Polygon2D implements GeometricShape2D
 				maxY = p.y;
 		}
 
-		this.boundingBox = new DoubleBounds2D(minX, maxX, minY, maxY);
-		return this.boundingBox;
+		boundingBox = new DoubleBounds2D(minX, maxX, minY, maxY);
+		return boundingBox;
 	}
 
 	@API public Vector2D getPointCenter()
 	{
-		if(this.pointCenter == null)
+		if(pointCenter == null)
 		{
 			Vector2D pointSum = new Vector2D();
-			for(Vector2D p : this.points)
+			for(Vector2D p : points)
 				pointSum = pointSum.add(p);
 
-			this.pointCenter = pointSum.divide(this.points.size());
+			pointCenter = pointSum.divide(points.size());
 		}
 
-		return this.pointCenter;
+		return pointCenter;
 	}
 
 
@@ -165,9 +165,9 @@ public class Polygon2D implements GeometricShape2D
 			if(ray.intersects(ls))
 				intersections++;
 
-		for(int i = 0; i < this.points.size(); i++)
+		for(int i = 0; i < points.size(); i++)
 		{
-			Vector2D p = this.points.get(i);
+			Vector2D p = points.get(i);
 			LineSegment2D line = getLines().get(i);
 
 			if(ray.contains(p) && ray.isColinear(line))
@@ -190,7 +190,7 @@ public class Polygon2D implements GeometricShape2D
 			return true;
 
 		// is a point of this polygon contained in the other polygon? if yes, the polygons overlap
-		if(other.contains(this.points.get(0)))
+		if(other.contains(points.get(0)))
 			return true;
 
 		// if none of the above, the polygons dont overlap
@@ -199,8 +199,8 @@ public class Polygon2D implements GeometricShape2D
 
 	@API public boolean isClockwise()
 	{
-		if(this.clockwise != null)
-			return this.clockwise;
+		if(clockwise != null)
+			return clockwise;
 
 		// https://stackoverflow.com/a/1165943/4755690
 
@@ -208,8 +208,8 @@ public class Polygon2D implements GeometricShape2D
 		for(LineSegment2D ls : getLines())
 			sum += (ls.b.x-ls.a.x)*(ls.a.y+ls.b.y);
 
-		this.clockwise = sum > 0;
-		return this.clockwise;
+		clockwise = sum > 0;
+		return clockwise;
 	}
 
 
@@ -218,8 +218,8 @@ public class Polygon2D implements GeometricShape2D
 	{
 		double sum = 0;
 
-		Vector2D last = this.points.get(this.points.size()-1);
-		for(Vector2D p : this.points)
+		Vector2D last = points.get(points.size()-1);
+		for(Vector2D p : points)
 		{
 			sum += last.x*p.y-p.x*last.y;
 
@@ -259,7 +259,7 @@ public class Polygon2D implements GeometricShape2D
 	@API public Polygon2D move(Vector2D movement)
 	{
 		List<Vector2D> movedPoints = new ArrayList<>();
-		for(Vector2D p : this.points)
+		for(Vector2D p : points)
 			movedPoints.add(p.add(movement));
 
 		return new Polygon2D(movedPoints);
@@ -286,7 +286,7 @@ public class Polygon2D implements GeometricShape2D
 		// INIT
 		public PolygonCorner(double angleDeg, PolygonCornerOrientation orientation)
 		{
-			this.angleDegAbs = Math.abs(angleDeg);
+			angleDegAbs = Math.abs(angleDeg);
 			this.orientation = orientation;
 		}
 

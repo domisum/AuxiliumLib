@@ -23,15 +23,15 @@ public class InterchangeableOldDuo<T, U> extends OldDuo<T, U>
 
 		InterchangeableOldDuo<?, ?> other = (InterchangeableOldDuo<?, ?>) o;
 
-		boolean defaultOrderEquals = Objects.equals(this.a, other.a) && Objects.equals(this.b, other.b);
-		boolean invertedOrderEquals = Objects.equals(this.a, other.b) && Objects.equals(this.b, other.a);
+		boolean defaultOrderEquals = Objects.equals(a, other.a) && Objects.equals(b, other.b);
+		boolean invertedOrderEquals = Objects.equals(a, other.b) && Objects.equals(b, other.a);
 
 		return defaultOrderEquals || invertedOrderEquals;
 	}
 
 	@Override public int hashCode()
 	{
-		return Objects.hashCode(this.a)+Objects.hashCode(this.b);
+		return Objects.hashCode(a)+Objects.hashCode(b);
 	}
 
 }
