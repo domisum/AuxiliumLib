@@ -2,6 +2,7 @@ package de.domisum.lib.auxilium.contracts.source.implementations.cache;
 
 import de.domisum.lib.auxilium.contracts.source.SingleItemSource;
 import de.domisum.lib.auxilium.util.java.annotations.API;
+import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 
 import java.time.Duration;
@@ -9,8 +10,8 @@ import java.time.Instant;
 import java.util.Optional;
 
 @API
-@RequiredArgsConstructor
-public class SingleItemSourceCache<T> implements SingleItemSource<T>
+@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
+public final class SingleItemSourceCache<T> implements SingleItemSource<T>
 {
 
 	// REFERENCES
@@ -20,6 +21,19 @@ public class SingleItemSourceCache<T> implements SingleItemSource<T>
 	// CACHE
 	private T cachedItem;
 	private Instant lastFetchFromBackingSource;
+
+
+	// INIT
+	@API public static <T> SingleItemSourceCache<T> neverInvalidate(SingleItemSource<T> backingSource)
+	{
+		return new SingleItemSourceCache<>(null, backingSource);
+	}
+
+	@API
+	public static <T> SingleItemSourceCache<T> invalidateEvery(Duration invalidationInterval, SingleItemSource<T> backingSource)
+	{
+		return new SingleItemSourceCache<>(invalidationInterval, backingSource);
+	}
 
 
 	// SOURCE
@@ -55,6 +69,9 @@ public class SingleItemSourceCache<T> implements SingleItemSource<T>
 	// CONDITION UTIL
 	private boolean shouldInvalidateCache()
 	{
+		if(invalidationInterval == null)
+			return false;
+
 		Instant oldestAllowedFetchInstant = Instant.now().minus(invalidationInterval);
 		return (cachedItem != null) && lastFetchFromBackingSource.isBefore(oldestAllowedFetchInstant);
 	}
