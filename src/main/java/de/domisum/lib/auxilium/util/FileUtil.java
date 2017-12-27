@@ -6,6 +6,7 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang3.Validate;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -116,6 +117,9 @@ public final class FileUtil
 
 	@API public static void writeImage(File file, BufferedImage image)
 	{
+		Validate.notNull(file, "file was null");
+		Validate.notNull(image, "image was null");
+
 		try
 		{
 			ImageIO.write(image, getFileExtension(file), file);
