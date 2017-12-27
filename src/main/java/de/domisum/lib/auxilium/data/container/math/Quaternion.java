@@ -24,10 +24,9 @@ public class Quaternion
 
 	@API public Quaternion(double angleRad, Vector3D vector)
 	{
-		double cos = Math.cos(angleRad/2);
-		double sin = Math.sin(angleRad/2);
+		w = Math.cos(angleRad/2);
 
-		w = cos;
+		double sin = Math.sin(angleRad/2);
 		x = sin*vector.x;
 		y = sin*vector.y;
 		z = sin*vector.z;
@@ -51,7 +50,7 @@ public class Quaternion
 		{
 			w = 0;
 			// noinspection SuspiciousNameCombination
-			axis = vector1.x > vector1.z ? new Vector3D(-vector1.y, vector1.x, 0) : new Vector3D(0, -vector1.z, vector1.y);
+			axis = (vector1.x > vector1.z) ? new Vector3D(-vector1.y, vector1.x, 0) : new Vector3D(0, -vector1.z, vector1.y);
 		}
 		else
 			axis = vector1.crossProduct(vector2);

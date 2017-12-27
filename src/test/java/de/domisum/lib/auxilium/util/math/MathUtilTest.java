@@ -16,7 +16,7 @@ public class MathUtilTest
 
 		// ordered positive values
 		Assertions.assertEquals(1.5d, MathUtil.remapLinear(10d, 20d, 0d, 3d, 15d));
-		Assertions.assertEquals(5+1/3d, MathUtil.remapLinear(10d, 40d, 5d, 6d, 20d));
+		Assertions.assertEquals(5+(1/3d), MathUtil.remapLinear(10d, 40d, 5d, 6d, 20d));
 		Assertions.assertEquals(7d, MathUtil.remapLinear(10d, 20d, 5d, 6d, 30d)); // out of base bounds
 
 		// ordered negative

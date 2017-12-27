@@ -4,7 +4,7 @@ public interface ExceptionHandler<T extends Exception>
 {
 
 	// INIT
-	static ExceptionHandler noAction()
+	static ExceptionHandler<?> noAction()
 	{
 		return e->
 		{

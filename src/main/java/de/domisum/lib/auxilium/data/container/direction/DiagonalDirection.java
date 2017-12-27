@@ -3,6 +3,7 @@ package de.domisum.lib.auxilium.data.container.direction;
 import de.domisum.lib.auxilium.util.java.annotations.API;
 import lombok.AllArgsConstructor;
 
+import java.util.Objects;
 import java.util.Random;
 
 @API
@@ -36,10 +37,9 @@ public enum DiagonalDirection
 	{
 		String[] straightChildDirectionNames = name().split("_");
 
-		if(straightChildDirectionNames[0].equals(dir.name()))
-			return Direction2D.valueOf(straightChildDirectionNames[1]);
-		else
-			return Direction2D.valueOf(straightChildDirectionNames[0]);
+		return Direction2D.valueOf(straightChildDirectionNames[Objects.equals(straightChildDirectionNames[0], dir.name()) ?
+				1 :
+				0]);
 	}
 
 	@API public static DiagonalDirection getRandom(Random r)

@@ -52,12 +52,12 @@ public class Line3D
 		double d = direction.dotProduct(w0);
 		double e = other.direction.dotProduct(w0);
 
-		double denominator = a*c-b*b;
+		double denominator = (a*c)-(b*b);
 		if(denominator == 0) // lines are parallel, choose an arbitrary connection
 			return new LineSegment3D(base, other.getPointOnLineClosestToPoint(base));
 
-		double xpNominator = b*e-c*d;
-		double xqNominator = a*e-b*d;
+		double xpNominator = (b*e)-(c*d);
+		double xqNominator = (a*e)-(b*d);
 
 		double xp = xpNominator/denominator;
 		double xq = xqNominator/denominator;

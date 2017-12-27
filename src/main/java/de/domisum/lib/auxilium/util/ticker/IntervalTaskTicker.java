@@ -58,13 +58,13 @@ public class IntervalTaskTicker extends Ticker
 		private Instant lastExecution = Instant.MIN;
 
 
-		public boolean shouldRunNow()
+		protected boolean shouldRunNow()
 		{
 			Duration sinceLastExcecution = Duration.between(lastExecution, Instant.now());
 			return sinceLastExcecution.compareTo(interval) >= 0;
 		}
 
-		public void run()
+		protected void run()
 		{
 			task.run();
 			lastExecution = Instant.now();

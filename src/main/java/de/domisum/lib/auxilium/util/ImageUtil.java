@@ -93,7 +93,7 @@ public final class ImageUtil
 
 	@API public static BufferedImage getImageFromPixels(int[][] pixels)
 	{
-		if(pixels.length == 0 || pixels[0].length == 0)
+		if((pixels.length == 0) || (pixels[0].length == 0))
 			throw new IllegalArgumentException("The array has to have at least a length of 1 in each direction");
 
 		int height = pixels.length;

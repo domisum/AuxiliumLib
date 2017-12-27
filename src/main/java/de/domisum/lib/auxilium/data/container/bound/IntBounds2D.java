@@ -23,7 +23,7 @@ public class IntBounds2D
 
 	@API public static IntBounds2D fromPosAndSize(int x, int y, int width, int height)
 	{
-		return new IntBounds2D(x, x+width-1, y, y+height-1);
+		return new IntBounds2D(x, (x+width)-1, y, (y+height)-1);
 	}
 
 	@API private IntBounds2D(int x1, int x2, int y1, int y2)
@@ -38,12 +38,12 @@ public class IntBounds2D
 	// GETTERS
 	@API public int getWidth()
 	{
-		return maxX-minX+1;
+		return (maxX-minX)+1;
 	}
 
 	@API public int getHeight()
 	{
-		return maxY-minY+1;
+		return (maxY-minY)+1;
 	}
 
 

@@ -55,7 +55,7 @@ public enum Direction2D
 	@API public static Direction2D getFromOffset(int dX, int dZ)
 	{
 		for(Direction2D d : Direction2D.values())
-			if(d.dX == dX && d.dZ == dZ)
+			if((d.dX == dX) && (d.dZ == dZ))
 				return d;
 
 		return null;

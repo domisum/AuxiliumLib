@@ -136,7 +136,7 @@ public final class RuntimeTypeAdapterFactory<T> implements TypeAdapterFactory
 	// INIT
 	private RuntimeTypeAdapterFactory(Class<?> baseType, String typeFieldName)
 	{
-		if(typeFieldName == null || baseType == null)
+		if((typeFieldName == null) || (baseType == null))
 			throw new IllegalArgumentException("baseType and typeFieldName can't be null");
 
 		this.baseType = baseType;
@@ -171,7 +171,7 @@ public final class RuntimeTypeAdapterFactory<T> implements TypeAdapterFactory
 	 */
 	@API public RuntimeTypeAdapterFactory<T> registerSubtype(Class<? extends T> type, String label)
 	{
-		if(type == null || label == null)
+		if((type == null) || (label == null))
 			throw new IllegalArgumentException("type and label can't be null");
 
 		if(subtypeToLabel.containsKey(type) || labelToSubtype.containsKey(label))

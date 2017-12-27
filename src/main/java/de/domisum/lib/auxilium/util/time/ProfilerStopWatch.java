@@ -33,7 +33,7 @@ public class ProfilerStopWatch
 
 	@API public long getElapsedNano()
 	{
-		return (endNano == -1 ? System.nanoTime() : endNano)-startNano;
+		return ((endNano == -1) ? System.nanoTime() : endNano)-startNano;
 	}
 
 	@API public double getElapsedMilli()

@@ -88,7 +88,7 @@ public final class StringUtil
 		for(int i = 0; i < list.size(); i++)
 		{
 			combined.append(list.get(i));
-			combined.append(i+1 == list.size() ? "" : delimiter);
+			combined.append(((i+1) == list.size()) ? "" : delimiter);
 		}
 
 		return combined.toString();

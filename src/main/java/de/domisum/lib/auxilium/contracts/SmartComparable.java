@@ -33,18 +33,12 @@ public interface SmartComparable<T> extends Comparable<T>
 
 	@API static <T extends SmartComparable<T>> T max(T a, T b)
 	{
-		if(a.isLessThan(b))
-			return b;
-		else
-			return a;
+		return a.isLessThan(b) ? b : a;
 	}
 
 	@API static <T extends SmartComparable<T>> T min(T a, T b)
 	{
-		if(b.isLessThan(b))
-			return b;
-		else
-			return a;
+		return b.isLessThan(b) ? b : a;
 	}
 
 }

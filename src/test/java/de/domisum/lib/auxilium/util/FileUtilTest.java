@@ -59,10 +59,10 @@ public class FileUtilTest
 	@Test public void testOverwriteRaw()
 	{
 		byte[] testData = {-1, -29, 88, 18};
-		byte[] testData2 = {0, 8, -3, 127};
 		File tempFile = createTempFile();
 
 		FileUtil.writeRaw(tempFile, testData);
+		byte[] testData2 = {0, 8, -3, 127};
 		writeReadAssertEquals(tempFile, testData2);
 	}
 

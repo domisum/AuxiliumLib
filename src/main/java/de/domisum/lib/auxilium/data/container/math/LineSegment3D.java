@@ -44,7 +44,7 @@ public class LineSegment3D
 		if(!toLine().containsPoint(point))
 			return false;
 
-		double delta = Math.abs(point.distanceTo(a)+point.distanceTo(b)-getLength());
+		double delta = Math.abs((point.distanceTo(a)+point.distanceTo(b))-getLength());
 		return delta < Line3D.THRESHOLD;
 	}
 

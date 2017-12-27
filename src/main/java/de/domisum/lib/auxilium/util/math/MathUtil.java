@@ -32,7 +32,7 @@ public final class MathUtil
 
 	@API public static double clampAbs(double number, double maximumAbs)
 	{
-		return (number < 0 ? -1 : 1)*Math.min(Math.abs(number), maximumAbs);
+		return ((number < 0) ? -1 : 1)*Math.min(Math.abs(number), maximumAbs);
 	}
 
 
@@ -98,7 +98,7 @@ public final class MathUtil
 			return 1;
 
 		// 3*x^2-2*x^3
-		return 3*(input*input)-2*(input*input*input);
+		return (3*(input*input))-(2*(input*input*input));
 	}
 
 	@API public static double smootherStep(double input)
@@ -112,7 +112,7 @@ public final class MathUtil
 			return 1;
 
 		// 6*x^5-15*x^4+10*x^3
-		return 6*(input*input*input*input*input)-15*(input*input*input*input)+10*(input*input*input);
+		return ((6*(input*input*input*input*input))-(15*(input*input*input*input)))+(10*(input*input*input));
 	}
 
 }

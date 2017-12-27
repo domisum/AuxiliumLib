@@ -17,7 +17,7 @@ public final class TextUtil
 	// NUMBERS
 	@API public static String asRomanNumeral(int number)
 	{
-		if(number < 1 || number > 3999)
+		if((number < 1) || (number > 3999))
 			throw new IllegalArgumentException(
 					"Only numbers from 1 to 3999 can be represented as roman numerals; number given: "+number);
 

@@ -1,4 +1,4 @@
-package de.domisum.lib.auxilium.data.container;
+package de.domisum.lib.auxilium.data.container.tuple;
 
 import de.domisum.lib.auxilium.util.java.annotations.API;
 import lombok.AllArgsConstructor;

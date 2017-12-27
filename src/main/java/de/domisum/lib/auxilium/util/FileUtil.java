@@ -193,7 +193,7 @@ public final class FileUtil
 
 	@API public static File createTemporaryFile(String extension)
 	{
-		if(extension != null && !extension.startsWith("."))
+		if((extension != null) && !extension.startsWith("."))
 			extension = "."+extension;
 
 		try

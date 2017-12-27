@@ -3,6 +3,7 @@ package de.domisum.lib.auxilium.data.container.math;
 import de.domisum.lib.auxilium.util.java.annotations.API;
 import de.domisum.lib.auxilium.util.math.MathUtil;
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 
 /**
  * Class to describe a Vector in 3 Dimensions.
@@ -10,8 +11,10 @@ import lombok.AllArgsConstructor;
  * The coordinates are immutable, so every action performed on a object returns a new object with new values,
  * while the Vector3D on which the action was performed remains unchanged.
  */
-@API
 @AllArgsConstructor
+@EqualsAndHashCode
+
+@API
 public class Vector3D
 {
 
@@ -30,46 +33,6 @@ public class Vector3D
 		this(0, 0, 0);
 	}
 
-	/**
-	 * Checks if this Vector equals the supplied object.
-	 * <p>
-	 * If the given object is not of the type Vector3D, false is returned.
-	 * This returns true if and only if
-	 * {@code this.x == other.x && this.y == other.y && this.z == other.z}
-	 *
-	 * @param o The object to compare to
-	 * @return whether the object describes the same coordinate
-	 */
-	@Override public boolean equals(Object o)
-	{
-		if(!(o instanceof Vector3D))
-			return false;
-
-		Vector3D other = (Vector3D) o;
-		return other.x == x && other.y == y && other.z == z;
-	}
-
-	/**
-	 * Hashes the object, conforming with the #equals(Object) method.
-	 * <p>
-	 * If the equals method between two Vector3Ds returns true,
-	 * this method will return the same integer for both of the vectors.
-	 *
-	 * @return the hash value of the Vector3D
-	 */
-	public int hashCode()
-	{
-		int hashCode = 13;
-
-		long xLong = Double.doubleToLongBits(x);
-		long yLong = Double.doubleToLongBits(y);
-		long zLong = Double.doubleToLongBits(z);
-		hashCode = hashCode*31+(int) (xLong^(xLong >>> 32));
-		hashCode = hashCode*31+(int) (yLong^(yLong >>> 32));
-		hashCode = hashCode*31+(int) (zLong^(zLong >>> 32));
-
-		return hashCode;
-	}
 
 	/**
 	 * Combines the coordinates of this object into a string.
@@ -164,12 +127,7 @@ public class Vector3D
 	 */
 	@API public Vector3D orthogonal()
 	{
-		Vector3D independent;
-		if((x == 0) && (y == 0))
-			independent = new Vector3D(1, 1, z);
-		else
-			independent = new Vector3D(x, y, z+1);
-
+		Vector3D independent = ((x == 0) && (y == 0)) ? new Vector3D(1, 1, z) : new Vector3D(x, y, z+1);
 		return crossProduct(independent);
 	}
 

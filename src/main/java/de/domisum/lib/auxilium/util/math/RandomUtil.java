@@ -95,7 +95,7 @@ public class RandomUtil
 
 	@API public static double getFromRange(double min, double max, Random r)
 	{
-		return min+nextDouble(r)*(max-min);
+		return min+(nextDouble(r)*(max-min));
 	}
 
 
@@ -141,7 +141,7 @@ public class RandomUtil
 
 	@API public static <E> E getElement(List<E> list, Random r)
 	{
-		if(list.size() == 0)
+		if(list.isEmpty())
 			throw new IllegalArgumentException("The list has to have at least 1 element");
 
 		int randomIndex = getFromRange(0, list.size()-1, r);
@@ -156,7 +156,7 @@ public class RandomUtil
 
 	@API public static <E> E getElement(Collection<E> coll, Random r)
 	{
-		if(coll.size() == 0)
+		if(coll.isEmpty())
 			throw new IllegalArgumentException("The collection has to have at least 1 element");
 
 		int randomIndex = getFromRange(0, coll.size()-1, r);
@@ -193,7 +193,7 @@ public class RandomUtil
 
 	@API public static boolean getByChance(double chance, Random random)
 	{
-		if(chance < 0 || chance > 1)
+		if((chance < 0) || (chance > 1))
 			throw new IllegalArgumentException("The chance has to be between 0 and 1");
 
 		return nextDouble(random) < chance;

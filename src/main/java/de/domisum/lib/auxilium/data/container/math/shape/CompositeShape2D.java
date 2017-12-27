@@ -11,7 +11,7 @@ public class CompositeShape2D implements GeometricShape2D
 	// INIT
 	public CompositeShape2D(GeometricShape2D... geometricShapes)
 	{
-		this.geometricShapes = geometricShapes;
+		this.geometricShapes = geometricShapes.clone();
 	}
 
 

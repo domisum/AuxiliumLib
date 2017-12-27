@@ -70,7 +70,7 @@ public class Polygon2D implements GeometricShape2D
 			lines = Collections.unmodifiableList(lines);
 		}
 
-		return lines;
+		return Collections.unmodifiableList(lines);
 	}
 
 	@API public List<PolygonCorner> getCorners()
@@ -97,7 +97,7 @@ public class Polygon2D implements GeometricShape2D
 			corners = Collections.unmodifiableList(corners);
 		}
 
-		return corners;
+		return Collections.unmodifiableList(corners);
 	}
 
 	@API public DoubleBounds2D getBoundingBox()
@@ -174,7 +174,7 @@ public class Polygon2D implements GeometricShape2D
 				intersections--;
 		}
 
-		return intersections%2 == 1;
+		return (intersections%2) == 1;
 	}
 
 	@API public boolean overlaps(Polygon2D other)
@@ -283,7 +283,7 @@ public class Polygon2D implements GeometricShape2D
 
 
 		// INIT
-		public PolygonCorner(double angleDeg, PolygonCornerOrientation orientation)
+		protected PolygonCorner(double angleDeg, PolygonCornerOrientation orientation)
 		{
 			angleDegAbs = Math.abs(angleDeg);
 			this.orientation = orientation;
