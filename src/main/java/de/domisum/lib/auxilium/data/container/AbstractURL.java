@@ -16,10 +16,11 @@ public class AbstractURL
 	// INIT
 	@API public AbstractURL(String url)
 	{
-		while(url.endsWith("/"))
-			url = url.substring(0, url.length()-1);
+		String cleanedUrl = url;
+		while(cleanedUrl.endsWith("/"))
+			cleanedUrl = cleanedUrl.substring(0, cleanedUrl.length()-1);
 
-		this.url = url;
+		this.url = cleanedUrl;
 	}
 
 	@API public AbstractURL(AbstractURL base, String extension)

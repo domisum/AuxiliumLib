@@ -12,6 +12,8 @@ import java.util.Objects;
 public final class TextUtil
 {
 
+	private static final int SECONDS_IN_MINUTE = 60;
+
 	// NUMBERS
 	@API public static String asRomanNumeral(int number)
 	{
@@ -53,11 +55,13 @@ public final class TextUtil
 	@API public static String secondsToMinuteSeconds(int seconds)
 	{
 		boolean negative = seconds < 0;
-		if(negative)
-			seconds = -seconds;
+		int unsignedSeconds = negative ? -seconds : seconds;
+		int leftoverSeconds = unsignedSeconds%SECONDS_IN_MINUTE;
 
-		int leftoverSeconds = seconds%60;
-		return (negative ? "-" : "")+(seconds/60)+":"+(leftoverSeconds < 10 ? "0" : "")+leftoverSeconds;
+		String sign = negative ? "-" : "";
+		int minutes = unsignedSeconds/SECONDS_IN_MINUTE;
+		String secondsWithoutMinutes = ((leftoverSeconds < 10) ? "0" : "")+leftoverSeconds;
+		return sign+minutes+":"+secondsWithoutMinutes;
 	}
 
 
