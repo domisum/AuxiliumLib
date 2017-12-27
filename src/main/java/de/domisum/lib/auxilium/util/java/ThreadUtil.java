@@ -69,15 +69,23 @@ public final class ThreadUtil
 	}
 
 
-	@API public static Thread createAndStartThread(Runnable runnable, String threadName)
+	@API public static Thread createThread(Runnable runnable, String threadName)
 	{
 		Thread thread = new Thread(runnable);
 		thread.setName(threadName);
 		logUncaughtExceptions(thread);
 
+		return thread;
+	}
+
+	@API public static Thread createAndStartThread(Runnable runnable, String threadName)
+	{
+		Thread thread = createThread(runnable, threadName);
+
 		thread.start();
 		return thread;
 	}
+
 
 	@API public static Thread runDelayed(Runnable run, long ms)
 	{
@@ -98,9 +106,7 @@ public final class ThreadUtil
 
 	@API public static void addShutdownHook(Runnable shutdownHook, String shutdownHookName)
 	{
-		Thread shutdownHookThread = new Thread(shutdownHook);
-		shutdownHookThread.setName(shutdownHookName);
-
+		Thread shutdownHookThread = createThread(shutdownHook, shutdownHookName);
 		Runtime.getRuntime().addShutdownHook(shutdownHookThread);
 	}
 
