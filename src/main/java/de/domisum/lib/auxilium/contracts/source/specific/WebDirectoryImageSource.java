@@ -1,19 +1,22 @@
 package de.domisum.lib.auxilium.contracts.source.specific;
 
+import de.domisum.lib.auxilium.contracts.Converter;
 import de.domisum.lib.auxilium.contracts.source.implementations.WebDirectorySource;
 import de.domisum.lib.auxilium.data.container.AbstractURL;
 import de.domisum.lib.auxilium.util.HttpFetchUtil;
+import de.domisum.lib.auxilium.util.java.annotations.API;
 
 import java.awt.image.BufferedImage;
 import java.util.Optional;
 
-public class WebDirectoryImageSource extends WebDirectorySource<BufferedImage>
+@API
+public class WebDirectoryImageSource<KeyT> extends WebDirectorySource<KeyT, BufferedImage> implements ImageSource<KeyT>
 {
 
 	// INIT
-	public WebDirectoryImageSource(AbstractURL webDirectory)
+	public WebDirectoryImageSource(AbstractURL webDirectory, Converter<KeyT, String> keyToInDirectoryPathConverter)
 	{
-		super(webDirectory);
+		super(webDirectory, keyToInDirectoryPathConverter);
 	}
 
 
