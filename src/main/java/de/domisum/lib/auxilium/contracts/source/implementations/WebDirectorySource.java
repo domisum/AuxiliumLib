@@ -5,6 +5,7 @@ import de.domisum.lib.auxilium.contracts.source.Source;
 import de.domisum.lib.auxilium.data.container.AbstractURL;
 import lombok.RequiredArgsConstructor;
 
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -18,12 +19,27 @@ public abstract class WebDirectorySource<KeyT, T> implements Source<KeyT, T>
 	// SOURCE
 	@Override public Optional<T> fetch(KeyT key)
 	{
-		String inDirectoryPath = keyToInDirectoryPathConverter.convert(key);
-		AbstractURL url = new AbstractURL(webDirectory, inDirectoryPath);
-
-		return fetch(url);
+		return fetch(getUrl(key));
 	}
 
+	@Override public T fetchOrException(KeyT key)
+	{
+		Optional<T> optional = fetch(key);
+		if(!optional.isPresent())
+			throw new NoSuchElementException("could not fetch "+getUrl(key));
+
+		return optional.get();
+	}
+
+
 	protected abstract Optional<T> fetch(AbstractURL url);
+
+
+	// UTIL
+	private AbstractURL getUrl(KeyT key)
+	{
+		String inDirectoryPath = keyToInDirectoryPathConverter.convert(key);
+		return new AbstractURL(webDirectory, inDirectoryPath);
+	}
 
 }
