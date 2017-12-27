@@ -3,6 +3,7 @@ package de.domisum.lib.auxilium.contracts.source.implementations;
 import de.domisum.lib.auxilium.contracts.Converter;
 import de.domisum.lib.auxilium.contracts.source.Source;
 import de.domisum.lib.auxilium.data.container.AbstractURL;
+import de.domisum.lib.auxilium.util.PHR;
 import lombok.RequiredArgsConstructor;
 
 import java.util.NoSuchElementException;
@@ -26,7 +27,7 @@ public abstract class WebDirectorySource<KeyT, T> implements Source<KeyT, T>
 	{
 		Optional<T> optional = fetch(key);
 		if(!optional.isPresent())
-			throw new NoSuchElementException("could not fetch "+getUrl(key));
+			throw new NoSuchElementException(PHR.r("could not fetch key {}: ({})", key, getUrl(key)));
 
 		return optional.get();
 	}

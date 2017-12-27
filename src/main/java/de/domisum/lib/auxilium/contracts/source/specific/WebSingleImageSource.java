@@ -1,18 +1,20 @@
 package de.domisum.lib.auxilium.contracts.source.specific;
 
-import de.domisum.lib.auxilium.contracts.source.SingleItemSource;
+import de.domisum.lib.auxilium.contracts.source.implementations.WebSingleItemSource;
 import de.domisum.lib.auxilium.data.container.AbstractURL;
 import de.domisum.lib.auxilium.util.HttpFetchUtil;
-import lombok.RequiredArgsConstructor;
 
 import java.awt.image.BufferedImage;
 import java.util.Optional;
 
-@RequiredArgsConstructor
-public class WebSingleImageSource implements SingleItemSource<BufferedImage>
+public class WebSingleImageSource extends WebSingleItemSource<BufferedImage>
 {
 
-	private final AbstractURL url;
+	// INIT
+	public WebSingleImageSource(AbstractURL url)
+	{
+		super(url);
+	}
 
 
 	// SOURCE
