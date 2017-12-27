@@ -9,7 +9,7 @@ import java.time.Instant;
 
 @API
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
-public class PassiveTimer
+public final class PassiveTimer
 {
 
 	// SETTINGS
@@ -48,11 +48,17 @@ public class PassiveTimer
 		startTime = null;
 	}
 
-
 	@API public synchronized void resetAndStart()
 	{
 		reset();
 		start();
+	}
+
+
+	// STATUS
+	@API public synchronized boolean isReady()
+	{
+		return startTime == null;
 	}
 
 	@API public synchronized boolean isOver()
