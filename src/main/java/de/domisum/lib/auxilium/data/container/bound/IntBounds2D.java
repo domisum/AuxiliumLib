@@ -6,7 +6,7 @@ import org.apache.commons.lang3.Validate;
 import java.awt.Rectangle;
 
 @API
-public class IntBounds2D
+public final class IntBounds2D
 {
 
 	@API public final int minX;
