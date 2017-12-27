@@ -4,6 +4,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonDeserializer;
 import de.domisum.lib.auxilium.util.FileUtil;
 import de.domisum.lib.auxilium.util.java.annotations.API;
+import de.domisum.lib.auxilium.util.java.annotations.InitByDeserialization;
 import de.domisum.lib.auxilium.util.java.exceptions.ShouldNeverHappenError;
 import org.apache.commons.lang3.Validate;
 import org.apache.commons.lang3.tuple.Pair;
@@ -15,6 +16,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
 
+@InitByDeserialization
 public abstract class JsonConfig
 {
 
@@ -41,8 +43,7 @@ public abstract class JsonConfig
 		return jsonConfig;
 	}
 
-	@SuppressWarnings({"JavaReflectionInvocation", "unchecked"})
-	private static <T, C> Collection<Pair<Class<T>, JsonDeserializer<T>>> getDeserializers(Class<C> clazz)
+	@SuppressWarnings({"JavaReflectionInvocation", "unchecked"}) private static <T, C> Collection<Pair<Class<T>, JsonDeserializer<T>>> getDeserializers(Class<C> clazz)
 	{
 		try
 		{
@@ -66,7 +67,7 @@ public abstract class JsonConfig
 
 
 	// VALIDATE
-	public abstract void validate();
+	@InitByDeserialization public abstract void validate();
 
 
 	protected void validateString(String toValidate, String fieldName)
