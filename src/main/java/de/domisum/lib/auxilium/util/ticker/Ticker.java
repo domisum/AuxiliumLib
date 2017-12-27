@@ -11,7 +11,7 @@ import java.time.Duration;
 public abstract class Ticker
 {
 
-	protected final Logger logger = LoggerFactory.getLogger(getClass());
+	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 
 	// SETTINGS
