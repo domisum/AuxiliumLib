@@ -3,6 +3,8 @@ package de.domisum.lib.auxilium.util.math;
 import de.domisum.lib.auxilium.data.container.math.Vector2D;
 import de.domisum.lib.auxilium.data.container.math.Vector3D;
 import de.domisum.lib.auxilium.util.java.annotations.API;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -10,15 +12,16 @@ import java.util.List;
 import java.util.Random;
 
 @API
-public class RandomUtil
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+public final class RandomUtil
 {
 
 	// REFERENCES
-	private static Random random;
+	private static Random random = null;
 
 
 	// basic
-	@API public static Random getRandom()
+	@API public static synchronized Random getRandom()
 	{
 		if(random == null)
 			random = new Random();

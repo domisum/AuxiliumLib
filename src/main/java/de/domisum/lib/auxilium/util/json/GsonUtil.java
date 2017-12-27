@@ -3,17 +3,20 @@ package de.domisum.lib.auxilium.util.json;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import de.domisum.lib.auxilium.util.java.annotations.API;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
 @API
-public class GsonUtil
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+public final class GsonUtil
 {
 
 	// REFERENCES
-	private static Gson gson;
-	private static Gson prettyGson;
+	private static Gson gson = null;
+	private static Gson prettyGson = null;
 
 
-	@API public static Gson get()
+	@API public static synchronized Gson get()
 	{
 		if(gson == null)
 			gson = new GsonBuilder().create();
@@ -21,7 +24,7 @@ public class GsonUtil
 		return gson;
 	}
 
-	@API public static Gson getPretty()
+	@API public static synchronized Gson getPretty()
 	{
 		if(prettyGson == null)
 			prettyGson = new GsonBuilder().setPrettyPrinting().create();

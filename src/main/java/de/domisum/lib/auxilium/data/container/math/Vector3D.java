@@ -202,7 +202,6 @@ public class Vector3D
 	 *
 	 * @param factor the factor to multiply the copy by
 	 * @return the multiplied copy of this vector
-	 * @see #multiply(double)
 	 */
 	@API public Vector3D multiply(double factor)
 	{
@@ -217,7 +216,6 @@ public class Vector3D
 	 *
 	 * @param divisor the value to divide the copy by
 	 * @return the divided vector
-	 * @see #divide(double)
 	 */
 	@API public Vector3D divide(double divisor)
 	{

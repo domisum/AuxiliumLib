@@ -49,7 +49,7 @@ public class IntervalTaskTicker extends Ticker
 
 	// TASK
 	@RequiredArgsConstructor
-	private class IntervalTask
+	private static class IntervalTask
 	{
 
 		@NonNull private Runnable task;

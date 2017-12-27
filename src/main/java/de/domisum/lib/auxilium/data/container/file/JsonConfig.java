@@ -16,6 +16,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
 
+@API
 @InitByDeserialization
 public abstract class JsonConfig
 {
@@ -43,7 +44,8 @@ public abstract class JsonConfig
 		return jsonConfig;
 	}
 
-	@SuppressWarnings({"JavaReflectionInvocation", "unchecked"}) private static <T, C> Collection<Pair<Class<T>, JsonDeserializer<T>>> getDeserializers(Class<C> clazz)
+	@SuppressWarnings({"JavaReflectionInvocation", "unchecked"})
+	private static <T, C> Collection<Pair<Class<T>, JsonDeserializer<T>>> getDeserializers(Class<C> clazz)
 	{
 		try
 		{
@@ -70,14 +72,14 @@ public abstract class JsonConfig
 	@InitByDeserialization public abstract void validate();
 
 
-	protected void validateString(String toValidate, String fieldName)
+	@API protected void validateString(String toValidate, String fieldName)
 	{
 		String failMessage = fieldName+" was missing from config";
 
 		Validate.notNull(toValidate, failMessage);
 	}
 
-	protected void validatePort(int port)
+	@API protected void validatePort(int port)
 	{
 		Validate.inclusiveBetween(1, 65535, port, "port out of range [1-65535]: "+port);
 	}

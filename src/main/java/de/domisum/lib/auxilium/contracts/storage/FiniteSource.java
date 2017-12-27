@@ -16,7 +16,7 @@ public interface FiniteSource<KeyT, T> extends Source<KeyT, T>
 	@API Collection<T> fetchAll();
 
 	/**
-	 * Checks if this storage module contains a <code>T</code> with the key equal to the supplied key.
+	 * Checks if this storage module contains a {@code T} with the key equal to the supplied key.
 	 *
 	 * @param key the id of the item to check against
 	 * @return whether this storage module contains an item with the supplied key

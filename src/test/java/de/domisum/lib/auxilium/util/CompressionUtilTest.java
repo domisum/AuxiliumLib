@@ -13,6 +13,7 @@ public class CompressionUtilTest
 	// TESTS: PROPER INPUT
 	@Test public void testEmptyData()
 	{
+		// noinspection ZeroLengthArrayAllocation
 		compressDecompressAndAssertEquals(new byte[] {});
 	}
 

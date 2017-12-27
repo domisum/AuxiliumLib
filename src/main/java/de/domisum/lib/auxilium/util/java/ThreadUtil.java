@@ -107,7 +107,7 @@ public final class ThreadUtil
 
 	@API public static void logUncaughtExceptions(Thread thread)
 	{
-		thread.setUncaughtExceptionHandler((t, e)->LOGGER.error("uncaught exception in thread "+t, e));
+		thread.setUncaughtExceptionHandler((t, e)->LOGGER.error("uncaught exception in thread {}", t, e));
 	}
 
 }

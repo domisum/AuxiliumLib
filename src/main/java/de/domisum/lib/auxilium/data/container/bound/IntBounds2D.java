@@ -16,12 +16,13 @@ public class IntBounds2D
 
 
 	// INIT
-	@API public static IntBounds2D fromBounds(int x1, int x2, int y1, int y2)
+	@SuppressWarnings("MethodWithTooManyParameters") @API public static IntBounds2D fromBounds(int x1, int x2, int y1, int y2)
 	{
 		return new IntBounds2D(x1, x2, y1, y2);
 	}
 
-	@API public static IntBounds2D fromPosAndSize(int x, int y, int width, int height)
+	@SuppressWarnings("MethodWithTooManyParameters") @API
+	public static IntBounds2D fromPosAndSize(int x, int y, int width, int height)
 	{
 		return new IntBounds2D(x, (x+width)-1, y, (y+height)-1);
 	}

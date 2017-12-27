@@ -93,7 +93,7 @@ public class LineSegment3D
 
 			shortestConnection = new LineSegment3D(newA, shortestConnection.b);
 		}
-		else if(!aOnSegment && !bOnSegment)
+		else if(!aOnSegment) // && !bOnSegment
 		{
 			LineSegment3D newShortestConnection = new LineSegment3D(a, other.a);
 			double shortestDistanceSquared = a.distanceToSquared(other.a);

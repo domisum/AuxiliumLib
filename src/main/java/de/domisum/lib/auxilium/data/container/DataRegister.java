@@ -4,6 +4,7 @@ import de.domisum.lib.auxilium.util.java.annotations.API;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 @API
 public class DataRegister
@@ -18,7 +19,7 @@ public class DataRegister
 	{
 		Object value = data.get(key);
 		if(value == null)
-			throw new DataRegisterException("There is no object mapped to the key '"+key+"'");
+			throw new NoSuchElementException("There is no object mapped to the key '"+key+"'");
 
 		return value;
 	}
@@ -33,21 +34,7 @@ public class DataRegister
 	@API public DataRegister set(String key, Object object)
 	{
 		data.put(key, object);
-
 		return this;
-	}
-
-
-	// DATA REGISTER EXCEPTION
-	private class DataRegisterException extends RuntimeException
-	{
-
-		// INIT
-		private DataRegisterException(String message)
-		{
-			super(message);
-		}
-
 	}
 
 }

@@ -17,6 +17,10 @@ import java.util.zip.Inflater;
 public final class CompressionUtil
 {
 
+	// CONSTANTS
+	private static final int BUFFER_SIZE = 1024;
+
+
 	// COMPRESSION
 	@API public static byte[] compress(byte[] input, Speed compressionSpeed)
 	{
@@ -31,7 +35,7 @@ public final class CompressionUtil
 
 		try(ByteArrayOutputStream bos = new ByteArrayOutputStream(input.length))
 		{
-			byte[] buffer = new byte[1024];
+			byte[] buffer = new byte[BUFFER_SIZE];
 
 			while(!compressor.finished())
 				bos.write(buffer, 0, compressor.deflate(buffer));
@@ -54,7 +58,7 @@ public final class CompressionUtil
 
 		try(ByteArrayOutputStream bos = new ByteArrayOutputStream(input.length))
 		{
-			byte[] buffer = new byte[1024];
+			byte[] buffer = new byte[BUFFER_SIZE];
 			while(!decompressor.finished())
 				bos.write(buffer, 0, decompressor.inflate(buffer));
 
@@ -63,7 +67,7 @@ public final class CompressionUtil
 		}
 		catch(DataFormatException e)
 		{
-			throw new RuntimeException("Invalid data provided:", e);
+			throw new IllegalArgumentException("Invalid data provided:", e);
 		}
 		catch(IOException e)
 		{
