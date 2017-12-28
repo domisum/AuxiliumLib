@@ -9,6 +9,8 @@ import lombok.RequiredArgsConstructor;
 import java.io.File;
 import java.io.IOException;
 import java.io.UncheckedIOException;
+import java.util.ArrayList;
+import java.util.Collection;
 
 @API
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
@@ -19,12 +21,25 @@ public final class DirectoryCopy
 	private final File sourceRootDirectory;
 	private final File targetRootDirectory;
 
+	// SETTINGS
+	private final Collection<FileFilter> filters = new ArrayList<>();
+
 
 	// INIT
-	@API public static DirectoryCopy fromTo(File sourceRootDir, File targetRootDir)
+	@API public static DirectoryCopy fromTo(File sourceRootDir, File targetRootDir, FileFilter... filters)
 	{
 		DirectoryCopy directoryCopy = new DirectoryCopy(sourceRootDir, targetRootDir);
+		for(FileFilter ff : filters)
+			directoryCopy.addFilter(ff);
+
 		return directoryCopy;
+	}
+
+
+	// SETTINGS
+	@API public void addFilter(FileFilter filter)
+	{
+		filters.add(filter);
 	}
 
 
@@ -43,10 +58,12 @@ public final class DirectoryCopy
 		targetRoot.mkdirs();
 
 		for(File f : FileUtil.listFiles(sourceRoot, FileType.FILE))
-			FileUtil.copyFile(f, new File(targetRoot, f.getName()));
+			if(shouldCopyFile(f))
+				FileUtil.copyFile(f, new File(targetRoot, f.getName()));
 
 		for(File f : FileUtil.listFiles(sourceRoot, FileType.DIRECTORY))
-			copyDirectoryRecursively(f, new File(targetRoot, f.getName()));
+			if(shouldCopyFile(f))
+				copyDirectoryRecursively(f, new File(targetRoot, f.getName()));
 	}
 
 
@@ -60,6 +77,15 @@ public final class DirectoryCopy
 		if(targetRootDirectory.isFile())
 			throw new UncheckedIOException(new IOException(
 					"can't copy into directory '"+targetRootDirectory+"', it is actually a file"));
+	}
+
+	private boolean shouldCopyFile(File file)
+	{
+		for(FileFilter ff : filters)
+			if(ff.shouldFilterOut(file, sourceRootDirectory, targetRootDirectory))
+				return false;
+
+		return true;
 	}
 
 }
