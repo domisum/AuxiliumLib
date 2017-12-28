@@ -1,6 +1,7 @@
 package de.domisum.lib.auxilium.util;
 
 import de.domisum.lib.auxilium.util.file.DirectoryCopy;
+import de.domisum.lib.auxilium.util.file.FileFilter;
 import de.domisum.lib.auxilium.util.java.ThreadUtil;
 import de.domisum.lib.auxilium.util.java.annotations.API;
 import de.domisum.lib.auxilium.util.java.exceptions.ShouldNeverHappenError;
@@ -145,9 +146,9 @@ public final class FileUtil
 		}
 	}
 
-	@API public static void coypDirectory(File sourceRootDirectory, File targetRootDirectory)
+	@API public static void coypDirectory(File sourceRootDirectory, File targetRootDirectory, FileFilter... filters)
 	{
-		DirectoryCopy.fromTo(sourceRootDirectory, targetRootDirectory).copy();
+		DirectoryCopy.fromTo(sourceRootDirectory, targetRootDirectory, filters).copy();
 	}
 
 
@@ -205,12 +206,13 @@ public final class FileUtil
 
 	@API public static File createTemporaryFile(String extension)
 	{
-		if((extension != null) && !extension.startsWith("."))
-			extension = "."+extension;
+		String cleanedExtension = extension;
+		if((cleanedExtension != null) && !cleanedExtension.startsWith("."))
+			cleanedExtension = "."+cleanedExtension;
 
 		try
 		{
-			File file = File.createTempFile("tempFile", extension);
+			File file = File.createTempFile("tempFile", cleanedExtension);
 			file.deleteOnExit();
 			return file;
 		}
