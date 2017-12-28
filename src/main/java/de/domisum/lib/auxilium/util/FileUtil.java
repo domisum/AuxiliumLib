@@ -1,7 +1,9 @@
 package de.domisum.lib.auxilium.util;
 
+import de.domisum.lib.auxilium.util.file.DirectoryCopy;
 import de.domisum.lib.auxilium.util.java.ThreadUtil;
 import de.domisum.lib.auxilium.util.java.annotations.API;
+import de.domisum.lib.auxilium.util.java.exceptions.ShouldNeverHappenError;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.apache.commons.io.FileUtils;
@@ -19,7 +21,6 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 
 @API
@@ -144,6 +145,11 @@ public final class FileUtil
 		}
 	}
 
+	@API public static void coypDirectory(File sourceRootDirectory, File targetRootDirectory)
+	{
+		DirectoryCopy.fromTo(sourceRootDirectory, targetRootDirectory).copy();
+	}
+
 
 	// DIRECTORY
 	@API public static void deleteDirectory(File directory)
@@ -162,11 +168,11 @@ public final class FileUtil
 			return;
 		validateIsNotFile(directory);
 
-		for(File file : getDirectoryContents(directory))
-			if(file.isFile())
-				deleteFile(file);
-			else
-				deleteDirectory(file);
+		for(File file : listFiles(directory, FileType.FILE))
+			deleteFile(file);
+
+		for(File dir : listFiles(directory, FileType.DIRECTORY))
+			deleteDirectory(dir);
 	}
 
 	private static void validateIsNotFile(File directory)
@@ -176,14 +182,16 @@ public final class FileUtil
 	}
 
 
-	@API public static Collection<File> getDirectoryContents(File directory)
+	@API public static Collection<File> listFiles(File directory, FileType fileType)
 	{
 		validateIsNotFile(directory);
 		Collection<File> directoryContents = new ArrayList<>();
 
 		File[] files = directory.listFiles();
 		if(files != null)
-			directoryContents.addAll(Arrays.asList(files));
+			for(File f : files)
+				if(fileType.isOfType(f))
+					directoryContents.add(f);
 
 		return directoryContents;
 	}
@@ -251,6 +259,31 @@ public final class FileUtil
 	@API public static String getFileExtension(File file)
 	{
 		return FilenameUtils.getExtension(file.getName());
+	}
+
+
+	public enum FileType
+	{
+
+		FILE,
+		DIRECTORY,
+		FILE_AND_DIRECTORY;
+
+		public boolean isOfType(File file)
+		{
+			if(!file.exists())
+				throw new IllegalArgumentException("file does not exist: "+file);
+
+			if(this == FILE_AND_DIRECTORY)
+				return true;
+			else if(this == FILE)
+				return file.isFile();
+			else if(this == DIRECTORY)
+				return file.isDirectory();
+
+			throw new ShouldNeverHappenError("unknown file type: "+this);
+		}
+
 	}
 
 }
