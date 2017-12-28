@@ -1,6 +1,7 @@
 package de.domisum.lib.auxilium.contracts.storage;
 
-import de.domisum.lib.auxilium.contracts.storage.InMemoryProxyStorage.Keyable;
+import de.domisum.lib.auxilium.contracts.storage.InMemoryCopyStorage.Keyable;
+import de.domisum.lib.auxilium.util.java.annotations.API;
 import lombok.RequiredArgsConstructor;
 
 import java.util.Collection;
@@ -10,7 +11,7 @@ import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
 @RequiredArgsConstructor
-public abstract class InMemoryProxyStorage<KeyT, T extends Keyable<KeyT>> implements Storage<KeyT, T>
+public class InMemoryCopyStorage<KeyT, T extends Keyable<KeyT>> implements Storage<KeyT, T>
 {
 
 	// REFERENCES
@@ -21,7 +22,7 @@ public abstract class InMemoryProxyStorage<KeyT, T extends Keyable<KeyT>> implem
 
 
 	// INIT
-	public void fetchAllToMemory()
+	@API public void fetchAllToMemory()
 	{
 		Collection<T> matchesFromBackingStorage = backingStorage.fetchAll();
 
