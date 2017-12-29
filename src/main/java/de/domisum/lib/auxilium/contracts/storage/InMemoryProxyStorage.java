@@ -27,8 +27,14 @@ public class InMemoryProxyStorage<KeyT, T extends Keyable<KeyT>> implements Stor
 		Collection<T> itemsFromBackingstorage = backingStorage.fetchAll();
 
 		items = new ConcurrentHashMap<>();
-		for(T m : itemsFromBackingstorage)
-			items.put(m.getKey(), m);
+		for(T item : itemsFromBackingstorage)
+		{
+			KeyT key = item.getKey();
+			if(key == null)
+				throw new IllegalStateException("key of item from backingstorage was null: "+item);
+
+			items.put(item.getKey(), item);
+		}
 	}
 
 	private void checkReady()
