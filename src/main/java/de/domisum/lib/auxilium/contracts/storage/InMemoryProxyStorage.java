@@ -3,6 +3,7 @@ package de.domisum.lib.auxilium.contracts.storage;
 import de.domisum.lib.auxilium.contracts.storage.InMemoryProxyStorage.Keyable;
 import de.domisum.lib.auxilium.util.java.annotations.API;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.Validate;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -63,6 +64,7 @@ public class InMemoryProxyStorage<KeyT, T extends Keyable<KeyT>> implements Stor
 
 	@Override public Optional<T> fetch(KeyT key)
 	{
+		Validate.notNull(key, "key can't be null");
 		checkReady();
 
 		return Optional.ofNullable(items.get(key));
