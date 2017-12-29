@@ -98,6 +98,17 @@ public class FileUtilTest
 	}
 
 
+	// TEST: GENERAL FILE
+	@Test void testExtendedFileExtension()
+	{
+		Assertions.assertEquals(".json", FileUtil.getExtendedFileExtension(new File("wow/test.json")));
+		Assertions.assertEquals(".config.json", FileUtil.getExtendedFileExtension(new File("test.config.json")));
+
+		Assertions.assertEquals(".json", FileUtil.getExtendedFileExtension(new File("wow.xd/test.json")));
+		Assertions.assertEquals(".config.json", FileUtil.getExtendedFileExtension(new File("wow.xd/test.config.json")));
+	}
+
+
 	// ARRANGE
 	private File createTempFile()
 	{

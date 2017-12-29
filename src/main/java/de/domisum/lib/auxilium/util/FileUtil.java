@@ -263,6 +263,16 @@ public final class FileUtil
 		return FilenameUtils.getExtension(file.getName());
 	}
 
+	@API public static String getExtendedFileExtension(File file)
+	{
+		String fileName = file.getName();
+		if(!fileName.contains("."))
+			return "";
+
+		return fileName.substring(fileName.indexOf('.'));
+	}
+
+
 	@API public static String getFilePath(File file)
 	{
 		String path = file.getAbsoluteFile().getPath();
