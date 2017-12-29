@@ -1,6 +1,5 @@
 package de.domisum.lib.auxilium.contracts.storage;
 
-import de.domisum.lib.auxilium.contracts.storage.InMemoryProxyStorage.Keyable;
 import de.domisum.lib.auxilium.util.java.annotations.API;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.Validate;
@@ -82,15 +81,6 @@ public class InMemoryProxyStorage<KeyT, T extends Keyable<KeyT>> implements Stor
 		checkReady();
 
 		return items.containsKey(key);
-	}
-
-
-	// KEYABLE
-	public interface Keyable<T>
-	{
-
-		T getKey();
-
 	}
 
 }
