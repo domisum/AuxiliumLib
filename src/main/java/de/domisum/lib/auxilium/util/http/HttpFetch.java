@@ -3,6 +3,8 @@ package de.domisum.lib.auxilium.util.http;
 import de.domisum.lib.auxilium.data.container.AbstractURL;
 import de.domisum.lib.auxilium.util.java.ExceptionHandler;
 import de.domisum.lib.auxilium.util.java.annotations.API;
+import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
@@ -20,15 +22,14 @@ import java.util.Optional;
 
 @API
 @RequiredArgsConstructor
-public class HttpFetch<T>
+public abstract class HttpFetch<T>
 {
 
 	// SETTINGS
 	private final AbstractURL url;
-	private final HttpFetchSpecific<T> fetchSpecific;
 
 	private HttpCredentials credentials;
-	private ExceptionHandler<Exception> onFail;
+	@Getter(AccessLevel.PROTECTED) private ExceptionHandler<Exception> onFail = ExceptionHandler.noAction();
 
 
 	// INIT
@@ -54,7 +55,7 @@ public class HttpFetch<T>
 		try(CloseableHttpResponse response = httpClient.execute(httpGet);
 				InputStream responseStream = response.getEntity().getContent())
 		{
-			return fetchSpecific.fetch(responseStream, onFail);
+			return fetch(responseStream);
 		}
 		catch(IOException e)
 		{
@@ -63,6 +64,10 @@ public class HttpFetch<T>
 		}
 	}
 
+	protected abstract Optional<T> fetch(InputStream inputStream);
+
+
+	// HTTP
 	private CloseableHttpClient buildHttpClient()
 	{
 		HttpClientBuilder clientBuilder = HttpClients.custom();
@@ -71,8 +76,6 @@ public class HttpFetch<T>
 		return clientBuilder.build();
 	}
 
-
-	// CREDENTIALS
 	private void addCredentialsProvider(HttpClientBuilder httpClientBuilder)
 	{
 		if(credentials == null)
@@ -80,20 +83,10 @@ public class HttpFetch<T>
 
 		CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
 		credentialsProvider.setCredentials(AuthScope.ANY,
-				new UsernamePasswordCredentials(credentials.username, credentials.password));
+				new UsernamePasswordCredentials(credentials.getUsername(), credentials.getPassword()));
 
 		httpClientBuilder.setDefaultCredentialsProvider(credentialsProvider);
 	}
 
-
-	@API
-	@RequiredArgsConstructor
-	public static class HttpCredentials
-	{
-
-		private final String username;
-		private final String password;
-
-	}
 
 }
