@@ -24,10 +24,10 @@ public class InMemoryProxyStorage<KeyT, T extends Keyable<KeyT>> implements Stor
 	// INIT
 	@API public void fetchAllToMemory()
 	{
-		Collection<T> matchesFromBackingStorage = backingStorage.fetchAll();
+		Collection<T> itemsFromBackingstorage = backingStorage.fetchAll();
 
 		items = new ConcurrentHashMap<>();
-		for(T m : matchesFromBackingStorage)
+		for(T m : itemsFromBackingstorage)
 			items.put(m.getKey(), m);
 	}
 
