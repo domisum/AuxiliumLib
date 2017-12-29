@@ -1,4 +1,4 @@
-package de.domisum.lib.auxilium.contracts;
+package de.domisum.lib.auxilium.contracts.serialization;
 
 public interface ToStringSerializer<T>
 {
