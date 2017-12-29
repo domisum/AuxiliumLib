@@ -136,9 +136,14 @@ public final class FileUtil
 	// COPY
 	@API public static void copyFile(File from, File to)
 	{
+		if(to.exists() && to.isDirectory())
+			throw new UncheckedIOException(new IOException(
+					"can't copy to file '"+to+"', it is a directory and already "+"exists"));
+
 		try
 		{
-			Files.copy(from.toPath(), to.toPath(), StandardCopyOption.REPLACE_EXISTING);
+			to.getAbsoluteFile().getParentFile().mkdirs();
+			Files.copy(from.getAbsoluteFile().toPath(), to.getAbsoluteFile().toPath(), StandardCopyOption.REPLACE_EXISTING);
 		}
 		catch(IOException e)
 		{

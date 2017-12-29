@@ -16,8 +16,8 @@ public class FilterOutDirectory implements FileFilter
 	public FilterOutDirectory(String directoryName)
 	{
 		String cleanedDirectoryName = FileUtil.unifyDelimiters(directoryName);
-		if(!cleanedDirectoryName.endsWith("/"))
-			cleanedDirectoryName += "/";
+		if(cleanedDirectoryName.endsWith("/"))
+			cleanedDirectoryName = cleanedDirectoryName.substring(0, cleanedDirectoryName.length()-1);
 
 		this.directoryName = cleanedDirectoryName;
 	}
@@ -29,8 +29,8 @@ public class FilterOutDirectory implements FileFilter
 		if(!file.isDirectory())
 			return false;
 
-		String extension = FileFilter.getPathExtension(sourceRootDirectory, file);
-		return extension.startsWith(directoryName);
+		String extensionPath = FileFilter.getPathExtension(sourceRootDirectory, file);
+		return extensionPath.startsWith(directoryName);
 	}
 
 }
