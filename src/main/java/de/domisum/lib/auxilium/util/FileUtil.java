@@ -266,12 +266,12 @@ public final class FileUtil
 	@API public static String getFilePath(File file)
 	{
 		String path = file.getAbsoluteFile().getPath();
-		path = replaceDelimiters(path);
+		path = unifyDelimiters(path);
 
 		return path;
 	}
 
-	@API public static String replaceDelimiters(String path)
+	@API public static String unifyDelimiters(String path)
 	{
 		return path.replaceAll(StringUtil.escapeStringForRegex("\\"), "/");
 	}

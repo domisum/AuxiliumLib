@@ -15,7 +15,7 @@ public class FilterOutDirectory implements FileFilter
 	// INIT
 	public FilterOutDirectory(String directoryName)
 	{
-		String cleanedDirectoryName = FileUtil.replaceDelimiters(directoryName);
+		String cleanedDirectoryName = FileUtil.unifyDelimiters(directoryName);
 		if(!cleanedDirectoryName.endsWith("/"))
 			cleanedDirectoryName += "/";
 
