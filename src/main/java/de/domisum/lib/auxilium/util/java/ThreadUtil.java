@@ -99,12 +99,12 @@ public final class ThreadUtil
 	}
 
 
-	@API public static void addShutdownHook(Runnable shutdownHook)
+	@API public static void registerShutdownHook(Runnable shutdownHook)
 	{
-		addShutdownHook(shutdownHook, "shutdownHook");
+		registerShutdownHook(shutdownHook, "shutdownHook");
 	}
 
-	@API public static void addShutdownHook(Runnable shutdownHook, String shutdownHookName)
+	@API public static void registerShutdownHook(Runnable shutdownHook, String shutdownHookName)
 	{
 		Thread shutdownHookThread = createThread(shutdownHook, shutdownHookName);
 		Runtime.getRuntime().addShutdownHook(shutdownHookThread);

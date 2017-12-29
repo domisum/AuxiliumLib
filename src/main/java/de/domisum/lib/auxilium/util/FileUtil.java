@@ -239,7 +239,7 @@ public final class FileUtil
 	private static void deleteDirectoryOnShutdown(File directory)
 	{
 		if(temporaryDirectories.isEmpty())
-			ThreadUtil.addShutdownHook(()->temporaryDirectories.forEach(FileUtil::deleteDirectory));
+			ThreadUtil.registerShutdownHook(()->temporaryDirectories.forEach(FileUtil::deleteDirectory));
 
 		temporaryDirectories.add(directory);
 	}
