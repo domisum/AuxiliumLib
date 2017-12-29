@@ -263,6 +263,19 @@ public final class FileUtil
 		return FilenameUtils.getExtension(file.getName());
 	}
 
+	@API public static String getFilePath(File file)
+	{
+		String path = file.getAbsoluteFile().getPath();
+		path = replaceDelimiters(path);
+
+		return path;
+	}
+
+	@API public static String replaceDelimiters(String path)
+	{
+		return path.replaceAll(StringUtil.escapeStringForRegex("\\"), "/");
+	}
+
 
 	public enum FileType
 	{
