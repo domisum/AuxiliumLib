@@ -151,7 +151,7 @@ public final class FileUtil
 		}
 	}
 
-	@API public static void coypDirectory(File sourceRootDirectory, File targetRootDirectory, FileFilter... filters)
+	@API public static void copyDirectory(File sourceRootDirectory, File targetRootDirectory, FileFilter... filters)
 	{
 		DirectoryCopy.fromTo(sourceRootDirectory, targetRootDirectory, filters).copy();
 	}
