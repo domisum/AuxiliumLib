@@ -21,30 +21,20 @@ public final class HttpFetchUtil
 {
 
 	// CONSTANTS
-	@API public static final Charset DEFAULT_STRING_ENCODING = StandardCharsets.UTF_8;
+	@API public static final Charset STRING_ENCODING = StandardCharsets.UTF_8;
 
 
 	// STRING
 	@API public static Optional<String> fetchString(AbstractURL url)
 	{
-		return fetchString(url, DEFAULT_STRING_ENCODING, IOExceptionHandler.noAction());
-	}
-
-	@API public static Optional<String> fetchString(AbstractURL url, Charset encoding)
-	{
-		return fetchString(url, encoding, IOExceptionHandler.noAction());
+		return fetchString(url, IOExceptionHandler.noAction());
 	}
 
 	@API public static Optional<String> fetchString(AbstractURL url, IOExceptionHandler onFail)
 	{
-		return fetchString(url, DEFAULT_STRING_ENCODING, onFail);
-	}
-
-	@API public static Optional<String> fetchString(AbstractURL url, Charset encoding, IOExceptionHandler onFail)
-	{
 		try
 		{
-			return Optional.of(IOUtils.toString(url.toNet(), encoding));
+			return Optional.of(IOUtils.toString(url.toNet(), STRING_ENCODING));
 		}
 		catch(java.io.IOException e)
 		{
@@ -53,15 +43,9 @@ public final class HttpFetchUtil
 		}
 	}
 
-
 	@API public static String fetchStringOrException(AbstractURL url)
 	{
-		return fetchStringOrException(url, DEFAULT_STRING_ENCODING);
-	}
-
-	@API public static String fetchStringOrException(AbstractURL url, Charset encoding)
-	{
-		return IOExceptionHandler.getOrException(onFail->fetchString(url, encoding, onFail));
+		return IOExceptionHandler.getOrException(onFail->fetchString(url, onFail));
 	}
 
 

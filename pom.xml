@@ -32,6 +32,12 @@
 			<version>2.8.0</version>
 		</dependency>
 
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+			<version>4.5.4</version>
+		</dependency>
+
 		<!-- only used for ClassUtil class, therefore optional-->
 		<dependency>
 			<groupId>com.google.guava</groupId>
