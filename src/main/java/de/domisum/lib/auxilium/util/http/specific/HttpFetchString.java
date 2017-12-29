@@ -25,7 +25,7 @@ public class HttpFetchString extends HttpFetch<String>
 
 
 	// FETCH
-	@Override public Optional<String> fetch(InputStream inputStream)
+	@Override protected Optional<String> fetch(InputStream inputStream)
 	{
 		try
 		{

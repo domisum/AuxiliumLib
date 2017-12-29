@@ -71,12 +71,12 @@ public abstract class HttpFetch<T>
 	private CloseableHttpClient buildHttpClient()
 	{
 		HttpClientBuilder clientBuilder = HttpClients.custom();
-		addCredentialsProvider(clientBuilder);
+		injectCredentialsProvider(clientBuilder);
 
 		return clientBuilder.build();
 	}
 
-	private void addCredentialsProvider(HttpClientBuilder httpClientBuilder)
+	private void injectCredentialsProvider(HttpClientBuilder httpClientBuilder)
 	{
 		if(credentials == null)
 			return;
