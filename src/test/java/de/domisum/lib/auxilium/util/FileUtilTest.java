@@ -99,13 +99,20 @@ public class FileUtilTest
 
 
 	// TEST: GENERAL FILE
-	@Test void testExtendedFileExtension()
+	@Test void testCompositeFileExtension()
 	{
-		Assertions.assertEquals(".json", FileUtil.getExtendedFileExtension(new File("wow/test.json")));
-		Assertions.assertEquals(".config.json", FileUtil.getExtendedFileExtension(new File("test.config.json")));
+		Assertions.assertEquals(".json", FileUtil.getCompositeExtension(new File("wow/test.json")));
+		Assertions.assertEquals(".config.json", FileUtil.getCompositeExtension(new File("test.config.json")));
 
-		Assertions.assertEquals(".json", FileUtil.getExtendedFileExtension(new File("wow.xd/test.json")));
-		Assertions.assertEquals(".config.json", FileUtil.getExtendedFileExtension(new File("wow.xd/test.config.json")));
+		Assertions.assertEquals(".json", FileUtil.getCompositeExtension(new File("wow.xd/test.json")));
+		Assertions.assertEquals(".config.json", FileUtil.getCompositeExtension(new File("wow.xd/test.config.json")));
+	}
+
+	@Test void testNameWithoutCompositeExtension()
+	{
+		Assertions.assertEquals("test", FileUtil.getNameWithoutCompositeExtension(new File("wow/test.json")));
+		Assertions.assertEquals("test", FileUtil.getNameWithoutCompositeExtension(new File("wow/test.meme.json")));
+		Assertions.assertEquals("archive", FileUtil.getNameWithoutCompositeExtension(new File("folder/archive.tar.gz")));
 	}
 
 

@@ -124,7 +124,7 @@ public final class FileUtil
 
 		try
 		{
-			ImageIO.write(image, getFileExtension(file), file);
+			ImageIO.write(image, getExtension(file), file);
 		}
 		catch(IOException e)
 		{
@@ -258,18 +258,27 @@ public final class FileUtil
 		}
 	}
 
-	@API public static String getFileExtension(File file)
+	@API public static String getExtension(File file)
 	{
 		return FilenameUtils.getExtension(file.getName());
 	}
 
-	@API public static String getExtendedFileExtension(File file)
+	@API public static String getCompositeExtension(File file)
 	{
 		String fileName = file.getName();
 		if(!fileName.contains("."))
 			return "";
 
 		return fileName.substring(fileName.indexOf('.'));
+	}
+
+	@API public static String getNameWithoutCompositeExtension(File file)
+	{
+		String compositeFileExtension = getCompositeExtension(file);
+		String fileName = file.getName();
+
+		String fileNameWithout = fileName.substring(0, fileName.length()-compositeFileExtension.length());
+		return fileNameWithout;
 	}
 
 
