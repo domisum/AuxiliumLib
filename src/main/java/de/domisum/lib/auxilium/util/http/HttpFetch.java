@@ -34,7 +34,7 @@ public abstract class HttpFetch<T>
 	private final AbstractURL url;
 	private HttpCredentials credentials;
 
-	private int maxNumberOfTries = 3;
+	private int numberOfTries = 3;
 	@Getter(AccessLevel.PROTECTED) private ExceptionHandler<IOException> onFail = ExceptionHandler.noAction();
 
 
@@ -45,9 +45,9 @@ public abstract class HttpFetch<T>
 		return this;
 	}
 
-	@API public HttpFetch<T> maxNumberOfTries(int maxNumberOfTries)
+	@API public HttpFetch<T> numberOfTries(int maxNumberOfTries)
 	{
-		this.maxNumberOfTries = maxNumberOfTries;
+		this.numberOfTries = maxNumberOfTries;
 		return this;
 	}
 
@@ -61,9 +61,9 @@ public abstract class HttpFetch<T>
 	// FETCH
 	@API public Optional<T> fetch()
 	{
-		for(int i = 0; i < maxNumberOfTries; i++)
+		for(int i = 0; i < numberOfTries; i++)
 		{
-			boolean last = i == (maxNumberOfTries-1);
+			boolean last = i == (numberOfTries-1);
 
 			Optional<T> fetchOptional = tryFetching(last);
 			if(fetchOptional.isPresent())
@@ -89,7 +89,7 @@ public abstract class HttpFetch<T>
 		{
 			if(last)
 			{
-				logger.warn("Failed to fetch {} after {} tries", url, maxNumberOfTries);
+				logger.warn("Failed to fetch {} after {} tries", url, numberOfTries);
 				onFail.handle(e);
 			}
 

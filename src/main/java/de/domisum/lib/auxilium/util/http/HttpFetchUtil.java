@@ -1,6 +1,7 @@
 package de.domisum.lib.auxilium.util.http;
 
 import de.domisum.lib.auxilium.data.container.AbstractURL;
+import de.domisum.lib.auxilium.util.http.specific.HttpFetchImage;
 import de.domisum.lib.auxilium.util.http.specific.HttpFetchRaw;
 import de.domisum.lib.auxilium.util.http.specific.HttpFetchString;
 import de.domisum.lib.auxilium.util.java.ExceptionHandler;
@@ -8,7 +9,6 @@ import de.domisum.lib.auxilium.util.java.annotations.API;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
-import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Optional;
@@ -30,7 +30,7 @@ public final class HttpFetchUtil
 
 	@API public static Optional<String> fetchString(AbstractURL url, ExceptionHandler<IOException> onFail)
 	{
-		HttpFetch<String> fetchString = new HttpFetchString(url).onFail(onFail).maxNumberOfTries(NUMBER_OF_FETCH_TRIES);
+		HttpFetch<String> fetchString = new HttpFetchString(url).onFail(onFail).numberOfTries(NUMBER_OF_FETCH_TRIES);
 		return fetchString.fetch();
 	}
 
@@ -48,7 +48,7 @@ public final class HttpFetchUtil
 
 	@API public static Optional<byte[]> fetchRaw(AbstractURL url, ExceptionHandler<IOException> onFail)
 	{
-		HttpFetch<byte[]> fetchRaw = new HttpFetchRaw(url).onFail(onFail).maxNumberOfTries(NUMBER_OF_FETCH_TRIES);
+		HttpFetch<byte[]> fetchRaw = new HttpFetchRaw(url).onFail(onFail).numberOfTries(NUMBER_OF_FETCH_TRIES);
 		return fetchRaw.fetch();
 	}
 
@@ -67,15 +67,8 @@ public final class HttpFetchUtil
 
 	@API public static Optional<BufferedImage> fetchImage(AbstractURL url, ExceptionHandler<IOException> onFail)
 	{
-		try
-		{
-			return Optional.ofNullable(ImageIO.read(url.toNet()));
-		}
-		catch(IOException e)
-		{
-			onFail.handle(e);
-			return Optional.empty();
-		}
+		HttpFetch<BufferedImage> fetchImage = new HttpFetchImage(url).onFail(onFail).numberOfTries(NUMBER_OF_FETCH_TRIES);
+		return fetchImage.fetch();
 	}
 
 
