@@ -7,31 +7,25 @@ import org.apache.commons.io.IOUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 import java.util.Optional;
 
 @API
-public class HttpFetchString extends HttpFetch<String>
+public class HttpFetchRaw extends HttpFetch<byte[]>
 {
 
-	// CONSTANTS
-	private static final Charset STRING_CHARSET = StandardCharsets.UTF_8;
-
-
 	// INIT
-	public HttpFetchString(AbstractURL url)
+	public HttpFetchRaw(AbstractURL url)
 	{
 		super(url);
 	}
 
 
 	// FETCH
-	@Override protected Optional<String> fetch(InputStream inputStream)
+	@Override protected Optional<byte[]> fetch(InputStream inputStream)
 	{
 		try
 		{
-			return Optional.ofNullable(IOUtils.toString(inputStream, STRING_CHARSET));
+			return Optional.ofNullable(IOUtils.toByteArray(inputStream));
 		}
 		catch(IOException e)
 		{

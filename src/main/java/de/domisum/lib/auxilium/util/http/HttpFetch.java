@@ -88,7 +88,10 @@ public abstract class HttpFetch<T>
 		catch(IOException e)
 		{
 			if(last)
+			{
+				logger.warn("Failed to fetch {} after {} tries", url, maxNumberOfTries);
 				onFail.handle(e);
+			}
 
 			return Optional.empty();
 		}
