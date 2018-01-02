@@ -2,7 +2,7 @@ package de.domisum.lib.auxilium.contracts.source.specific;
 
 import de.domisum.lib.auxilium.contracts.source.implementations.WebSingleItemSource;
 import de.domisum.lib.auxilium.data.container.AbstractURL;
-import de.domisum.lib.auxilium.util.HttpFetchUtil;
+import de.domisum.lib.auxilium.util.http.HttpFetchUtil;
 
 import java.awt.image.BufferedImage;
 import java.util.Optional;

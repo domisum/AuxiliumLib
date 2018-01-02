@@ -1,6 +1,8 @@
-package de.domisum.lib.auxilium.util;
+package de.domisum.lib.auxilium.util.http;
 
 import de.domisum.lib.auxilium.data.container.AbstractURL;
+import de.domisum.lib.auxilium.util.http.specific.HttpFetchString;
+import de.domisum.lib.auxilium.util.java.ExceptionHandler;
 import de.domisum.lib.auxilium.util.java.IOExceptionHandler;
 import de.domisum.lib.auxilium.util.java.annotations.API;
 import lombok.AccessLevel;
@@ -11,8 +13,6 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 import java.util.Optional;
 
 @API
@@ -20,32 +20,22 @@ import java.util.Optional;
 public final class HttpFetchUtil
 {
 
-	// CONSTANTS
-	@API public static final Charset STRING_ENCODING = StandardCharsets.UTF_8;
-
-
 	// STRING
 	@API public static Optional<String> fetchString(AbstractURL url)
 	{
-		return fetchString(url, IOExceptionHandler.noAction());
+		return fetchString(url, ExceptionHandler.noAction());
 	}
 
-	@API public static Optional<String> fetchString(AbstractURL url, IOExceptionHandler onFail)
+	@API public static Optional<String> fetchString(AbstractURL url, ExceptionHandler<IOException> onFail)
 	{
-		try
-		{
-			return Optional.of(IOUtils.toString(url.toNet(), STRING_ENCODING));
-		}
-		catch(java.io.IOException e)
-		{
-			onFail.handle(e);
-			return Optional.empty();
-		}
+		HttpFetch<String> httpFetchString = new HttpFetchString(url).onFail(onFail).maxNumberOfTries(3);
+
+		return httpFetchString.fetch();
 	}
 
 	@API public static String fetchStringOrException(AbstractURL url)
 	{
-		return IOExceptionHandler.getOrException(onFail->fetchString(url, onFail));
+		return ExceptionHandler.getOrIOException(onFail->fetchString(url, onFail));
 	}
 
 
@@ -55,7 +45,7 @@ public final class HttpFetchUtil
 		return fetchRaw(url, IOExceptionHandler.noAction());
 	}
 
-	@API public static Optional<byte[]> fetchRaw(AbstractURL url, IOExceptionHandler onFail)
+	@API public static Optional<byte[]> fetchRaw(AbstractURL url, ExceptionHandler<IOException> onFail)
 	{
 		try(InputStream inputStream = url.toNet().openStream())
 		{
@@ -71,7 +61,7 @@ public final class HttpFetchUtil
 
 	@API public static byte[] fetchRawOrException(AbstractURL url)
 	{
-		return IOExceptionHandler.getOrException(onFail->fetchRaw(url, onFail));
+		return ExceptionHandler.getOrIOException(onFail->fetchRaw(url, onFail));
 	}
 
 
@@ -81,7 +71,7 @@ public final class HttpFetchUtil
 		return fetchImage(url, IOExceptionHandler.noAction());
 	}
 
-	@API public static Optional<BufferedImage> fetchImage(AbstractURL url, IOExceptionHandler onFail)
+	@API public static Optional<BufferedImage> fetchImage(AbstractURL url, ExceptionHandler<IOException> onFail)
 	{
 		try
 		{
@@ -97,7 +87,7 @@ public final class HttpFetchUtil
 
 	@API public static BufferedImage fetchImageOrException(AbstractURL url)
 	{
-		return IOExceptionHandler.getOrException(onFail->fetchImage(url, onFail));
+		return ExceptionHandler.getOrIOException(onFail->fetchImage(url, onFail));
 	}
 
 }

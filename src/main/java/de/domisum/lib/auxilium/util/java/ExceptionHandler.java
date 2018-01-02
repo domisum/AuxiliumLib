@@ -1,5 +1,12 @@
 package de.domisum.lib.auxilium.util.java;
 
+import de.domisum.lib.auxilium.contracts.Converter;
+
+import java.io.IOException;
+import java.io.UncheckedIOException;
+import java.util.Optional;
+import java.util.function.Consumer;
+
 public interface ExceptionHandler<T extends Exception>
 {
 
@@ -15,5 +22,27 @@ public interface ExceptionHandler<T extends Exception>
 
 	// HANDLE
 	void handle(T e);
+
+
+	static void executeOrIOException(Consumer<ExceptionHandler<IOException>> toExecute)
+	{
+		IOException[] exception = new IOException[1];
+
+		toExecute.accept(e->exception[0] = e);
+
+		if(exception[0] != null)
+			throw new UncheckedIOException(exception[0]);
+	}
+
+	static <T> T getOrIOException(Converter<ExceptionHandler<IOException>, Optional<T>> toGet)
+	{
+		IOException[] exception = new IOException[1];
+
+		Optional<T> value = toGet.convert(e->exception[0] = e);
+		if(value.isPresent())
+			return value.get();
+
+		throw new UncheckedIOException(exception[0]);
+	}
 
 }

@@ -15,6 +15,8 @@ import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -25,12 +27,15 @@ import java.util.Optional;
 public abstract class HttpFetch<T>
 {
 
+	private final Logger logger = LoggerFactory.getLogger(getClass());
+
+
 	// SETTINGS
 	private final AbstractURL url;
 	private HttpCredentials credentials;
 
 	private int maxNumberOfTries = 3;
-	@Getter(AccessLevel.PROTECTED) private ExceptionHandler<Exception> onFail = ExceptionHandler.noAction();
+	@Getter(AccessLevel.PROTECTED) private ExceptionHandler<IOException> onFail = ExceptionHandler.noAction();
 
 
 	// INIT
@@ -46,7 +51,7 @@ public abstract class HttpFetch<T>
 		return this;
 	}
 
-	@API public HttpFetch<T> onFail(ExceptionHandler<Exception> onFail)
+	@API public HttpFetch<T> onFail(ExceptionHandler<IOException> onFail)
 	{
 		this.onFail = onFail;
 		return this;
@@ -58,15 +63,19 @@ public abstract class HttpFetch<T>
 	{
 		for(int i = 0; i < maxNumberOfTries; i++)
 		{
-			Optional<T> fetchOptional = tryFetching();
+			boolean last = i == (maxNumberOfTries-1);
+
+			Optional<T> fetchOptional = tryFetching(last);
 			if(fetchOptional.isPresent())
 				return fetchOptional;
+			else
+				logger.warn("Failed to fetch '{}', retrying...", url);
 		}
 
 		return Optional.empty();
 	}
 
-	private Optional<T> tryFetching()
+	private Optional<T> tryFetching(boolean last)
 	{
 		CloseableHttpClient httpClient = buildHttpClient();
 		HttpGet httpGet = new HttpGet(url.toString());
@@ -76,8 +85,11 @@ public abstract class HttpFetch<T>
 		{
 			return fetch(responseStream);
 		}
-		catch(IOException ignored)
+		catch(IOException e)
 		{
+			if(last)
+				onFail.handle(e);
+
 			return Optional.empty();
 		}
 	}
