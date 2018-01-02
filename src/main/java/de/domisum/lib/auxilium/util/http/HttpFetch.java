@@ -27,8 +27,9 @@ public abstract class HttpFetch<T>
 
 	// SETTINGS
 	private final AbstractURL url;
-
 	private HttpCredentials credentials;
+
+	private int maxNumberOfTries = 3;
 	@Getter(AccessLevel.PROTECTED) private ExceptionHandler<Exception> onFail = ExceptionHandler.noAction();
 
 
@@ -36,6 +37,12 @@ public abstract class HttpFetch<T>
 	@API public HttpFetch<T> credentials(HttpCredentials credentials)
 	{
 		this.credentials = credentials;
+		return this;
+	}
+
+	@API public HttpFetch<T> maxNumberOfTries(int maxNumberOfTries)
+	{
+		this.maxNumberOfTries = maxNumberOfTries;
 		return this;
 	}
 
@@ -49,6 +56,18 @@ public abstract class HttpFetch<T>
 	// FETCH
 	@API public Optional<T> fetch()
 	{
+		for(int i = 0; i < maxNumberOfTries; i++)
+		{
+			Optional<T> fetchOptional = tryFetching();
+			if(fetchOptional.isPresent())
+				return fetchOptional;
+		}
+
+		return Optional.empty();
+	}
+
+	private Optional<T> tryFetching()
+	{
 		CloseableHttpClient httpClient = buildHttpClient();
 		HttpGet httpGet = new HttpGet(url.toString());
 
@@ -57,9 +76,8 @@ public abstract class HttpFetch<T>
 		{
 			return fetch(responseStream);
 		}
-		catch(IOException e)
+		catch(IOException ignored)
 		{
-			onFail.handle(e);
 			return Optional.empty();
 		}
 	}
@@ -87,6 +105,5 @@ public abstract class HttpFetch<T>
 
 		httpClientBuilder.setDefaultCredentialsProvider(credentialsProvider);
 	}
-
 
 }
