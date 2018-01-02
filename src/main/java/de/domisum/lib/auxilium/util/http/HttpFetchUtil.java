@@ -3,7 +3,6 @@ package de.domisum.lib.auxilium.util.http;
 import de.domisum.lib.auxilium.data.container.AbstractURL;
 import de.domisum.lib.auxilium.util.http.specific.HttpFetchString;
 import de.domisum.lib.auxilium.util.java.ExceptionHandler;
-import de.domisum.lib.auxilium.util.java.IOExceptionHandler;
 import de.domisum.lib.auxilium.util.java.annotations.API;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -42,7 +41,7 @@ public final class HttpFetchUtil
 	// RAW BYTES
 	@API public static Optional<byte[]> fetchRaw(AbstractURL url)
 	{
-		return fetchRaw(url, IOExceptionHandler.noAction());
+		return fetchRaw(url, ExceptionHandler.noAction());
 	}
 
 	@API public static Optional<byte[]> fetchRaw(AbstractURL url, ExceptionHandler<IOException> onFail)
@@ -68,7 +67,7 @@ public final class HttpFetchUtil
 	// IMAGE
 	@API public static Optional<BufferedImage> fetchImage(AbstractURL url)
 	{
-		return fetchImage(url, IOExceptionHandler.noAction());
+		return fetchImage(url, ExceptionHandler.noAction());
 	}
 
 	@API public static Optional<BufferedImage> fetchImage(AbstractURL url, ExceptionHandler<IOException> onFail)
