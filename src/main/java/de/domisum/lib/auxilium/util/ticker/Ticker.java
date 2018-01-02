@@ -2,6 +2,8 @@ package de.domisum.lib.auxilium.util.ticker;
 
 import de.domisum.lib.auxilium.util.java.ThreadUtil;
 import de.domisum.lib.auxilium.util.java.annotations.API;
+import lombok.AccessLevel;
+import lombok.Getter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,7 +21,7 @@ public abstract class Ticker
 	private final String threadName;
 
 	// STATUS
-	private Thread tickThread;
+	@Getter(AccessLevel.PROTECTED) private Thread tickThread;
 	private boolean tickThreadRunning;
 
 
