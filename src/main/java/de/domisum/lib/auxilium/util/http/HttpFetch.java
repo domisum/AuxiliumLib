@@ -102,7 +102,7 @@ public abstract class HttpFetch<T>
 		try(CloseableHttpResponse response = httpClient.execute(httpRequest);
 				InputStream responseStream = response.getEntity().getContent())
 		{
-			if((response.getStatusLine().getStatusCode()%100) == 2) // success
+			if((response.getStatusLine().getStatusCode()/100) == 2) // success
 				return convertToSpecific(responseStream);
 
 			if(last)
