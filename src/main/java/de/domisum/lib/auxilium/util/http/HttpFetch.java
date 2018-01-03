@@ -20,6 +20,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.methods.HttpTrace;
 import org.apache.http.client.methods.HttpUriRequest;
+import org.apache.http.conn.HttpHostConnectException;
 import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
@@ -29,6 +30,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UncheckedIOException;
 import java.util.Optional;
 
 @API
@@ -87,7 +89,7 @@ public abstract class HttpFetch<T>
 			if(fetchOptional.isPresent())
 				return fetchOptional;
 			else
-				logger.warn("Failed to fetch '{}', retrying...", url);
+				logger.debug("Failed to fetch '{}', retrying...", url);
 		}
 
 		return Optional.empty();
@@ -103,16 +105,20 @@ public abstract class HttpFetch<T>
 		{
 			return fetch(responseStream);
 		}
-		catch(IOException e)
+		catch(HttpHostConnectException e)
 		{
 			if(last)
 			{
-				logger.warn("Failed to fetch {} after {} tries", url, numberOfTries);
+				logger.debug("Failed to fetch {}, exception: {}", url, e);
 				onFail.handle(e);
 			}
-
-			return Optional.empty();
 		}
+		catch(IOException e)
+		{
+			throw new UncheckedIOException(e);
+		}
+
+		return Optional.empty();
 	}
 
 	protected abstract Optional<T> fetch(InputStream inputStream);
