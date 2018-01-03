@@ -115,7 +115,7 @@ public abstract class HttpFetch<T>
 		{
 			if(last)
 			{
-				logger.warn("Failed to fetch {}, exception: {}", url, e);
+				logger.debug("Failed to fetch {}, exception: {}", url, e);
 				onFail.handle(e);
 			}
 		}
