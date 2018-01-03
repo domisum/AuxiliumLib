@@ -49,7 +49,7 @@ public abstract class HttpFetch<T>
 
 
 	// INIT
-	@API public HttpFetch<T> credentials(HttpMethod method)
+	@API public HttpFetch<T> method(HttpMethod method)
 	{
 		this.method = method;
 		return this;
