@@ -27,7 +27,7 @@ public class HttpFetchString extends HttpFetch<String>
 
 
 	// FETCH
-	@Override protected Optional<String> fetch(InputStream inputStream)
+	@Override protected Optional<String> convertToSpecific(InputStream inputStream)
 	{
 		try
 		{

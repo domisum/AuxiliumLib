@@ -103,7 +103,7 @@ public abstract class HttpFetch<T>
 				InputStream responseStream = response.getEntity().getContent())
 		{
 			if((response.getStatusLine().getStatusCode()%100) == 2) // success
-				return fetch(responseStream);
+				return convertToSpecific(responseStream);
 
 			if(last)
 				logger.warn(
@@ -123,7 +123,7 @@ public abstract class HttpFetch<T>
 		return Optional.empty();
 	}
 
-	protected abstract Optional<T> fetch(InputStream inputStream);
+	protected abstract Optional<T> convertToSpecific(InputStream inputStream);
 
 
 	// HTTP

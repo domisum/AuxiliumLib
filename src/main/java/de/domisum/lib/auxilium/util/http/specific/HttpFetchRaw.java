@@ -21,7 +21,7 @@ public class HttpFetchRaw extends HttpFetch<byte[]>
 
 
 	// FETCH
-	@Override protected Optional<byte[]> fetch(InputStream inputStream)
+	@Override protected Optional<byte[]> convertToSpecific(InputStream inputStream)
 	{
 		try
 		{
