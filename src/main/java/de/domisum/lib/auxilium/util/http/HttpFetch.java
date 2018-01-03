@@ -20,7 +20,6 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.methods.HttpTrace;
 import org.apache.http.client.methods.HttpUriRequest;
-import org.apache.http.conn.HttpHostConnectException;
 import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
@@ -30,7 +29,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.UncheckedIOException;
+import java.nio.charset.StandardCharsets;
 import java.util.Optional;
 
 @API
@@ -89,7 +88,7 @@ public abstract class HttpFetch<T>
 			if(fetchOptional.isPresent())
 				return fetchOptional;
 			else
-				logger.debug("Failed to fetch '{}', retrying...", url);
+				logger.warn("Failed to fetch '{}', retrying...", url);
 		}
 
 		return Optional.empty();
@@ -103,19 +102,22 @@ public abstract class HttpFetch<T>
 		try(CloseableHttpResponse response = httpClient.execute(httpRequest);
 				InputStream responseStream = response.getEntity().getContent())
 		{
-			return fetch(responseStream);
-		}
-		catch(HttpHostConnectException e)
-		{
+			if((response.getStatusLine().getStatusCode()%100) == 2) // success
+				return fetch(responseStream);
+
 			if(last)
-			{
-				logger.debug("Failed to fetch {}, exception: {}", url, e);
-				onFail.handle(e);
-			}
+				logger.warn(
+						"Failed to fetch: {}: {}",
+						response.getStatusLine(),
+						org.apache.commons.io.IOUtils.toString(responseStream, StandardCharsets.UTF_8));
 		}
 		catch(IOException e)
 		{
-			throw new UncheckedIOException(e);
+			if(last)
+			{
+				logger.warn("Failed to fetch {}, exception: {}", url, e);
+				onFail.handle(e);
+			}
 		}
 
 		return Optional.empty();
