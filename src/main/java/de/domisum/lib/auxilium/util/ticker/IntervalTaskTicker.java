@@ -6,8 +6,8 @@ import lombok.RequiredArgsConstructor;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @API
 public class IntervalTaskTicker extends Ticker
@@ -17,7 +17,7 @@ public class IntervalTaskTicker extends Ticker
 	private static final Duration TICK_INTERVAL = Duration.ofMillis(100);
 
 	// TASKS
-	private final Set<IntervalTask> tasks = new HashSet<>();
+	private final List<IntervalTask> tasks = new ArrayList<>();
 
 
 	// INIT
