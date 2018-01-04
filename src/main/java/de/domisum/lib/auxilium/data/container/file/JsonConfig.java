@@ -21,6 +21,10 @@ import java.util.Collection;
 public abstract class JsonConfig
 {
 
+	// CONSTANTS
+	private static final int MAX_PORT_VALUE = 65535;
+
+
 	// INIT
 	@API public static <T extends JsonConfig> T load(File file, Class<T> tClass)
 	{
@@ -81,7 +85,7 @@ public abstract class JsonConfig
 
 	@API protected void validatePort(int port)
 	{
-		Validate.inclusiveBetween(1, 65535, port, "port out of range [1-65535]: "+port);
+		Validate.inclusiveBetween(1, MAX_PORT_VALUE, port, "port out of range [1-"+MAX_PORT_VALUE+"]: "+port);
 	}
 
 }
