@@ -88,7 +88,7 @@ public abstract class HttpFetch<T>
 			if(fetchOptional.isPresent())
 				return fetchOptional;
 			else
-				logger.warn("Failed to fetch '{}', retrying...", url);
+				logger.warn("Failed to fetch '{}'{}", url, last ? "" : ", retrying...");
 		}
 
 		return Optional.empty();
