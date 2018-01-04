@@ -43,29 +43,29 @@ public abstract class Ticker
 	{
 		if(tickThread != null)
 			return;
-		logger.info("Starting {}...", getClass().getSimpleName());
+		logger.info("Starting ticker {}...", getClass().getSimpleName());
 
 		tickThreadRunning = true;
 		tickThread = ThreadUtil.createAndStartThread(this::run, threadName);
 
-		logger.info("Starting {} complete", getClass().getSimpleName());
+		logger.info("Starting ticker {} complete", getClass().getSimpleName());
 	}
 
 	@API public synchronized void stop()
 	{
-		logger.info("Stopping {}...", getClass().getSimpleName());
+		logger.info("Stopping ticker {}...", getClass().getSimpleName());
 
 		requestStop();
 		waitForStop();
 
-		logger.info("Stopping {} complete", getClass().getSimpleName());
+		logger.info("Stopping ticker {} complete", getClass().getSimpleName());
 	}
 
 	@API public synchronized void requestStop()
 	{
 		if(tickThread == null)
 			return;
-		logger.info("Requesting stop of {}...", getClass().getSimpleName());
+		logger.info("Requesting stop of ticker {}...", getClass().getSimpleName());
 
 		tickThreadRunning = false;
 		tickThread.interrupt();
@@ -75,12 +75,12 @@ public abstract class Ticker
 	{
 		if(tickThread == null)
 			return;
-		logger.info("Waiting for stop of {}...", getClass().getSimpleName());
+		logger.info("Waiting for stop of ticker {}...", getClass().getSimpleName());
 
 		if(Thread.currentThread() != tickThread)
 			ThreadUtil.join(tickThread);
 		tickThread = null;
-		logger.info("Waiting for stop of {} complete", getClass().getSimpleName());
+		logger.info("Waiting for stop of ticker {} complete", getClass().getSimpleName());
 	}
 
 
