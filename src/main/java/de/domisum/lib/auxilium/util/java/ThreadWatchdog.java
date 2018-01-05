@@ -33,12 +33,12 @@ public final class ThreadWatchdog
 
 
 	// SINGLETON
-	@API public static void registerOnTerminationAction(Thread thread, Runnable run)
+	@API public static synchronized void registerOnTerminationAction(Thread thread, Runnable run)
 	{
 		getInstance().register(thread, run);
 	}
 
-	@API public static void unregisterOnTerminationActions(Thread thread)
+	@API public static synchronized void unregisterOnTerminationActions(Thread thread)
 	{
 		getInstance().unregister(thread);
 	}
@@ -53,7 +53,7 @@ public final class ThreadWatchdog
 
 
 	// REGISTRATION
-	private synchronized void register(Thread thread, Runnable run)
+	private void register(Thread thread, Runnable run)
 	{
 		if(!watchedThreadsOnTerminationActions.containsKey(thread))
 			watchedThreadsOnTerminationActions.put(thread, new ArrayList<>());
@@ -65,7 +65,7 @@ public final class ThreadWatchdog
 	}
 
 
-	private synchronized void unregister(Thread thread)
+	private void unregister(Thread thread)
 	{
 		watchedThreadsOnTerminationActions.remove(thread);
 
@@ -78,7 +78,6 @@ public final class ThreadWatchdog
 	private void startWatchdogThread()
 	{
 		logger.info("Starting watchdog thread...");
-
 		watchdogThread = ThreadUtil.createAndStartThread(this::run, "threadWatchdog");
 	}
 
@@ -127,7 +126,7 @@ public final class ThreadWatchdog
 
 	private boolean shouldStopWatchdogThread()
 	{
-		return watchedThreadsOnTerminationActions.isEmpty();
+		return watchedThreadsOnTerminationActions.isEmpty() && (watchdogThread != null);
 	}
 
 }
