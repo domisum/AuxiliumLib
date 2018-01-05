@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.time.Duration;
+import java.util.Objects;
 
 @API
 public abstract class Ticker
@@ -43,29 +44,29 @@ public abstract class Ticker
 	{
 		if(tickThread != null)
 			return;
-		logger.info("Starting ticker {}...", getClass().getSimpleName());
+		logger.info("Starting ticker {}...", getTickerName());
 
 		tickThreadRunning = true;
 		tickThread = ThreadUtil.createAndStartThread(this::run, threadName);
 
-		logger.info("Starting ticker {} complete", getClass().getSimpleName());
+		logger.info("Starting ticker {} complete", getTickerName());
 	}
 
 	@API public synchronized void stop()
 	{
-		logger.info("Stopping ticker {}...", getClass().getSimpleName());
+		logger.info("Stopping ticker {}...", getTickerName());
 
 		requestStop();
 		waitForStop();
 
-		logger.info("Stopping ticker {} complete", getClass().getSimpleName());
+		logger.info("Stopping ticker {} complete", getTickerName());
 	}
 
 	@API public synchronized void requestStop()
 	{
 		if(tickThread == null)
 			return;
-		logger.info("Requesting stop of ticker {}...", getClass().getSimpleName());
+		logger.info("Requesting stop of ticker {}...", getTickerName());
 
 		tickThreadRunning = false;
 		tickThread.interrupt();
@@ -75,12 +76,12 @@ public abstract class Ticker
 	{
 		if(tickThread == null)
 			return;
-		logger.info("Waiting for stop of ticker {}...", getClass().getSimpleName());
+		logger.info("Waiting for stop of ticker {}...", getTickerName());
 
 		if(Thread.currentThread() != tickThread)
 			ThreadUtil.join(tickThread);
 		tickThread = null;
-		logger.info("Waiting for stop of ticker {} complete", getClass().getSimpleName());
+		logger.info("Waiting for stop of ticker {} complete", getTickerName());
 	}
 
 
@@ -103,5 +104,15 @@ public abstract class Ticker
 	}
 
 	protected abstract void tick();
+
+
+	// UTIL
+	private String getTickerName()
+	{
+		if(!Objects.equals(threadName, "ticker"))
+			return threadName;
+
+		return getClass().getSimpleName();
+	}
 
 }
