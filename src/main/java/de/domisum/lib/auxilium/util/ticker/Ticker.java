@@ -49,7 +49,7 @@ public abstract class Ticker
 		tickThreadRunning = true;
 		tickThread = ThreadUtil.createAndStartThread(this::run, threadName);
 
-		logger.info("Starting ticker {} complete", getTickerName());
+		logger.info("Starting ticker {} done", getTickerName());
 	}
 
 	@API public synchronized void stop()
