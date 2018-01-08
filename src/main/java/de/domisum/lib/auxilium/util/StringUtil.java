@@ -3,6 +3,7 @@ package de.domisum.lib.auxilium.util;
 import de.domisum.lib.auxilium.util.java.annotations.API;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import org.apache.commons.lang3.ArrayUtils;
 
 import java.util.Arrays;
 import java.util.List;
@@ -51,7 +52,7 @@ public final class StringUtil
 
 	@API public static String escapeStringForRegex(String input)
 	{
-		List<Character> charactersToEscape = Arrays.asList('.', '^', '$', '*', '+', '?', '(', ')', '[', ']', '\\', '/', '|');
+		List<Character> charactersToEscape = Arrays.asList(ArrayUtils.toObject("<([{\\^-=$!|]})?*+.>".toCharArray()));
 
 		String escaped = input;
 		for(int i = 0; i < escaped.length(); i++)
