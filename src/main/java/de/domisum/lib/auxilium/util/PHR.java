@@ -20,7 +20,7 @@ public final class PHR
 				throw new IllegalArgumentException(
 						"text doesn't contain enough placeholders ("+getPlaceHolderReport(numberOfFoundPlaceholders, values));
 
-			replacedText = replacedText.replaceFirst("\\{}", Objects.toString(value));
+			replacedText = replacedText.replaceFirst(StringUtil.escapeStringForRegex("{}"), Objects.toString(value));
 			numberOfFoundPlaceholders++;
 		}
 
