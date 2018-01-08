@@ -56,7 +56,6 @@ public final class StringUtil
 				'$',
 				'*',
 				'+',
-				'-',
 				'?',
 				'(',
 				')',
@@ -64,7 +63,7 @@ public final class StringUtil
 				']',
 				'{',
 				'}',
-				'\\',
+				'\\', '/',
 				'|');
 
 		String escaped = input;
