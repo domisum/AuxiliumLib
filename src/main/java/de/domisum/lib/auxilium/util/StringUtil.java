@@ -51,20 +51,7 @@ public final class StringUtil
 
 	@API public static String escapeStringForRegex(String input)
 	{
-		List<Character> charactersToEscape = Arrays.asList('.',
-				'^',
-				'$',
-				'*',
-				'+',
-				'?',
-				'(',
-				')',
-				'[',
-				']',
-				'{',
-				'}',
-				'\\', '/',
-				'|');
+		List<Character> charactersToEscape = Arrays.asList('.', '^', '$', '*', '+', '?', '(', ')', '[', ']', '\\', '/', '|');
 
 		String escaped = input;
 		for(int i = 0; i < escaped.length(); i++)
