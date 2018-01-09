@@ -18,12 +18,15 @@ public abstract class Ticker
 
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 
+	// CONSTANTS
+	private static final Duration TIMEOUT_DEFAULT = Duration.ofMinutes(10);
+
 
 	// SETTINGS
 	private final Duration tickInterval;
 	private final String threadName;
 
-	@Setter private Duration timeout;
+	@Getter @Setter private Duration timeout = TIMEOUT_DEFAULT;
 
 	// STATUS
 	@Getter(AccessLevel.PROTECTED) private Thread tickThread;
