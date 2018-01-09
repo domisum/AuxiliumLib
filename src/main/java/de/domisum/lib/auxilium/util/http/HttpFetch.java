@@ -1,12 +1,15 @@
 package de.domisum.lib.auxilium.util.http;
 
 import de.domisum.lib.auxilium.data.container.AbstractURL;
+import de.domisum.lib.auxilium.util.PHR;
 import de.domisum.lib.auxilium.util.java.ExceptionHandler;
 import de.domisum.lib.auxilium.util.java.annotations.API;
 import de.domisum.lib.auxilium.util.java.exceptions.ShouldNeverHappenError;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.apache.http.HttpEntityEnclosingRequest;
+import org.apache.http.HttpMessage;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.CredentialsProvider;
@@ -20,6 +23,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.methods.HttpTrace;
 import org.apache.http.client.methods.HttpUriRequest;
+import org.apache.http.entity.ByteArrayEntity;
 import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
@@ -43,16 +47,23 @@ public abstract class HttpFetch<T>
 	// SETTINGS
 	private final AbstractURL url;
 	private HttpMethod method = HttpMethod.GET;
+	private HttpBody body;
 	private HttpCredentials credentials;
 
 	private int numberOfTries = 3;
-	@Getter(AccessLevel.PROTECTED) private ExceptionHandler<IOException> onFail = ExceptionHandler.noAction();
+	@Getter(AccessLevel.PROTECTED) private ExceptionHandler<IOException> onFail = e->logger.error("error fetching", e);
 
 
 	// INIT
 	@API public HttpFetch<T> method(HttpMethod method)
 	{
 		this.method = method;
+		return this;
+	}
+
+	@API public HttpFetch<T> body(HttpBody body)
+	{
+		this.body = body;
 		return this;
 	}
 
@@ -98,6 +109,8 @@ public abstract class HttpFetch<T>
 	{
 		CloseableHttpClient httpClient = buildHttpClient();
 		HttpUriRequest httpRequest = method.getRequest(url);
+		if(body != null)
+			body.addToRequest(httpRequest);
 
 		try(CloseableHttpResponse response = httpClient.execute(httpRequest);
 				InputStream responseStream = response.getEntity().getContent())
@@ -106,10 +119,10 @@ public abstract class HttpFetch<T>
 				return convertToSpecific(responseStream);
 
 			if(last)
-				logger.warn(
+				throw new IOException(PHR.r(
 						"Failed to fetch: {}: {}",
 						response.getStatusLine(),
-						org.apache.commons.io.IOUtils.toString(responseStream, StandardCharsets.UTF_8));
+						org.apache.commons.io.IOUtils.toString(responseStream, StandardCharsets.UTF_8)));
 		}
 		catch(IOException e)
 		{
@@ -145,6 +158,36 @@ public abstract class HttpFetch<T>
 				new UsernamePasswordCredentials(credentials.getUsername(), credentials.getPassword()));
 
 		httpClientBuilder.setDefaultCredentialsProvider(credentialsProvider);
+	}
+
+
+	@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
+	public static final class HttpBody
+	{
+
+		private final byte[] content;
+		private final String contentType;
+
+
+		// INIT
+		public static HttpBody ofJson(String json)
+		{
+			return ofString(json, "application/json");
+		}
+
+		private static HttpBody ofString(String string, String contentType)
+		{
+			return new HttpBody(string.getBytes(StandardCharsets.UTF_8), contentType);
+		}
+
+
+		// REQUEST
+		public void addToRequest(HttpMessage httpUriRequest)
+		{
+			httpUriRequest.addHeader("content-type", contentType);
+			((HttpEntityEnclosingRequest) httpUriRequest).setEntity(new ByteArrayEntity(content));
+		}
+
 	}
 
 
