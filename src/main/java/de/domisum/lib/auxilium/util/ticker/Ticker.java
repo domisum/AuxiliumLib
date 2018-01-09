@@ -119,7 +119,7 @@ public abstract class Ticker
 		}
 		catch(RuntimeException e)
 		{
-			logger.error("Exception occured during tick", e);
+			logger.error("Exception occured during tick\n", e);
 		}
 	}
 
