@@ -59,7 +59,7 @@ public abstract class Ticker
 		requestStop();
 		waitForStop();
 
-		logger.info("Stopping ticker {} complete", getTickerName());
+		logger.info("Stopped ticker {}", getTickerName());
 	}
 
 	@API public synchronized void requestStop()
@@ -81,7 +81,7 @@ public abstract class Ticker
 		if(Thread.currentThread() != tickThread)
 			ThreadUtil.join(tickThread);
 		tickThread = null;
-		logger.info("Waiting for stop of ticker {} complete", getTickerName());
+		logger.info("Stopped ticker {}", getTickerName());
 	}
 
 
