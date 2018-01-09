@@ -19,7 +19,7 @@ public abstract class Ticker
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 	// CONSTANTS
-	private static final Duration TIMEOUT_DEFAULT = Duration.ofMinutes(10);
+	private static final Duration TIMEOUT_DEFAULT = Duration.ofMinutes(3);
 
 
 	// SETTINGS
