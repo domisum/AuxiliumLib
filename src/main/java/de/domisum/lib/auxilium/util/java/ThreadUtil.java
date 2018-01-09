@@ -6,12 +6,19 @@ import lombok.NoArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.time.Duration;
+
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class ThreadUtil
 {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger("threadUtil");
 
+
+	@API public static boolean sleep(Duration duration)
+	{
+		return sleep(duration.toMillis());
+	}
 
 	@API public static boolean sleep(long ms)
 	{
@@ -99,6 +106,13 @@ public final class ThreadUtil
 	}
 
 
+	@API public static void stop(Thread thread)
+	{
+		//noinspection deprecation
+		thread.stop();
+	}
+
+
 	@API public static void registerShutdownHook(Runnable shutdownHook)
 	{
 		registerShutdownHook(shutdownHook, "shutdownHook");
@@ -113,7 +127,13 @@ public final class ThreadUtil
 
 	@API public static void logUncaughtExceptions(Thread thread)
 	{
-		thread.setUncaughtExceptionHandler((t, e)->LOGGER.error("uncaught exception in thread {}", t, e));
+		thread.setUncaughtExceptionHandler((t, e)->
+		{
+			if(e instanceof ThreadDeath)
+				return;
+
+			LOGGER.error("uncaught exception in thread {}", t, e);
+		});
 	}
 
 }

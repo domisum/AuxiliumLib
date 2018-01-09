@@ -1,9 +1,11 @@
 package de.domisum.lib.auxilium.util.ticker;
 
+import de.domisum.lib.auxilium.run.RunOrTimeOut;
 import de.domisum.lib.auxilium.util.java.ThreadUtil;
 import de.domisum.lib.auxilium.util.java.annotations.API;
 import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.Setter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,6 +22,8 @@ public abstract class Ticker
 	// SETTINGS
 	private final Duration tickInterval;
 	private final String threadName;
+
+	@Setter private Duration timeout;
 
 	// STATUS
 	@Getter(AccessLevel.PROTECTED) private Thread tickThread;
@@ -89,17 +93,30 @@ public abstract class Ticker
 	{
 		while(tickThreadRunning)
 		{
-			try
-			{
-				tick();
-			}
-			catch(RuntimeException e)
-			{
-				logger.error("Exception occured during tick", e);
-			}
+			if(timeout != null)
+				tickWithTimeout();
+			else
+				tickCaught();
 
 			if(tickThreadRunning)
 				ThreadUtil.sleep(tickInterval.toMillis());
+		}
+	}
+
+	private void tickWithTimeout()
+	{
+		new RunOrTimeOut(this::tickCaught, timeout).run();
+	}
+
+	private void tickCaught()
+	{
+		try
+		{
+			tick();
+		}
+		catch(RuntimeException e)
+		{
+			logger.error("Exception occured during tick", e);
 		}
 	}
 

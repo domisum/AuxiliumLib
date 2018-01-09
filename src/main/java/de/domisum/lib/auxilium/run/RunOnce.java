@@ -1,4 +1,4 @@
-package de.domisum.lib.auxilium;
+package de.domisum.lib.auxilium.run;
 
 import lombok.RequiredArgsConstructor;
 
