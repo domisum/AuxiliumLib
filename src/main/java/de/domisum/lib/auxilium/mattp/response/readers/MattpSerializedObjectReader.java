@@ -30,6 +30,8 @@ public class MattpSerializedObjectReader<T> implements MattpResponseBodyReader<T
 	{
 		String json = stringReader.read(inputStream);
 
+		// TODO don't do io exception throwing when json invalid, find other way
+
 		T object;
 		try
 		{

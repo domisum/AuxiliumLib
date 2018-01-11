@@ -3,26 +3,16 @@ package de.domisum.lib.auxilium.mattp.response.responses;
 import de.domisum.lib.auxilium.mattp.response.RequestResponse;
 import de.domisum.lib.auxilium.mattp.response.StatusLine;
 import de.domisum.lib.auxilium.util.PHR;
-import org.apache.commons.lang3.Validate;
+import lombok.RequiredArgsConstructor;
 
 import java.util.Optional;
 
+@RequiredArgsConstructor
 public class RequestSuccess<T> implements RequestResponse<T>
 {
 
 	private final StatusLine statusLine;
 	private final T body;
-
-
-	// INIT
-	public RequestSuccess(StatusLine statusLine, T body)
-	{
-		Validate.notNull(statusLine);
-		Validate.notNull(body);
-
-		this.statusLine = statusLine;
-		this.body = body;
-	}
 
 
 	// OBJECT
@@ -40,7 +30,7 @@ public class RequestSuccess<T> implements RequestResponse<T>
 
 	@Override public Optional<T> getContent()
 	{
-		return Optional.of(body);
+		return Optional.ofNullable(body);
 	}
 
 	@Override public Optional<String> getErrorMessage()
