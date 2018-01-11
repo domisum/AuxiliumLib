@@ -30,6 +30,12 @@ public class PHRTest
 				"multi replacements {} {} fun {}, {} have to admit", "are", "very", "indeed", "I'll");
 	}
 
+	@Test public void testReplaceWithPlaceholder()
+	{
+		assertReplaceEquals("here {} go", "here {} go", "{}");
+		assertReplaceEquals("some silly face: :-{} xddd", "some silly face: {} xddd", ":-{}");
+	}
+
 
 	private static void assertReplaceEquals(String expected, String withPlaceholders, Object... values)
 	{
