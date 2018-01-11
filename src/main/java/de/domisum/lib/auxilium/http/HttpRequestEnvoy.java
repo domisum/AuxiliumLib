@@ -14,6 +14,7 @@ import de.domisum.lib.auxilium.util.java.annotations.API;
 import de.domisum.lib.auxilium.util.java.exceptions.ShouldNeverHappenError;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.http.HttpEntityEnclosingRequest;
 import org.apache.http.HttpMessage;
 import org.apache.http.StatusLine;
@@ -60,7 +61,7 @@ public class HttpRequestEnvoy<T>
 		}
 		catch(IOException e)
 		{
-			return new ConnectionError<>(e.toString());
+			return new ConnectionError<>(ExceptionUtils.getStackTrace(e));
 		}
 	}
 
