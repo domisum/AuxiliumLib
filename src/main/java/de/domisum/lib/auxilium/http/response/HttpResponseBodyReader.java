@@ -1,4 +1,4 @@
-package de.domisum.lib.auxilium.http.response.reader;
+package de.domisum.lib.auxilium.http.response;
 
 import java.io.IOException;
 import java.io.InputStream;

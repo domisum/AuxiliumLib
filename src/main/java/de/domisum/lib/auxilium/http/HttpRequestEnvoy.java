@@ -1,12 +1,12 @@
 package de.domisum.lib.auxilium.http;
 
 import de.domisum.lib.auxilium.data.container.AbstractURL;
-import de.domisum.lib.auxilium.http.auth.NoAuthProvider;
+import de.domisum.lib.auxilium.http.authproviders.NoAuthProvider;
 import de.domisum.lib.auxilium.http.request.HttpHeader;
 import de.domisum.lib.auxilium.http.request.HttpRequest;
 import de.domisum.lib.auxilium.http.response.HttpResponse;
-import de.domisum.lib.auxilium.http.response.reader.HttpResponseBodyReader;
-import de.domisum.lib.auxilium.http.response.reader.HttpStringReader;
+import de.domisum.lib.auxilium.http.response.HttpResponseBodyReader;
+import de.domisum.lib.auxilium.http.response.readers.HttpStringReader;
 import de.domisum.lib.auxilium.util.java.annotations.API;
 import de.domisum.lib.auxilium.util.java.exceptions.ShouldNeverHappenError;
 import lombok.RequiredArgsConstructor;

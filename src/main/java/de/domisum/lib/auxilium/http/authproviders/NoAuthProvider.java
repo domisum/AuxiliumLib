@@ -1,4 +1,4 @@
-package de.domisum.lib.auxilium.http.auth;
+package de.domisum.lib.auxilium.http.authproviders;
 
 import de.domisum.lib.auxilium.http.HttpAuthProvider;
 import org.apache.http.impl.client.HttpClientBuilder;
