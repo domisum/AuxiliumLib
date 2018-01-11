@@ -26,7 +26,7 @@ public class ConnectionError<T> implements RequestResponse<T>
 		return Optional.empty();
 	}
 
-	@Override public Optional<T> getBody()
+	@Override public Optional<T> getContent()
 	{
 		return Optional.empty();
 	}

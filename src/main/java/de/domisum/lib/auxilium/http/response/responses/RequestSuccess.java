@@ -28,7 +28,7 @@ public class RequestSuccess<T> implements RequestResponse<T>
 		return Optional.of(statusLine);
 	}
 
-	@Override public Optional<T> getBody()
+	@Override public Optional<T> getContent()
 	{
 		return Optional.of(body);
 	}
