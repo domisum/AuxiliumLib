@@ -17,6 +17,14 @@ public class HttpSerializedObjectReader<T> implements HttpResponseBodyReader<T>
 	private final ToStringSerializer<T> toStringSerializer;
 
 
+	// INIT
+	public HttpSerializedObjectReader(ToStringSerializer<T> toStringSerializer)
+	{
+		stringReader = new HttpStringReader();
+		this.toStringSerializer = toStringSerializer;
+	}
+
+
 	// READ
 	@Override public T read(InputStream inputStream) throws IOException
 	{
