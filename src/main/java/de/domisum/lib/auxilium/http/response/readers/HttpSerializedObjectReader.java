@@ -30,14 +30,20 @@ public class HttpSerializedObjectReader<T> implements HttpResponseBodyReader<T>
 	{
 		String json = stringReader.read(inputStream);
 
+		T object;
 		try
 		{
-			return toStringSerializer.deserialize(json);
+			object = toStringSerializer.deserialize(json);
 		}
 		catch(RuntimeException e)
 		{
 			throw new IOException("Failed to deserialize object", e);
 		}
+
+		if(object == null)
+			throw new IOException("deserialized object was null (json input: "+json+")");
+
+		return object;
 	}
 
 }
