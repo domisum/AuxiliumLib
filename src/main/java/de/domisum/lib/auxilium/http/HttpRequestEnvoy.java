@@ -4,9 +4,12 @@ import de.domisum.lib.auxilium.data.container.AbstractURL;
 import de.domisum.lib.auxilium.http.authproviders.NoAuthProvider;
 import de.domisum.lib.auxilium.http.request.HttpHeader;
 import de.domisum.lib.auxilium.http.request.HttpRequest;
-import de.domisum.lib.auxilium.http.response.HttpResponse;
 import de.domisum.lib.auxilium.http.response.HttpResponseBodyReader;
+import de.domisum.lib.auxilium.http.response.RequestResponse;
 import de.domisum.lib.auxilium.http.response.readers.HttpStringReader;
+import de.domisum.lib.auxilium.http.response.responses.ConnectionError;
+import de.domisum.lib.auxilium.http.response.responses.RequestFailure;
+import de.domisum.lib.auxilium.http.response.responses.RequestSuccess;
 import de.domisum.lib.auxilium.util.java.annotations.API;
 import de.domisum.lib.auxilium.util.java.exceptions.ShouldNeverHappenError;
 import lombok.RequiredArgsConstructor;
@@ -46,7 +49,7 @@ public class HttpRequestEnvoy<T>
 
 
 	// SEND
-	@API public HttpResponse<T> send()
+	@API public RequestResponse<T> send()
 	{
 		CloseableHttpClient httpClient = buildHttpClient();
 		HttpUriRequest apacheRequest = buildApacheRequest();
@@ -57,20 +60,20 @@ public class HttpRequestEnvoy<T>
 		}
 		catch(IOException e)
 		{
-			return HttpResponse.ofConnectionError(e.toString());
+			return new ConnectionError<>(e.toString());
 		}
 	}
 
 
 	// RESPONSE
-	private HttpResponse<T> processResponse(org.apache.http.HttpResponse response) throws IOException
+	private RequestResponse<T> processResponse(org.apache.http.HttpResponse response) throws IOException
 	{
-		HttpResponse.StatusLine statusLine = convertApacheToDomainStatusLine(response.getStatusLine());
+		de.domisum.lib.auxilium.http.response.StatusLine statusLine = convertApacheToDomainStatusLine(response.getStatusLine());
 
 		if(didRequestFail(response))
-			return HttpResponse.ofHttpError(statusLine, readResponseBodyOnFailure(response));
+			return new RequestFailure<>(statusLine, readResponseBodyOnFailure(response));
 
-		return HttpResponse.ofHttpSuccess(statusLine, readResponseBodyOnSuccess(response));
+		return new RequestSuccess<>(statusLine, readResponseBodyOnSuccess(response));
 	}
 
 	private T readResponseBodyOnSuccess(org.apache.http.HttpResponse response) throws IOException
@@ -155,9 +158,9 @@ public class HttpRequestEnvoy<T>
 
 
 	// UTIL
-	private HttpResponse.StatusLine convertApacheToDomainStatusLine(StatusLine apacheStatusLine)
+	private de.domisum.lib.auxilium.http.response.StatusLine convertApacheToDomainStatusLine(StatusLine apacheStatusLine)
 	{
-		return new HttpResponse.StatusLine(
+		return new de.domisum.lib.auxilium.http.response.StatusLine(
 				apacheStatusLine.getProtocolVersion().toString(),
 				apacheStatusLine.getStatusCode(),
 				apacheStatusLine.getReasonPhrase());

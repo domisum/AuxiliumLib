@@ -1,0 +1,39 @@
+package de.domisum.lib.auxilium.http.response.responses;
+
+import de.domisum.lib.auxilium.http.response.RequestResponse;
+import de.domisum.lib.auxilium.http.response.StatusLine;
+import lombok.RequiredArgsConstructor;
+
+import java.util.Optional;
+
+@RequiredArgsConstructor
+public class ConnectionError<T> implements RequestResponse<T>
+{
+
+	private final String errorMessage;
+
+
+	// OBJECT
+	@Override public String toString()
+	{
+		return "CONNECTION_ERROR: "+errorMessage;
+	}
+
+
+	// GETTERS
+	@Override public Optional<StatusLine> getStatusLine()
+	{
+		return Optional.empty();
+	}
+
+	@Override public Optional<T> getBody()
+	{
+		return Optional.empty();
+	}
+
+	@Override public Optional<String> getErrorMessage()
+	{
+		return Optional.ofNullable(errorMessage);
+	}
+
+}
