@@ -18,7 +18,7 @@ public class RequestFailure<T> implements RequestResponse<T>
 	// OBJECT
 	@Override public String toString()
 	{
-		return PHR.r("FAILURE-{}: {}", statusLine, errorMessage);
+		return PHR.r("FAILURE | {}: {}", statusLine, errorMessage);
 	}
 
 

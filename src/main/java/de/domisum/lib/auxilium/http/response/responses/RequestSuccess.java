@@ -18,7 +18,7 @@ public class RequestSuccess<T> implements RequestResponse<T>
 	// OBJECT
 	@Override public String toString()
 	{
-		return PHR.r("SUCCESS-{}: {}", statusLine, body);
+		return PHR.r("SUCCESS | {}: {}", statusLine, body);
 	}
 
 
