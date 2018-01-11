@@ -1,39 +1,47 @@
 package de.domisum.lib.auxilium.util;
 
+import de.domisum.lib.auxilium.util.java.annotations.API;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class PHR
 {
 
+	// CONSTANTS
+	@API public static final String PLACEHOLDER = "{}";
+
+
+	// REPLACE
 	public static String r(String text, Object... values)
 	{
-		int numberOfFoundPlaceholders = 0;
-
-		String replacedText = text;
-		for(Object value : values)
+		List<Integer> placeholderIndices = new ArrayList<>();
+		int lastIndex = 0;
+		while(lastIndex != -1)
 		{
-			if(!replacedText.contains("{}"))
-				throw new IllegalArgumentException(
-						"text doesn't contain enough placeholders ("+getPlaceHolderReport(numberOfFoundPlaceholders, values));
+			int index = text.indexOf(PLACEHOLDER, lastIndex+1);
+			if(index != -1)
+				placeholderIndices.add(index);
 
-			replacedText = replacedText.replaceFirst(StringUtil.escapeStringForRegex("{}"), Objects.toString(value));
-			numberOfFoundPlaceholders++;
+			lastIndex = index;
 		}
 
-		if(replacedText.contains("{}"))
-			throw new IllegalArgumentException(
-					"text contains too many placeholders ("+getPlaceHolderReport(numberOfFoundPlaceholders, values)+")");
+		if(placeholderIndices.size() != values.length)
+			throw new IllegalArgumentException("given values: "+values.length+", found placeholders: "+placeholderIndices.size());
 
-		return replacedText;
-	}
+		String filledInString = text;
+		// iterate from back so inserting string doesn't change the indices of the other placeholders
+		for(int i = placeholderIndices.size()-1; i >= 0; i--)
+		{
+			int index = placeholderIndices.get(i);
+			filledInString = StringUtil.replaceLast(filledInString, PLACEHOLDER, Objects.toString(values[i]));
+		}
 
-	private static String getPlaceHolderReport(int numberOfFoundPlaceholders, Object... values)
-	{
-		return "given values: "+values.length+", found placeholders: "+numberOfFoundPlaceholders;
+		return filledInString;
 	}
 
 }
