@@ -1,7 +1,6 @@
 package de.domisum.lib.auxilium.http.request;
 
 import de.domisum.lib.auxilium.data.container.AbstractURL;
-import de.domisum.lib.auxilium.http.body.HttpBody;
 import de.domisum.lib.auxilium.util.java.annotations.API;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +18,7 @@ public class HttpRequest
 	@Getter private final HttpMethod httpMethod;
 
 	private final List<HttpHeader> headers = new ArrayList<>();
-	@Getter @Setter private HttpBody body; // TODO check if body is allowed with method
+	@Getter @Setter private HttpRequestBody body; // TODO check if body is allowed with method
 
 
 	// INIT

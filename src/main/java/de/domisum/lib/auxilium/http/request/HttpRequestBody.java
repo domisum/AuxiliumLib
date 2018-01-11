@@ -1,8 +1,8 @@
-package de.domisum.lib.auxilium.http.body;
+package de.domisum.lib.auxilium.http.request;
 
 import java.io.InputStream;
 
-public interface HttpBody
+public interface HttpRequestBody
 {
 
 	String getContentType();
