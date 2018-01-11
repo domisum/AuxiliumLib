@@ -1,4 +1,4 @@
-package de.domisum.lib.auxilium.http.request;
+package de.domisum.lib.auxilium.mattp.request;
 
 import de.domisum.lib.auxilium.data.container.AbstractURL;
 import de.domisum.lib.auxilium.util.java.annotations.API;
@@ -11,35 +11,35 @@ import java.util.Collections;
 import java.util.List;
 
 @RequiredArgsConstructor
-public class HttpRequest
+public class MattpRequest
 {
 
 	@Getter private final AbstractURL url;
-	@Getter private final HttpMethod httpMethod;
+	@Getter private final MattpMethod mattpMethod;
 
-	private final List<HttpHeader> headers = new ArrayList<>();
-	@Getter @Setter private HttpRequestBody body; // TODO check if body is allowed with method
+	private final List<MattpHeader> headers = new ArrayList<>();
+	@Getter @Setter private MattpRequestBody body; // TODO check if body is allowed with method
 
 
 	// INIT
-	@API public static HttpRequest get(AbstractURL url)
+	@API public static MattpRequest get(AbstractURL url)
 	{
-		return new HttpRequest(url, HttpMethod.GET);
+		return new MattpRequest(url, MattpMethod.GET);
 	}
 
 	@API public void addHeader(String key, String value)
 	{
-		addHeader(new HttpHeader(key, value));
+		addHeader(new MattpHeader(key, value));
 	}
 
-	@API public void addHeader(HttpHeader header)
+	@API public void addHeader(MattpHeader header)
 	{
 		headers.add(header);
 	}
 
 
 	// GETTERS
-	public List<HttpHeader> getHeaders()
+	public List<MattpHeader> getHeaders()
 	{
 		return Collections.unmodifiableList(headers);
 	}

@@ -1,20 +1,20 @@
-package de.domisum.lib.auxilium.http.request.bodies;
+package de.domisum.lib.auxilium.mattp.request.bodies;
 
 import de.domisum.lib.auxilium.util.java.annotations.API;
 
 import java.nio.charset.Charset;
 
 @API
-public class HttpJsonBody extends HttpPlaintextBody
+public class MattpJsonBody extends MattpPlaintextBody
 {
 
 	// INIT
-	@API public HttpJsonBody(String text, Charset charset)
+	@API public MattpJsonBody(String text, Charset charset)
 	{
 		super(text, charset);
 	}
 
-	@API public HttpJsonBody(String text)
+	@API public MattpJsonBody(String text)
 	{
 		super(text);
 	}

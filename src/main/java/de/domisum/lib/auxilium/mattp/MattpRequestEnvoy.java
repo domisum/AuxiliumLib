@@ -1,15 +1,15 @@
-package de.domisum.lib.auxilium.http;
+package de.domisum.lib.auxilium.mattp;
 
 import de.domisum.lib.auxilium.data.container.AbstractURL;
-import de.domisum.lib.auxilium.http.authproviders.NoAuthProvider;
-import de.domisum.lib.auxilium.http.request.HttpHeader;
-import de.domisum.lib.auxilium.http.request.HttpRequest;
-import de.domisum.lib.auxilium.http.response.HttpResponseBodyReader;
-import de.domisum.lib.auxilium.http.response.RequestResponse;
-import de.domisum.lib.auxilium.http.response.readers.HttpStringReader;
-import de.domisum.lib.auxilium.http.response.responses.ConnectionError;
-import de.domisum.lib.auxilium.http.response.responses.RequestFailure;
-import de.domisum.lib.auxilium.http.response.responses.RequestSuccess;
+import de.domisum.lib.auxilium.mattp.authproviders.NoAuthProvider;
+import de.domisum.lib.auxilium.mattp.request.MattpHeader;
+import de.domisum.lib.auxilium.mattp.request.MattpRequest;
+import de.domisum.lib.auxilium.mattp.response.MattpResponseBodyReader;
+import de.domisum.lib.auxilium.mattp.response.RequestResponse;
+import de.domisum.lib.auxilium.mattp.response.readers.MattpStringReader;
+import de.domisum.lib.auxilium.mattp.response.responses.ConnectionError;
+import de.domisum.lib.auxilium.mattp.response.responses.RequestFailure;
+import de.domisum.lib.auxilium.mattp.response.responses.RequestSuccess;
 import de.domisum.lib.auxilium.util.java.annotations.API;
 import de.domisum.lib.auxilium.util.java.exceptions.ShouldNeverHappenError;
 import lombok.RequiredArgsConstructor;
@@ -38,15 +38,15 @@ import java.io.InputStream;
 
 @API
 @RequiredArgsConstructor
-public class HttpRequestEnvoy<T>
+public class MattpRequestEnvoy<T>
 {
 
 	// REQUEST
-	private final HttpRequest request;
-	@Setter private HttpAuthProvider authProvider = new NoAuthProvider();
+	private final MattpRequest request;
+	@Setter private MattpAuthProvider authProvider = new NoAuthProvider();
 
 	// RESPONSE
-	private final HttpResponseBodyReader<T> responseBodyReader;
+	private final MattpResponseBodyReader<T> responseBodyReader;
 
 
 	// SEND
@@ -69,7 +69,7 @@ public class HttpRequestEnvoy<T>
 	// RESPONSE
 	private RequestResponse<T> processResponse(org.apache.http.HttpResponse response) throws IOException
 	{
-		de.domisum.lib.auxilium.http.response.StatusLine statusLine = convertApacheToDomainStatusLine(response.getStatusLine());
+		de.domisum.lib.auxilium.mattp.response.StatusLine statusLine = convertApacheToDomainStatusLine(response.getStatusLine());
 
 		if(didRequestFail(response))
 			return new RequestFailure<>(statusLine, readResponseBodyOnFailure(response));
@@ -84,10 +84,10 @@ public class HttpRequestEnvoy<T>
 
 	private String readResponseBodyOnFailure(org.apache.http.HttpResponse response) throws IOException
 	{
-		return readResponseBody(response, new HttpStringReader());
+		return readResponseBody(response, new MattpStringReader());
 	}
 
-	private <BodyT> BodyT readResponseBody(org.apache.http.HttpResponse response, HttpResponseBodyReader<BodyT> reader)
+	private <BodyT> BodyT readResponseBody(org.apache.http.HttpResponse response, MattpResponseBodyReader<BodyT> reader)
 			throws IOException
 	{
 		try(InputStream responseBodyStream = response.getEntity().getContent())
@@ -122,7 +122,7 @@ public class HttpRequestEnvoy<T>
 	{
 		AbstractURL url = request.getUrl();
 
-		switch(request.getHttpMethod())
+		switch(request.getMattpMethod())
 		{
 			case GET:
 				return new HttpGet(url.toString());
@@ -147,7 +147,7 @@ public class HttpRequestEnvoy<T>
 
 	private void addHeadersToRequest(HttpMessage apacheRequest)
 	{
-		for(HttpHeader header : request.getHeaders())
+		for(MattpHeader header : request.getHeaders())
 			apacheRequest.addHeader(header.getKey(), header.getValue());
 	}
 
@@ -159,9 +159,9 @@ public class HttpRequestEnvoy<T>
 
 
 	// UTIL
-	private de.domisum.lib.auxilium.http.response.StatusLine convertApacheToDomainStatusLine(StatusLine apacheStatusLine)
+	private de.domisum.lib.auxilium.mattp.response.StatusLine convertApacheToDomainStatusLine(StatusLine apacheStatusLine)
 	{
-		return new de.domisum.lib.auxilium.http.response.StatusLine(
+		return new de.domisum.lib.auxilium.mattp.response.StatusLine(
 				apacheStatusLine.getProtocolVersion().toString(),
 				apacheStatusLine.getStatusCode(),
 				apacheStatusLine.getReasonPhrase());

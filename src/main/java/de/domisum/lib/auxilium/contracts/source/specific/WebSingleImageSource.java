@@ -2,7 +2,7 @@ package de.domisum.lib.auxilium.contracts.source.specific;
 
 import de.domisum.lib.auxilium.contracts.source.implementations.WebSingleItemSource;
 import de.domisum.lib.auxilium.data.container.AbstractURL;
-import de.domisum.lib.auxilium.http.util.HttpGetUtil;
+import de.domisum.lib.auxilium.mattp.util.MattpGetUtil;
 
 import java.awt.image.BufferedImage;
 import java.util.Optional;
@@ -20,7 +20,7 @@ public class WebSingleImageSource extends WebSingleItemSource<BufferedImage>
 	// SOURCE
 	@Override public Optional<BufferedImage> fetch()
 	{
-		return HttpGetUtil.getImage(url);
+		return MattpGetUtil.getImage(url);
 	}
 
 }

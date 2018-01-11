@@ -1,4 +1,4 @@
-package de.domisum.lib.auxilium.http.response;
+package de.domisum.lib.auxilium.mattp.response;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

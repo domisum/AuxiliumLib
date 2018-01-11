@@ -1,7 +1,7 @@
-package de.domisum.lib.auxilium.http.response.responses;
+package de.domisum.lib.auxilium.mattp.response.responses;
 
-import de.domisum.lib.auxilium.http.response.RequestResponse;
-import de.domisum.lib.auxilium.http.response.StatusLine;
+import de.domisum.lib.auxilium.mattp.response.RequestResponse;
+import de.domisum.lib.auxilium.mattp.response.StatusLine;
 import lombok.RequiredArgsConstructor;
 
 import java.util.Optional;

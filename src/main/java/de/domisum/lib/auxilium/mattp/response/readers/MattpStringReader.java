@@ -1,6 +1,6 @@
-package de.domisum.lib.auxilium.http.response.readers;
+package de.domisum.lib.auxilium.mattp.response.readers;
 
-import de.domisum.lib.auxilium.http.response.HttpResponseBodyReader;
+import de.domisum.lib.auxilium.mattp.response.MattpResponseBodyReader;
 import de.domisum.lib.auxilium.util.java.annotations.API;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.io.IOUtils;
@@ -12,7 +12,7 @@ import java.nio.charset.StandardCharsets;
 
 @API
 @RequiredArgsConstructor
-public class HttpStringReader implements HttpResponseBodyReader<String>
+public class MattpStringReader implements MattpResponseBodyReader<String>
 {
 
 	// CONSTANTS
@@ -23,7 +23,7 @@ public class HttpStringReader implements HttpResponseBodyReader<String>
 
 
 	// INIT
-	@API public HttpStringReader()
+	@API public MattpStringReader()
 	{
 		charset = DEFAULT_CHARSET;
 	}

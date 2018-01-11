@@ -1,8 +1,8 @@
-package de.domisum.lib.auxilium.http.request;
+package de.domisum.lib.auxilium.mattp.request;
 
 import java.io.InputStream;
 
-public interface HttpRequestBody
+public interface MattpRequestBody
 {
 
 	String getContentType();

@@ -1,9 +1,9 @@
-package de.domisum.lib.auxilium.http.response;
+package de.domisum.lib.auxilium.mattp.response;
 
 import java.io.IOException;
 import java.io.InputStream;
 
-public interface HttpResponseBodyReader<T>
+public interface MattpResponseBodyReader<T>
 {
 
 	T read(InputStream inputStream) throws IOException;

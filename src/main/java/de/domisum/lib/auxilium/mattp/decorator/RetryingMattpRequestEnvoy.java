@@ -1,15 +1,15 @@
-package de.domisum.lib.auxilium.http.decorator;
+package de.domisum.lib.auxilium.mattp.decorator;
 
-import de.domisum.lib.auxilium.http.HttpRequestEnvoy;
-import de.domisum.lib.auxilium.http.request.HttpRequest;
-import de.domisum.lib.auxilium.http.response.HttpResponseBodyReader;
-import de.domisum.lib.auxilium.http.response.RequestResponse;
+import de.domisum.lib.auxilium.mattp.MattpRequestEnvoy;
+import de.domisum.lib.auxilium.mattp.request.MattpRequest;
+import de.domisum.lib.auxilium.mattp.response.MattpResponseBodyReader;
+import de.domisum.lib.auxilium.mattp.response.RequestResponse;
 import de.domisum.lib.auxilium.util.java.annotations.API;
 import jdk.nashorn.internal.objects.annotations.Setter;
 import org.apache.commons.lang3.Validate;
 
 @API
-public class RetryingHttpRequestEnvoy<T> extends HttpRequestEnvoy<T>
+public class RetryingMattpRequestEnvoy<T> extends MattpRequestEnvoy<T>
 {
 
 	// CONSTANTS
@@ -20,11 +20,11 @@ public class RetryingHttpRequestEnvoy<T> extends HttpRequestEnvoy<T>
 
 
 	// INIT
-	@API public RetryingHttpRequestEnvoy(HttpRequest request, HttpResponseBodyReader<T> responseBodyReader)
+	@API public RetryingMattpRequestEnvoy(MattpRequest request, MattpResponseBodyReader<T> responseBodyReader)
 	{
 		super(request, responseBodyReader);
 
-		if(!request.getHttpMethod().safe)
+		if(!request.getMattpMethod().safe)
 			throw new IllegalArgumentException("can't use retry with a non-safe http method");
 	}
 

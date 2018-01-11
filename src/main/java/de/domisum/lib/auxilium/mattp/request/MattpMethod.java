@@ -1,9 +1,9 @@
-package de.domisum.lib.auxilium.http.request;
+package de.domisum.lib.auxilium.mattp.request;
 
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public enum HttpMethod
+public enum MattpMethod
 {
 
 	GET(true),

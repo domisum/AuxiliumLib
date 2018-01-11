@@ -1,6 +1,6 @@
-package de.domisum.lib.auxilium.http.request.bodies;
+package de.domisum.lib.auxilium.mattp.request.bodies;
 
-import de.domisum.lib.auxilium.http.request.HttpRequestBody;
+import de.domisum.lib.auxilium.mattp.request.MattpRequestBody;
 import de.domisum.lib.auxilium.util.java.annotations.API;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.io.IOUtils;
@@ -11,7 +11,7 @@ import java.nio.charset.StandardCharsets;
 
 @API
 @RequiredArgsConstructor
-public class HttpPlaintextBody implements HttpRequestBody
+public class MattpPlaintextBody implements MattpRequestBody
 {
 
 	// CONSTANTS
@@ -24,7 +24,7 @@ public class HttpPlaintextBody implements HttpRequestBody
 
 
 	// INIT
-	@API public HttpPlaintextBody(String text)
+	@API public MattpPlaintextBody(String text)
 	{
 		this.text = text;
 		charset = DEFAULT_CHARSET;

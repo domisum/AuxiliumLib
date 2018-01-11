@@ -1,9 +1,9 @@
-package de.domisum.lib.auxilium.http.request;
+package de.domisum.lib.auxilium.mattp.request;
 
 import lombok.Getter;
 import org.apache.commons.lang3.Validate;
 
-public class HttpHeader
+public class MattpHeader
 {
 
 	@Getter private final String key;
@@ -11,7 +11,7 @@ public class HttpHeader
 
 
 	// INIT
-	public HttpHeader(String key, String value)
+	public MattpHeader(String key, String value)
 	{
 		validateKey(key);
 		validateValue(value);
