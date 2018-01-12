@@ -4,13 +4,11 @@ import de.domisum.lib.auxilium.util.FileUtil;
 import de.domisum.lib.auxilium.util.java.annotations.API;
 import de.domisum.lib.auxilium.util.java.annotations.InitByDeserialization;
 import de.domisum.lib.auxilium.util.json.GsonUtil;
-import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.Validate;
 
 import java.io.File;
 
 @API
-@NoArgsConstructor
 public abstract class JsonConfig
 {
 
