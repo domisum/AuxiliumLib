@@ -5,7 +5,6 @@ import de.domisum.lib.auxilium.contracts.serialization.ToStringSerializer;
 import de.domisum.lib.auxilium.util.FileUtil;
 import de.domisum.lib.auxilium.util.FileUtil.FileType;
 import de.domisum.lib.auxilium.util.java.annotations.API;
-import de.domisum.lib.auxilium.util.java.exceptions.ShouldNeverHappenError;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -98,7 +97,7 @@ public class SerializedIdentifyableStorage<T extends Identifyable> implements St
 		}
 		catch(NoSuchFieldException|IllegalAccessException e)
 		{
-			throw new ShouldNeverHappenError("error with reflection: "+e);
+			throw new IllegalStateException("could not set id using reflection", e);
 		}
 	}
 
@@ -110,7 +109,7 @@ public class SerializedIdentifyableStorage<T extends Identifyable> implements St
 				return f;
 
 		if(clazz.getSuperclass() == Object.class)
-			throw new NoSuchFieldException("no field called id, reached object class");
+			throw new NoSuchFieldException("no field called id neither in class nor in superclasses");
 
 		return findIdField(clazz.getSuperclass());
 	}
