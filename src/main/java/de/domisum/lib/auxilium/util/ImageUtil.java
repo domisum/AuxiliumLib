@@ -8,8 +8,11 @@ import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.awt.image.BufferedImageOp;
 import java.awt.image.ColorModel;
+import java.awt.image.ConvolveOp;
 import java.awt.image.DataBufferByte;
+import java.awt.image.Kernel;
 import java.awt.image.RenderedImage;
 import java.awt.image.WritableRaster;
 
@@ -158,6 +161,18 @@ public final class ImageUtil
 			hsb[1] = 1;
 
 		return Color.HSBtoRGB(hsb[0], hsb[1], hsb[2]);
+	}
+
+
+	// EFFECTS
+	@API public static BufferedImage sharpen(BufferedImage image, double sharpness)
+	{
+		float f = (float) sharpness;
+
+		Kernel kernel = new Kernel(3, 3, new float[] {-1*f, -1*f, -1*f, -1*f, (8*f)+1, -1*f, -1*f, -1*f, -1*f});
+		BufferedImageOp convolveOp = new ConvolveOp(kernel);
+
+		return convolveOp.filter(image, null);
 	}
 
 }
