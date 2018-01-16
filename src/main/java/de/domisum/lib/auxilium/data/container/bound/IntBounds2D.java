@@ -1,11 +1,13 @@
 package de.domisum.lib.auxilium.data.container.bound;
 
 import de.domisum.lib.auxilium.util.java.annotations.API;
+import lombok.ToString;
 import org.apache.commons.lang3.Validate;
 
 import java.awt.Rectangle;
 
 @API
+@ToString
 public final class IntBounds2D
 {
 
