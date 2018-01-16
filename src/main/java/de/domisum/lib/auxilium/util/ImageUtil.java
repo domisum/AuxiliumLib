@@ -6,7 +6,9 @@ import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.awt.image.ColorModel;
 import java.awt.image.DataBufferByte;
+import java.awt.image.RenderedImage;
 import java.awt.image.WritableRaster;
 
 @API
@@ -112,8 +114,21 @@ public final class ImageUtil
 	}
 
 
+	@API public static BufferedImage copy(RenderedImage bufferedImage)
+	{
+		ColorModel colorModel = bufferedImage.getColorModel();
+		boolean isAlphaPremultiplied = colorModel.isAlphaPremultiplied();
+		WritableRaster raster = bufferedImage.copyData(null);
+
+		return new BufferedImage(colorModel, raster, isAlphaPremultiplied, null).getSubimage(0,
+				0,
+				bufferedImage.getWidth(),
+				bufferedImage.getHeight());
+	}
+
+
 	// COLOR
-	public static BufferedImage dye(BufferedImage image, Color color)
+	@API public static BufferedImage dye(BufferedImage image, Color color)
 	{
 		BufferedImage graphicsImage = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_ARGB);
 
@@ -124,6 +139,45 @@ public final class ImageUtil
 		graphics2D.fillRect(0, 0, image.getWidth(), image.getHeight());
 
 		return graphicsImage;
+	}
+
+	@API public static void saturize(BufferedImage image, double saturation)
+	{
+		for(int x = 0; x < image.getWidth(); x++)
+			for(int y = 0; y < image.getHeight(); y++)
+				image.setRGB(x, y, processPixel(image.getRGB(x, y), (float) saturation));
+	}
+
+	private static int processPixel(int pixel, float saturation)
+	{
+		int red = 0xff&(pixel >> 16);
+		int green = 0xff&(pixel >> 8);
+		int blue = 0xff&pixel;
+
+		float[] hsb = Color.RGBtoHSB(red, green, blue, null);
+		hsb[1] += saturation;
+		if(hsb[1] > 1)
+			hsb[1] = 1;
+
+		int newPixel = Color.HSBtoRGB(hsb[0], hsb[1], hsb[2]);
+		int newRed = 0xff&(newPixel >> 16);
+		int newGreen = 0xff&(newPixel >> 8);
+		int newBlue = 0xff&newPixel;
+
+		if(newRed > 255)
+			newRed = 255;
+		if(newRed < 0)
+			newRed = 0;
+		if(newGreen > 255)
+			newGreen = 255;
+		if(newGreen < 0)
+			newGreen = 0;
+		if(newBlue > 255)
+			newBlue = 255;
+		if(newBlue < 0)
+			newBlue = 0;
+
+		return 0xff000000|(newRed<<16)|(newGreen<<8)|newBlue;
 	}
 
 }
