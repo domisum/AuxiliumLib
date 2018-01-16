@@ -1,6 +1,8 @@
 package de.domisum.lib.auxilium.util;
 
 import de.domisum.lib.auxilium.util.java.annotations.API;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
 import java.awt.AlphaComposite;
 import java.awt.Color;
@@ -12,19 +14,28 @@ import java.awt.image.RenderedImage;
 import java.awt.image.WritableRaster;
 
 @API
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class ImageUtil
 {
 
-	// INIT
-	private ImageUtil()
+	@API public static BufferedImage copy(RenderedImage bufferedImage)
 	{
-		throw new UnsupportedOperationException();
+		ColorModel colorModel = bufferedImage.getColorModel();
+		boolean isAlphaPremultiplied = colorModel.isAlphaPremultiplied();
+		WritableRaster raster = bufferedImage.copyData(null);
+
+		return new BufferedImage(colorModel, raster, isAlphaPremultiplied, null).getSubimage(0,
+				0,
+				bufferedImage.getWidth(),
+				bufferedImage.getHeight());
 	}
 
 
 	// TO PIXELS
 	@API public static int[][] getPixels(BufferedImage image)
 	{
+		// TODO clean up this mess
+
 		byte[] pixels = ((DataBufferByte) image.getRaster().getDataBuffer()).getData();
 		int width = image.getWidth();
 		int height = image.getHeight();
@@ -114,19 +125,6 @@ public final class ImageUtil
 	}
 
 
-	@API public static BufferedImage copy(RenderedImage bufferedImage)
-	{
-		ColorModel colorModel = bufferedImage.getColorModel();
-		boolean isAlphaPremultiplied = colorModel.isAlphaPremultiplied();
-		WritableRaster raster = bufferedImage.copyData(null);
-
-		return new BufferedImage(colorModel, raster, isAlphaPremultiplied, null).getSubimage(0,
-				0,
-				bufferedImage.getWidth(),
-				bufferedImage.getHeight());
-	}
-
-
 	// COLOR
 	@API public static BufferedImage dye(BufferedImage image, Color color)
 	{
@@ -145,10 +143,10 @@ public final class ImageUtil
 	{
 		for(int x = 0; x < image.getWidth(); x++)
 			for(int y = 0; y < image.getHeight(); y++)
-				image.setRGB(x, y, processPixel(image.getRGB(x, y), (float) saturation));
+				image.setRGB(x, y, saturizePixel(image.getRGB(x, y), (float) saturation));
 	}
 
-	private static int processPixel(int pixel, float saturation)
+	private static int saturizePixel(int pixel, float saturation)
 	{
 		int red = 0xff&(pixel >> 16);
 		int green = 0xff&(pixel >> 8);
@@ -159,25 +157,7 @@ public final class ImageUtil
 		if(hsb[1] > 1)
 			hsb[1] = 1;
 
-		int newPixel = Color.HSBtoRGB(hsb[0], hsb[1], hsb[2]);
-		int newRed = 0xff&(newPixel >> 16);
-		int newGreen = 0xff&(newPixel >> 8);
-		int newBlue = 0xff&newPixel;
-
-		if(newRed > 255)
-			newRed = 255;
-		if(newRed < 0)
-			newRed = 0;
-		if(newGreen > 255)
-			newGreen = 255;
-		if(newGreen < 0)
-			newGreen = 0;
-		if(newBlue > 255)
-			newBlue = 255;
-		if(newBlue < 0)
-			newBlue = 0;
-
-		return 0xff000000|(newRed<<16)|(newGreen<<8)|newBlue;
+		return Color.HSBtoRGB(hsb[0], hsb[1], hsb[2]);
 	}
 
 }
