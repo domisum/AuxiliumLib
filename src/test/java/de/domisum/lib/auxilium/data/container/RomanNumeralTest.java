@@ -46,6 +46,18 @@ public class RomanNumeralTest
 			Assertions.assertEquals((int) numeral.getA(), RomanNumeral.of(numeral.getB()).getNumber());
 	}
 
+	@Test public void testLowercaseParsing()
+	{
+		for(Pair<Integer, String> numeral : NUMERALS)
+			Assertions.assertEquals((int) numeral.getA(), RomanNumeral.of(numeral.getB().toLowerCase()).getNumber());
+	}
+
+	@Test public void testMixedCaseParsing()
+	{
+		Assertions.assertEquals(8, RomanNumeral.of("ViIi").getNumber());
+		Assertions.assertEquals(999, RomanNumeral.of("cmXcIX").getNumber());
+	}
+
 
 	// TEST: ERRORS
 	@Test public void testIllegalNumbers()
@@ -56,6 +68,7 @@ public class RomanNumeralTest
 		Assertions.assertThrows(IllegalArgumentException.class, ()->RomanNumeral.of(4000));
 		Assertions.assertThrows(IllegalArgumentException.class, ()->RomanNumeral.of(5009234));
 	}
+
 
 	@Test public void testTooBigNumerals()
 	{

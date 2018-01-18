@@ -30,7 +30,7 @@ public final class RomanNumeral
 
 	public static RomanNumeral of(String numeral)
 	{
-		int number = parse(numeral);
+		int number = parse(numeral.toUpperCase());
 		validateNumberInRange(number);
 
 		return new RomanNumeral(number, romanOf(number));
