@@ -68,22 +68,32 @@ public final class RomanNumeral
 
 		RomanToken lastToken = RomanToken.M;
 		while(!remaining.isEmpty())
-			for(RomanToken romanToken : RomanToken.values())
-				if(remaining.startsWith(romanToken.name()))
-				{
-					if(romanToken.value > lastToken.value)
-						throw new IllegalArgumentException(PHR.r("invalid order of tokens: {} ({} before {})",
-								roman,
-								lastToken,
-								romanToken));
+		{
+			RomanToken romanToken = getHighestValueToken(remaining);
+			if(romanToken == null)
+				throw new IllegalArgumentException("invalid characters in roman numeral: "+roman);
 
-					value += romanToken.value;
-					remaining = remaining.substring(romanToken.name().length());
-					lastToken = romanToken;
-					break;
-				}
+			if(romanToken.value > lastToken.value)
+				throw new IllegalArgumentException(PHR.r("invalid order of tokens: {} ({} before {})",
+						roman,
+						lastToken,
+						romanToken));
+
+			value += romanToken.value;
+			remaining = remaining.substring(romanToken.name().length());
+			lastToken = romanToken;
+		}
 
 		return value;
+	}
+
+	private static RomanToken getHighestValueToken(String remaining)
+	{
+		for(RomanToken romanToken : RomanToken.values())
+			if(remaining.startsWith(romanToken.name()))
+				return romanToken;
+
+		return null;
 	}
 
 

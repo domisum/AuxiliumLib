@@ -70,4 +70,10 @@ public class RomanNumeralTest
 		Assertions.assertThrows(IllegalArgumentException.class, ()->RomanNumeral.of("IM"));
 	}
 
+	@Test public void testInvalidCharactersInNumerals()
+	{
+		Assertions.assertThrows(IllegalArgumentException.class, ()->RomanNumeral.of("IXasdf"));
+		Assertions.assertThrows(IllegalArgumentException.class, ()->RomanNumeral.of("XIwow"));
+	}
+
 }
