@@ -52,10 +52,10 @@ public class MattpRequestEnvoy<T>
 	// SEND
 	@API public RequestResponse<T> send()
 	{
-		CloseableHttpClient httpClient = buildHttpClient();
 		HttpUriRequest apacheRequest = buildApacheRequest();
 
-		try(CloseableHttpResponse response = httpClient.execute(apacheRequest))
+		try(CloseableHttpClient httpClient = buildHttpClient();
+				CloseableHttpResponse response = httpClient.execute(apacheRequest))
 		{
 			return processResponse(response);
 		}
