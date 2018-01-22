@@ -1,13 +1,13 @@
 package de.domisum.lib.auxilium.contracts.strategy;
 
-import lombok.RequiredArgsConstructor;
+import de.domisum.lib.auxilium.util.java.annotations.API;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-@RequiredArgsConstructor
+@API
 public class StrategySelector<T, StrategyT extends Strategy<T>>
 {
 
@@ -17,15 +17,21 @@ public class StrategySelector<T, StrategyT extends Strategy<T>>
 
 
 	// INIT
-	public StrategySelector(List<StrategyT> strategies)
+	@API public StrategySelector(List<StrategyT> strategies)
 	{
-		fallbackStrategy = null;
 		this.strategies = Collections.unmodifiableList(strategies);
+		fallbackStrategy = null;
+	}
+
+	@API public StrategySelector(List<StrategyT> strategies, StrategyT fallbackStrategy)
+	{
+		this.strategies = Collections.unmodifiableList(strategies);
+		this.fallbackStrategy = fallbackStrategy;
 	}
 
 
 	// SELECT
-	public Optional<StrategyT> selectFirstApplicable(T strategizedObject)
+	@API public Optional<StrategyT> selectFirstApplicable(T strategizedObject)
 	{
 		for(StrategyT s : strategies)
 			if(s.doesApplyTo(strategizedObject))
@@ -34,7 +40,7 @@ public class StrategySelector<T, StrategyT extends Strategy<T>>
 		return Optional.ofNullable(fallbackStrategy);
 	}
 
-	public List<StrategyT> selectAllApplicableFor(T strategizedObject)
+	@API public List<StrategyT> selectAllApplicableFor(T strategizedObject)
 	{
 		List<StrategyT> applicable = new ArrayList<>();
 		for(StrategyT strategy : strategies)
