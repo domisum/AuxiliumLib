@@ -59,6 +59,19 @@ public final class RandomUtil
 		return r.nextBoolean();
 	}
 
+	@API public static byte[] nextBytes(int length)
+	{
+		return nextBytes(length, getRandom());
+	}
+
+	@API public static byte[] nextBytes(int length, Random r)
+	{
+		byte[] bytes = new byte[length];
+		r.nextBytes(bytes);
+
+		return bytes;
+	}
+
 
 	// number
 	@API public static double distribute(double base, double maxDifference)
