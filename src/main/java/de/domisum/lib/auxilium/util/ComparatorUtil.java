@@ -1,5 +1,6 @@
 package de.domisum.lib.auxilium.util;
 
+import de.domisum.lib.auxilium.util.java.annotations.API;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
@@ -9,7 +10,7 @@ import java.util.Comparator;
 public final class ComparatorUtil
 {
 
-	public static <T> Comparator<T> noOrder()
+	@API public static <T> Comparator<T> noOrder()
 	{
 		return (v, w)->0;
 	}
