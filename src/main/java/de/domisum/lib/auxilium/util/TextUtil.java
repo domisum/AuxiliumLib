@@ -12,23 +12,6 @@ import java.util.Objects;
 public final class TextUtil
 {
 
-	private static final int SECONDS_IN_MINUTE = 60;
-
-
-	// NUMBERS
-	@API public static String secondsToMinuteSeconds(int seconds)
-	{
-		boolean negative = seconds < 0;
-		int unsignedSeconds = negative ? -seconds : seconds;
-		int leftoverSeconds = unsignedSeconds%SECONDS_IN_MINUTE;
-
-		String sign = negative ? "-" : "";
-		int minutes = unsignedSeconds/SECONDS_IN_MINUTE;
-		String secondsWithoutMinutes = ((leftoverSeconds < 10) ? "0" : "")+leftoverSeconds;
-		return sign+minutes+":"+secondsWithoutMinutes;
-	}
-
-
 	// TO STRING
 	@API public static String getListAsString(List<?> list)
 	{
