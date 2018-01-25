@@ -79,9 +79,18 @@ public class SerializedIdentifyableStorage<T extends Identifyable> implements St
 			return Optional.empty();
 		}
 
+		T deserialized;
+		try
+		{
+			String fileContent = FileUtil.readString(file);
+			deserialized = serializer.deserialize(fileContent);
+		}
+		catch(RuntimeException e)
+		{
+			logger.error("An error occured while deserializing {}", file, e);
+			return Optional.empty();
+		}
 
-		String fileContent = FileUtil.readString(file);
-		T deserialized = serializer.deserialize(fileContent);
 		injectId(deserialized, FileUtil.getNameWithoutCompositeExtension(file));
 
 		return Optional.of(deserialized);
