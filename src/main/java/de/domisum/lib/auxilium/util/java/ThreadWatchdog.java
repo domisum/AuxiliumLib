@@ -114,7 +114,7 @@ public final class ThreadWatchdog
 		watchedThreadsOnTerminationActions.remove(thread);
 
 		for(Runnable runnable : threadOnTerminationActions)
-			runnable.run();
+			ThreadUtil.createAndStartThread(runnable, "shutdownAction-"+thread.getName());
 	}
 
 
