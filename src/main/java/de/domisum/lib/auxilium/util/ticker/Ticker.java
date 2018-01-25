@@ -1,6 +1,6 @@
 package de.domisum.lib.auxilium.util.ticker;
 
-import de.domisum.lib.auxilium.run.RunOrTimeOut;
+import de.domisum.lib.auxilium.run.RunNotifyOnTimeout;
 import de.domisum.lib.auxilium.util.java.ThreadUtil;
 import de.domisum.lib.auxilium.util.java.annotations.API;
 import lombok.AccessLevel;
@@ -111,7 +111,7 @@ public abstract class Ticker
 
 	private void tickWithTimeout()
 	{
-		new RunOrTimeOut(this::tickCaught, timeout).run();
+		new RunNotifyOnTimeout(this::tickCaught, timeout).run();
 	}
 
 	private void tickCaught()

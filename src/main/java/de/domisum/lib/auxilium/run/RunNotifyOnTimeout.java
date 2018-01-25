@@ -2,6 +2,7 @@ package de.domisum.lib.auxilium.run;
 
 import de.domisum.lib.auxilium.util.StringUtil;
 import de.domisum.lib.auxilium.util.java.ThreadUtil;
+import de.domisum.lib.auxilium.util.time.DurationUtil;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,7 +12,7 @@ import java.time.Instant;
 import java.util.Arrays;
 
 @RequiredArgsConstructor
-public class RunOrTimeOut implements Runnable
+public class RunNotifyOnTimeout implements Runnable
 {
 
 	private final Logger logger = LoggerFactory.getLogger(getClass());
@@ -27,21 +28,36 @@ public class RunOrTimeOut implements Runnable
 	// RUN
 	@Override public void run()
 	{
-		Instant startInstant = Instant.now();
-		Thread runThread = ThreadUtil.createAndStartThread(toRun, Thread.currentThread().getName()+"-TO");
+		Thread watchThread = ThreadUtil.createAndStartThread(()->watchThreadRun(Thread.currentThread()),
+				Thread.currentThread().getName()+"-TO");
 
-		while(runThread.isAlive())
+		try
+		{
+			toRun.run();
+		}
+		finally
+		{
+			watchThread.interrupt();
+		}
+	}
+
+	private void watchThreadRun(Thread threadToWatch)
+	{
+		Instant startInstant = Instant.now();
+
+		while(!Thread.currentThread().isInterrupted())
 		{
 			if(Duration.between(startInstant, Instant.now()).compareTo(timeout) > 0)
 			{
-				String stackTraceString = stackTraceElementsToString(runThread.getStackTrace());
-				logger.error("Run timed out, killing thread; current stacktrace: {}", "\n"+stackTraceString);
+				String stackTraceString = stackTraceElementsToString(threadToWatch.getStackTrace());
+				logger.error("Run timed out ({}); current stacktrace: {}",
+						DurationUtil.formatMMSS(timeout),
+						"\n"+stackTraceString);
 
-				ThreadUtil.stop(runThread);
 				break;
 			}
 
-			ThreadUtil.sleep(1);
+			ThreadUtil.sleep(10);
 		}
 	}
 
