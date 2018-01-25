@@ -165,14 +165,15 @@ public final class ImageUtil
 
 
 	// EFFECTS
-	@API public static BufferedImage sharpen(BufferedImage image, double sharpness)
+	@API public static void sharpen(BufferedImage image, double sharpness)
 	{
 		float f = (float) sharpness;
-
 		Kernel kernel = new Kernel(3, 3, new float[] {-1*f, -1*f, -1*f, -1*f, (8*f)+1, -1*f, -1*f, -1*f, -1*f});
-		BufferedImageOp convolveOp = new ConvolveOp(kernel);
 
-		return convolveOp.filter(image, null);
+		BufferedImageOp convolveOp = new ConvolveOp(kernel);
+		BufferedImage imageSharpened = convolveOp.filter(image, null);
+
+		image.createGraphics().drawImage(imageSharpened, 0, 0, null);
 	}
 
 }
