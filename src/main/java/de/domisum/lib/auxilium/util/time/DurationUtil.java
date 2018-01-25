@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.time.DurationFormatUtils;
 
 import java.time.Duration;
+import java.time.Instant;
+import java.time.temporal.Temporal;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class DurationUtil
@@ -21,6 +23,13 @@ public final class DurationUtil
 
 		String sign = duration.isNegative() ? "-" : "";
 		return sign+DurationFormatUtils.formatDuration(durationMs, "m:ss");
+	}
+
+
+	// NOW
+	@API public static Duration toNow(Temporal from)
+	{
+		return Duration.between(from, Instant.now());
 	}
 
 }
