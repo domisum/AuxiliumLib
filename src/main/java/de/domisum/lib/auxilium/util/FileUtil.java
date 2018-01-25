@@ -21,6 +21,7 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -298,6 +299,11 @@ public final class FileUtil
 	@API public static String unifyDelimiters(String path)
 	{
 		return path.replaceAll(StringUtil.escapeStringForRegex("\\"), "/");
+	}
+
+	@API public static Instant getLastModified(File file)
+	{
+		return Instant.ofEpochMilli(file.lastModified());
 	}
 
 
