@@ -14,6 +14,7 @@ import java.awt.image.ConvolveOp;
 import java.awt.image.DataBufferByte;
 import java.awt.image.Kernel;
 import java.awt.image.RenderedImage;
+import java.awt.image.RescaleOp;
 import java.awt.image.WritableRaster;
 
 @API
@@ -174,6 +175,11 @@ public final class ImageUtil
 		BufferedImage imageSharpened = convolveOp.filter(image, null);
 
 		image.createGraphics().drawImage(imageSharpened, 0, 0, null);
+	}
+
+	@API public static void contrast(BufferedImage image, double dContrast)
+	{
+		new RescaleOp((float) (1+dContrast), 0, null).filter(image, image);
 	}
 
 }
