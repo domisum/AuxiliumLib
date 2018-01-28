@@ -28,8 +28,8 @@ public class RunNotifyOnTimeout implements Runnable
 	// RUN
 	@Override public void run()
 	{
-		Thread watchThread = ThreadUtil.createAndStartThread(()->watchThreadRun(Thread.currentThread()),
-				Thread.currentThread().getName()+"-TO");
+		Thread threadToWatch = Thread.currentThread();
+		Thread watchThread = ThreadUtil.createAndStartThread(()->watchThreadRun(threadToWatch), threadToWatch.getName()+"-TO");
 
 		try
 		{
