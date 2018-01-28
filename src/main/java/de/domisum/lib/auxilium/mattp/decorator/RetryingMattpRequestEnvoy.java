@@ -5,7 +5,6 @@ import de.domisum.lib.auxilium.mattp.request.MattpRequest;
 import de.domisum.lib.auxilium.mattp.response.MattpResponseBodyReader;
 import de.domisum.lib.auxilium.mattp.response.RequestResponse;
 import de.domisum.lib.auxilium.util.java.annotations.API;
-import jdk.nashorn.internal.objects.annotations.Setter;
 import org.apache.commons.lang3.Validate;
 
 @API
@@ -30,7 +29,7 @@ public class RetryingMattpRequestEnvoy<T> extends MattpRequestEnvoy<T>
 
 
 	// SETTERS
-	@Setter public void setNumberOfTries(int numberOfTries)
+	public void setNumberOfTries(int numberOfTries)
 	{
 		Validate.isTrue(numberOfTries > 0, "numberOfTries has to be greater than 0, was "+numberOfTries);
 		this.numberOfTries = numberOfTries;
