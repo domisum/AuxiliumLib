@@ -125,6 +125,7 @@ public final class FileUtil
 
 		try
 		{
+			createParentDirectory(file);
 			ImageIO.write(image, getExtension(file), file);
 		}
 		catch(IOException e)
@@ -159,6 +160,11 @@ public final class FileUtil
 
 
 	// DIRECTORY
+	@API public static void createParentDirectory(File file)
+	{
+		file.getAbsoluteFile().getParentFile().mkdirs();
+	}
+
 	@API public static void deleteDirectory(File directory)
 	{
 		if(!directory.exists())
