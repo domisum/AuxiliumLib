@@ -18,6 +18,7 @@ import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.http.HttpEntityEnclosingRequest;
 import org.apache.http.HttpMessage;
 import org.apache.http.StatusLine;
+import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
@@ -35,11 +36,15 @@ import org.apache.http.impl.client.HttpClients;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.time.Duration;
 
 @API
 @RequiredArgsConstructor
 public class MattpRequestEnvoy<T>
 {
+
+	// CONSTANTS
+	private static final Duration TIMEOUT = Duration.ofSeconds(15);
 
 	// REQUEST
 	private final MattpRequest request;
@@ -102,6 +107,15 @@ public class MattpRequestEnvoy<T>
 	{
 		HttpClientBuilder clientBuilder = HttpClients.custom();
 		authProvider.provideAuthFor(clientBuilder);
+
+		RequestConfig config = RequestConfig
+				.custom()
+				.setConnectTimeout((int) TIMEOUT.toMillis())
+				.setConnectionRequestTimeout((int) TIMEOUT.toMillis())
+				.setSocketTimeout((int) TIMEOUT.toMillis())
+				.build();
+		clientBuilder.setDefaultRequestConfig(config);
+
 		return clientBuilder.build();
 	}
 
