@@ -35,17 +35,11 @@ import org.apache.http.impl.client.HttpClients;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.time.Duration;
-import java.util.Timer;
-import java.util.TimerTask;
 
 @API
 @RequiredArgsConstructor
 public class MattpRequestEnvoy<T>
 {
-
-	// CONSTANTS
-	private static final Duration TIMEOUT = Duration.ofSeconds(60);
 
 	// REQUEST
 	private final MattpRequest request;
@@ -60,29 +54,21 @@ public class MattpRequestEnvoy<T>
 	{
 		HttpUriRequest apacheRequest = buildApacheRequest();
 
-		startHardTimeoutTask(apacheRequest);
+		RequestTimeouter requestTimeouter = new RequestTimeouter(apacheRequest);
+		requestTimeouter.start();
 
 		try(CloseableHttpClient httpClient = buildHttpClient();
 				CloseableHttpResponse response = httpClient.execute(apacheRequest))
 		{
+			if(requestTimeouter.didTimeOut())
+				return new ConnectionError<>("Request aborted due to timeout");
+
 			return processResponse(response);
 		}
 		catch(IOException e)
 		{
 			return new ConnectionError<>(ExceptionUtils.getStackTrace(e));
 		}
-	}
-
-	private void startHardTimeoutTask(HttpUriRequest apacheRequest)
-	{
-		TimerTask abortTask = new TimerTask()
-		{
-			@Override public void run()
-			{
-				apacheRequest.abort();
-			}
-		};
-		new Timer(true).schedule(abortTask, TIMEOUT.toMillis());
 	}
 
 
