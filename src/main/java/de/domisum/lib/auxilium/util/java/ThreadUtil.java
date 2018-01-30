@@ -106,13 +106,6 @@ public final class ThreadUtil
 	}
 
 
-	@API public static void stop(Thread thread)
-	{
-		//noinspection deprecation
-		thread.stop();
-	}
-
-
 	@API public static void registerShutdownHook(Runnable shutdownHook)
 	{
 		registerShutdownHook(shutdownHook, "shutdownHook");
