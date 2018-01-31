@@ -60,13 +60,16 @@ public class MattpRequestEnvoy<T>
 		try(CloseableHttpClient httpClient = buildHttpClient();
 				CloseableHttpResponse response = httpClient.execute(apacheRequest))
 		{
-			if(requestTimeouter.didTimeOut())
+			if(requestTimeouter.didTimeOutAndEnd())
 				return new ConnectionError<>("Request aborted due to timeout");
 
 			return processResponse(response);
 		}
-		catch(IOException e)
+		catch(IOException|RuntimeException e)
 		{
+			if(requestTimeouter.didTimeOutAndEnd())
+				return new ConnectionError<>("Request aborted due to timeout");
+
 			return new ConnectionError<>(ExceptionUtils.getStackTrace(e));
 		}
 	}

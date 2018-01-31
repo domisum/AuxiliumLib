@@ -44,7 +44,7 @@ public class RequestTimeouter
 		timer.schedule(abortTask, TIMEOUT.toMillis());
 	}
 
-	public boolean didTimeOut()
+	public boolean didTimeOutAndEnd()
 	{
 		synchronized(lock)
 		{
