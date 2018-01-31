@@ -29,7 +29,7 @@ public class RetryingMattpRequestEnvoy<T> extends MattpRequestEnvoy<T>
 
 
 	// SETTERS
-	public void setNumberOfTries(int numberOfTries)
+	@API public void setNumberOfTries(int numberOfTries)
 	{
 		Validate.isTrue(numberOfTries > 0, "numberOfTries has to be greater than 0, was "+numberOfTries);
 		this.numberOfTries = numberOfTries;
