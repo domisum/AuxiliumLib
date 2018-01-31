@@ -26,9 +26,9 @@ public class IntervalTaskTicker extends Ticker
 		super(TICK_INTERVAL, threadName);
 	}
 
-	@API public void addTask(Runnable task, Duration interval)
+	@API public void addTask(String taskName, Runnable task, Duration interval)
 	{
-		IntervalTask intervalTask = new IntervalTask(task, interval);
+		IntervalTask intervalTask = new IntervalTask(taskName, task, interval);
 		tasks.add(intervalTask);
 	}
 
@@ -50,7 +50,7 @@ public class IntervalTaskTicker extends Ticker
 			}
 			catch(RuntimeException e)
 			{
-				logger.error("error occured during execution of task {}", task.getClass().getName(), e);
+				logger.error("error occured during execution of task {}", task.taskName, e);
 			}
 		}
 	}
@@ -61,6 +61,7 @@ public class IntervalTaskTicker extends Ticker
 	private static class IntervalTask
 	{
 
+		@NonNull private String taskName;
 		@NonNull private Runnable task;
 		@NonNull private Duration interval;
 
