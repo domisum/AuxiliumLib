@@ -7,6 +7,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.time.Duration;
+import java.util.Optional;
+import java.util.function.Supplier;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class ThreadUtil
@@ -127,6 +129,20 @@ public final class ThreadUtil
 
 			LOGGER.error("uncaught exception in thread {}", t, e);
 		});
+	}
+
+
+	@API public static <T> Optional<T> runCaught(Supplier<T> fetch, String errorMessage)
+	{
+		try
+		{
+			return Optional.ofNullable(fetch.get());
+		}
+		catch(RuntimeException e)
+		{
+			LOGGER.warn("{} ({}: {})", errorMessage, e.getClass().getSimpleName(), e.getMessage());
+			return Optional.empty();
+		}
 	}
 
 }
