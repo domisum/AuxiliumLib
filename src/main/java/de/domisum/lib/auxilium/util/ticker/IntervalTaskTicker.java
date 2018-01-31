@@ -36,13 +36,22 @@ public class IntervalTaskTicker extends Ticker
 	// TICK
 	@Override protected final void tick()
 	{
-		for(IntervalTask t : tasks)
+		for(IntervalTask task : tasks)
 		{
 			if(Thread.currentThread().isInterrupted())
 				return;
 
-			if(t.shouldRunNow())
-				t.run();
+			if(!task.shouldRunNow())
+				continue;
+
+			try
+			{
+				task.run();
+			}
+			catch(RuntimeException e)
+			{
+				logger.error("error occured during execution of task {}", task.getClass().getName(), e);
+			}
 		}
 	}
 

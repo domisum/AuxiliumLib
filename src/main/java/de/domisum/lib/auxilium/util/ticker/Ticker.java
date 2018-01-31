@@ -16,11 +16,11 @@ import java.util.Objects;
 public abstract class Ticker
 {
 
-	private final Logger logger = LoggerFactory.getLogger(getClass());
+	protected final Logger logger = LoggerFactory.getLogger(getClass());
+
 
 	// CONSTANTS
 	private static final Duration TIMEOUT_DEFAULT = Duration.ofMinutes(10);
-
 
 	// SETTINGS
 	private final Duration tickInterval;
