@@ -1,5 +1,6 @@
 package de.domisum.lib.auxilium.util.math;
 
+import de.domisum.lib.auxilium.util.PHR;
 import de.domisum.lib.auxilium.util.java.annotations.API;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -33,6 +34,20 @@ public final class MathUtil
 	@API public static double clampAbs(double number, double maximumAbs)
 	{
 		return ((number < 0) ? -1 : 1)*Math.min(Math.abs(number), maximumAbs);
+	}
+
+	@API public static double clamp(double min, double max, double value)
+	{
+		if(min > max)
+			throw new IllegalArgumentException(PHR.r("min ({}) was bigger than max ({})", min, max));
+
+		if(value < min)
+			return min;
+
+		if(value > max)
+			return max;
+
+		return value;
 	}
 
 

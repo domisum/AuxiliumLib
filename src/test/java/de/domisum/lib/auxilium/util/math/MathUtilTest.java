@@ -54,4 +54,24 @@ public class MathUtilTest
 		Assertions.assertEquals(-7.5d, MathUtil.round(-7.46d, 1));
 	}
 
+
+	@Test public void testClamp()
+	{
+		Assertions.assertEquals(0.5, MathUtil.clamp(0, 1, 0.5));
+
+		// too small
+		Assertions.assertEquals(0, MathUtil.clamp(0, 1, -0.5));
+		Assertions.assertEquals(381.7, MathUtil.clamp(381.7, 381.88, 5));
+
+		// too big
+		Assertions.assertEquals(-150, MathUtil.clamp(-200, -150, 5));
+		Assertions.assertEquals(1, MathUtil.clamp(0, 1, 5));
+		Assertions.assertEquals(381.88, MathUtil.clamp(381.7, 381.88, 500));
+	}
+
+	@Test void testClampError()
+	{
+		Assertions.assertThrows(IllegalArgumentException.class, ()->MathUtil.clamp(2, 1, 0));
+	}
+
 }
