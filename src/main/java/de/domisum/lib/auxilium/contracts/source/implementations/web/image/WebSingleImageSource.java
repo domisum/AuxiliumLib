@@ -1,6 +1,6 @@
-package de.domisum.lib.auxilium.contracts.source.specific;
+package de.domisum.lib.auxilium.contracts.source.implementations.web.image;
 
-import de.domisum.lib.auxilium.contracts.source.implementations.WebSingleItemSource;
+import de.domisum.lib.auxilium.contracts.source.implementations.web.WebSingleItemSource;
 import de.domisum.lib.auxilium.data.container.AbstractURL;
 import de.domisum.lib.auxilium.mattp.util.MattpGetUtil;
 

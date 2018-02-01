@@ -1,4 +1,4 @@
-package de.domisum.lib.auxilium.contracts.source.implementations;
+package de.domisum.lib.auxilium.contracts.source.implementations.web;
 
 import de.domisum.lib.auxilium.contracts.source.SingleItemSource;
 import de.domisum.lib.auxilium.data.container.AbstractURL;

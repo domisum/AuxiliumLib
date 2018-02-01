@@ -1,5 +1,6 @@
-package de.domisum.lib.auxilium.contracts.source;
+package de.domisum.lib.auxilium.contracts.source.implementations;
 
+import de.domisum.lib.auxilium.contracts.source.FiniteSource;
 import de.domisum.lib.auxilium.contracts.storage.Keyable;
 import de.domisum.lib.auxilium.contracts.storage.Storage;
 import de.domisum.lib.auxilium.util.java.annotations.API;
