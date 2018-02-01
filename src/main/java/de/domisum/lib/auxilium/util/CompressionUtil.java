@@ -78,14 +78,14 @@ public final class CompressionUtil
 
 	public enum Speed
 	{
-		// @formatter:off
+
 		@API FAST(Deflater.BEST_SPEED),
 		@API BALANCED((Deflater.BEST_COMPRESSION+Deflater.BEST_SPEED)/2),
 		@API QUALITY(Deflater.BEST_COMPRESSION);
-		// @formatter:on
 
 
 		private final int deflaterLevel;
+
 
 		// INIT
 		Speed(int deflaterLevel)
