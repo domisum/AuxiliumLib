@@ -155,13 +155,16 @@ public final class ImageUtil
 		int red = 0xff&(pixel >> 16);
 		int green = 0xff&(pixel >> 8);
 		int blue = 0xff&pixel;
+		int alpha = 0xff&(pixel >> 24);
 
 		float[] hsb = Color.RGBtoHSB(red, green, blue, null);
 		hsb[1] += saturation;
 		if(hsb[1] > 1)
 			hsb[1] = 1;
 
-		return Color.HSBtoRGB(hsb[0], hsb[1], hsb[2]);
+		int rgb = Color.HSBtoRGB(hsb[0], hsb[1], hsb[2]);
+		int argb = rgb|(alpha<<24);
+		return argb;
 	}
 
 
