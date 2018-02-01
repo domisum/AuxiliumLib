@@ -1,6 +1,7 @@
 package de.domisum.lib.auxilium.util;
 
 import de.domisum.lib.auxilium.util.java.annotations.API;
+import de.domisum.lib.auxilium.util.math.MathUtil;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
@@ -14,7 +15,6 @@ import java.awt.image.ConvolveOp;
 import java.awt.image.DataBufferByte;
 import java.awt.image.Kernel;
 import java.awt.image.RenderedImage;
-import java.awt.image.RescaleOp;
 import java.awt.image.WritableRaster;
 
 @API
@@ -177,9 +177,37 @@ public final class ImageUtil
 		image.createGraphics().drawImage(imageSharpened, 0, 0, null);
 	}
 
-	@API public static void contrast(BufferedImage image, double dContrast)
+	@API public static void contrastAndBrightness(BufferedImage image, double dContrast, double dBrightness)
 	{
-		new RescaleOp((float) (1+dContrast), 0, null).filter(image, image);
+		for(int x = 0; x < image.getWidth(); x++)
+			for(int y = 0; y < image.getHeight(); y++)
+				image.setRGB(x, y, contrastAndBrightnessPixel(image.getRGB(x, y), dContrast, dBrightness));
+	}
+
+
+	private static int contrastAndBrightnessPixel(int pixel, double dContrast, double dBrightness)
+	{
+		int red = 0xff&(pixel >> 16);
+		int green = 0xff&(pixel >> 8);
+		int blue = 0xff&pixel;
+		int alpha = 0xff&(pixel >> 24);
+
+		int modifiedRed = contrastAndBrightnessChannel(red, dContrast, dBrightness);
+		int modifiedGreen = contrastAndBrightnessChannel(green, dContrast, dBrightness);
+		int modifiedBlue = contrastAndBrightnessChannel(blue, dContrast, dBrightness);
+
+		int modifiedRGB = modifiedBlue|(modifiedGreen<<8)|(modifiedRed<<16)|(alpha<<24);
+		return modifiedRGB;
+	}
+
+	private static int contrastAndBrightnessChannel(int baseValue, double dContrast, double dBrightness)
+	{
+		double channelRelative = baseValue/255d;
+		double newChannelRelative = (channelRelative*(1+dContrast))+dBrightness;
+		double newChannelRelativeClamped = MathUtil.clamp(0, 1, newChannelRelative);
+
+		int newChannel = (int) Math.round(newChannelRelativeClamped*255d);
+		return newChannel;
 	}
 
 }
