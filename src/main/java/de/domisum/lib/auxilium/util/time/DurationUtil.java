@@ -25,6 +25,11 @@ public final class DurationUtil
 		return sign+DurationFormatUtils.formatDuration(durationMs, "m:ss");
 	}
 
+	@API public static String formatHHMM(Duration duration)
+	{
+		return formatMMSS(duration.dividedBy(60));
+	}
+
 
 	// NOW
 	@API public static Duration toNow(Temporal from)
