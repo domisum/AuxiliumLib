@@ -31,14 +31,14 @@ public class SerializedKeyableInDirectoryStorage<KeyT, T extends Keyable<KeyT>> 
 	// SOURCE
 	@Override public Collection<T> fetchAll()
 	{
-		Collection<T> items = new ArrayList<>();
-
 		Collection<File> files = FileUtil.listFilesRecursively(directory, FileType.FILE);
+
+		Collection<File> validFiles = new ArrayList<>();
 		for(File file : files)
 			if(isFileExtensionValid(file))
-				items.add(readFromFile(file));
+				validFiles.add(file);
 
-		return items;
+		return loadFromFiles(validFiles);
 	}
 
 	private boolean isFileExtensionValid(File file)
@@ -51,6 +51,18 @@ public class SerializedKeyableInDirectoryStorage<KeyT, T extends Keyable<KeyT>> 
 
 		return isValid;
 	}
+
+	@API protected Collection<T> loadFromFiles(Collection<File> files)
+	{
+		Collection<T> items = new ArrayList<>();
+
+		for(File file : files)
+			if(isFileExtensionValid(file))
+				items.add(readFromFile(file));
+
+		return items;
+	}
+
 
 	@Override public boolean contains(KeyT key)
 	{
@@ -88,7 +100,7 @@ public class SerializedKeyableInDirectoryStorage<KeyT, T extends Keyable<KeyT>> 
 
 
 	// FILE
-	private T readFromFile(File file)
+	@API protected T readFromFile(File file)
 	{
 		String serialized = FileUtil.readString(file);
 		return serializer.deserialize(serialized);
