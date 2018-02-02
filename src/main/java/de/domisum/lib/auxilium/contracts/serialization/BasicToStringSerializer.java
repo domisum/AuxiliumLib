@@ -16,7 +16,7 @@ public class BasicToStringSerializer<T> implements ToStringSerializer<T>
 	// SERIALIZE
 	@Override public String serialize(T object)
 	{
-		return GsonUtil.get().toJson(object);
+		return GsonUtil.getPretty().toJson(object);
 	}
 
 	@Override public T deserialize(String projectString)
