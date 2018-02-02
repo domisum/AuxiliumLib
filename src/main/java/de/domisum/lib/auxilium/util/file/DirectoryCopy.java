@@ -57,11 +57,11 @@ public final class DirectoryCopy
 		validateCopyDirectories(sourceRoot, targetRootDirectory);
 		targetRoot.mkdirs();
 
-		for(File f : FileUtil.listFiles(sourceRoot, FileType.FILE))
+		for(File f : FileUtil.listFilesFlat(sourceRoot, FileType.FILE))
 			if(shouldCopyFile(f))
 				FileUtil.copyFile(f, new File(targetRoot, f.getName()));
 
-		for(File f : FileUtil.listFiles(sourceRoot, FileType.DIRECTORY))
+		for(File f : FileUtil.listFilesFlat(sourceRoot, FileType.DIRECTORY))
 			if(shouldCopyFile(f))
 				copyDirectoryRecursively(f, new File(targetRoot, f.getName()));
 	}

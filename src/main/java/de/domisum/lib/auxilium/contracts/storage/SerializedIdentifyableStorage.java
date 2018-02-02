@@ -43,7 +43,7 @@ public class SerializedIdentifyableStorage<T extends Identifyable> implements St
 
 	@Override public Collection<T> fetchAll()
 	{
-		Collection<File> files = FileUtil.listFiles(directory, FileType.FILE);
+		Collection<File> files = FileUtil.listFilesFlat(directory, FileType.FILE);
 
 		List<T> storageItems = new ArrayList<>();
 		for(File f : files)

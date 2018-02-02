@@ -24,6 +24,7 @@ import java.nio.file.StandardCopyOption;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 
 @API
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
@@ -181,10 +182,10 @@ public final class FileUtil
 			return;
 		validateIsNotFile(directory);
 
-		for(File file : listFiles(directory, FileType.FILE))
+		for(File file : listFilesFlat(directory, FileType.FILE))
 			deleteFile(file);
 
-		for(File dir : listFiles(directory, FileType.DIRECTORY))
+		for(File dir : listFilesFlat(directory, FileType.DIRECTORY))
 			deleteDirectory(dir);
 	}
 
@@ -195,16 +196,33 @@ public final class FileUtil
 	}
 
 
-	@API public static Collection<File> listFiles(File directory, FileType fileType)
+	@API public static Collection<File> listFilesFlat(File directory, FileType fileType)
+	{
+		return listFiles(directory, fileType, false);
+	}
+
+	@API public static Collection<File> listFilesRecursively(File directory, FileType fileType)
+	{
+		return listFiles(directory, fileType, true);
+	}
+
+	private static Collection<File> listFiles(File directory, FileType fileType, boolean recursive)
 	{
 		validateIsNotFile(directory);
-		Collection<File> directoryContents = new ArrayList<>();
 
 		File[] files = directory.listFiles();
-		if(files != null)
-			for(File f : files)
-				if(fileType.isOfType(f))
-					directoryContents.add(f);
+		if(files == null)
+			return Collections.emptyList();
+
+		Collection<File> directoryContents = new ArrayList<>();
+		for(File f : files)
+		{
+			if(fileType.isOfType(f))
+				directoryContents.add(f);
+
+			if(recursive && f.isDirectory())
+				directoryContents.addAll(listFilesRecursively(f, fileType));
+		}
 
 		return directoryContents;
 	}
