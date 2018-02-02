@@ -14,7 +14,7 @@ public final class DurationUtil
 {
 
 	// FORMAT
-	@API public static String formatMMSS(Duration duration)
+	@API public static String formatMSS(Duration duration)
 	{
 		long durationMs = duration.toMillis();
 
@@ -25,9 +25,9 @@ public final class DurationUtil
 		return sign+DurationFormatUtils.formatDuration(durationMs, "m:ss");
 	}
 
-	@API public static String formatHHMM(Duration duration)
+	@API public static String formatHMM(Duration duration)
 	{
-		return formatMMSS(duration.dividedBy(60));
+		return formatMSS(duration.dividedBy(60));
 	}
 
 

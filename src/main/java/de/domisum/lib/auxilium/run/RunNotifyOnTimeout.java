@@ -50,8 +50,7 @@ public class RunNotifyOnTimeout implements Runnable
 			if(Duration.between(startInstant, Instant.now()).compareTo(timeout) > 0)
 			{
 				String stackTraceString = stackTraceElementsToString(threadToWatch.getStackTrace());
-				logger.error("Run timed out ({}); current stacktrace: {}",
-						DurationUtil.formatMMSS(timeout),
+				logger.error("Run timed out ({}); current stacktrace: {}", DurationUtil.formatMSS(timeout),
 						"\n"+stackTraceString);
 
 				break;
