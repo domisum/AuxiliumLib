@@ -1,0 +1,109 @@
+package de.domisum.lib.auxilium.contracts.storage;
+
+import de.domisum.lib.auxilium.contracts.serialization.ToStringSerializer;
+import de.domisum.lib.auxilium.util.FileUtil;
+import de.domisum.lib.auxilium.util.FileUtil.FileType;
+import de.domisum.lib.auxilium.util.java.annotations.API;
+import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Objects;
+import java.util.Optional;
+
+@API
+@RequiredArgsConstructor
+public class SerializedKeyableInDirectoryStorage<KeyT, T extends Keyable<KeyT>> implements Storage<KeyT, T>
+{
+
+	private final Logger logger = LoggerFactory.getLogger(getClass());
+
+
+	// SETTINGS
+	private final File directory;
+	private final String fileExtension;
+	private final ToStringSerializer<T> serializer;
+
+
+	// SOURCE
+	@Override public Collection<T> fetchAll()
+	{
+		Collection<T> items = new ArrayList<>();
+
+		Collection<File> files = FileUtil.listFilesRecursively(directory, FileType.FILE);
+		for(File file : files)
+			if(isFileExtensionValid(file))
+				items.add(readFromFile(file));
+
+		return items;
+	}
+
+	private boolean isFileExtensionValid(File file)
+	{
+		String extension = FileUtil.getCompositeExtension(file);
+		boolean isValid = Objects.equals(fileExtension, extension);
+
+		if(!isValid)
+			logger.warn("Storage directory contains file with invalid extension ({}), skipping: {}", extension, file.getName());
+
+		return isValid;
+	}
+
+	@Override public boolean contains(KeyT key)
+	{
+		File file = getFileFor(key);
+		return isFileValid(file);
+	}
+
+	@Override public Optional<T> fetch(KeyT key)
+	{
+		File file = getFileFor(key);
+		if(!isFileValid(file))
+			return Optional.empty();
+
+		return Optional.of(readFromFile(file));
+	}
+
+
+	// STORAGE
+	@Override public void store(T item)
+	{
+		String serialized = serializer.serialize(item);
+
+		File file = getFileFor(item.getKey());
+		FileUtil.writeString(file, serialized);
+	}
+
+	@Override public void remove(KeyT key)
+	{
+		File file = getFileFor(key);
+		if(!isFileValid(file))
+			return;
+
+		FileUtil.deleteFile(file);
+	}
+
+
+	// FILE
+	private T readFromFile(File file)
+	{
+		String serialized = FileUtil.readString(file);
+		return serializer.deserialize(serialized);
+	}
+
+
+	private boolean isFileValid(File file)
+	{
+		return file.exists() && file.isFile();
+	}
+
+	private File getFileFor(KeyT key)
+	{
+		String fileName = key.toString()+fileExtension;
+		return new File(directory, fileName);
+	}
+
+}
