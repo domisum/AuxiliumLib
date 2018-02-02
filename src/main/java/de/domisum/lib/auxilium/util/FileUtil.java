@@ -67,6 +67,7 @@ public final class FileUtil
 	{
 		try
 		{
+			createParentDirectory(file);
 			FileUtils.writeStringToFile(file, toWrite, encoding);
 		}
 		catch(IOException e)
@@ -93,6 +94,7 @@ public final class FileUtil
 	{
 		try
 		{
+			createParentDirectory(file);
 			Files.write(file.toPath(), toWrite);
 		}
 		catch(ClosedByInterruptException ignored)
