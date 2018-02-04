@@ -219,7 +219,7 @@ public final class FileUtil
 		{
 			System.out.println("in list before iteration");
 
-			Streams.stream(stream).parallel().map(Path::toFile).forEach(f->
+			Streams.stream(stream).map(Path::toFile).forEach(f->
 			{
 				if(fileType.isOfType(f))
 					directoryContents.add(f);
