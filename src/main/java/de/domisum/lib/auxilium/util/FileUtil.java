@@ -217,8 +217,6 @@ public final class FileUtil
 		Collection<File> directoryContents = new ConcurrentLinkedQueue<>();
 		try(Stream<Path> stream = Files.list(directory.toPath()))
 		{
-			System.out.println("in list before iteration");
-
 			stream.parallel().map(Path::toFile).forEach(f->
 			{
 				if(fileType.isOfType(f))

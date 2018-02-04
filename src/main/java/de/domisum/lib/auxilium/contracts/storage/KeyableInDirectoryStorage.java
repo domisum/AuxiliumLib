@@ -32,14 +32,11 @@ public class KeyableInDirectoryStorage<KeyT, T extends Keyable<KeyT>> implements
 	@Override public Collection<T> fetchAll()
 	{
 		Collection<File> files = FileUtil.listFilesRecursively(directory, FileType.FILE);
-		logger.info("after first list");
 
 		Collection<File> validFiles = new ArrayList<>();
 		for(File file : files)
 			if(isFileExtensionValid(file))
 				validFiles.add(file);
-
-		logger.info("after valid check");
 
 		return readFromFiles(validFiles);
 	}
