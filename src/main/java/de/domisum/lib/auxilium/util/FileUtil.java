@@ -24,7 +24,6 @@ import java.nio.file.StandardCopyOption;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 
 @API
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
@@ -212,18 +211,23 @@ public final class FileUtil
 	{
 		validateIsNotFile(directory);
 
-		File[] files = directory.listFiles();
-		if(files == null)
-			return Collections.emptyList();
-
 		Collection<File> directoryContents = new ArrayList<>();
-		for(File f : files)
+		try
 		{
-			if(fileType.isOfType(f))
-				directoryContents.add(f);
+			Files.newDirectoryStream(directory.toPath()).forEach(p->
+			{
+				File f = p.toFile();
 
-			if(recursive && f.isDirectory())
-				directoryContents.addAll(listFilesRecursively(f, fileType));
+				if(fileType.isOfType(f))
+					directoryContents.add(f);
+
+				if(recursive && f.isDirectory())
+					directoryContents.addAll(listFilesRecursively(f, fileType));
+			});
+		}
+		catch(IOException e)
+		{
+			throw new UncheckedIOException(e);
 		}
 
 		return directoryContents;
