@@ -16,7 +16,7 @@ import java.util.Optional;
 
 @API
 @RequiredArgsConstructor
-public class SerializedKeyableInDirectoryStorage<KeyT, T extends Keyable<KeyT>> implements Storage<KeyT, T>
+public class KeyableInDirectoryStorage<KeyT, T extends Keyable<KeyT>> implements Storage<KeyT, T>
 {
 
 	private final Logger logger = LoggerFactory.getLogger(getClass());
