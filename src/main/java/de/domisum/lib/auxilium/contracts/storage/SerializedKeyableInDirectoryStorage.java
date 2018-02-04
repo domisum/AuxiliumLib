@@ -38,7 +38,7 @@ public class SerializedKeyableInDirectoryStorage<KeyT, T extends Keyable<KeyT>> 
 			if(isFileExtensionValid(file))
 				validFiles.add(file);
 
-		return loadFromFiles(validFiles);
+		return readFromFiles(validFiles);
 	}
 
 	private boolean isFileExtensionValid(File file)
@@ -52,13 +52,12 @@ public class SerializedKeyableInDirectoryStorage<KeyT, T extends Keyable<KeyT>> 
 		return isValid;
 	}
 
-	@API protected Collection<T> loadFromFiles(Collection<File> files)
+	@API protected Collection<T> readFromFiles(Collection<File> files)
 	{
 		Collection<T> items = new ArrayList<>();
 
 		for(File file : files)
-			if(isFileExtensionValid(file))
-				items.add(readFromFile(file));
+			items.add(readFromFile(file));
 
 		return items;
 	}
