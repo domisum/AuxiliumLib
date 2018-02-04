@@ -1,5 +1,6 @@
 package de.domisum.lib.auxilium.util;
 
+import com.google.common.collect.Streams;
 import de.domisum.lib.auxilium.util.file.DirectoryCopy;
 import de.domisum.lib.auxilium.util.file.FileFilter;
 import de.domisum.lib.auxilium.util.java.ThreadUtil;
@@ -19,7 +20,9 @@ import java.io.UncheckedIOException;
 import java.nio.channels.ClosedByInterruptException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -212,12 +215,12 @@ public final class FileUtil
 		validateIsNotFile(directory);
 
 		Collection<File> directoryContents = new ArrayList<>();
-		try
+		try(DirectoryStream<Path> stream = Files.newDirectoryStream(directory.toPath()))
 		{
-			Files.newDirectoryStream(directory.toPath()).forEach(p->
-			{
-				File f = p.toFile();
+			System.out.println("in list before iteration");
 
+			Streams.stream(stream).parallel().map(Path::toFile).forEach(f->
+			{
 				if(fileType.isOfType(f))
 					directoryContents.add(f);
 

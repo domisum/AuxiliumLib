@@ -31,7 +31,7 @@ public class KeyableInDirectoryStorage<KeyT, T extends Keyable<KeyT>> implements
 	// SOURCE
 	@Override public Collection<T> fetchAll()
 	{
-		Collection<File> files = FileUtil.listFilesFlat(directory, FileType.FILE);
+		Collection<File> files = FileUtil.listFilesRecursively(directory, FileType.FILE);
 		logger.info("after first list");
 
 		Collection<File> validFiles = new ArrayList<>();
