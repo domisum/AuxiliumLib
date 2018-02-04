@@ -1,6 +1,5 @@
 package de.domisum.lib.auxilium.util;
 
-import com.google.common.collect.Streams;
 import de.domisum.lib.auxilium.util.file.DirectoryCopy;
 import de.domisum.lib.auxilium.util.file.FileFilter;
 import de.domisum.lib.auxilium.util.java.ThreadUtil;
@@ -20,13 +19,14 @@ import java.io.UncheckedIOException;
 import java.nio.channels.ClosedByInterruptException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.stream.Stream;
 
 @API
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
@@ -214,12 +214,12 @@ public final class FileUtil
 	{
 		validateIsNotFile(directory);
 
-		Collection<File> directoryContents = new ArrayList<>();
-		try(DirectoryStream<Path> stream = Files.newDirectoryStream(directory.toPath()))
+		Collection<File> directoryContents = new ConcurrentLinkedQueue<>();
+		try(Stream<Path> stream = Files.list(directory.toPath()))
 		{
 			System.out.println("in list before iteration");
 
-			Streams.stream(stream).map(Path::toFile).forEach(f->
+			stream.parallel().map(Path::toFile).forEach(f->
 			{
 				if(fileType.isOfType(f))
 					directoryContents.add(f);
