@@ -25,6 +25,7 @@ import java.nio.file.StandardCopyOption;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.stream.Stream;
 
@@ -213,6 +214,8 @@ public final class FileUtil
 	private static Collection<File> listFiles(File directory, FileType fileType, boolean recursive)
 	{
 		validateIsNotFile(directory);
+		if(!directory.exists())
+			return Collections.emptySet();
 
 		Collection<File> directoryContents = new ConcurrentLinkedQueue<>();
 		try(Stream<Path> stream = Files.list(directory.toPath()))
