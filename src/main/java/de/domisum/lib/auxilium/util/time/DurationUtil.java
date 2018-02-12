@@ -13,6 +13,8 @@ import java.time.temporal.Temporal;
 public final class DurationUtil
 {
 
+	// TODO introduce unified, unambiguous format for duration to string
+
 	// FORMAT
 	@API public static String formatMSS(Duration duration)
 	{
