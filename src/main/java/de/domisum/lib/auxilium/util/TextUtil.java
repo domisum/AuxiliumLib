@@ -41,11 +41,8 @@ public final class TextUtil
 		return withoutUmlauts;
 	}
 
-	@API public static String getGenitive(String of)
+	@API public static String getGenitiveSingular(String of)
 	{
-		if(of.endsWith("s") || of.endsWith("x"))
-			return of+"'";
-
 		return of+"'s";
 	}
 
