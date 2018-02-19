@@ -27,9 +27,27 @@ public final class DurationUtil
 		return sign+DurationFormatUtils.formatDuration(durationMs, "m:ss");
 	}
 
-	@API public static String formatHMM(Duration duration)
+	@API public static String format(Duration duration)
 	{
-		return formatMSS(duration.dividedBy(60));
+		if(duration.isNegative())
+			return "-"+format(duration.abs());
+
+		String format = "s's'";
+
+		if(duration.compareTo(Duration.ofMinutes(1)) >= 0)
+			format = "m'm':"+format;
+
+		if(duration.compareTo(Duration.ofHours(1)) >= 0)
+			format = "H'h':"+format;
+
+
+		String string = DurationFormatUtils.formatDuration(duration.toMillis(), format);
+
+		// done like this because "S" gives leading zeroes, don't want that
+		if((duration.toMillis()%1000) != 0)
+			string += ":"+(duration.toMillis()%1000)+"ms";
+
+		return string;
 	}
 
 
