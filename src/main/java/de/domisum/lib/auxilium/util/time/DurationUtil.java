@@ -13,10 +13,12 @@ import java.time.temporal.Temporal;
 public final class DurationUtil
 {
 
+	// FORMAT
 	@API public static String format(Duration duration)
 	{
 		if(duration.isNegative())
 			return "-"+format(duration.abs());
+
 
 		String format = "s's'";
 
@@ -30,10 +32,18 @@ public final class DurationUtil
 		String string = DurationFormatUtils.formatDuration(duration.toMillis(), format);
 
 		// done like this because "S" gives leading zeroes, don't want that
-		if((duration.toMillis()%1000) != 0)
+		if(shouldDisplayMillis(duration))
 			string += ":"+(duration.toMillis()%1000)+"ms";
 
 		return string;
+	}
+
+	private static boolean shouldDisplayMillis(Duration duration)
+	{
+		boolean containsMillis = (duration.toMillis()%1000) != 0;
+		boolean isSmallEnough = duration.compareTo(Duration.ofSeconds(10)) < 0;
+
+		return containsMillis && isSmallEnough;
 	}
 
 
