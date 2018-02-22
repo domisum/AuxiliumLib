@@ -102,7 +102,11 @@ public class KeyableInDirectoryStorage<KeyT, T extends Keyable<KeyT>> implements
 	@API protected T readFromFile(File file)
 	{
 		String serialized = FileUtil.readString(file);
-		return serializer.deserialize(serialized);
+		T deserialized = serializer.deserialize(serialized);
+		if(deserialized == null)
+			throw new IllegalStateException("deserializer returned null for content of file: "+file);
+
+		return deserialized;
 	}
 
 
