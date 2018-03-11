@@ -34,7 +34,7 @@ public final class LazyKeyCache<KeyT, T>
 
 
 	// CACHE
-	public void store(KeyT key, T value)
+	public void put(KeyT key, T value)
 	{
 		removeExpiredEntries();
 
