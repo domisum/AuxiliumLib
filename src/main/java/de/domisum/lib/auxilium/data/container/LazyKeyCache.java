@@ -14,7 +14,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @API
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
-public final class KeyCache<KeyT, T>
+public final class LazyKeyCache<KeyT, T>
 {
 
 	private final Duration expirationDuration;
@@ -22,14 +22,14 @@ public final class KeyCache<KeyT, T>
 
 
 	// INIT
-	@API public static <KeyT, T> KeyCache<KeyT, T> neverExpiresUnused()
+	@API public static <KeyT, T> LazyKeyCache<KeyT, T> neverExpiresUnused()
 	{
 		return unusedExpiresAfter(Duration.ofSeconds(Long.MAX_VALUE));
 	}
 
-	@API public static <KeyT, T> KeyCache<KeyT, T> unusedExpiresAfter(Duration expirationDuration)
+	@API public static <KeyT, T> LazyKeyCache<KeyT, T> unusedExpiresAfter(Duration expirationDuration)
 	{
-		return new KeyCache<>(expirationDuration);
+		return new LazyKeyCache<>(expirationDuration);
 	}
 
 
