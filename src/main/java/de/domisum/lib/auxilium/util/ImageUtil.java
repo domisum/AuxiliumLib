@@ -12,7 +12,6 @@ import java.awt.image.BufferedImage;
 import java.awt.image.BufferedImageOp;
 import java.awt.image.ColorModel;
 import java.awt.image.ConvolveOp;
-import java.awt.image.DataBufferByte;
 import java.awt.image.Kernel;
 import java.awt.image.RenderedImage;
 import java.awt.image.WritableRaster;
@@ -31,69 +30,8 @@ public final class ImageUtil
 		return new BufferedImage(colorModel, raster, isAlphaPremultiplied, null).getSubimage(0,
 				0,
 				bufferedImage.getWidth(),
-				bufferedImage.getHeight());
-	}
-
-
-	// TO PIXELS
-	@API public static int[][] getPixels(BufferedImage image)
-	{
-		// TODO clean up this mess
-
-		byte[] pixels = ((DataBufferByte) image.getRaster().getDataBuffer()).getData();
-		int width = image.getWidth();
-		int height = image.getHeight();
-		boolean hasAlphaChannel = image.getAlphaRaster() != null;
-
-		int[][] result = new int[height][width];
-		if(hasAlphaChannel)
-		{
-			int pixelLength = 4;
-
-			int row = 0;
-			int col = 0;
-			for(int pixel = 0; pixel < pixels.length; pixel += pixelLength)
-			{
-				int argb = 0;
-				//argb += ((pixels[pixel]&0xff)<<24); // alpha
-				argb += pixels[pixel+1]&0xff; // blue
-				argb += (pixels[pixel+2]&0xff)<<8; // green
-				argb += (pixels[pixel+3]&0xff)<<16; // red
-				result[row][col] = argb;
-				col++;
-
-				if(col == width)
-				{
-					col = 0;
-					row++;
-				}
-			}
-		}
-		else
-		{
-			int pixelLength = 3;
-
-			int row = 0;
-			int col = 0;
-			for(int pixel = 0; pixel < pixels.length; pixel += pixelLength)
-			{
-				int argb = 0;
-				//argb += -16777216; // 255 alpha
-				argb += pixels[pixel]&0xff; // blue
-				argb += (pixels[pixel+1]&0xff)<<8; // green
-				argb += (pixels[pixel+2]&0xff)<<16; // red
-				result[row][col] = argb;
-				col++;
-
-				if(col == width)
-				{
-					col = 0;
-					row++;
-				}
-			}
-		}
-
-		return result;
+				bufferedImage.getHeight()
+		);
 	}
 
 
