@@ -18,6 +18,7 @@ import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.http.HttpEntityEnclosingRequest;
 import org.apache.http.HttpMessage;
 import org.apache.http.StatusLine;
+import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
@@ -26,6 +27,7 @@ import org.apache.http.client.methods.HttpOptions;
 import org.apache.http.client.methods.HttpPatch;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
+import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.client.methods.HttpTrace;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.entity.InputStreamEntity;
@@ -35,11 +37,15 @@ import org.apache.http.impl.client.HttpClients;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.time.Duration;
 
 @API
 @RequiredArgsConstructor
 public class MattpRequestEnvoy<T>
 {
+
+	// CONSTANTS
+	private static final Duration TIMEOUT = Duration.ofSeconds(10);
 
 	// REQUEST
 	private final MattpRequest request;
@@ -54,7 +60,7 @@ public class MattpRequestEnvoy<T>
 	{
 		HttpUriRequest apacheRequest = buildApacheRequest();
 
-		RequestTimeouter requestTimeouter = new RequestTimeouter(apacheRequest);
+		RequestTimeouter requestTimeouter = new RequestTimeouter(apacheRequest, TIMEOUT);
 		requestTimeouter.start();
 
 		try(CloseableHttpClient httpClient = buildHttpClient();
@@ -119,8 +125,9 @@ public class MattpRequestEnvoy<T>
 	// BUILD REQUEST
 	private HttpUriRequest buildApacheRequest()
 	{
-		HttpUriRequest apacheRequest = getRawMethodRequest();
+		HttpRequestBase apacheRequest = getRawMethodRequest();
 
+		setSimpleRequestTimeouts(apacheRequest);
 		addHeadersToRequest(apacheRequest);
 		if(request.getBody() != null)
 			addBodyToRequest(apacheRequest);
@@ -128,7 +135,7 @@ public class MattpRequestEnvoy<T>
 		return apacheRequest;
 	}
 
-	private HttpUriRequest getRawMethodRequest()
+	private HttpRequestBase getRawMethodRequest()
 	{
 		AbstractURL url = request.getUrl();
 
@@ -155,6 +162,18 @@ public class MattpRequestEnvoy<T>
 		throw new ShouldNeverHappenError();
 	}
 
+	private void setSimpleRequestTimeouts(HttpRequestBase apacheRequest)
+	{
+		RequestConfig requestConfig = RequestConfig
+				.custom()
+				.setSocketTimeout((int) TIMEOUT.toMillis())
+				.setConnectTimeout((int) TIMEOUT.toMillis())
+				.setConnectionRequestTimeout((int) TIMEOUT.toMillis())
+				.build();
+
+		apacheRequest.setConfig(requestConfig);
+	}
+
 	private void addHeadersToRequest(HttpMessage apacheRequest)
 	{
 		for(MattpHeader header : request.getHeaders())
@@ -174,7 +193,8 @@ public class MattpRequestEnvoy<T>
 		return new de.domisum.lib.auxilium.mattp.response.StatusLine(
 				apacheStatusLine.getProtocolVersion().toString(),
 				apacheStatusLine.getStatusCode(),
-				apacheStatusLine.getReasonPhrase());
+				apacheStatusLine.getReasonPhrase()
+		);
 	}
 
 

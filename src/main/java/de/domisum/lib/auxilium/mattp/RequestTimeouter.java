@@ -11,11 +11,9 @@ import java.util.TimerTask;
 public class RequestTimeouter
 {
 
-	// CONSTANTS
-	private static final Duration TIMEOUT = Duration.ofSeconds(60);
-
-	// REFERENCES
+	// INPUT
 	private final HttpUriRequest request;
+	private final Duration timeout;
 
 	// STATUS
 	private final Timer timer = new Timer(true);
@@ -41,7 +39,7 @@ public class RequestTimeouter
 			}
 		};
 
-		timer.schedule(abortTask, TIMEOUT.toMillis());
+		timer.schedule(abortTask, timeout.toMillis());
 	}
 
 	public boolean didTimeOutAndEnd()
