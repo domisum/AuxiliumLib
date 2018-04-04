@@ -5,7 +5,4 @@ import de.domisum.lib.auxilium.util.java.annotations.API;
 import java.util.List;
 
 @API
-public interface MultiGenerator<I, O> extends Generator<I, List<O>>
-{
-
-}
+public interface MultiGenerator<I, O> extends Generator<I, List<O>> {}
