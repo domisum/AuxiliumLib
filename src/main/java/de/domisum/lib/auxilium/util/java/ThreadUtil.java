@@ -159,24 +159,25 @@ public final class ThreadUtil
 
 
 	// DEBUGGING
-	@API public static String getGlobalThreadDump()
+	@API public static String getAllThreadsDump()
 	{
-		StringBuilder threadDump = new StringBuilder();
+		String threadDump = "";
 
 		for(Entry<Thread, StackTraceElement[]> threadEntry : Thread.getAllStackTraces().entrySet())
 		{
 			Thread thread = threadEntry.getKey();
-			threadDump.append("Thread: ").append(thread).append(", daemon: ").append(thread.isDaemon()).append("\n");
+			threadDump += "Thread: "+thread+", daemon: "+thread.isDaemon()+"\n";
+
 			for(StackTraceElement stackTraceElement : threadEntry.getValue())
-				threadDump.append("    ").append(stackTraceElement.toString()).append("\n");
+				threadDump += "    "+stackTraceElement.toString()+"\n";
 		}
 
-		return threadDump.toString();
+		return threadDump;
 	}
 
 	@API public static void dumpAllThreads()
 	{
-		LOGGER.info("Global thread dump:\n{}", getGlobalThreadDump());
+		LOGGER.info("Global thread dump:\n{}", getAllThreadsDump());
 	}
 
 }
