@@ -77,6 +77,7 @@ public final class ImageUtil
 		graphics2D.setComposite(AlphaComposite.SrcAtop);
 		graphics2D.setColor(color);
 		graphics2D.fillRect(0, 0, image.getWidth(), image.getHeight());
+		graphics2D.dispose();
 
 		return graphicsImage;
 	}
