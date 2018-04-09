@@ -166,6 +166,11 @@ public final class FileUtil
 
 
 	// DIRECTORY
+	@API public static File getFileInSameDirectory(File file, String otherName)
+	{
+		return new File(file.getAbsoluteFile().getParent(), otherName);
+	}
+
 	@API public static void createParentDirectory(File file)
 	{
 		file.getAbsoluteFile().getParentFile().mkdirs();
