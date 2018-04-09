@@ -7,8 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.time.Duration;
-import java.util.Optional;
-import java.util.function.Supplier;
+import java.util.Map.Entry;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class ThreadUtil
@@ -17,6 +16,7 @@ public final class ThreadUtil
 	private static final Logger LOGGER = LoggerFactory.getLogger("threadUtil");
 
 
+	// TIMING
 	@API public static boolean sleep(Duration duration)
 	{
 		return sleep(duration.toMillis());
@@ -51,6 +51,7 @@ public final class ThreadUtil
 	}
 
 
+	// SYNCHRONIZATION
 	@API public static boolean wait(Object object)
 	{
 		try
@@ -78,6 +79,7 @@ public final class ThreadUtil
 	}
 
 
+	// THREAD CREATION
 	@API public static Thread createThread(Runnable runnable, String threadName)
 	{
 		return createThread(runnable, threadName, false);
@@ -130,6 +132,7 @@ public final class ThreadUtil
 	}
 
 
+	// SHUTDOWN HOOKS
 	@API public static void registerShutdownHook(Runnable shutdownHook)
 	{
 		registerShutdownHook(shutdownHook, "shutdownHook");
@@ -142,6 +145,7 @@ public final class ThreadUtil
 	}
 
 
+	// EXCEPTIONS
 	@API public static void logUncaughtExceptions(Thread thread)
 	{
 		thread.setUncaughtExceptionHandler((t, e)->
@@ -154,17 +158,25 @@ public final class ThreadUtil
 	}
 
 
-	@API public static <T> Optional<T> runCaught(Supplier<T> fetch, String errorMessage)
+	// DEBUGGING
+	@API public static String getGlobalThreadDump()
 	{
-		try
+		StringBuilder threadDump = new StringBuilder();
+
+		for(Entry<Thread, StackTraceElement[]> threadEntry : Thread.getAllStackTraces().entrySet())
 		{
-			return Optional.ofNullable(fetch.get());
+			Thread thread = threadEntry.getKey();
+			threadDump.append("Thread: ").append(thread).append(", daemon: ").append(thread.isDaemon()).append("\n");
+			for(StackTraceElement stackTraceElement : threadEntry.getValue())
+				threadDump.append("    ").append(stackTraceElement.toString()).append("\n");
 		}
-		catch(RuntimeException e)
-		{
-			LOGGER.warn("{} ({}: {})", errorMessage, e.getClass().getSimpleName(), e.getMessage());
-			return Optional.empty();
-		}
+
+		return threadDump.toString();
+	}
+
+	@API public static void dumpAllThreads()
+	{
+		LOGGER.info("Global thread dump:\n{}", getGlobalThreadDump());
 	}
 
 }
