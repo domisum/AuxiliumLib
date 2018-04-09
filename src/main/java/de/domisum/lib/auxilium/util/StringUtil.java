@@ -81,4 +81,16 @@ public final class StringUtil
 		return combined.toString();
 	}
 
+
+	@API public static String truncateStart(String string, int maxLength)
+	{
+		String toBeContinued = "...";
+
+		if(string.length() <= maxLength)
+			return string;
+
+		int desiredBaseStringLength = maxLength-toBeContinued.length();
+		return toBeContinued+string.substring(string.length()-desiredBaseStringLength);
+	}
+
 }
