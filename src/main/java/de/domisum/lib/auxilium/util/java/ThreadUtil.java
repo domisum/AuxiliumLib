@@ -80,18 +80,40 @@ public final class ThreadUtil
 
 	@API public static Thread createThread(Runnable runnable, String threadName)
 	{
+		return createThread(runnable, threadName, false);
+	}
+
+	@API public static Thread createDaemonThread(Runnable runnable, String threadName)
+	{
+		return createThread(runnable, threadName, true);
+	}
+
+	private static Thread createThread(Runnable runnable, String threadName, boolean daemon)
+	{
 		Thread thread = new Thread(runnable);
 		thread.setName(threadName);
+		thread.setDaemon(daemon);
 		logUncaughtExceptions(thread);
 
 		return thread;
 	}
 
+
 	@API public static Thread createAndStartThread(Runnable runnable, String threadName)
 	{
-		Thread thread = createThread(runnable, threadName);
+		return createAndStartThread(runnable, threadName, false);
+	}
 
+	@API public static Thread createAndStartDaemonThread(Runnable runnable, String threadName)
+	{
+		return createAndStartThread(runnable, threadName, true);
+	}
+
+	private static Thread createAndStartThread(Runnable runnable, String threadName, boolean daemon)
+	{
+		Thread thread = createThread(runnable, threadName, daemon);
 		thread.start();
+
 		return thread;
 	}
 

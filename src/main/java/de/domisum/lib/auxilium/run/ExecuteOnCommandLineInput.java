@@ -16,7 +16,7 @@ public class ExecuteOnCommandLineInput
 	// INIT
 	public void start()
 	{
-		ThreadUtil.createAndStartThread(()->
+		ThreadUtil.createAndStartDaemonThread(()->
 		{
 			try(Scanner scanner = new Scanner(System.in))
 			{
