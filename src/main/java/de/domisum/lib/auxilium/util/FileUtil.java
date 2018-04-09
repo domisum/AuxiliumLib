@@ -117,7 +117,7 @@ public final class FileUtil
 		try
 		{
 			if(!file.exists())
-				throw new IOException("file "+file+" doesn't exist");
+				throw new IOException("file doesn't exist: "+file);
 
 			return ImageIO.read(file);
 		}
