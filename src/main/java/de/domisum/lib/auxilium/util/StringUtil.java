@@ -5,7 +5,9 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.ArrayUtils;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
@@ -79,6 +81,11 @@ public final class StringUtil
 		}
 
 		return combined.toString();
+	}
+
+	@API public static String collectionToString(Collection<?> collection, String delimiter)
+	{
+		return listToString(new ArrayList<>(collection), delimiter);
 	}
 
 
