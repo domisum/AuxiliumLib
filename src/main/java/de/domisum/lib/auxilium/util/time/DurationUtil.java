@@ -47,6 +47,13 @@ public final class DurationUtil
 	}
 
 
+	// MATH
+	@API public static Duration getDelta(Duration duration1, Duration duration2)
+	{
+		return duration1.minus(duration2).abs();
+	}
+
+
 	// NOW
 	@API public static Duration toNow(Temporal from)
 	{
