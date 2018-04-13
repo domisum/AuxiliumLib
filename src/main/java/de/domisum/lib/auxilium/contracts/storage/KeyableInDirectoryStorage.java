@@ -1,5 +1,6 @@
 package de.domisum.lib.auxilium.contracts.storage;
 
+import com.google.gson.JsonSyntaxException;
 import de.domisum.lib.auxilium.contracts.serialization.ToStringSerializer;
 import de.domisum.lib.auxilium.util.FileUtil;
 import de.domisum.lib.auxilium.util.FileUtil.FileType;
@@ -102,11 +103,24 @@ public class KeyableInDirectoryStorage<KeyT, T extends Keyable<KeyT>> implements
 	@API protected T readFromFile(File file)
 	{
 		String serialized = FileUtil.readString(file);
-		T deserialized = serializer.deserialize(serialized);
+
+		T deserialized = deserialize(file, serialized);
 		if(deserialized == null)
 			throw new IllegalStateException("deserializer returned null for content of file: "+file);
 
 		return deserialized;
+	}
+
+	private T deserialize(File file, String toDeserialize)
+	{
+		try
+		{
+			return serializer.deserialize(toDeserialize);
+		}
+		catch(RuntimeException e)
+		{
+			throw new JsonSyntaxException("Failed to deserialize content of file "+file, e);
+		}
 	}
 
 
