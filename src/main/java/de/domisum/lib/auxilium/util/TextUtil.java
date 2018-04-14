@@ -41,9 +41,30 @@ public final class TextUtil
 		return withoutUmlauts;
 	}
 
+
+	// GRAMMAR
 	@API public static String getGenitiveSingular(String of)
 	{
 		return of+"'s";
+	}
+
+	@API public static String getTupleName(int number)
+	{
+		switch(number)
+		{
+			case 1:
+				return "single";
+			case 2:
+				return "double";
+			case 3:
+				return "triple";
+			case 4:
+				return "quadruple";
+			case 5:
+				return "quintuple";
+		}
+
+		throw new IllegalArgumentException("tuple name not known for number "+number);
 	}
 
 }
