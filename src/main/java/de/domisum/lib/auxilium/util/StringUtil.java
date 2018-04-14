@@ -11,7 +11,7 @@ import java.util.Collection;
 import java.util.List;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public final class StringUtil
+public final class StringUtil // TODO put some order
 {
 
 	@API public static String replaceLast(String string, String from, String to)
@@ -98,6 +98,17 @@ public final class StringUtil
 
 		int desiredBaseStringLength = maxLength-toBeContinued.length();
 		return toBeContinued+string.substring(string.length()-desiredBaseStringLength);
+	}
+
+
+	@API public static String concatWithSpace(String... toConcat)
+	{
+		return concat(" ", toConcat);
+	}
+
+	@API public static String concat(String delimiter, String... toConcat)
+	{
+		return listToString(Arrays.asList(toConcat), delimiter);
 	}
 
 }
