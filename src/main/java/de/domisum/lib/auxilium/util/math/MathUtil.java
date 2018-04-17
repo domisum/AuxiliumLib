@@ -50,6 +50,18 @@ public final class MathUtil
 		return value;
 	}
 
+	@API public static double avg(double... values)
+	{
+		if(values.length == 0)
+			throw new IllegalArgumentException("can't average calculate average of no numbers");
+
+		double sum = 0;
+		for(double value : values)
+			sum += value;
+
+		return sum/values.length;
+	}
+
 
 	@API
 	public static double remapLinear(double baseStart, double baseEnd, double targetStart, double targetEnd, double valueToRemap)
