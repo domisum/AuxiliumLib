@@ -20,7 +20,7 @@ public interface SmartComparable<T> extends Comparable<T>
 		return compareTo(other) == 0;
 	}
 
-	@API default boolean isEqualOrGreaterThan(T other)
+	@API default boolean isGreaterThanOrEqual(T other)
 	{
 		return compareTo(other) >= 0;
 	}
