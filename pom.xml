@@ -87,13 +87,13 @@
 	<distributionManagement>
 		<repository>
 			<id>domisum-de</id>
-			<name>domisum-de-releases</name>
+			<name>domisum-de-releases-public</name>
 			<url>http://domisum.de:8081/nexus/content/repositories/releases-public/</url>
 		</repository>
 
 		<snapshotRepository>
 			<id>domisum-de</id>
-			<name>domisum-de-snapshots</name>
+			<name>domisum-de-releases-public</name>
 			<url>http://domisum.de:8081/nexus/content/repositories/snapshots-public/</url>
 		</snapshotRepository>
 	</distributionManagement>
