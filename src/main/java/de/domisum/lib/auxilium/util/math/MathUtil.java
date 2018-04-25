@@ -97,7 +97,7 @@ public final class MathUtil
 	 * Example: Rounds 7.45 with 1 decimal place to 7.5; rounds -7.45 with 1 decimal place to -7.4
 	 *
 	 * @param numberToRound number to be rounded
-	 * @param decimalPlaces the number of decimal places to round
+	 * @param decimalPlaces the number of decimal places to round to
 	 * @return the rounded number
 	 */
 	@API public static double round(double numberToRound, int decimalPlaces)
