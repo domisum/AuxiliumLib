@@ -11,9 +11,10 @@ import java.util.Collection;
 import java.util.List;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public final class StringUtil // TODO put some order
+public final class StringUtil
 {
 
+	// CONCAT
 	@API public static String replaceLast(String string, String from, String to)
 	{
 		int pos = string.lastIndexOf(from);
@@ -30,44 +31,6 @@ public final class StringUtil // TODO put some order
 			result.append(string);
 
 		return result.toString();
-	}
-
-
-	@API public static String getCommonPrefix(String s1, String s2)
-	{
-		StringBuilder common = new StringBuilder();
-
-		for(int ci = 0; ci < Math.min(s1.length(), s2.length()); ci++)
-		{
-			char c1 = s1.charAt(ci);
-			char c2 = s2.charAt(ci);
-
-			if(c1 != c2)
-				break;
-
-			common.append(c1);
-		}
-
-		return common.toString();
-	}
-
-
-	@API public static String escapeStringForRegex(String input)
-	{
-		List<Character> charactersToEscape = Arrays.asList(ArrayUtils.toObject("<([{\\^-=$!|]})?*+.>".toCharArray()));
-
-		String escaped = input;
-		for(int i = 0; i < escaped.length(); i++)
-		{
-			char charAt = escaped.charAt(i);
-			if(charactersToEscape.contains(charAt))
-			{
-				escaped = escaped.substring(0, i)+("\\"+charAt)+escaped.substring(i+1);
-				i++;
-			}
-		}
-
-		return escaped;
 	}
 
 
@@ -88,6 +51,55 @@ public final class StringUtil // TODO put some order
 		return listToString(new ArrayList<>(collection), delimiter);
 	}
 
+	@API public static String concatWithSpace(String... toConcat)
+	{
+		return concat(" ", toConcat);
+	}
+
+	@API public static String concat(String delimiter, String... toConcat)
+	{
+		return listToString(Arrays.asList(toConcat), delimiter);
+	}
+
+
+	// ANALYSIS
+	@API public static String getCommonPrefix(String s1, String s2)
+	{
+		StringBuilder common = new StringBuilder();
+
+		for(int ci = 0; ci < Math.min(s1.length(), s2.length()); ci++)
+		{
+			char c1 = s1.charAt(ci);
+			char c2 = s2.charAt(ci);
+
+			if(c1 != c2)
+				break;
+
+			common.append(c1);
+		}
+
+		return common.toString();
+	}
+
+
+	// MISC
+	@API public static String escapeStringForRegex(String input)
+	{
+		List<Character> charactersToEscape = Arrays.asList(ArrayUtils.toObject("<([{\\^-=$!|]})?*+.>".toCharArray()));
+
+		String escaped = input;
+		for(int i = 0; i < escaped.length(); i++)
+		{
+			char charAt = escaped.charAt(i);
+			if(charactersToEscape.contains(charAt))
+			{
+				escaped = escaped.substring(0, i)+("\\"+charAt)+escaped.substring(i+1);
+				i++;
+			}
+		}
+
+		return escaped;
+	}
 
 	@API public static String truncateStart(String string, int maxLength)
 	{
@@ -98,17 +110,6 @@ public final class StringUtil // TODO put some order
 
 		int desiredBaseStringLength = maxLength-toBeContinued.length();
 		return toBeContinued+string.substring(string.length()-desiredBaseStringLength);
-	}
-
-
-	@API public static String concatWithSpace(String... toConcat)
-	{
-		return concat(" ", toConcat);
-	}
-
-	@API public static String concat(String delimiter, String... toConcat)
-	{
-		return listToString(Arrays.asList(toConcat), delimiter);
 	}
 
 }
