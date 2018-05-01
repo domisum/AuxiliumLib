@@ -119,6 +119,8 @@ public class KeyableInDirectoryStorage<KeyT, T extends Keyable<KeyT>> implements
 		}
 		catch(RuntimeException e)
 		{
+			FileUtil.deleteFile(file);
+			logger.error("Deleting file {}, because it contains invalid data", file);
 			throw new JsonSyntaxException("Failed to deserialize content of file "+file, e);
 		}
 	}
