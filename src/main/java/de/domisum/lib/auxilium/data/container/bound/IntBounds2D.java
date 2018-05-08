@@ -50,6 +50,17 @@ public final class IntBounds2D
 		return (maxY-minY)+1;
 	}
 
+	@API public boolean contain(int x, int y)
+	{
+		if((x < minX) || (x > maxX))
+			return false;
+
+		if((y < minY) || (y > maxY))
+			return false;
+
+		return true;
+	}
+
 
 	// MODIFICATIONS
 	@API public IntBounds2D expand(int distance)
