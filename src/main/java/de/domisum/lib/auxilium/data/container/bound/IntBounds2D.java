@@ -1,6 +1,7 @@
 package de.domisum.lib.auxilium.data.container.bound;
 
 import de.domisum.lib.auxilium.util.java.annotations.API;
+import lombok.Getter;
 import lombok.ToString;
 import org.apache.commons.lang3.Validate;
 
@@ -11,10 +12,10 @@ import java.awt.Rectangle;
 public final class IntBounds2D
 {
 
-	@API public final int minX;
-	@API public final int maxX;
-	@API public final int minY;
-	@API public final int maxY;
+	@API @Getter public final int minX;
+	@API @Getter public final int maxX;
+	@API @Getter public final int minY;
+	@API @Getter public final int maxY;
 
 
 	// INIT
@@ -103,7 +104,8 @@ public final class IntBounds2D
 		return new IntBounds2D(Math.max(minX, limit.minX),
 				Math.min(maxX, limit.maxX),
 				Math.max(minY, limit.minY),
-				Math.min(maxY, limit.maxY));
+				Math.min(maxY, limit.maxY)
+		);
 	}
 
 
