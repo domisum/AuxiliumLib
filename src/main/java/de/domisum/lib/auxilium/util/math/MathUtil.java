@@ -82,11 +82,16 @@ public final class MathUtil
 
 	@API public static boolean isAngleNearDeg(double a, double b, double maxD)
 	{
+		return getAngleDistanceDeg(a, b) < maxD;
+	}
+
+	@API public static double getAngleDistanceDeg(double a, double b)
+	{
 		double delta = Math.abs(a-b)%360;
 		if(delta > 180)
 			delta = 360-delta;
 
-		return delta <= maxD;
+		return delta;
 	}
 
 
