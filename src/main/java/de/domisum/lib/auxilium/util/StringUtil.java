@@ -15,15 +15,6 @@ public final class StringUtil
 {
 
 	// CONCAT
-	@API public static String replaceLast(String string, String from, String to)
-	{
-		int pos = string.lastIndexOf(from);
-		if(pos > -1)
-			return string.substring(0, pos)+to+string.substring(pos+from.length(), string.length());
-
-		return string;
-	}
-
 	@API public static String repeat(String string, int repeats)
 	{
 		StringBuilder result = new StringBuilder();
@@ -59,6 +50,22 @@ public final class StringUtil
 	@API public static String concat(String delimiter, String... toConcat)
 	{
 		return listToString(Arrays.asList(toConcat), delimiter);
+	}
+
+	@API public static String concatAsManyAsPossible(List<String> strings, String delimiter, int maxLength)
+	{
+		String lastPassing = "";
+		for(int maxIndex = 0; maxIndex < strings.size(); maxIndex++)
+		{
+			List<String> stringSublist = strings.subList(0, maxIndex+1);
+			String concat = collectionToString(stringSublist, delimiter);
+			if(concat.length() <= maxLength)
+				lastPassing = concat;
+			else
+				break;
+		}
+
+		return lastPassing;
 	}
 
 
@@ -110,6 +117,15 @@ public final class StringUtil
 
 		int desiredBaseStringLength = maxLength-toBeContinued.length();
 		return toBeContinued+string.substring(string.length()-desiredBaseStringLength);
+	}
+
+	@API public static String replaceLast(String string, String from, String to)
+	{
+		int pos = string.lastIndexOf(from);
+		if(pos > -1)
+			return string.substring(0, pos)+to+string.substring(pos+from.length(), string.length());
+
+		return string;
 	}
 
 }
