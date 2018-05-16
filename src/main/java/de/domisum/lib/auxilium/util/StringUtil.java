@@ -52,17 +52,18 @@ public final class StringUtil
 		return listToString(Arrays.asList(toConcat), delimiter);
 	}
 
-	@API public static String concatAsManyAsPossible(List<String> strings, String delimiter, int maxLength)
+	@API public static String concatAsManyAsPossible(List<String> stringsInput, String delimiter, int maxLength)
 	{
+		List<String> strings = new ArrayList<>(stringsInput);
+
 		String lastPassing = "";
-		for(int maxIndex = 0; maxIndex < strings.size(); maxIndex++)
+		for(int i = 0; i < strings.size(); i++)
 		{
-			List<String> stringSublist = strings.subList(0, maxIndex+1);
-			String concat = collectionToString(stringSublist, delimiter);
-			if(concat.length() <= maxLength)
-				lastPassing = concat;
-			else
-				break;
+			String delimiterBeforeCurrent = (i == 0) ? "" : delimiter;
+
+			String withCurrent = lastPassing+delimiterBeforeCurrent+strings.get(i);
+			if(withCurrent.length() <= maxLength)
+				lastPassing = withCurrent;
 		}
 
 		return lastPassing;
