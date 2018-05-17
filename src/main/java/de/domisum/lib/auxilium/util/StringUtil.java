@@ -57,11 +57,11 @@ public final class StringUtil
 		List<String> strings = new ArrayList<>(stringsInput);
 
 		String lastPassing = "";
-		for(int i = 0; i < strings.size(); i++)
+		for(String string : strings)
 		{
-			String delimiterBeforeCurrent = (i == 0) ? "" : delimiter;
+			String delimiterBeforeCurrent = lastPassing.isEmpty() ? "" : delimiter;
 
-			String withCurrent = lastPassing+delimiterBeforeCurrent+strings.get(i);
+			String withCurrent = lastPassing+delimiterBeforeCurrent+string;
 			if(withCurrent.length() <= maxLength)
 				lastPassing = withCurrent;
 		}
