@@ -41,9 +41,8 @@ public abstract class JsonConfig
 
 	@API protected void validateString(String toValidate, String fieldName)
 	{
-		String failMessage = fieldName+" was missing from config";
-
-		Validate.notNull(toValidate, failMessage);
+		if(toValidate == null)
+			throw new IllegalArgumentException(fieldName+" was missing from config");
 	}
 
 	@API protected void validatePort(int port)
