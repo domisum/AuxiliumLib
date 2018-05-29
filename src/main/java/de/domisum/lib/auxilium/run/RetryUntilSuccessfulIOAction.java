@@ -1,6 +1,7 @@
 package de.domisum.lib.auxilium.run;
 
 import de.domisum.lib.auxilium.util.java.ThreadUtil;
+import de.domisum.lib.auxilium.util.time.DurationUtil;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,15 +16,9 @@ public class RetryUntilSuccessfulIOAction<O>
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 
 
-	// CONSTANTS
-	private static final Duration DEFAULT_RETRY_INTERVAL = Duration.ofSeconds(5);
-
 	// INPUT
 	private final IOAction<O> action;
 	private final String failMessage;
-
-	// SETTINGS
-	private Duration retryInterval = DEFAULT_RETRY_INTERVAL;
 
 
 	// INIT
@@ -38,26 +33,18 @@ public class RetryUntilSuccessfulIOAction<O>
 	}
 
 
-	// SETTERS
-	public RetryUntilSuccessfulIOAction<O> setRetryInterval(Duration retryInterval)
-	{
-		this.retryInterval = retryInterval;
-		return this;
-	}
-
-
 	// EXECUTE
 	public O execute()
 	{
-		while(true)
+		for(Duration wait = Duration.ofSeconds(1); true; wait = wait.multipliedBy(2))
 			try
 			{
 				return action.execute();
 			}
 			catch(IOException e)
 			{
-				logger.warn(failMessage+" (will retry)", e);
-				ThreadUtil.sleep(retryInterval);
+				logger.warn(failMessage+" (will retry in " +DurationUtil.format(wait) + ")", e);
+				ThreadUtil.sleep(wait);
 			}
 	}
 
