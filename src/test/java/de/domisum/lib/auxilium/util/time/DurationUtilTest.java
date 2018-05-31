@@ -26,8 +26,8 @@ public class DurationUtilTest
 
 	@Test public void testFormatHoursMinutesAndSeconds()
 	{
-		Assertions.assertEquals("1h:0m:0s", DurationUtil.format(Duration.ofHours(1)));
-		Assertions.assertEquals("8h:20m:3s", DurationUtil.format(Duration.ofHours(8).plusMinutes(20).plusSeconds(3)));
+		Assertions.assertEquals("1h:0m", DurationUtil.format(Duration.ofHours(1)));
+		Assertions.assertEquals("8h:20m", DurationUtil.format(Duration.ofHours(8).plusMinutes(20).plusSeconds(3)));
 	}
 
 
@@ -41,8 +41,8 @@ public class DurationUtilTest
 	{
 		Assertions.assertEquals("-1s", DurationUtil.format(Duration.ofSeconds(1).negated()));
 		Assertions.assertEquals("-59m:59s", DurationUtil.format(Duration.ofMinutes(59).plusSeconds(59).negated()));
-		Assertions.assertEquals("-1h:0m:0s", DurationUtil.format(Duration.ofHours(1).negated()));
-		Assertions.assertEquals("-8h:20m:3s", DurationUtil.format(Duration.ofHours(8).plusMinutes(20).plusSeconds(3).negated()));
+		Assertions.assertEquals("-1h:0m", DurationUtil.format(Duration.ofHours(1).negated()));
+		Assertions.assertEquals("-8h:20m", DurationUtil.format(Duration.ofHours(8).plusMinutes(20).plusSeconds(3).negated()));
 	}
 
 }
