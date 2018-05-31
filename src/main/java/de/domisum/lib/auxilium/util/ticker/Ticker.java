@@ -74,7 +74,6 @@ public abstract class Ticker
 		logger.info("Requesting stop of ticker {}...", getTickerName());
 
 		tickThreadRunning = false;
-		tickThread.interrupt();
 	}
 
 	@API public synchronized void waitForStop()
