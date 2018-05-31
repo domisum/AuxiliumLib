@@ -20,7 +20,10 @@ public final class DurationUtil
 			return "-"+format(duration.abs());
 
 
-		String format = "s's'";
+		String format = "";
+
+		if(duration.compareTo(Duration.ofHours(1)) < 0)
+			format = "s's'"+format;
 
 		if(duration.compareTo(Duration.ofMinutes(1)) >= 0)
 			format = "m'm':"+format;
