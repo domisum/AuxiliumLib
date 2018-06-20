@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 
 @API
 @RequiredArgsConstructor
-public class BasicToStringSerializer<T> implements ToStringSerializer<T>
+public class BasicJsonSerializer<T> implements JsonSerializer<T>
 {
 
 	// ATTRIBUTES
