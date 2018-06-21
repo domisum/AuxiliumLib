@@ -26,6 +26,8 @@ public final class DurationUtil
 
 		List<String> formatComponents = new ArrayList<>();
 
+		// TODO add bigger units
+
 		if(duration.compareTo(Duration.ofHours(1)) >= 0)
 			formatComponents.add("H'h'");
 
