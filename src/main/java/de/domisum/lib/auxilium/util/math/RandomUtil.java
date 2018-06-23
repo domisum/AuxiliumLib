@@ -5,7 +5,9 @@ import de.domisum.lib.auxilium.data.container.math.Vector3D;
 import de.domisum.lib.auxilium.util.java.annotations.API;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import org.apache.commons.lang3.Validate;
 
+import java.time.Duration;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -213,6 +215,24 @@ public final class RandomUtil
 			throw new IllegalArgumentException("The chance has to be between 0 and 1");
 
 		return nextDouble(random) < chance;
+	}
+
+
+	// time
+	@API public static Duration distribute(Duration base, double maxOffsetRel)
+	{
+		return distribute(base, maxOffsetRel, getRandom());
+	}
+
+	@API public static Duration distribute(Duration base, double maxOffsetRel, Random random)
+	{
+		Validate.exclusiveBetween(0.0, 1.0, maxOffsetRel, "maxOffset has to be between 0.0 and 1.0");
+
+		long baseMillis = base.toMillis();
+		double factor = getFromRange(1-maxOffsetRel, 1+maxOffsetRel, random);
+
+		long derivedMillis = Math.round(baseMillis*factor);
+		return Duration.ofMillis(derivedMillis);
 	}
 
 }
