@@ -9,21 +9,17 @@ import org.apache.commons.lang3.Validate;
 import java.io.File;
 
 @API
-public abstract class JsonConfig
+public interface JsonConfig
 {
 
-	// CONSTANTS
-	private static final int MAX_PORT_VALUE = 65535;
-
-
 	// INIT
-	@API public static <T extends JsonConfig> T load(File file, Class<T> tClass)
+	@API static <T extends JsonConfig> T load(File file, Class<T> tClass)
 	{
 		String fileContent = FileUtil.readString(file);
 		return parse(fileContent, tClass);
 	}
 
-	@API public static <T extends JsonConfig> T parse(String json, Class<T> tClass)
+	@API static <T extends JsonConfig> T parse(String json, Class<T> tClass)
 	{
 		T jsonConfig = GsonUtil.get().fromJson(json, tClass);
 
@@ -36,17 +32,19 @@ public abstract class JsonConfig
 
 
 	// VALIDATE
-	@InitByDeserialization public abstract void validate();
+	@InitByDeserialization void validate();
 
 
-	@API protected void validateString(String toValidate, String fieldName)
+	@API default void validateString(String toValidate, String fieldName)
 	{
 		if(toValidate == null)
 			throw new IllegalArgumentException(fieldName+" was missing from config");
 	}
 
-	@API protected void validatePort(int port)
+	@API default void validatePort(int port)
 	{
+		final int MAX_PORT_VALUE = 65535;
+
 		Validate.inclusiveBetween(1, MAX_PORT_VALUE, port, "port out of range [1-"+MAX_PORT_VALUE+"]: "+port);
 	}
 
