@@ -1,5 +1,6 @@
 package de.domisum.lib.auxilium.mattp.response.responses;
 
+import de.domisum.lib.auxilium.mattp.MattpHeaders;
 import de.domisum.lib.auxilium.mattp.response.RequestResponse;
 import de.domisum.lib.auxilium.mattp.response.StatusLine;
 import de.domisum.lib.auxilium.util.PHR;
@@ -26,6 +27,11 @@ public class RequestFailure<T> implements RequestResponse<T>
 	@Override public Optional<StatusLine> getStatusLine()
 	{
 		return Optional.of(statusLine);
+	}
+
+	@Override public Optional<MattpHeaders> getHeaders()
+	{
+		return Optional.empty();
 	}
 
 	@Override public Optional<T> getContent()

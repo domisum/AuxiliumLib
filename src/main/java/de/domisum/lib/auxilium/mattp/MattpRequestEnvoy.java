@@ -2,7 +2,6 @@ package de.domisum.lib.auxilium.mattp;
 
 import de.domisum.lib.auxilium.data.container.AbstractURL;
 import de.domisum.lib.auxilium.mattp.authproviders.NoAuthProvider;
-import de.domisum.lib.auxilium.mattp.request.MattpHeader;
 import de.domisum.lib.auxilium.mattp.request.MattpRequest;
 import de.domisum.lib.auxilium.mattp.response.MattpResponseBodyReader;
 import de.domisum.lib.auxilium.mattp.response.RequestResponse;
@@ -15,8 +14,10 @@ import de.domisum.lib.auxilium.util.java.exceptions.ShouldNeverHappenError;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.apache.http.Header;
 import org.apache.http.HttpEntityEnclosingRequest;
 import org.apache.http.HttpMessage;
+import org.apache.http.HttpResponse;
 import org.apache.http.StatusLine;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
@@ -38,6 +39,8 @@ import org.apache.http.impl.client.HttpClients;
 import java.io.IOException;
 import java.io.InputStream;
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.List;
 
 @API
 @RequiredArgsConstructor
@@ -82,28 +85,37 @@ public class MattpRequestEnvoy<T>
 
 
 	// RESPONSE
-	private RequestResponse<T> processResponse(org.apache.http.HttpResponse response) throws IOException
+	private RequestResponse<T> processResponse(HttpResponse response) throws IOException
 	{
 		de.domisum.lib.auxilium.mattp.response.StatusLine statusLine = convertApacheToDomainStatusLine(response.getStatusLine());
 
 		if(didRequestFail(response))
 			return new RequestFailure<>(statusLine, readResponseBodyOnFailure(response));
 
-		return new RequestSuccess<>(statusLine, readResponseBodyOnSuccess(response));
+		return new RequestSuccess<>(statusLine, readHeadersOnSuccess(response), readResponseBodyOnSuccess(response));
 	}
 
-	private T readResponseBodyOnSuccess(org.apache.http.HttpResponse response) throws IOException
+	private T readResponseBodyOnSuccess(HttpResponse response) throws IOException
 	{
 		return readResponseBody(response, responseBodyReader);
 	}
 
-	private String readResponseBodyOnFailure(org.apache.http.HttpResponse response) throws IOException
+	private MattpHeaders readHeadersOnSuccess(HttpResponse response)
+	{
+		List<MattpHeader> headers = new ArrayList<>();
+
+		for(Header header : response.getAllHeaders())
+			headers.add(new MattpHeader(header.getName(), header.getValue()));
+
+		return new MattpHeaders(headers);
+	}
+
+	private String readResponseBodyOnFailure(HttpResponse response) throws IOException
 	{
 		return readResponseBody(response, new MattpStringReader());
 	}
 
-	private <BodyT> BodyT readResponseBody(org.apache.http.HttpResponse response, MattpResponseBodyReader<BodyT> reader)
-			throws IOException
+	private <BodyT> BodyT readResponseBody(HttpResponse response, MattpResponseBodyReader<BodyT> reader) throws IOException
 	{
 		try(InputStream responseBodyStream = response.getEntity().getContent())
 		{
@@ -199,7 +211,7 @@ public class MattpRequestEnvoy<T>
 
 
 	// CONDITION UTIL
-	private boolean didRequestFail(org.apache.http.HttpResponse response)
+	private boolean didRequestFail(HttpResponse response)
 	{
 		int statusCode = response.getStatusLine().getStatusCode();
 		int statusCodeFirstDigit = statusCode/100;

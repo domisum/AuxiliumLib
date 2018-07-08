@@ -1,5 +1,6 @@
 package de.domisum.lib.auxilium.mattp.response.responses;
 
+import de.domisum.lib.auxilium.mattp.MattpHeaders;
 import de.domisum.lib.auxilium.mattp.response.RequestResponse;
 import de.domisum.lib.auxilium.mattp.response.StatusLine;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +23,11 @@ public class ConnectionError<T> implements RequestResponse<T>
 
 	// GETTERS
 	@Override public Optional<StatusLine> getStatusLine()
+	{
+		return Optional.empty();
+	}
+
+	@Override public Optional<MattpHeaders> getHeaders()
 	{
 		return Optional.empty();
 	}

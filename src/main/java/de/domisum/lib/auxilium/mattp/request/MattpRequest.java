@@ -1,6 +1,7 @@
 package de.domisum.lib.auxilium.mattp.request;
 
 import de.domisum.lib.auxilium.data.container.AbstractURL;
+import de.domisum.lib.auxilium.mattp.MattpHeader;
 import de.domisum.lib.auxilium.util.java.annotations.API;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +28,7 @@ public class MattpRequest
 		return new MattpRequest(url, MattpMethod.GET);
 	}
 
-	@API public void addHeader(String key, String value)
+	@API public void addHeader(CharSequence key, CharSequence value)
 	{
 		addHeader(new MattpHeader(key, value));
 	}

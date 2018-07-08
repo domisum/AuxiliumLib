@@ -1,4 +1,4 @@
-package de.domisum.lib.auxilium.mattp.request;
+package de.domisum.lib.auxilium.mattp;
 
 import lombok.Getter;
 import org.apache.commons.lang3.Validate;
@@ -11,6 +11,11 @@ public class MattpHeader
 
 
 	// INIT
+	public MattpHeader(CharSequence key, CharSequence value)
+	{
+		this(key.toString(), value.toString());
+	}
+
 	public MattpHeader(String key, String value)
 	{
 		validateKey(key);
@@ -29,6 +34,13 @@ public class MattpHeader
 	private void validateValue(String value)
 	{
 		Validate.notNull(value);
+	}
+
+
+	// OBJECT
+	@Override public String toString()
+	{
+		return key+": "+value;
 	}
 
 }
