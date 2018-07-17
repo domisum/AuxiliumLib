@@ -19,7 +19,9 @@ import org.apache.http.HttpEntityEnclosingRequest;
 import org.apache.http.HttpMessage;
 import org.apache.http.HttpResponse;
 import org.apache.http.StatusLine;
+import org.apache.http.client.config.CookieSpecs;
 import org.apache.http.client.config.RequestConfig;
+import org.apache.http.client.config.RequestConfig.Builder;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
@@ -128,9 +130,25 @@ public class MattpRequestEnvoy<T>
 	private CloseableHttpClient buildHttpClient()
 	{
 		HttpClientBuilder clientBuilder = HttpClients.custom();
+
 		authProvider.provideAuthFor(clientBuilder);
+		clientBuilder.setDefaultRequestConfig(buildRequestConfig().build());
 
 		return clientBuilder.build();
+	}
+
+	private Builder buildRequestConfig()
+	{
+		Builder requestConfigBuilder = RequestConfig.custom();
+
+		// noinspection deprecation
+		requestConfigBuilder.setCookieSpec(CookieSpecs.BROWSER_COMPATIBILITY);
+		requestConfigBuilder
+				.setSocketTimeout((int) TIMEOUT.toMillis())
+				.setConnectTimeout((int) TIMEOUT.toMillis())
+				.setConnectionRequestTimeout((int) TIMEOUT.toMillis());
+
+		return requestConfigBuilder;
 	}
 
 
@@ -139,7 +157,6 @@ public class MattpRequestEnvoy<T>
 	{
 		HttpRequestBase apacheRequest = getRawMethodRequest();
 
-		setSimpleRequestTimeouts(apacheRequest);
 		addHeadersToRequest(apacheRequest);
 		if(request.getBody() != null)
 			addBodyToRequest(apacheRequest);
@@ -172,18 +189,6 @@ public class MattpRequestEnvoy<T>
 		}
 
 		throw new ShouldNeverHappenError();
-	}
-
-	private void setSimpleRequestTimeouts(HttpRequestBase apacheRequest)
-	{
-		RequestConfig requestConfig = RequestConfig
-				.custom()
-				.setSocketTimeout((int) TIMEOUT.toMillis())
-				.setConnectTimeout((int) TIMEOUT.toMillis())
-				.setConnectionRequestTimeout((int) TIMEOUT.toMillis())
-				.build();
-
-		apacheRequest.setConfig(requestConfig);
 	}
 
 	private void addHeadersToRequest(HttpMessage apacheRequest)
