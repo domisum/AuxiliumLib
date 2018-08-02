@@ -52,12 +52,13 @@ public class MattpRequestEnvoy<T>
 	// CONSTANTS
 	private static final Duration TIMEOUT = Duration.ofSeconds(10);
 
-	// REQUEST
+	// BASE SETTINGS
 	private final MattpRequest request;
-	@Setter private MattpAuthProvider authProvider = new NoAuthProvider();
-
-	// RESPONSE
 	private final MattpResponseBodyReader<T> responseBodyReader;
+
+	// ADDTITIONAL SETTINGS
+	@Setter private MattpAuthProvider authProvider = new NoAuthProvider();
+	@Setter private boolean followRedirects = true;
 
 
 	// SEND
@@ -130,9 +131,11 @@ public class MattpRequestEnvoy<T>
 	private CloseableHttpClient buildHttpClient()
 	{
 		HttpClientBuilder clientBuilder = HttpClients.custom();
-
 		authProvider.provideAuthFor(clientBuilder);
 		clientBuilder.setDefaultRequestConfig(buildRequestConfig().build());
+
+		if(!followRedirects)
+			clientBuilder.disableRedirectHandling();
 
 		return clientBuilder.build();
 	}
@@ -220,7 +223,7 @@ public class MattpRequestEnvoy<T>
 	{
 		int statusCode = response.getStatusLine().getStatusCode();
 		int statusCodeFirstDigit = statusCode/100;
-		return statusCodeFirstDigit != 2;
+		return statusCodeFirstDigit >= 4;
 	}
 
 }
