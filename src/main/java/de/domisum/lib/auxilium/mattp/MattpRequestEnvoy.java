@@ -54,7 +54,7 @@ public class MattpRequestEnvoy<T>
 	private final MattpResponseBodyReader<T> responseBodyReader;
 
 	// ADDTITIONAL SETTINGS
-	@Setter private Duration timeout = Duration.ofSeconds(10);
+	@Setter private Duration timeout = Duration.ofMinutes(1);
 	@Setter private MattpAuthProvider authProvider = new NoAuthProvider();
 	@Setter private boolean followRedirects = true;
 
