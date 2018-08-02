@@ -49,14 +49,12 @@ import java.util.List;
 public class MattpRequestEnvoy<T>
 {
 
-	// CONSTANTS
-	private static final Duration TIMEOUT = Duration.ofSeconds(10);
-
 	// BASE SETTINGS
 	private final MattpRequest request;
 	private final MattpResponseBodyReader<T> responseBodyReader;
 
 	// ADDTITIONAL SETTINGS
+	@Setter private Duration timeout = Duration.ofSeconds(10);
 	@Setter private MattpAuthProvider authProvider = new NoAuthProvider();
 	@Setter private boolean followRedirects = true;
 
@@ -66,7 +64,7 @@ public class MattpRequestEnvoy<T>
 	{
 		HttpUriRequest apacheRequest = buildApacheRequest();
 
-		RequestTimeouter requestTimeouter = new RequestTimeouter(apacheRequest, TIMEOUT);
+		RequestTimeouter requestTimeouter = new RequestTimeouter(apacheRequest, timeout);
 		requestTimeouter.start();
 
 		try(CloseableHttpClient httpClient = buildHttpClient();
@@ -147,9 +145,9 @@ public class MattpRequestEnvoy<T>
 		// noinspection deprecation
 		requestConfigBuilder.setCookieSpec(CookieSpecs.BROWSER_COMPATIBILITY);
 		requestConfigBuilder
-				.setSocketTimeout((int) TIMEOUT.toMillis())
-				.setConnectTimeout((int) TIMEOUT.toMillis())
-				.setConnectionRequestTimeout((int) TIMEOUT.toMillis());
+				.setSocketTimeout((int) timeout.toMillis())
+				.setConnectTimeout((int) timeout.toMillis())
+				.setConnectionRequestTimeout((int) timeout.toMillis());
 
 		return requestConfigBuilder;
 	}
