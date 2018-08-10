@@ -14,6 +14,7 @@ import org.apache.commons.lang3.Validate;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.nio.channels.ClosedByInterruptException;
@@ -116,15 +117,20 @@ public final class FileUtil
 	{
 		try
 		{
-			if(!file.exists())
-				throw new IOException("file doesn't exist: "+file);
-
-			return ImageIO.read(file);
+			return readImageUncaught(file);
 		}
 		catch(IOException e)
 		{
 			throw new UncheckedIOException(e);
 		}
+	}
+
+	@API public static BufferedImage readImageUncaught(File file) throws IOException
+	{
+		if(!file.exists())
+			throw new FileNotFoundException("file doesn't exist: "+file);
+
+		return ImageIO.read(file);
 	}
 
 	@API public static void writeImage(File file, BufferedImage image)
