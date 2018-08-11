@@ -12,14 +12,7 @@ public interface IoSource<KeyT, T>
 
 	@API default IoOptional<T> fetchOptional(KeyT key)
 	{
-		try
-		{
-			return IoOptional.of(fetch(key));
-		}
-		catch(IOException e)
-		{
-			return IoOptional.ofException(e);
-		}
+		return IoOptional.ofAction(()->fetch(key));
 	}
 
 	@API default T fetchOrThrowUncheckedException(KeyT key)

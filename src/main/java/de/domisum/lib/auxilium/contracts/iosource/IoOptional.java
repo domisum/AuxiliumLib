@@ -1,5 +1,6 @@
 package de.domisum.lib.auxilium.contracts.iosource;
 
+import de.domisum.lib.auxilium.contracts.iosource.ioaction.IoAction;
 import de.domisum.lib.auxilium.util.java.annotations.API;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +29,18 @@ public final class IoOptional<T>
 	@API public static <T> IoOptional<T> ofException(IOException exception)
 	{
 		return new IoOptional<>(null, exception);
+	}
+
+	@API public static <T> IoOptional<T> ofAction(IoAction<T> ioAction)
+	{
+		try
+		{
+			return of(ioAction.execute());
+		}
+		catch(IOException e)
+		{
+			return ofException(e);
+		}
 	}
 
 

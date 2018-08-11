@@ -1,5 +1,7 @@
 package de.domisum.lib.auxilium.run;
 
+import de.domisum.lib.auxilium.contracts.iosource.ioaction.IoAction;
+import de.domisum.lib.auxilium.contracts.iosource.ioaction.VoidIoAction;
 import de.domisum.lib.auxilium.data.container.DurationDisplay;
 import de.domisum.lib.auxilium.util.java.ThreadUtil;
 import lombok.RequiredArgsConstructor;
@@ -17,12 +19,12 @@ public class RetryUntilSuccessfulIOAction<O>
 
 
 	// INPUT
-	private final IOAction<O> action;
+	private final IoAction<O> action;
 	private final String failMessage;
 
 
 	// INIT
-	public RetryUntilSuccessfulIOAction(VoidIOAction action, String failMessage)
+	public RetryUntilSuccessfulIOAction(VoidIoAction action, String failMessage)
 	{
 		this.action = ()->
 		{
@@ -43,25 +45,9 @@ public class RetryUntilSuccessfulIOAction<O>
 			}
 			catch(IOException e)
 			{
-				logger.warn(failMessage+" (will retry in " +DurationDisplay.of(wait) + ")", e);
+				logger.warn(failMessage+" (will retry in "+DurationDisplay.of(wait)+")", e);
 				ThreadUtil.sleep(wait);
 			}
-	}
-
-
-	// INTERFACE
-	public interface IOAction<O>
-	{
-
-		O execute() throws IOException;
-
-	}
-
-	public interface VoidIOAction
-	{
-
-		void execute() throws IOException;
-
 	}
 
 }
