@@ -1,8 +1,8 @@
 package de.domisum.lib.auxilium.run;
 
+import de.domisum.lib.auxilium.data.container.DurationDisplay;
 import de.domisum.lib.auxilium.util.StringUtil;
 import de.domisum.lib.auxilium.util.java.ThreadUtil;
-import de.domisum.lib.auxilium.util.time.DurationUtil;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -50,9 +50,8 @@ public class RunNotifyOnTimeout implements Runnable
 			if(Duration.between(startInstant, Instant.now()).compareTo(timeout) > 0)
 			{
 				String stackTraceString = stackTraceElementsToString(threadToWatch.getStackTrace());
-				String timeoutString = DurationUtil.format(timeout);
 
-				logger.error("Run timed out ({}); current stacktrace: \n{}", timeoutString, stackTraceString);
+				logger.error("Run timed out ({}); current stacktrace: \n{}", DurationDisplay.of(timeout), stackTraceString);
 				break;
 			}
 

@@ -1,7 +1,7 @@
 package de.domisum.lib.auxilium.run;
 
+import de.domisum.lib.auxilium.data.container.DurationDisplay;
 import de.domisum.lib.auxilium.util.java.ThreadUtil;
-import de.domisum.lib.auxilium.util.time.DurationUtil;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,7 +43,7 @@ public class RetryUntilSuccessfulIOAction<O>
 			}
 			catch(IOException e)
 			{
-				logger.warn(failMessage+" (will retry in " +DurationUtil.format(wait) + ")", e);
+				logger.warn(failMessage+" (will retry in " +DurationDisplay.of(wait) + ")", e);
 				ThreadUtil.sleep(wait);
 			}
 	}
