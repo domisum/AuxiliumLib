@@ -28,24 +28,21 @@ public class MattpSerializedObjectReader<T> implements MattpResponseBodyReader<T
 	// READ
 	@Override public T read(InputStream inputStream) throws IOException
 	{
-		String json = stringReader.read(inputStream);
+		String serialized = stringReader.read(inputStream);
 
-		// TODO don't do io exception throwing when json invalid, find other way
-
-		T object;
 		try
 		{
-			object = toStringSerializer.deserialize(json);
+			T object = toStringSerializer.deserialize(serialized);
+
+			if(object == null)
+				throw new IOException("deserialized object was null (json input: "+serialized+")");
+
+			return object;
 		}
 		catch(RuntimeException e)
 		{
-			throw new IOException("Failed to deserialize object", e);
+			throw new IOException("failed to deserialize object: "+serialized, e);
 		}
-
-		if(object == null)
-			throw new IOException("deserialized object was null (json input: "+json+")");
-
-		return object;
 	}
 
 }
