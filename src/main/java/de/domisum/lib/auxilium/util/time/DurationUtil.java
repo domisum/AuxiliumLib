@@ -1,6 +1,5 @@
 package de.domisum.lib.auxilium.util.time;
 
-import de.domisum.lib.auxilium.data.container.DurationDisplay;
 import de.domisum.lib.auxilium.util.java.annotations.API;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -12,13 +11,6 @@ import java.time.temporal.Temporal;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class DurationUtil
 {
-
-	// FORMAT
-	@API @Deprecated public static String format(Duration duration)
-	{
-		return DurationDisplay.display(duration);
-	}
-
 
 	// MATH
 	@API public static Duration getDelta(Duration duration1, Duration duration2)
