@@ -2,6 +2,7 @@ package de.domisum.lib.auxilium.contracts;
 
 import de.domisum.lib.auxilium.contracts.storage.Keyable;
 import de.domisum.lib.auxilium.util.StringUtil;
+import de.domisum.lib.auxilium.util.java.annotations.API;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -19,7 +20,7 @@ public interface Identifyable extends Keyable<String>
 
 
 	// UTIL
-	static String getIdList(Collection<? extends Identifyable> identifyables)
+	@API static String getIdList(Collection<? extends Identifyable> identifyables)
 	{
 		List<String> strings = new ArrayList<>();
 		for(Identifyable identifyable : identifyables)
