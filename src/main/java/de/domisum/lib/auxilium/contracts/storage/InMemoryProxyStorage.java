@@ -1,5 +1,6 @@
 package de.domisum.lib.auxilium.contracts.storage;
 
+import de.domisum.lib.auxilium.contracts.Keyable;
 import de.domisum.lib.auxilium.util.java.annotations.API;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.Validate;

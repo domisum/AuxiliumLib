@@ -1,6 +1,7 @@
 package de.domisum.lib.auxilium.contracts.storage;
 
 import com.google.gson.JsonSyntaxException;
+import de.domisum.lib.auxilium.contracts.Keyable;
 import de.domisum.lib.auxilium.contracts.serialization.ToStringSerializer;
 import de.domisum.lib.auxilium.util.FileUtil;
 import de.domisum.lib.auxilium.util.FileUtil.FileType;
