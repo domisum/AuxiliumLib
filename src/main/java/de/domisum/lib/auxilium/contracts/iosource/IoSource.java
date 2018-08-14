@@ -5,6 +5,7 @@ import de.domisum.lib.auxilium.util.java.annotations.API;
 
 import java.io.IOException;
 
+@API
 public interface IoSource<KeyT, T>
 {
 
