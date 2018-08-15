@@ -1,4 +1,4 @@
-package de.domisum.lib.auxilium.contracts.iosource;
+package de.domisum.lib.auxilium.contracts.source.io;
 
 import de.domisum.lib.auxilium.run.RetryUntilSuccessfulIOAction;
 import de.domisum.lib.auxilium.util.java.annotations.API;

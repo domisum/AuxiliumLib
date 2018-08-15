@@ -1,7 +1,7 @@
-package de.domisum.lib.auxilium.contracts.source.implementations.web.image;
+package de.domisum.lib.auxilium.contracts.source.optional.implementations.web.image;
 
 import de.domisum.lib.auxilium.contracts.Converter;
-import de.domisum.lib.auxilium.contracts.source.implementations.web.WebDirectorySource;
+import de.domisum.lib.auxilium.contracts.source.optional.implementations.web.WebDirectoryOptionalSource;
 import de.domisum.lib.auxilium.data.container.AbstractURL;
 import de.domisum.lib.auxilium.mattp.util.MattpGetUtil;
 import de.domisum.lib.auxilium.util.java.annotations.API;
@@ -10,11 +10,11 @@ import java.awt.image.BufferedImage;
 import java.util.Optional;
 
 @API
-public class WebDirectoryImageSource<KeyT> extends WebDirectorySource<KeyT, BufferedImage>
+public class WebDirectoryImageOptionalSource<KeyT> extends WebDirectoryOptionalSource<KeyT, BufferedImage>
 {
 
 	// INIT
-	public WebDirectoryImageSource(AbstractURL webDirectory, Converter<KeyT, String> keyToInDirectoryPathConverter)
+	public WebDirectoryImageOptionalSource(AbstractURL webDirectory, Converter<KeyT, String> keyToInDirectoryPathConverter)
 	{
 		super(webDirectory, keyToInDirectoryPathConverter);
 	}

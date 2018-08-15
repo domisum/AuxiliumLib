@@ -1,6 +1,6 @@
-package de.domisum.lib.auxilium.contracts.source.implementations;
+package de.domisum.lib.auxilium.contracts.source.optional.implementations;
 
-import de.domisum.lib.auxilium.contracts.source.FiniteSource;
+import de.domisum.lib.auxilium.contracts.source.optional.FiniteOptionalSource;
 import de.domisum.lib.auxilium.contracts.Keyable;
 import de.domisum.lib.auxilium.contracts.storage.Storage;
 import de.domisum.lib.auxilium.util.java.annotations.API;
@@ -14,7 +14,7 @@ import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
 @RequiredArgsConstructor
-public class InMemoryProxySource<KeyT, T extends Keyable<KeyT>> implements FiniteSource<KeyT, T>
+public class InMemoryProxyOptionalSource<KeyT, T extends Keyable<KeyT>> implements FiniteOptionalSource<KeyT, T>
 {
 
 	// REFERENCES

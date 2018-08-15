@@ -1,4 +1,4 @@
-package de.domisum.lib.auxilium.contracts.source.implementations.web;
+package de.domisum.lib.auxilium.contracts.source.optional.implementations.web;
 
 import de.domisum.lib.auxilium.contracts.Converter;
 import de.domisum.lib.auxilium.contracts.serialization.ToStringSerializer;
@@ -9,14 +9,14 @@ import de.domisum.lib.auxilium.util.java.annotations.API;
 import java.util.Optional;
 
 @API
-public class WebDirectorySerializedObjectSource<KeyT, T> extends WebDirectorySource<KeyT, T>
+public class WebDirectorySerializedObjectOptionalSource<KeyT, T> extends WebDirectoryOptionalSource<KeyT, T>
 {
 
 	private final ToStringSerializer<T> serializer;
 
 
 	// INIT
-	public WebDirectorySerializedObjectSource(
+	public WebDirectorySerializedObjectOptionalSource(
 			AbstractURL webDirectory, Converter<KeyT, String> keyToInDirectoryPathConverter, ToStringSerializer<T> serializer)
 	{
 		super(webDirectory, keyToInDirectoryPathConverter);

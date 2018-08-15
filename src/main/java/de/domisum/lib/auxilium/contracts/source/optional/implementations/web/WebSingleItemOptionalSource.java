@@ -1,6 +1,6 @@
-package de.domisum.lib.auxilium.contracts.source.implementations.web;
+package de.domisum.lib.auxilium.contracts.source.optional.implementations.web;
 
-import de.domisum.lib.auxilium.contracts.source.SingleItemSource;
+import de.domisum.lib.auxilium.contracts.source.optional.SingleItemOptionalSource;
 import de.domisum.lib.auxilium.data.container.AbstractURL;
 import lombok.RequiredArgsConstructor;
 
@@ -8,7 +8,7 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @RequiredArgsConstructor
-public abstract class WebSingleItemSource<T> implements SingleItemSource<T>
+public abstract class WebSingleItemOptionalSource<T> implements SingleItemOptionalSource<T>
 {
 
 	protected final AbstractURL url;

@@ -1,7 +1,7 @@
-package de.domisum.lib.auxilium.contracts.source.implementations.web;
+package de.domisum.lib.auxilium.contracts.source.optional.implementations.web;
 
 import de.domisum.lib.auxilium.contracts.Converter;
-import de.domisum.lib.auxilium.contracts.source.Source;
+import de.domisum.lib.auxilium.contracts.source.optional.OptionalSource;
 import de.domisum.lib.auxilium.data.container.AbstractURL;
 import de.domisum.lib.auxilium.util.PHR;
 import lombok.RequiredArgsConstructor;
@@ -10,7 +10,7 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @RequiredArgsConstructor
-public abstract class WebDirectorySource<KeyT, T> implements Source<KeyT, T>
+public abstract class WebDirectoryOptionalSource<KeyT, T> implements OptionalSource<KeyT, T>
 {
 
 	private final AbstractURL webDirectory;

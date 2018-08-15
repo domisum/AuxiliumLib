@@ -1,10 +1,10 @@
-package de.domisum.lib.auxilium.contracts.source;
+package de.domisum.lib.auxilium.contracts.source.optional;
 
 import de.domisum.lib.auxilium.util.java.annotations.API;
 
 import java.util.Collection;
 
-public interface FiniteSource<KeyT, T> extends Source<KeyT, T>
+public interface FiniteOptionalSource<KeyT, T> extends OptionalSource<KeyT, T>
 {
 
 	/**

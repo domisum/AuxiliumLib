@@ -1,6 +1,6 @@
-package de.domisum.lib.auxilium.contracts.iosource;
+package de.domisum.lib.auxilium.contracts.source.io;
 
-import de.domisum.lib.auxilium.contracts.iosource.ioaction.IoAction;
+import de.domisum.lib.auxilium.contracts.source.io.ioaction.IoAction;
 import de.domisum.lib.auxilium.util.java.annotations.API;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;

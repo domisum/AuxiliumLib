@@ -1,6 +1,6 @@
-package de.domisum.lib.auxilium.contracts.source.implementations.cache;
+package de.domisum.lib.auxilium.contracts.source.optional.implementations.cache;
 
-import de.domisum.lib.auxilium.contracts.source.SingleItemSource;
+import de.domisum.lib.auxilium.contracts.source.optional.SingleItemOptionalSource;
 import de.domisum.lib.auxilium.util.java.annotations.API;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -11,12 +11,12 @@ import java.util.Optional;
 
 @API
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
-public final class SingleItemSourceCache<T> implements SingleItemSource<T>
+public final class SingleItemOptionalSourceCache<T> implements SingleItemOptionalSource<T>
 {
 
 	// REFERENCES
 	private final Duration invalidationInterval;
-	private final SingleItemSource<T> backingSource;
+	private final SingleItemOptionalSource<T> backingSource;
 
 	// CACHE
 	private T cachedItem;
@@ -24,15 +24,15 @@ public final class SingleItemSourceCache<T> implements SingleItemSource<T>
 
 
 	// INIT
-	@API public static <T> SingleItemSourceCache<T> neverInvalidate(SingleItemSource<T> backingSource)
+	@API public static <T> SingleItemOptionalSourceCache<T> neverInvalidate(SingleItemOptionalSource<T> backingSource)
 	{
-		return new SingleItemSourceCache<>(null, backingSource);
+		return new SingleItemOptionalSourceCache<>(null, backingSource);
 	}
 
 	@API
-	public static <T> SingleItemSourceCache<T> invalidateEvery(Duration invalidationInterval, SingleItemSource<T> backingSource)
+	public static <T> SingleItemOptionalSourceCache<T> invalidateEvery(Duration invalidationInterval, SingleItemOptionalSource<T> backingSource)
 	{
-		return new SingleItemSourceCache<>(invalidationInterval, backingSource);
+		return new SingleItemOptionalSourceCache<>(invalidationInterval, backingSource);
 	}
 
 

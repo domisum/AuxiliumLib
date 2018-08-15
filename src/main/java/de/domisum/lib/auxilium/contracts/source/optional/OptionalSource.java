@@ -1,11 +1,11 @@
-package de.domisum.lib.auxilium.contracts.source;
+package de.domisum.lib.auxilium.contracts.source.optional;
 
 import de.domisum.lib.auxilium.util.java.annotations.API;
 
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
-public interface Source<KeyT, T>
+public interface OptionalSource<KeyT, T>
 {
 
 	/**
