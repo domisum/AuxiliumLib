@@ -19,6 +19,13 @@ public final class DurationUtil
 	}
 
 
+	// FLOATING COMMA CONVERSION
+	@API public static double getMinutesDecimal(Duration duration)
+	{
+		return duration.getSeconds()/(double) Duration.ofMinutes(1).getSeconds();
+	}
+
+
 	// NOW
 	@API public static Duration toNow(Temporal from)
 	{
