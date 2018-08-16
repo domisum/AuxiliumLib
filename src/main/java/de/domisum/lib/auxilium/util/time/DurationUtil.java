@@ -32,4 +32,10 @@ public final class DurationUtil
 		return Duration.between(from, Instant.now());
 	}
 
+	@API public static boolean isOlderThan(Instant instant, Duration duration)
+	{
+		Duration age = toNow(instant);
+		return age.compareTo(duration) > 0;
+	}
+
 }
