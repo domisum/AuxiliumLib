@@ -5,6 +5,7 @@ import de.domisum.lib.auxilium.util.math.MathUtil;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
+import javax.imageio.ImageIO;
 import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Graphics2D;
@@ -15,6 +16,10 @@ import java.awt.image.ConvolveOp;
 import java.awt.image.Kernel;
 import java.awt.image.RenderedImage;
 import java.awt.image.WritableRaster;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.UncheckedIOException;
 
 @API
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
@@ -32,6 +37,25 @@ public final class ImageUtil
 				bufferedImage.getWidth(),
 				bufferedImage.getHeight()
 		);
+	}
+
+	@API public static boolean equals(BufferedImage imageA, BufferedImage imageB)
+	{
+		if(imageA.getWidth() != imageB.getWidth())
+			return false;
+
+		if(imageA.getHeight() != imageB.getHeight())
+			return false;
+
+		int width = imageA.getWidth();
+		int height = imageA.getHeight();
+
+		for(int y = 0; y < height; y++)
+			for(int x = 0; x < width; x++)
+				if(imageA.getRGB(x, y) != imageB.getRGB(x, y))
+					return false;
+
+		return true;
 	}
 
 
@@ -64,6 +88,36 @@ public final class ImageUtil
 		}
 
 		return getImageFromPixels(linearPixels, width, height);
+	}
+
+
+	// RAW DATA
+	public static byte[] toRaw(BufferedImage image)
+	{
+		try
+		{
+			ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+			ImageIO.write(image, "png", byteArrayOutputStream);
+
+			return byteArrayOutputStream.toByteArray();
+		}
+		catch(IOException e)
+		{
+			throw new UncheckedIOException(e);
+		}
+	}
+
+	public static BufferedImage fromRaw(byte[] raw)
+	{
+		try
+		{
+			ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(raw);
+			return ImageIO.read(byteArrayInputStream);
+		}
+		catch(IOException e)
+		{
+			throw new UncheckedIOException(e);
+		}
 	}
 
 
