@@ -261,8 +261,13 @@ public final class FileUtil
 	@API public static File createTemporaryFile(String extension)
 	{
 		String cleanedExtension = extension;
-		if((cleanedExtension != null) && !cleanedExtension.startsWith("."))
+
+		if(cleanedExtension == null)
+			cleanedExtension = ".tmp";
+
+		if(!cleanedExtension.startsWith("."))
 			cleanedExtension = "."+cleanedExtension;
+
 
 		try
 		{
@@ -314,7 +319,18 @@ public final class FileUtil
 
 	@API public static String getExtension(File file)
 	{
-		return FilenameUtils.getExtension(file.getName());
+		return getExtension(file.getName());
+	}
+
+	/**
+	 * Returns the exension of the file without a preceding dot.
+	 *
+	 * @param fileName the name of the file of which to determine the extension
+	 * @return file extension without dot
+	 */
+	@API public static String getExtension(String fileName)
+	{
+		return FilenameUtils.getExtension(fileName);
 	}
 
 	@API public static String getCompositeExtension(File file)
