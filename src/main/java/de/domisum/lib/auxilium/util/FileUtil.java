@@ -253,6 +253,15 @@ public final class FileUtil
 
 
 	// TEMP
+	@API public static File getNonExistentTemporaryFile(String extension)
+	{
+		File temporaryFile = createTemporaryFile(extension);
+		String path = temporaryFile.getPath();
+
+		temporaryFile.delete();
+		return new File(path);
+	}
+
 	@API public static File createTemporaryFile()
 	{
 		return createTemporaryFile(null);
@@ -305,6 +314,14 @@ public final class FileUtil
 
 
 	// GENERAL FILE
+	@API public static void delete(File file)
+	{
+		if(file.isDirectory())
+			deleteDirectory(file);
+		else
+			deleteFile(file);
+	}
+
 	@API public static void deleteFile(File file)
 	{
 		try
