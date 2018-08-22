@@ -46,7 +46,14 @@ public abstract class Ticker
 	}
 
 
-	// TICK
+	// GETTERS
+	@API public boolean isRunning()
+	{
+		return tickThreadRunning;
+	}
+
+
+	// CONTROL
 	@API public synchronized void start()
 	{
 		if(tickThread != null)
@@ -92,6 +99,7 @@ public abstract class Ticker
 	}
 
 
+	// TICK
 	private void run()
 	{
 		while(tickThreadRunning)
