@@ -22,6 +22,11 @@ public class ConnectionError<T> implements RequestResponse<T>
 
 
 	// GETTERS
+	@Override public boolean isSuccess()
+	{
+		return false;
+	}
+
 	@Override public Optional<StatusLine> getStatusLine()
 	{
 		return Optional.empty();

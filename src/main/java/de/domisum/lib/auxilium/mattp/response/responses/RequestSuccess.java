@@ -25,6 +25,11 @@ public class RequestSuccess<T> implements RequestResponse<T>
 
 
 	// GETTERS
+	@Override public boolean isSuccess()
+	{
+		return true;
+	}
+
 	@Override public Optional<StatusLine> getStatusLine()
 	{
 		return Optional.of(statusLine);

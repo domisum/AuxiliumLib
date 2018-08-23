@@ -9,10 +9,7 @@ import java.util.Optional;
 public interface RequestResponse<T>
 {
 
-	@API default boolean isSuccess()
-	{
-		return getContent().isPresent();
-	}
+	@API boolean isSuccess();
 
 
 	@API Optional<StatusLine> getStatusLine();
