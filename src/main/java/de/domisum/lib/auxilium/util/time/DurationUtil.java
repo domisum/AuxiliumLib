@@ -18,6 +18,16 @@ public final class DurationUtil
 		return duration1.minus(duration2).abs();
 	}
 
+	@API public static Duration min(Duration a, Duration b)
+	{
+		return (a.compareTo(b) < 0) ? a : b;
+	}
+
+	@API public static Duration max(Duration a, Duration b)
+	{
+		return (a.compareTo(b) > 0) ? a : b;
+	}
+
 
 	// FLOATING COMMA CONVERSION
 	@API public static double getMinutesDecimal(Duration duration)

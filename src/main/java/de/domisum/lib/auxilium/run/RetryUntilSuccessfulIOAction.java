@@ -4,6 +4,7 @@ import de.domisum.lib.auxilium.contracts.source.io.ioaction.IoAction;
 import de.domisum.lib.auxilium.contracts.source.io.ioaction.VoidIoAction;
 import de.domisum.lib.auxilium.data.container.DurationDisplay;
 import de.domisum.lib.auxilium.util.java.ThreadUtil;
+import de.domisum.lib.auxilium.util.time.DurationUtil;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +18,9 @@ public class RetryUntilSuccessfulIOAction<O>
 
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 
+
+	// CONSTANTS
+	private static final Duration MAX_WAIT_DURATION = Duration.ofMinutes(30);
 
 	// INPUT
 	private final IoAction<O> action;
@@ -38,7 +42,9 @@ public class RetryUntilSuccessfulIOAction<O>
 	// EXECUTE
 	public O execute()
 	{
-		for(Duration wait = Duration.ofSeconds(1); true; wait = wait.multipliedBy(2))
+		Duration wait = Duration.ofSeconds(1);
+		while(true)
+		{
 			try
 			{
 				return action.execute();
@@ -48,6 +54,9 @@ public class RetryUntilSuccessfulIOAction<O>
 				logger.warn(failMessage+" (will retry in "+DurationDisplay.of(wait)+")", e);
 				ThreadUtil.sleep(wait);
 			}
+
+			wait = DurationUtil.min(wait.multipliedBy(2), MAX_WAIT_DURATION);
+		}
 	}
 
 }
