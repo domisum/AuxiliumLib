@@ -119,7 +119,7 @@ public final class FileUtil
 		try
 		{
 			createParentDirectory(file);
-			Files.copy(inputStream, file.toPath());
+			Files.copy(inputStream, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
 		}
 		catch(IOException e)
 		{
