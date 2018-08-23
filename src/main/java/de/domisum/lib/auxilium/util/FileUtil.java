@@ -16,6 +16,7 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.UncheckedIOException;
 import java.nio.channels.ClosedByInterruptException;
 import java.nio.charset.Charset;
@@ -104,6 +105,21 @@ public final class FileUtil
 		catch(ClosedByInterruptException ignored)
 		{
 			// ignore this, because the thread was interrupted and no result is expected
+		}
+		catch(IOException e)
+		{
+			throw new UncheckedIOException(e);
+		}
+	}
+
+
+	// STREAM
+	@API public static void writeStream(File file, InputStream inputStream)
+	{
+		try
+		{
+			createParentDirectory(file);
+			Files.copy(inputStream, file.toPath());
 		}
 		catch(IOException e)
 		{
