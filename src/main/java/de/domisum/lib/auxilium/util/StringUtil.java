@@ -129,4 +129,9 @@ public final class StringUtil
 		return string;
 	}
 
+	@API public static List<String> split(String toSplit, String delimiter)
+	{
+		return new ArrayList<>(Arrays.asList(toSplit.split(delimiter)));
+	}
+
 }
