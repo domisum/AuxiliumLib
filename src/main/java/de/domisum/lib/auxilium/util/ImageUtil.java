@@ -92,7 +92,7 @@ public final class ImageUtil
 
 
 	// RAW DATA
-	public static byte[] toRaw(BufferedImage image)
+	public static byte[] toRaw(RenderedImage image)
 	{
 		try
 		{
