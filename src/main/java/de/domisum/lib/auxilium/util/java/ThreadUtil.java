@@ -161,18 +161,18 @@ public final class ThreadUtil
 	// DEBUGGING
 	@API public static String getAllThreadsDump()
 	{
-		String threadDump = "";
+		StringBuilder threadDump = new StringBuilder();
 
 		for(Entry<Thread, StackTraceElement[]> threadEntry : Thread.getAllStackTraces().entrySet())
 		{
 			Thread thread = threadEntry.getKey();
-			threadDump += "Thread: "+thread+", daemon: "+thread.isDaemon()+"\n";
+			threadDump.append("Thread: ").append(thread).append(", daemon: ").append(thread.isDaemon()).append("\n");
 
 			for(StackTraceElement stackTraceElement : threadEntry.getValue())
-				threadDump += "    "+stackTraceElement.toString()+"\n";
+				threadDump.append("    ").append(stackTraceElement.toString()).append("\n");
 		}
 
-		return threadDump;
+		return threadDump.toString();
 	}
 
 	@API public static void dumpAllThreads()
