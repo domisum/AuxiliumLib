@@ -36,7 +36,7 @@ public class MathUtilTest
 
 	@Test public void testRound()
 	{
-		Assertions.assertEquals(3.14d, MathUtil.round(Math.PI, 2));
+		Assertions.assertEquals(7.14d, MathUtil.round(7.1415926, 2));
 
 		// test rounding up and down of positive values
 		Assertions.assertEquals(88.9d, MathUtil.round(88.94d, 1));
