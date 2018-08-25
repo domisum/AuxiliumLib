@@ -55,7 +55,7 @@ public final class DirectoryCopy
 	private void copyDirectoryRecursively(File sourceRoot, File targetRoot)
 	{
 		validateCopyDirectories(sourceRoot, targetRootDirectory);
-		targetRoot.mkdirs();
+		FileUtil.mkdirs(targetRoot);
 
 		for(File f : FileUtil.listFilesFlat(sourceRoot, FileType.FILE))
 			if(shouldCopyFile(f))
