@@ -175,7 +175,7 @@ public final class FileUtil
 
 		try
 		{
-			to.getAbsoluteFile().getParentFile().mkdirs();
+			createParentDirectory(to);
 			Files.copy(from.getAbsoluteFile().toPath(), to.getAbsoluteFile().toPath(), StandardCopyOption.REPLACE_EXISTING);
 		}
 		catch(IOException e)
@@ -191,6 +191,14 @@ public final class FileUtil
 
 
 	// DIRECTORY
+	@API public static void mkdirs(File dir)
+	{
+		boolean success = dir.mkdirs();
+		if(!success)
+			throw new UncheckedIOException(new IOException(
+					"Failed to create directory (and possibly parent directories) of "+dir));
+	}
+
 	@API public static File getFileInSameDirectory(File file, String otherName)
 	{
 		return new File(file.getAbsoluteFile().getParent(), otherName);
@@ -198,7 +206,7 @@ public final class FileUtil
 
 	@API public static void createParentDirectory(File file)
 	{
-		file.getAbsoluteFile().getParentFile().mkdirs();
+		mkdirs(file.getAbsoluteFile().getParentFile());
 	}
 
 	@API public static void deleteDirectory(File directory)
@@ -274,7 +282,7 @@ public final class FileUtil
 		File temporaryFile = createTemporaryFile(extension);
 		String path = temporaryFile.getPath();
 
-		temporaryFile.delete();
+		deleteFile(temporaryFile);
 		return new File(path);
 	}
 
