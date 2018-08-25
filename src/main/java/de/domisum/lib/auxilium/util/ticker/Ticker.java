@@ -47,7 +47,7 @@ public abstract class Ticker
 
 
 	// GETTERS
-	@API public boolean isRunning()
+	@API public synchronized boolean isRunning()
 	{
 		return tickThreadRunning;
 	}
