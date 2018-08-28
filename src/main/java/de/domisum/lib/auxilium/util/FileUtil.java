@@ -170,8 +170,7 @@ public final class FileUtil
 	@API public static void copyFile(File from, File to)
 	{
 		if(to.exists() && to.isDirectory())
-			throw new UncheckedIOException(new IOException(
-					"can't copy to file '"+to+"', it is a directory and already "+"exists"));
+			throw new UncheckedIOException(new IOException("can't copy to file '"+to+"', it is a directory and already exists"));
 
 		try
 		{
@@ -193,6 +192,9 @@ public final class FileUtil
 	// DIRECTORY
 	@API public static void mkdirs(File dir)
 	{
+		if(dir.exists())
+			return;
+
 		boolean success = dir.mkdirs();
 		if(!success)
 			throw new UncheckedIOException(new IOException(

@@ -1,13 +1,10 @@
 package de.domisum.lib.auxilium.util;
 
-import com.google.common.io.Files;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
-import java.io.IOException;
-import java.io.UncheckedIOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -119,21 +116,14 @@ public class FileUtilTest
 	// ARRANGE
 	private File createTempFile()
 	{
-		try
-		{
-			File tempFile = File.createTempFile("test", "test");
-			filesToTearDown.add(tempFile);
-			return tempFile;
-		}
-		catch(IOException e)
-		{
-			throw new UncheckedIOException(e);
-		}
+		File tempFile = FileUtil.createTemporaryFile();
+		filesToTearDown.add(tempFile);
+		return tempFile;
 	}
 
 	private File createTempDirectory()
 	{
-		File tempDir = Files.createTempDir();
+		File tempDir = FileUtil.createTemporaryDirectory();
 		filesToTearDown.add(tempDir);
 		return tempDir;
 	}
