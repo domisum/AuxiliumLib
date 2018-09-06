@@ -1,8 +1,11 @@
 package de.domisum.lib.auxilium.util;
 
+import de.domisum.lib.auxilium.data.container.DurationDisplay;
 import de.domisum.lib.auxilium.util.java.annotations.API;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
+
+import java.time.Duration;
 
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public final class ValidationUtil
@@ -31,6 +34,16 @@ public final class ValidationUtil
 	{
 		if(number <= 0)
 			throw new IllegalArgumentException(variableName+" has to be greater than zero, but was "+number);
+	}
+
+
+	// DURATION
+	@API public static void greaterThan(Duration a, Duration b, String aName, String bName)
+	{
+		if(b.compareTo(a) > 0)
+			throw new IllegalArgumentException(
+					aName+" ("+DurationDisplay.display(a)+") has to be greater than "+bName+" ("+DurationDisplay.display(b)
+							+"), but wasn't");
 	}
 
 
