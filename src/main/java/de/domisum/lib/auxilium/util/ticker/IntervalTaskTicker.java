@@ -61,9 +61,9 @@ public class IntervalTaskTicker extends Ticker
 	private static class IntervalTask
 	{
 
-		@NonNull private String taskName;
-		@NonNull private Runnable task;
-		@NonNull private Duration interval;
+		@NonNull private final String taskName;
+		@NonNull private final Runnable task;
+		@NonNull private final Duration interval;
 
 		private Instant lastExecution = Instant.MIN;
 
