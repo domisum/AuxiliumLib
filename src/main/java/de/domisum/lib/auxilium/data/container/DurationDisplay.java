@@ -47,6 +47,9 @@ public final class DurationDisplay implements CharSequence
 		if(duration.isNegative())
 			return "-"+generateDisplay(duration.abs());
 
+		if(duration.isZero())
+			return "0ms";
+
 		if(isDurationTooSmall(duration))
 			return "<1ms";
 
@@ -55,9 +58,6 @@ public final class DurationDisplay implements CharSequence
 		for(TemporalUnit unit : TemporalUnit.values())
 		{
 			if(durationRemaining.isZero())
-				break;
-
-			if(isDisplayAccurateEnough(displayComponents))
 				break;
 
 			if(isUnitTooFineForDuration(duration, unit) && !displayComponents.isEmpty())
@@ -77,21 +77,13 @@ public final class DurationDisplay implements CharSequence
 			durationRemaining = durationRemaining.minus(ofUnitDuration);
 		}
 
-		if(durationRemaining.isZero() && (displayComponents.size() < 2))
-			displayComponents.add(ZERO_LEFT_SYMBOL);
-
 		return StringUtil.listToString(displayComponents, ":");
 	}
 
 	private static boolean isDurationTooSmall(Duration duration)
 	{
 		TemporalUnit finestUnit = TemporalUnit.values()[TemporalUnit.values().length-1];
-		return isUnitTooBigForDuration(duration, finestUnit) && !duration.isZero();
-	}
-
-	private static boolean isDisplayAccurateEnough(List<String> displayComponents)
-	{
-		return displayComponents.size() >= 2;
+		return isUnitTooBigForDuration(duration, finestUnit);
 	}
 
 	private static boolean isUnitTooFineForDuration(Duration duration, TemporalUnit unit)
