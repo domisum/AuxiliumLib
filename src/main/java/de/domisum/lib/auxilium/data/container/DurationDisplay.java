@@ -15,8 +15,7 @@ public final class DurationDisplay implements CharSequence
 {
 
 	// CONSTANTS
-	private static final double PRECISION_INTERVAL = 5000;
-	private static final String ZERO_LEFT_SYMBOL = "--";
+	private static final double PRECISION_INTERVAL = 1400;
 
 	// ATTRIBUTES
 	@Getter private final Duration duration;
@@ -57,13 +56,10 @@ public final class DurationDisplay implements CharSequence
 		List<String> displayComponents = new ArrayList<>();
 		for(TemporalUnit unit : TemporalUnit.values())
 		{
-			if(durationRemaining.isZero())
+			if(isUnitTooFine(duration, durationRemaining, unit))
 				break;
 
-			if(isUnitTooFineForDuration(duration, unit) && !displayComponents.isEmpty())
-				break;
-
-			if(isUnitTooBigForDuration(durationRemaining, unit))
+			if(isUnitTooBigForDuration(durationRemaining, unit) && displayComponents.isEmpty())
 				continue;
 
 
@@ -80,15 +76,17 @@ public final class DurationDisplay implements CharSequence
 		return StringUtil.listToString(displayComponents, ":");
 	}
 
+
 	private static boolean isDurationTooSmall(Duration duration)
 	{
 		TemporalUnit finestUnit = TemporalUnit.values()[TemporalUnit.values().length-1];
 		return isUnitTooBigForDuration(duration, finestUnit);
 	}
 
-	private static boolean isUnitTooFineForDuration(Duration duration, TemporalUnit unit)
+	private static boolean isUnitTooFine(Duration duration, Duration durationRemaining, TemporalUnit unit)
 	{
-		return howManyTimesFitsInside(duration, unit.getDuration()) > PRECISION_INTERVAL;
+		Duration comparisonDur = (durationRemaining.compareTo(unit.duration) < 0) ? unit.duration : durationRemaining;
+		return howManyTimesFitsInside(duration, comparisonDur) > PRECISION_INTERVAL;
 	}
 
 	private static boolean isUnitTooBigForDuration(Duration durationRemaining, TemporalUnit unit)
