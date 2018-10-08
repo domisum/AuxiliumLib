@@ -3,6 +3,7 @@ package de.domisum.lib.auxilium.data.container.math;
 import de.domisum.lib.auxilium.util.java.annotations.API;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.ToString;
 
 @API
@@ -12,8 +13,8 @@ import lombok.ToString;
 public class Coordinate2DInt
 {
 
-	public final int x;
-	public final int y;
+	@Getter public final int x;
+	@Getter public final int y;
 
 
 	public Coordinate2DInt add(Coordinate2DInt other)
