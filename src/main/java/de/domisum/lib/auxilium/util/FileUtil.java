@@ -37,19 +37,22 @@ public final class FileUtil
 {
 
 	// CONSTANTS
-	@API public static final Charset DEFAULT_STRING_ENCODING = StandardCharsets.UTF_8;
+	@API
+	public static final Charset DEFAULT_STRING_ENCODING = StandardCharsets.UTF_8;
 
 	// TEMP
 	private static final Collection<File> temporaryDirectories = new ArrayList<>();
 
 
 	//  STRING
-	@API public static String readString(File file)
+	@API
+	public static String readString(File file)
 	{
 		return readString(file, DEFAULT_STRING_ENCODING);
 	}
 
-	@API public static String readString(File file, Charset encoding)
+	@API
+	public static String readString(File file, Charset encoding)
 	{
 		try
 		{
@@ -63,12 +66,14 @@ public final class FileUtil
 	}
 
 
-	@API public static void writeString(File file, String toWrite)
+	@API
+	public static void writeString(File file, String toWrite)
 	{
 		writeString(file, toWrite, DEFAULT_STRING_ENCODING);
 	}
 
-	@API public static void writeString(File file, String toWrite, Charset encoding)
+	@API
+	public static void writeString(File file, String toWrite, Charset encoding)
 	{
 		try
 		{
@@ -83,7 +88,8 @@ public final class FileUtil
 
 
 	// RAW
-	@API public static byte[] readRaw(File file)
+	@API
+	public static byte[] readRaw(File file)
 	{
 		try
 		{
@@ -95,7 +101,8 @@ public final class FileUtil
 		}
 	}
 
-	@API public static void writeRaw(File file, byte[] toWrite)
+	@API
+	public static void writeRaw(File file, byte[] toWrite)
 	{
 		try
 		{
@@ -114,7 +121,8 @@ public final class FileUtil
 
 
 	// STREAM
-	@API public static void writeStream(File file, InputStream inputStream)
+	@API
+	public static void writeStream(File file, InputStream inputStream)
 	{
 		try
 		{
@@ -129,7 +137,8 @@ public final class FileUtil
 
 
 	// IMAGE
-	@API public static BufferedImage readImage(File file)
+	@API
+	public static BufferedImage readImage(File file)
 	{
 		try
 		{
@@ -141,7 +150,8 @@ public final class FileUtil
 		}
 	}
 
-	@API public static BufferedImage readImageUncaught(File file) throws IOException
+	@API
+	public static BufferedImage readImageUncaught(File file) throws IOException
 	{
 		if(!file.exists())
 			throw new FileNotFoundException("file doesn't exist: "+file);
@@ -149,7 +159,8 @@ public final class FileUtil
 		return ImageIO.read(file);
 	}
 
-	@API public static void writeImage(File file, BufferedImage image)
+	@API
+	public static void writeImage(File file, BufferedImage image)
 	{
 		Validate.notNull(file, "file was null");
 		Validate.notNull(image, "image was null");
@@ -167,7 +178,8 @@ public final class FileUtil
 
 
 	// COPY
-	@API public static void copyFile(File from, File to)
+	@API
+	public static void copyFile(File from, File to)
 	{
 		if(to.exists() && to.isDirectory())
 			throw new UncheckedIOException(new IOException("can't copy to file '"+to+"', it is a directory and already exists"));
@@ -183,14 +195,16 @@ public final class FileUtil
 		}
 	}
 
-	@API public static void copyDirectory(File sourceRootDirectory, File targetRootDirectory, FileFilter... filters)
+	@API
+	public static void copyDirectory(File sourceRootDirectory, File targetRootDirectory, FileFilter... filters)
 	{
 		DirectoryCopy.fromTo(sourceRootDirectory, targetRootDirectory, filters).copy();
 	}
 
 
 	// DIRECTORY
-	@API public static void mkdirs(File dir)
+	@API
+	public static void mkdirs(File dir)
 	{
 		if(dir.exists())
 			return;
@@ -201,17 +215,20 @@ public final class FileUtil
 					"Failed to create directory (and possibly parent directories) of "+dir));
 	}
 
-	@API public static File getFileInSameDirectory(File file, String otherName)
+	@API
+	public static File getFileInSameDirectory(File file, String otherName)
 	{
 		return new File(file.getAbsoluteFile().getParent(), otherName);
 	}
 
-	@API public static void createParentDirectory(File file)
+	@API
+	public static void createParentDirectory(File file)
 	{
 		mkdirs(file.getAbsoluteFile().getParentFile());
 	}
 
-	@API public static void deleteDirectory(File directory)
+	@API
+	public static void deleteDirectory(File directory)
 	{
 		if(!directory.exists())
 			return;
@@ -221,7 +238,8 @@ public final class FileUtil
 		deleteFile(directory);
 	}
 
-	@API public static void deleteDirectoryContents(File directory)
+	@API
+	public static void deleteDirectoryContents(File directory)
 	{
 		if(!directory.exists())
 			return;
@@ -241,12 +259,14 @@ public final class FileUtil
 	}
 
 
-	@API public static Collection<File> listFilesFlat(File directory, FileType fileType)
+	@API
+	public static Collection<File> listFilesFlat(File directory, FileType fileType)
 	{
 		return listFiles(directory, fileType, false);
 	}
 
-	@API public static Collection<File> listFilesRecursively(File directory, FileType fileType)
+	@API
+	public static Collection<File> listFilesRecursively(File directory, FileType fileType)
 	{
 		return listFiles(directory, fileType, true);
 	}
@@ -279,7 +299,8 @@ public final class FileUtil
 
 
 	// TEMP
-	@API public static File getNonExistentTemporaryFile(String extension)
+	@API
+	public static File getNonExistentTemporaryFile(String extension)
 	{
 		File temporaryFile = createTemporaryFile(extension);
 		String path = temporaryFile.getPath();
@@ -288,12 +309,14 @@ public final class FileUtil
 		return new File(path);
 	}
 
-	@API public static File createTemporaryFile()
+	@API
+	public static File createTemporaryFile()
 	{
 		return createTemporaryFile(null);
 	}
 
-	@API public static File createTemporaryFile(String extension)
+	@API
+	public static File createTemporaryFile(String extension)
 	{
 		String cleanedExtension = extension;
 
@@ -316,7 +339,8 @@ public final class FileUtil
 		}
 	}
 
-	@API public static File createTemporaryDirectory()
+	@API
+	public static File createTemporaryDirectory()
 	{
 		try
 		{
@@ -340,7 +364,21 @@ public final class FileUtil
 
 
 	// GENERAL FILE
-	@API public static void delete(File file)
+	@API
+	public static boolean createFile(File file)
+	{
+		try
+		{
+			return file.createNewFile();
+		}
+		catch(IOException e)
+		{
+			throw new UncheckedIOException(e);
+		}
+	}
+
+	@API
+	public static void delete(File file)
 	{
 		if(file.isDirectory())
 			deleteDirectory(file);
@@ -348,7 +386,8 @@ public final class FileUtil
 			deleteFile(file);
 	}
 
-	@API public static void deleteFile(File file)
+	@API
+	public static void deleteFile(File file)
 	{
 		try
 		{
@@ -360,7 +399,8 @@ public final class FileUtil
 		}
 	}
 
-	@API public static String getExtension(File file)
+	@API
+	public static String getExtension(File file)
 	{
 		return getExtension(file.getName());
 	}
@@ -371,12 +411,14 @@ public final class FileUtil
 	 * @param fileName the name of the file of which to determine the extension
 	 * @return file extension without dot
 	 */
-	@API public static String getExtension(String fileName)
+	@API
+	public static String getExtension(String fileName)
 	{
 		return FilenameUtils.getExtension(fileName);
 	}
 
-	@API public static String getCompositeExtension(File file)
+	@API
+	public static String getCompositeExtension(File file)
 	{
 		String fileName = file.getName();
 		if(!fileName.contains("."))
@@ -385,7 +427,8 @@ public final class FileUtil
 		return fileName.substring(fileName.indexOf('.'));
 	}
 
-	@API public static String getNameWithoutCompositeExtension(File file)
+	@API
+	public static String getNameWithoutCompositeExtension(File file)
 	{
 		String compositeFileExtension = getCompositeExtension(file);
 		String fileName = file.getName();
@@ -395,7 +438,8 @@ public final class FileUtil
 	}
 
 
-	@API public static String getFilePath(File file)
+	@API
+	public static String getFilePath(File file)
 	{
 		String path = file.getAbsoluteFile().getPath();
 		path = unifyDelimiters(path);
@@ -403,12 +447,14 @@ public final class FileUtil
 		return path;
 	}
 
-	@API public static String unifyDelimiters(String path)
+	@API
+	public static String unifyDelimiters(String path)
 	{
 		return path.replaceAll(StringUtil.escapeStringForRegex("\\"), "/");
 	}
 
-	@API public static Instant getContentLastModified(File file)
+	@API
+	public static Instant getContentLastModified(File file)
 	{
 		if(!file.isDirectory())
 			return getLastModified(file);
@@ -428,7 +474,8 @@ public final class FileUtil
 		return mostRecentModified;
 	}
 
-	@API public static Instant getLastModified(File file)
+	@API
+	public static Instant getLastModified(File file)
 	{
 		return Instant.ofEpochMilli(file.lastModified());
 	}
