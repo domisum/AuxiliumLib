@@ -362,6 +362,12 @@ public final class FileUtil
 		temporaryDirectories.add(directory);
 	}
 
+	@API
+	public static File getTempDirectory()
+	{
+		return getNonExistentTemporaryFile("shouldBeDeletedInstantly").getAbsoluteFile().getParentFile();
+	}
+
 
 	// GENERAL FILE
 	@API
