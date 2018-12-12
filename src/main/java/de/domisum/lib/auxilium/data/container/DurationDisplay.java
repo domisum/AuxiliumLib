@@ -18,17 +18,20 @@ public final class DurationDisplay implements CharSequence
 	private static final double PRECISION_INTERVAL = 1400;
 
 	// ATTRIBUTES
-	@Getter private final Duration duration;
+	@Getter
+	private final Duration duration;
 	private final String display;
 
 
 	// INIT
-	@API public static String display(Duration duration)
+	@API
+	public static String display(Duration duration)
 	{
 		return of(duration).toString();
 	}
 
-	@API public static DurationDisplay of(Duration duration)
+	@API
+	public static DurationDisplay of(Duration duration)
 	{
 		return new DurationDisplay(duration);
 	}
@@ -47,21 +50,18 @@ public final class DurationDisplay implements CharSequence
 			return "-"+generateDisplay(duration.abs());
 
 		if(duration.isZero())
-			return "0ms";
-
-		if(isDurationTooSmall(duration))
-			return "<1ms";
+			return "0";
 
 		Duration durationRemaining = duration;
 		List<String> displayComponents = new ArrayList<>();
 		for(TemporalUnit unit : TemporalUnit.values())
 		{
-			if(isUnitTooFine(duration, durationRemaining, unit))
+
+			if(displayComponents.size() >= 2)
 				break;
 
 			if(isUnitTooBigForDuration(durationRemaining, unit) && displayComponents.isEmpty())
 				continue;
-
 
 			double ofUnitDecimal = howManyTimesFitsInside(durationRemaining, unit.getDuration());
 			long ofUnit = (long) Math.floor(ofUnitDecimal);
@@ -76,19 +76,6 @@ public final class DurationDisplay implements CharSequence
 		return StringUtil.listToString(displayComponents, ":");
 	}
 
-
-	private static boolean isDurationTooSmall(Duration duration)
-	{
-		TemporalUnit finestUnit = TemporalUnit.values()[TemporalUnit.values().length-1];
-		return isUnitTooBigForDuration(duration, finestUnit);
-	}
-
-	private static boolean isUnitTooFine(Duration duration, Duration durationRemaining, TemporalUnit unit)
-	{
-		Duration comparisonDur = (durationRemaining.compareTo(unit.duration) < 0) ? unit.duration : durationRemaining;
-		return howManyTimesFitsInside(duration, comparisonDur) > PRECISION_INTERVAL;
-	}
-
 	private static boolean isUnitTooBigForDuration(Duration durationRemaining, TemporalUnit unit)
 	{
 		return lessThan(durationRemaining, unit.getDuration());
@@ -97,7 +84,7 @@ public final class DurationDisplay implements CharSequence
 
 	private static double howManyTimesFitsInside(Duration base, Duration part)
 	{
-		return base.toMillis()/(double) part.toMillis();
+		return base.toNanos()/(double) part.toNanos();
 	}
 
 	private static boolean lessThan(Duration a, Duration b)
@@ -107,22 +94,27 @@ public final class DurationDisplay implements CharSequence
 
 
 	// CHAR SEQUENCE
-	@Override public int length()
+	@Override
+	public int length()
 	{
 		return display.length();
 	}
 
-	@Override public char charAt(int i)
+	@Override
+	public char charAt(int i)
 	{
 		return display.charAt(i);
 	}
 
-	@Override public CharSequence subSequence(int beginIndex, int endIndex)
+	@Override
+	public CharSequence subSequence(int beginIndex, int endIndex)
 	{
 		return display.subSequence(beginIndex, endIndex);
 	}
 
-	@Nonnull @Override public String toString()
+	@Nonnull
+	@Override
+	public String toString()
 	{
 		return display;
 	}
@@ -137,10 +129,14 @@ public final class DurationDisplay implements CharSequence
 		HOUR(Duration.ofHours(1), "h"),
 		MINUTE(Duration.ofMinutes(1), "m"),
 		SECOND(Duration.ofSeconds(1), "s"),
-		MILLISECOND(Duration.ofMillis(1), "ms");
+		MILLISECOND(Duration.ofMillis(1), "ms"),
+		MICROSECOND(Duration.ofNanos(1000), "us"),
+		NANOSECOND(Duration.ofNanos(1), "ns");
 
-		@Getter private final Duration duration;
-		@Getter private final String shortName;
+		@Getter
+		private final Duration duration;
+		@Getter
+		private final String shortName;
 
 	}
 
