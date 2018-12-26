@@ -9,6 +9,7 @@ import org.apache.commons.lang3.Validate;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.function.Consumer;
 
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
@@ -20,18 +21,22 @@ public final class IoOptional<T>
 
 
 	// INIT
-	@API public static <T> IoOptional<T> of(T value)
+	@API
+	public static <T> IoOptional<T> of(T value)
 	{
 		Validate.notNull(value);
 		return new IoOptional<>(value, null);
 	}
 
-	@API public static <T> IoOptional<T> ofException(IOException exception)
+	@API
+	public static <T> IoOptional<T> ofException(IOException exception)
 	{
+		Validate.notNull(exception);
 		return new IoOptional<>(null, exception);
 	}
 
-	@API public static <T> IoOptional<T> ofAction(IoAction<T> ioAction)
+	@API
+	public static <T> IoOptional<T> ofAction(IoAction<T> ioAction)
 	{
 		try
 		{
@@ -66,7 +71,8 @@ public final class IoOptional<T>
 		return exception;
 	}
 
-	@API public T getOrThrow() throws IOException
+	@API
+	public T getOrThrow() throws IOException
 	{
 		if(isPresent())
 			return value;
@@ -74,7 +80,8 @@ public final class IoOptional<T>
 		throw exception;
 	}
 
-	@API public T getOrThrowUnchecked()
+	@API
+	public T getOrThrowUnchecked()
 	{
 		if(isPresent())
 			return value;
@@ -84,10 +91,19 @@ public final class IoOptional<T>
 
 
 	// USAGE
-	@API public void ifPresent(Consumer<T> consumer)
+	@API
+	public void ifPresent(Consumer<T> consumer)
 	{
 		if(isPresent())
 			consumer.accept(value);
+	}
+
+
+	// CONVERSION
+	@API
+	public Optional<T> toOptional()
+	{
+		return Optional.ofNullable(value);
 	}
 
 }
