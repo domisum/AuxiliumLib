@@ -397,7 +397,8 @@ public final class FileUtil
 	{
 		try
 		{
-			Files.delete(file.toPath());
+			if(file.exists())
+				Files.delete(file.toPath());
 		}
 		catch(IOException e)
 		{
