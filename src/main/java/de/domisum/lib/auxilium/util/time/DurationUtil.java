@@ -40,6 +40,22 @@ public final class DurationUtil
 	}
 
 
+	// DISPLAY
+	@API
+	public static String getMinutesSeconds(Duration duration)
+	{
+		long secondsMinutesCombinedSeconds = duration.getSeconds();
+		long minutes = secondsMinutesCombinedSeconds/60;
+		long seconds = secondsMinutesCombinedSeconds%60;
+
+		String secondsString = seconds+"";
+		if(secondsString.length() == 1)
+			secondsString = "0"+secondsString;
+
+		return minutes+":"+secondsString;
+	}
+
+
 	// NOW
 	@API
 	public static Duration toNow(Temporal from)
