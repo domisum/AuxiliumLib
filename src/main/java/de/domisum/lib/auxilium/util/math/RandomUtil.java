@@ -3,6 +3,7 @@ package de.domisum.lib.auxilium.util.math;
 import de.domisum.lib.auxilium.data.container.math.Vector2D;
 import de.domisum.lib.auxilium.data.container.math.Vector3D;
 import de.domisum.lib.auxilium.util.java.annotations.API;
+import de.domisum.lib.auxilium.util.java.exceptions.ShouldNeverHappenError;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.Validate;
@@ -11,6 +12,8 @@ import java.time.Duration;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Random;
 
 @API
@@ -23,7 +26,8 @@ public final class RandomUtil
 
 
 	// basic
-	@API public static synchronized Random getRandom()
+	@API
+	public static synchronized Random getRandom()
 	{
 		if(random == null)
 			random = new Random();
@@ -31,42 +35,50 @@ public final class RandomUtil
 		return random;
 	}
 
-	@API public static int nextInt(int bound)
+	@API
+	public static int nextInt(int bound)
 	{
 		return nextInt(bound, getRandom());
 	}
 
-	@API public static int nextInt(int bound, Random r)
+	@API
+	public static int nextInt(int bound, Random r)
 	{
 		return r.nextInt(bound);
 	}
 
-	@API public static double nextDouble()
+	@API
+	public static double nextDouble()
 	{
 		return nextDouble(getRandom());
 	}
 
-	@API public static double nextDouble(Random r)
+	@API
+	public static double nextDouble(Random r)
 	{
 		return r.nextDouble();
 	}
 
-	@API public static boolean nextBoolean()
+	@API
+	public static boolean nextBoolean()
 	{
 		return nextBoolean(getRandom());
 	}
 
-	@API public static boolean nextBoolean(Random r)
+	@API
+	public static boolean nextBoolean(Random r)
 	{
 		return r.nextBoolean();
 	}
 
-	@API public static byte[] nextBytes(int length)
+	@API
+	public static byte[] nextBytes(int length)
 	{
 		return nextBytes(length, getRandom());
 	}
 
-	@API public static byte[] nextBytes(int length, Random r)
+	@API
+	public static byte[] nextBytes(int length, Random r)
 	{
 		byte[] bytes = new byte[length];
 		r.nextBytes(bytes);
@@ -76,54 +88,64 @@ public final class RandomUtil
 
 
 	// number
-	@API public static double distribute(double base, double maxDifference)
+	@API
+	public static double distribute(double base, double maxDifference)
 	{
 		return distribute(base, maxDifference, getRandom());
 	}
 
-	@API public static double distribute(double base, double maxDifference, Random r)
+	@API
+	public static double distribute(double base, double maxDifference, Random r)
 	{
 		return base+((r.nextBoolean() ? 1 : -1)*r.nextDouble()*maxDifference);
 	}
 
-	@API public static int distribute(int base, int maxDifference)
+	@API
+	public static int distribute(int base, int maxDifference)
 	{
 		return distribute(base, maxDifference, getRandom());
 	}
 
-	@API public static int distribute(int base, int maxDifference, Random r)
+	@API
+	public static int distribute(int base, int maxDifference, Random r)
 	{
 		return (int) Math.round(distribute((double) base, maxDifference, r)); // cast to double so it picks the double method
 	}
 
-	@API public static int getFromRange(int min, int max)
+	@API
+	public static int getFromRange(int min, int max)
 	{
 		return getFromRange(min, max, getRandom());
 	}
 
-	@API public static int getFromRange(int min, int max, Random r)
+	@API
+	public static int getFromRange(int min, int max, Random r)
 	{
 		return min+nextInt((max-min)+1, r);
 	}
 
-	@API public static double getFromRange(double min, double max)
+	@API
+	public static double getFromRange(double min, double max)
 	{
 		return getFromRange(min, max, getRandom());
 	}
 
-	@API public static double getFromRange(double min, double max, Random r)
+	@API
+	public static double getFromRange(double min, double max, Random r)
 	{
 		return min+(nextDouble(r)*(max-min));
 	}
 
 
 	// vector
-	@API public static Vector3D getUnitVector3D()
+	@API
+	public static Vector3D getUnitVector3D()
 	{
 		return getUnitVector3D(getRandom());
 	}
 
-	@API public static Vector3D getUnitVector3D(Random random)
+	@API
+	public static Vector3D getUnitVector3D(Random random)
 	{
 		double theta = random.nextDouble()*2*Math.PI;
 		double r = (random.nextDouble()*2)-1;
@@ -136,12 +158,14 @@ public final class RandomUtil
 		return new Vector3D(x, y, r);
 	}
 
-	@API public static Vector2D getUnitVector2D()
+	@API
+	public static Vector2D getUnitVector2D()
 	{
 		return getUnitVector2D(getRandom());
 	}
 
-	@API public static Vector2D getUnitVector2D(Random random)
+	@API
+	public static Vector2D getUnitVector2D(Random random)
 	{
 		double angleRad = getFromRange(0, 2*Math.PI, random);
 		double x = Math.cos(angleRad);
@@ -152,12 +176,14 @@ public final class RandomUtil
 
 
 	// random element
-	@API public static <E> E getElement(List<E> list)
+	@API
+	public static <E> E getElement(List<E> list)
 	{
 		return getElement(list, getRandom());
 	}
 
-	@API public static <E> E getElement(List<E> list, Random r)
+	@API
+	public static <E> E getElement(List<E> list, Random r)
 	{
 		if(list.isEmpty())
 			throw new IllegalArgumentException("The list has to have at least 1 element");
@@ -167,12 +193,14 @@ public final class RandomUtil
 		return list.get(randomIndex);
 	}
 
-	@API public static <E> E getElement(Collection<E> coll)
+	@API
+	public static <E> E getElement(Collection<E> coll)
 	{
 		return getElement(coll, getRandom());
 	}
 
-	@API public static <E> E getElement(Collection<E> coll, Random r)
+	@API
+	public static <E> E getElement(Collection<E> coll, Random r)
 	{
 		if(coll.isEmpty())
 			throw new IllegalArgumentException("The collection has to have at least 1 element");
@@ -187,13 +215,41 @@ public final class RandomUtil
 		return latestElement;
 	}
 
+	@API
+	public static <E> E getElement(Map<E, Double> elementsWithChance)
+	{
+		return getElement(elementsWithChance, getRandom());
+	}
 
-	@API public static <E> E getElement(E[] array)
+	@API
+	public static <E> E getElement(Map<E, Double> elementsWithChance, Random random)
+	{
+		if(elementsWithChance.isEmpty())
+			throw new IllegalArgumentException("The map has to have at least 1 element");
+
+		double chanceSum = elementsWithChance.values().stream().reduce(0d, (a, b)->a+b);
+		double randomSumThreshold = random.nextDouble()*chanceSum;
+
+		double chanceRunningSum = 0;
+		for(Entry<E, Double> entry : elementsWithChance.entrySet())
+		{
+			chanceRunningSum += entry.getValue();
+			if(chanceRunningSum > randomSumThreshold)
+				return entry.getKey();
+		}
+
+		throw new ShouldNeverHappenError();
+	}
+
+
+	@API
+	public static <E> E getElement(E[] array)
 	{
 		return getElement(array, getRandom());
 	}
 
-	@API public static <E> E getElement(E[] array, Random r)
+	@API
+	public static <E> E getElement(E[] array, Random r)
 	{
 		if(array.length == 0)
 			throw new IllegalArgumentException("The array has to have at least 1 element");
@@ -204,12 +260,14 @@ public final class RandomUtil
 
 
 	// chance
-	@API public static boolean getByChance(double chance)
+	@API
+	public static boolean getByChance(double chance)
 	{
 		return getByChance(chance, getRandom());
 	}
 
-	@API public static boolean getByChance(double chance, Random random)
+	@API
+	public static boolean getByChance(double chance, Random random)
 	{
 		if((chance < 0) || (chance > 1))
 			throw new IllegalArgumentException("The chance has to be between 0 and 1");
@@ -219,12 +277,14 @@ public final class RandomUtil
 
 
 	// time
-	@API public static Duration distribute(Duration base, double maxOffsetRel)
+	@API
+	public static Duration distribute(Duration base, double maxOffsetRel)
 	{
 		return distribute(base, maxOffsetRel, getRandom());
 	}
 
-	@API public static Duration distribute(Duration base, double maxOffsetRel, Random random)
+	@API
+	public static Duration distribute(Duration base, double maxOffsetRel, Random random)
 	{
 		Validate.exclusiveBetween(0.0, 1.0, maxOffsetRel, "maxOffset has to be between 0.0 and 1.0");
 
