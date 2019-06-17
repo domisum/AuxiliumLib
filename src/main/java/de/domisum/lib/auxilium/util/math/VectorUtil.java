@@ -12,7 +12,26 @@ public final class VectorUtil
 {
 
 	// MISC
-	@API public static Vector2D getDirectionVector(double yaw)
+	@API
+	public static Vector3D getVectorRotatedAround(Vector3D axis, double angleBetweenVectorsRad, double rotationAngleRad)
+	{
+		Vector3D orthogonal1 = axis.orthogonal().normalize();
+		Vector3D orthogonal2 = axis.crossProduct(orthogonal1).normalize();
+
+		Vector3D orthogonalComponentAdjacentToAngle = orthogonal1.multiply(Math.cos(rotationAngleRad));
+		Vector3D orthogonalComponentOppositeToAngle = orthogonal2.multiply(Math.sin(rotationAngleRad));
+
+		Vector3D orthogonalRotated = orthogonalComponentAdjacentToAngle.add(orthogonalComponentOppositeToAngle);
+
+		Vector3D resultComponentAdjacentToAngle = axis.multiply(Math.cos(angleBetweenVectorsRad));
+		Vector3D resultComponentOppositeToAngle = orthogonalRotated.multiply(Math.sin(angleBetweenVectorsRad));
+
+		Vector3D result = resultComponentAdjacentToAngle.add(resultComponentOppositeToAngle);
+		return result;
+	}
+
+	@API
+	public static Vector2D getDirectionVector(double yaw)
 	{
 		double dX = -Math.sin(yaw);
 		double dZ = Math.cos(yaw);
@@ -22,24 +41,28 @@ public final class VectorUtil
 
 
 	// MINECRAFT
-	@API public static double getYawFromDirection(Vector3D direction)
+	@API
+	public static double getYawFromDirection(Vector3D direction)
 	{
 		return Math.toDegrees(Math.atan2(direction.z, direction.x))-90;
 	}
 
-	@API public static Vector3D getCenter(Vector3D vector)
+	@API
+	public static Vector3D getCenter(Vector3D vector)
 	{
 		return new Vector3D(Math.floor(vector.x)+.5, Math.floor(vector.y)+.5, Math.floor(vector.z)+.5);
 	}
 
-	@API public static Vector3D convertOffsetToMinecraftCoordinates(Vector3D offset)
+	@API
+	public static Vector3D convertOffsetToMinecraftCoordinates(Vector3D offset)
 	{
 		return new Vector3D(-offset.x, offset.y, -offset.z);
 	}
 
 
 	// ROTATION
-	@API public static Vector3D rotateOnXZPlane(Vector3D vector, double degrees)
+	@API
+	public static Vector3D rotateOnXZPlane(Vector3D vector, double degrees)
 	{
 		double rad = Math.toRadians(-degrees);
 
@@ -51,7 +74,8 @@ public final class VectorUtil
 
 
 	// DISTANCES
-	@API public static double getDistanceFromLineToPoint(Vector2D l1, Vector2D l2, Vector2D p)
+	@API
+	public static double getDistanceFromLineToPoint(Vector2D l1, Vector2D l2, Vector2D p)
 	{
 		// TODO is this even right? may be just for line segment instead of infinite line
 
