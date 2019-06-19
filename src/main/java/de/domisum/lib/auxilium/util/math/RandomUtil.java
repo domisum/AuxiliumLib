@@ -48,6 +48,18 @@ public final class RandomUtil
 	}
 
 	@API
+	public static short nextShort()
+	{
+		return nextShort(getRandom());
+	}
+
+	@API
+	public static short nextShort(Random random)
+	{
+		return (short) (nextInt((Short.MAX_VALUE-Short.MIN_VALUE)+1)+Short.MIN_VALUE);
+	}
+
+	@API
 	public static double nextDouble()
 	{
 		return nextDouble(getRandom());
