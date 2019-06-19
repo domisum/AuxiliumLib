@@ -1,5 +1,6 @@
 package de.domisum.lib.auxilium.util;
 
+import com.google.gson.Gson;
 import de.domisum.lib.auxilium.util.java.annotations.API;
 import de.domisum.lib.auxilium.util.json.GsonUtil;
 import lombok.AccessLevel;
@@ -11,6 +12,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
 
 @API
@@ -55,7 +57,13 @@ public final class SerializationUtil
 	@API
 	public static byte[] serializeAsJsonString(Object object)
 	{
-		String jsonString = GsonUtil.getPretty().toJson(object);
+		return serializeAsJsonString(object, GsonUtil.getPretty());
+	}
+
+	@API
+	public static byte[] serializeAsJsonString(Object object, Gson gson)
+	{
+		String jsonString = gson.toJson(object);
 		byte[] jsonByteArray = jsonString.getBytes(StandardCharsets.UTF_8);
 
 		return jsonByteArray;
@@ -64,8 +72,30 @@ public final class SerializationUtil
 	@API
 	public static <T> T deserializeFromJsonString(byte[] jsonByteArray, Class<T> clazz)
 	{
+		Gson gson = GsonUtil.getPretty();
+		return deserializeFromJsonString(jsonByteArray, clazz, gson);
+	}
+
+	@API
+	public static <T> T deserializeFromJsonString(byte[] jsonByteArray, Class<T> clazz, Gson gson)
+	{
 		String jsonString = new String(jsonByteArray, StandardCharsets.UTF_8);
-		T object = GsonUtil.getPretty().fromJson(jsonString, clazz);
+		T object = gson.fromJson(jsonString, clazz);
+
+		return object;
+	}
+
+	@API
+	public static <T> T deserializeFromJsonString(byte[] jsonByteArray, Type type)
+	{
+		return deserializeFromJsonString(jsonByteArray, type, GsonUtil.getPretty());
+	}
+
+	@API
+	public static <T> T deserializeFromJsonString(byte[] jsonByteArray, Type type, Gson gson)
+	{
+		String jsonString = new String(jsonByteArray, StandardCharsets.UTF_8);
+		T object = gson.fromJson(jsonString, type);
 
 		return object;
 	}
