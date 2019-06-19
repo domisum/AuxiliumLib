@@ -22,7 +22,8 @@ public final class CompressionUtil
 
 
 	// COMPRESSION
-	@API public static byte[] compress(byte[] input, Speed compressionSpeed)
+	@API
+	public static byte[] compress(byte[] input, Speed compressionSpeed)
 	{
 		Validate.notNull(input);
 		Validate.notNull(compressionSpeed);
@@ -48,7 +49,8 @@ public final class CompressionUtil
 		}
 	}
 
-	@API public static byte[] decompress(byte[] input)
+	@API
+	public static byte[] decompress(byte[] input)
 	{
 		Validate.notNull(input);
 
