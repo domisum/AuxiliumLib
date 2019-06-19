@@ -17,12 +17,14 @@ public final class ThreadUtil
 
 
 	// TIMING
-	@API public static boolean sleep(Duration duration)
+	@API
+	public static boolean sleep(Duration duration)
 	{
 		return sleep(duration.toMillis());
 	}
 
-	@API public static boolean sleep(long ms)
+	@API
+	public static boolean sleep(long ms)
 	{
 		try
 		{
@@ -36,7 +38,8 @@ public final class ThreadUtil
 		}
 	}
 
-	@API public static boolean join(Thread thread)
+	@API
+	public static boolean join(Thread thread)
 	{
 		try
 		{
@@ -52,7 +55,8 @@ public final class ThreadUtil
 
 
 	// SYNCHRONIZATION
-	@API public static boolean wait(Object object)
+	@API
+	public static boolean wait(Object object)
 	{
 		try
 		{
@@ -69,7 +73,8 @@ public final class ThreadUtil
 		}
 	}
 
-	@API public static void notifyAll(Object object)
+	@API
+	public static void notifyAll(Object object)
 	{
 		//noinspection SynchronizationOnLocalVariableOrMethodParameter
 		synchronized(object)
@@ -80,12 +85,14 @@ public final class ThreadUtil
 
 
 	// THREAD CREATION
-	@API public static Thread createThread(Runnable runnable, String threadName)
+	@API
+	public static Thread createThread(Runnable runnable, String threadName)
 	{
 		return createThread(runnable, threadName, false);
 	}
 
-	@API public static Thread createDaemonThread(Runnable runnable, String threadName)
+	@API
+	public static Thread createDaemonThread(Runnable runnable, String threadName)
 	{
 		return createThread(runnable, threadName, true);
 	}
@@ -101,12 +108,14 @@ public final class ThreadUtil
 	}
 
 
-	@API public static Thread createAndStartThread(Runnable runnable, String threadName)
+	@API
+	public static Thread createAndStartThread(Runnable runnable, String threadName)
 	{
 		return createAndStartThread(runnable, threadName, false);
 	}
 
-	@API public static Thread createAndStartDaemonThread(Runnable runnable, String threadName)
+	@API
+	public static Thread createAndStartDaemonThread(Runnable runnable, String threadName)
 	{
 		return createAndStartThread(runnable, threadName, true);
 	}
@@ -120,7 +129,8 @@ public final class ThreadUtil
 	}
 
 
-	@API public static Thread runDelayed(Runnable run, long ms)
+	@API
+	public static Thread runDelayed(Runnable run, long ms)
 	{
 		Runnable delayed = ()->
 		{
@@ -133,12 +143,14 @@ public final class ThreadUtil
 
 
 	// SHUTDOWN HOOKS
-	@API public static void registerShutdownHook(Runnable shutdownHook)
+	@API
+	public static void registerShutdownHook(Runnable shutdownHook)
 	{
 		registerShutdownHook(shutdownHook, "shutdownHook");
 	}
 
-	@API public static void registerShutdownHook(Runnable shutdownHook, String shutdownHookName)
+	@API
+	public static void registerShutdownHook(Runnable shutdownHook, String shutdownHookName)
 	{
 		Thread shutdownHookThread = createThread(shutdownHook, shutdownHookName);
 		Runtime.getRuntime().addShutdownHook(shutdownHookThread);
@@ -146,12 +158,19 @@ public final class ThreadUtil
 
 
 	// EXCEPTIONS
-	@API public static void logUncaughtExceptions(Thread thread)
+	@API
+	public static void logUncaughtExceptions(Thread thread)
 	{
 		thread.setUncaughtExceptionHandler((t, e)->
 		{
 			if(e instanceof ThreadDeath)
 				return;
+
+			if(e instanceof OutOfMemoryError)
+			{
+				dumpAllThreads();
+				System.exit(-1);
+			}
 
 			LOGGER.error("uncaught exception in thread {}", t, e);
 		});
@@ -159,7 +178,8 @@ public final class ThreadUtil
 
 
 	// DEBUGGING
-	@API public static String getAllThreadsDump()
+	@API
+	public static String getAllThreadsDump()
 	{
 		StringBuilder threadDump = new StringBuilder();
 
@@ -175,7 +195,8 @@ public final class ThreadUtil
 		return threadDump.toString();
 	}
 
-	@API public static void dumpAllThreads()
+	@API
+	public static void dumpAllThreads()
 	{
 		LOGGER.info("Global thread dump:\n{}", getAllThreadsDump());
 	}
