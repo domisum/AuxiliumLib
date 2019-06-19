@@ -23,7 +23,7 @@ public final class VectorUtil
 
 		Vector3D orthogonalRotated = orthogonalComponentAdjacentToAngle.add(orthogonalComponentOppositeToAngle);
 
-		Vector3D resultComponentAdjacentToAngle = axis.multiply(Math.cos(angleBetweenVectorsRad));
+		Vector3D resultComponentAdjacentToAngle = axis.normalize().multiply(Math.cos(angleBetweenVectorsRad));
 		Vector3D resultComponentOppositeToAngle = orthogonalRotated.multiply(Math.sin(angleBetweenVectorsRad));
 
 		Vector3D result = resultComponentAdjacentToAngle.add(resultComponentOppositeToAngle);
