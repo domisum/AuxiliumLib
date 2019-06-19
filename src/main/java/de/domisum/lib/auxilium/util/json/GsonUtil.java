@@ -16,18 +16,20 @@ public final class GsonUtil
 	private static Gson prettyGson = null;
 
 
-	@API public static synchronized Gson get()
+	@API
+	public static synchronized Gson get()
 	{
 		if(gson == null)
-			gson = new GsonBuilder().create();
+			gson = new GsonBuilder().enableComplexMapKeySerialization().create();
 
 		return gson;
 	}
 
-	@API public static synchronized Gson getPretty()
+	@API
+	public static synchronized Gson getPretty()
 	{
 		if(prettyGson == null)
-			prettyGson = new GsonBuilder().setPrettyPrinting().create();
+			prettyGson = new GsonBuilder().enableComplexMapKeySerialization().setPrettyPrinting().create();
 
 		return prettyGson;
 	}
