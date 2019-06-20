@@ -104,6 +104,8 @@ public final class ThreadUtil
 		thread.setDaemon(daemon);
 		logUncaughtExceptions(thread);
 
+		LOGGER.info("Created thread {}, id: {}", thread, thread.getId());
+
 		return thread;
 	}
 
@@ -186,7 +188,14 @@ public final class ThreadUtil
 		for(Entry<Thread, StackTraceElement[]> threadEntry : Thread.getAllStackTraces().entrySet())
 		{
 			Thread thread = threadEntry.getKey();
-			threadDump.append("Thread: ").append(thread).append(", id: ").append(thread.getId()).append(", daemon: ").append(thread.isDaemon()).append("\n");
+			threadDump
+					.append("Thread: ")
+					.append(thread)
+					.append(", id: ")
+					.append(thread.getId())
+					.append(", daemon: ")
+					.append(thread.isDaemon())
+					.append("\n");
 
 			for(StackTraceElement stackTraceElement : threadEntry.getValue())
 				threadDump.append("    ").append(stackTraceElement.toString()).append("\n");
