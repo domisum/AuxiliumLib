@@ -166,13 +166,13 @@ public final class ThreadUtil
 			if(e instanceof ThreadDeath)
 				return;
 
+			LOGGER.error("uncaught exception in thread {}", t, e);
+
 			if(e instanceof OutOfMemoryError)
 			{
 				dumpAllThreads();
 				System.exit(-1);
 			}
-
-			LOGGER.error("uncaught exception in thread {}", t, e);
 		});
 	}
 
