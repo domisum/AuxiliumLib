@@ -104,8 +104,6 @@ public final class ThreadUtil
 		thread.setDaemon(daemon);
 		logUncaughtExceptions(thread);
 
-		LOGGER.info("Created thread {}, id: {}", thread, thread.getId());
-
 		return thread;
 	}
 
