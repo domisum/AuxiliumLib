@@ -51,7 +51,13 @@ public class RequestSuccess<T> implements RequestResponse<T>
 	}
 
 	@Override
-	public Optional<String> getErrorMessage()
+	public Optional<String> getLongErrorMessage()
+	{
+		return Optional.empty();
+	}
+
+	@Override
+	public Optional<String> getShortErrorMessage()
 	{
 		return Optional.empty();
 	}

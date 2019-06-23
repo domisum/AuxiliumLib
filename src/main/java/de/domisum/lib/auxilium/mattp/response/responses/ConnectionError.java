@@ -48,7 +48,13 @@ public class ConnectionError<T> implements RequestResponse<T>
 	}
 
 	@Override
-	public Optional<String> getErrorMessage()
+	public Optional<String> getLongErrorMessage()
+	{
+		return Optional.of(toString());
+	}
+
+	@Override
+	public Optional<String> getShortErrorMessage()
 	{
 		return Optional.of(toString());
 	}

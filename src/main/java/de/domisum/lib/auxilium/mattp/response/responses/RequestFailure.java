@@ -50,9 +50,15 @@ public class RequestFailure<T> implements RequestResponse<T>
 	}
 
 	@Override
-	public Optional<String> getErrorMessage()
+	public Optional<String> getLongErrorMessage()
 	{
 		return Optional.of(toString());
+	}
+
+	@Override
+	public Optional<String> getShortErrorMessage()
+	{
+		return Optional.of(PHR.r("FAILURE | {}", statusLine));
 	}
 
 }
