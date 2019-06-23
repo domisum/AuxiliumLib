@@ -7,7 +7,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.time.Duration;
+import java.util.HashSet;
 import java.util.Map.Entry;
+import java.util.Set;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class ThreadUtil
@@ -182,10 +184,14 @@ public final class ThreadUtil
 	public static String getAllThreadsDump()
 	{
 		StringBuilder threadDump = new StringBuilder();
+		Set<Long> dumpedThreadsIds = new HashSet<>();
 
 		for(Entry<Thread, StackTraceElement[]> threadEntry : Thread.getAllStackTraces().entrySet())
 		{
 			Thread thread = threadEntry.getKey();
+			if(dumpedThreadsIds.contains(thread.getId()))
+				continue;
+
 			threadDump
 					.append("Thread: ")
 					.append(thread)
@@ -197,6 +203,8 @@ public final class ThreadUtil
 
 			for(StackTraceElement stackTraceElement : threadEntry.getValue())
 				threadDump.append("    ").append(stackTraceElement.toString()).append("\n");
+
+			dumpedThreadsIds.add(thread.getId());
 		}
 
 		return threadDump.toString();
