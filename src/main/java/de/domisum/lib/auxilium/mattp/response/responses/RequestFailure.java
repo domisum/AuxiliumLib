@@ -17,36 +17,42 @@ public class RequestFailure<T> implements RequestResponse<T>
 
 
 	// OBJECT
-	@Override public String toString()
+	@Override
+	public String toString()
 	{
 		return PHR.r("FAILURE | {}: {}", statusLine, errorMessage);
 	}
 
 
 	// GETTERS
-	@Override public boolean isSuccess()
+	@Override
+	public boolean isSuccess()
 	{
 		return false;
 	}
 
-	@Override public Optional<StatusLine> getStatusLine()
+	@Override
+	public Optional<StatusLine> getStatusLine()
 	{
 		return Optional.of(statusLine);
 	}
 
-	@Override public Optional<MattpHeaders> getHeaders()
+	@Override
+	public Optional<MattpHeaders> getHeaders()
 	{
 		return Optional.empty();
 	}
 
-	@Override public Optional<T> getContent()
+	@Override
+	public Optional<T> getContent()
 	{
 		return Optional.empty();
 	}
 
-	@Override public Optional<String> getErrorMessage()
+	@Override
+	public Optional<String> getErrorMessage()
 	{
-		return Optional.of(errorMessage);
+		return Optional.of(toString());
 	}
 
 }

@@ -15,36 +15,42 @@ public class ConnectionError<T> implements RequestResponse<T>
 
 
 	// OBJECT
-	@Override public String toString()
+	@Override
+	public String toString()
 	{
 		return "CONNECTION_ERROR: "+errorMessage;
 	}
 
 
 	// GETTERS
-	@Override public boolean isSuccess()
+	@Override
+	public boolean isSuccess()
 	{
 		return false;
 	}
 
-	@Override public Optional<StatusLine> getStatusLine()
+	@Override
+	public Optional<StatusLine> getStatusLine()
 	{
 		return Optional.empty();
 	}
 
-	@Override public Optional<MattpHeaders> getHeaders()
+	@Override
+	public Optional<MattpHeaders> getHeaders()
 	{
 		return Optional.empty();
 	}
 
-	@Override public Optional<T> getContent()
+	@Override
+	public Optional<T> getContent()
 	{
 		return Optional.empty();
 	}
 
-	@Override public Optional<String> getErrorMessage()
+	@Override
+	public Optional<String> getErrorMessage()
 	{
-		return Optional.ofNullable(errorMessage);
+		return Optional.of(toString());
 	}
 
 }
