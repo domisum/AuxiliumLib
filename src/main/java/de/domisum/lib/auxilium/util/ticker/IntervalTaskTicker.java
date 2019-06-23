@@ -76,8 +76,8 @@ public class IntervalTaskTicker extends Ticker
 
 		protected void run()
 		{
-			task.run();
 			lastExecution = Instant.now();
+			task.run();
 		}
 
 	}
