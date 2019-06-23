@@ -354,7 +354,7 @@ public final class FileUtil
 		}
 	}
 
-	private static void deleteDirectoryOnShutdown(File directory)
+	private static synchronized void deleteDirectoryOnShutdown(File directory)
 	{
 		if(temporaryDirectories.isEmpty())
 			ThreadUtil.registerShutdownHook(()->temporaryDirectories.forEach(FileUtil::deleteDirectory));
