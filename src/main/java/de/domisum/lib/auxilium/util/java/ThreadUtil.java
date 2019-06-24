@@ -6,8 +6,13 @@ import lombok.NoArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
 
@@ -16,6 +21,7 @@ public final class ThreadUtil
 {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger("threadUtil");
+	private static boolean threadDumped = false;
 
 
 	// TIMING
@@ -172,7 +178,8 @@ public final class ThreadUtil
 
 			if(e instanceof OutOfMemoryError)
 			{
-				dumpAllThreads();
+				if(!threadDumped)
+					dumpAllThreads();
 				System.exit(-1);
 			}
 		});
@@ -213,7 +220,42 @@ public final class ThreadUtil
 	@API
 	public static void dumpAllThreads()
 	{
+		threadDumped = true;
+
+		try
+		{
+			String pid = getPid();
+			LOGGER.info("pid: "+pid);
+			Runtime.getRuntime().exec("jstack -l "+pid+" > threadDump.txt");
+		}
+		catch(IOException|InterruptedException e)
+		{
+			LOGGER.error("failed to get pid", e);
+		}
+
 		LOGGER.info("Global thread dump:\n{}", getAllThreadsDump());
 	}
 
+
+	public static String getPid() throws IOException, InterruptedException
+	{
+		List<String> commands = new ArrayList<>();
+		commands.add("/bin/bash");
+		commands.add("-c");
+		commands.add("echo $PPID");
+		ProcessBuilder pb = new ProcessBuilder(commands);
+
+		Process pr = pb.start();
+		pr.waitFor();
+		if(pr.exitValue() == 0)
+		{
+			BufferedReader outReader = new BufferedReader(new InputStreamReader(pr.getInputStream()));
+			return outReader.readLine().trim();
+		}
+		else
+		{
+			LOGGER.error("error getting pid");
+			return "";
+		}
+	}
 }
