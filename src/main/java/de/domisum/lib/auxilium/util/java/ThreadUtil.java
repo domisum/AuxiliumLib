@@ -1,5 +1,6 @@
 package de.domisum.lib.auxilium.util.java;
 
+import de.domisum.lib.auxilium.util.FileUtil;
 import de.domisum.lib.auxilium.util.java.annotations.API;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -7,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.time.Duration;
@@ -225,8 +227,19 @@ public final class ThreadUtil
 		try
 		{
 			String pid = getPid();
-			LOGGER.info("pid: "+pid);
-			Runtime.getRuntime().exec("jstack -l "+pid+" > /home/threadDump"+System.currentTimeMillis()+".txt").waitFor();
+			LOGGER.info("pid: {}", pid);
+			File targetFile = new File("/home/dump"+System.currentTimeMillis()+".txt");
+
+			Runtime rt = Runtime.getRuntime();
+			Process proc = rt.exec("jstack -l "+pid);
+
+			BufferedReader stdInput = new BufferedReader(new InputStreamReader(proc.getInputStream()));
+			String commandOutput = "";
+			String s;
+			while((s = stdInput.readLine()) != null)
+				commandOutput += s+"\n";
+
+			FileUtil.writeString(targetFile, commandOutput);
 		}
 		catch(IOException|InterruptedException e)
 		{
@@ -235,7 +248,6 @@ public final class ThreadUtil
 
 		LOGGER.info("Global thread dump:\n{}", getAllThreadsDump());
 	}
-
 
 	public static String getPid() throws IOException, InterruptedException
 	{
