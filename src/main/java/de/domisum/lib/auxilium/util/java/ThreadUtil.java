@@ -226,7 +226,7 @@ public final class ThreadUtil
 		{
 			String pid = getPid();
 			LOGGER.info("pid: "+pid);
-			Runtime.getRuntime().exec("jstack -l "+pid+" > threadDump.txt");
+			Runtime.getRuntime().exec("jstack -l "+pid+" > /home/threadDump"+System.currentTimeMillis()+".txt").waitFor();
 		}
 		catch(IOException|InterruptedException e)
 		{
