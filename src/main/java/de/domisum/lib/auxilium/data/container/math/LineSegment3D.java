@@ -4,18 +4,20 @@ import de.domisum.lib.auxilium.util.java.annotations.API;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+import java.util.Objects;
+
 @API
 @AllArgsConstructor
-public class LineSegment3D
+public final class LineSegment3D
 {
 
 	// PROPERTIES
 	@API
 	@Getter
-	public final Vector3D a;
+	private final Vector3D a;
 	@API
 	@Getter
-	public final Vector3D b;
+	private final Vector3D b;
 
 
 	// CONVERSION
@@ -32,6 +34,28 @@ public class LineSegment3D
 		Vector3D newB = b.moveTowards(a, distance);
 
 		return new LineSegment3D(newA, newB);
+	}
+
+
+	// OBJECT
+	@Override
+	public boolean equals(Object o)
+	{
+		if(this == o)
+			return true;
+		if((o == null) || (getClass() != o.getClass()))
+			return false;
+
+		LineSegment3D that = (LineSegment3D) o;
+		boolean defaultWay = a.equals(that.a) && b.equals(that.b);
+		boolean invertedWay = a.equals(that.b) && b.equals(that.a);
+		return defaultWay || invertedWay;
+	}
+
+	@Override
+	public int hashCode()
+	{
+		return Objects.hash(a)+Objects.hash(b);
 	}
 
 

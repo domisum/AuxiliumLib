@@ -42,6 +42,8 @@ public class Vector3D
 	}
 
 
+	// OBJECT
+
 	/**
 	 * Combines the coordinates of this object into a string.
 	 * <p>
