@@ -17,7 +17,8 @@ public class Polygon2D implements GeometricShape2D
 {
 
 	// data
-	@Getter private final List<Vector2D> points;
+	@Getter
+	private final List<Vector2D> points;
 
 	// lazy values for better performance
 	private List<LineSegment2D> lines;
@@ -29,7 +30,8 @@ public class Polygon2D implements GeometricShape2D
 
 
 	// INIT
-	@API public Polygon2D(List<Vector2D> points)
+	@API
+	public Polygon2D(List<Vector2D> points)
 	{
 		if(points.size() <= 2)
 			throw new IllegalArgumentException("A polygon has to have at least 3 points");
@@ -44,14 +46,16 @@ public class Polygon2D implements GeometricShape2D
 
 
 	// OBJECT
-	@Override public String toString()
+	@Override
+	public String toString()
 	{
 		return "Polygon2D{"+"points="+points+'}';
 	}
 
 
 	// GETTERS
-	@API public List<LineSegment2D> getLines()
+	@API
+	public List<LineSegment2D> getLines()
 	{
 		if(lines == null)
 		{
@@ -73,7 +77,8 @@ public class Polygon2D implements GeometricShape2D
 		return Collections.unmodifiableList(lines);
 	}
 
-	@API public List<PolygonCorner> getCorners()
+	@API
+	public List<PolygonCorner> getCorners()
 	{
 		if(corners == null)
 		{
@@ -100,7 +105,8 @@ public class Polygon2D implements GeometricShape2D
 		return Collections.unmodifiableList(corners);
 	}
 
-	@API public DoubleBounds2D getBoundingBox()
+	@API
+	public DoubleBounds2D getBoundingBox()
 	{
 		if(boundingBox != null)
 			return boundingBox;
@@ -127,7 +133,8 @@ public class Polygon2D implements GeometricShape2D
 		return boundingBox;
 	}
 
-	@API public Vector2D getPointCenter()
+	@API
+	public Vector2D getPointCenter()
 	{
 		if(pointCenter == null)
 		{
@@ -143,19 +150,28 @@ public class Polygon2D implements GeometricShape2D
 
 
 	// CHECKS
-	@Override @API public boolean contains(Vector2D point)
+	@Override
+	@API
+	public boolean contains(Vector2D point)
 	{
 		DoubleBounds2D boundingBox = getBoundingBox();
 		List<LineSegment2D> lines = getLines();
+
+		System.out.println("pizzatime");
+		System.out.println(boundingBox);
 
 		// if outside bounding box, cant be inside polygon
 		if(!boundingBox.contains(point))
 			return false;
 
+		System.out.println("meme");
+
 		// if the point is on one of the bounding lines, it is contained in the polygon
 		for(LineSegment2D ls : lines)
 			if(ls.contains(point))
 				return true;
+
+		System.out.println("ayy lmao");
 
 		Vector2D pointOutside = new Vector2D(boundingBox.getMinX()-1, boundingBox.getMinY()-1);
 		LineSegment2D ray = new LineSegment2D(pointOutside, point);
@@ -174,10 +190,13 @@ public class Polygon2D implements GeometricShape2D
 				intersections--;
 		}
 
+		System.out.println("intersections: " + intersections);
+
 		return (intersections%2) == 1;
 	}
 
-	@API public boolean overlaps(Polygon2D other)
+	@API
+	public boolean overlaps(Polygon2D other)
 	{
 		// do lines intersect? if yes, the polygons overlap
 		for(LineSegment2D lineSegment2D : getLines())
@@ -197,7 +216,8 @@ public class Polygon2D implements GeometricShape2D
 		return false;
 	}
 
-	@API public boolean isClockwise()
+	@API
+	public boolean isClockwise()
 	{
 		if(clockwise != null)
 			return clockwise;
@@ -214,7 +234,8 @@ public class Polygon2D implements GeometricShape2D
 
 
 	// CALCULATIONS
-	@API public double getArea()
+	@API
+	public double getArea()
 	{
 		double sum = 0;
 
@@ -228,7 +249,8 @@ public class Polygon2D implements GeometricShape2D
 		return Math.abs(sum/2);
 	}
 
-	@API public double getDistanceTo(Vector2D point)
+	@API
+	public double getDistanceTo(Vector2D point)
 	{
 		if(contains(point))
 			return 0;
@@ -245,7 +267,8 @@ public class Polygon2D implements GeometricShape2D
 		return minDistance;
 	}
 
-	@API public double getDistanceTo(Polygon2D other)
+	@API
+	public double getDistanceTo(Polygon2D other)
 	{
 		if(overlaps(other))
 			return 0;
@@ -255,7 +278,8 @@ public class Polygon2D implements GeometricShape2D
 
 
 	// SELF
-	@API public Polygon2D move(Vector2D movement)
+	@API
+	public Polygon2D move(Vector2D movement)
 	{
 		List<Vector2D> movedPoints = new ArrayList<>();
 		for(Vector2D p : points)
