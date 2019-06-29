@@ -176,21 +176,24 @@ public class Polygon2D implements GeometricShape2D
 		Vector2D pointOutside = new Vector2D(boundingBox.getMinX()-1, boundingBox.getMinY()-1);
 		LineSegment2D ray = new LineSegment2D(pointOutside, point);
 
+		System.out.println("position outside: "+pointOutside);
+
 		int intersections = 0;
 		for(LineSegment2D ls : lines)
 			if(ray.intersects(ls))
 				intersections++;
 
-		for(int i = 0; i < points.size(); i++)
-		{
-			Vector2D p = points.get(i);
-			LineSegment2D line = getLines().get(i);
+		System.out.println("intersections: "+intersections);
 
-			if(ray.contains(p) && ray.isColinear(line))
+		for(LineSegment2D line : getLines())
+			if(line.isColinear(ray))
 				intersections--;
-		}
 
-		System.out.println("intersections: " + intersections);
+		for(Vector2D vector2D : getPoints())
+			if(ray.contains(vector2D))
+				intersections--;
+
+		System.out.println("intersections: "+intersections);
 
 		return (intersections%2) == 1;
 	}
