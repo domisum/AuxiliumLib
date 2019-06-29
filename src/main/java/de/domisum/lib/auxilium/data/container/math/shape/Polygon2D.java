@@ -157,33 +157,22 @@ public class Polygon2D implements GeometricShape2D
 		DoubleBounds2D boundingBox = getBoundingBox();
 		List<LineSegment2D> lines = getLines();
 
-		System.out.println("pizzatime");
-		System.out.println(boundingBox);
-
 		// if outside bounding box, cant be inside polygon
 		if(!boundingBox.contains(point))
 			return false;
-
-		System.out.println("meme");
 
 		// if the point is on one of the bounding lines, it is contained in the polygon
 		for(LineSegment2D ls : lines)
 			if(ls.contains(point))
 				return true;
 
-		System.out.println("ayy lmao");
-
 		Vector2D pointOutside = new Vector2D(boundingBox.getMinX()-1, boundingBox.getMinY()-1);
 		LineSegment2D ray = new LineSegment2D(pointOutside, point);
-
-		System.out.println("position outside: "+pointOutside);
 
 		int intersections = 0;
 		for(LineSegment2D ls : lines)
 			if(ray.intersects(ls))
 				intersections++;
-
-		System.out.println("intersections: "+intersections);
 
 		for(LineSegment2D line : getLines())
 			if(line.isColinear(ray))
@@ -192,8 +181,6 @@ public class Polygon2D implements GeometricShape2D
 		for(Vector2D vector2D : getPoints())
 			if(ray.contains(vector2D))
 				intersections--;
-
-		System.out.println("intersections: "+intersections);
 
 		return (intersections%2) == 1;
 	}
