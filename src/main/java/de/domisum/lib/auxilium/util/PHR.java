@@ -12,7 +12,11 @@ import java.util.Objects;
  * PlaceHolderReplacer.
  * <p>
  * Replaces placeholders in strings with supplied values.
+ * <p>
  * Throws an exception if the number of placeholders in the String does not match the supplied number of objects.
+ * <p>
+ * The names of the class and the static methods are chosen as an acronym
+ * to keep static method calls as short as possible.
  */
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public final class PHR implements CharSequence
