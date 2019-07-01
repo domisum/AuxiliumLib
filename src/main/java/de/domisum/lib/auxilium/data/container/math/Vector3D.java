@@ -2,9 +2,9 @@ package de.domisum.lib.auxilium.data.container.math;
 
 import de.domisum.lib.auxilium.util.java.annotations.API;
 import de.domisum.lib.auxilium.util.math.MathUtil;
-import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import org.apache.commons.lang3.Validate;
 
 /**
  * Class to describe a Vector in 3 Dimensions.
@@ -12,7 +12,6 @@ import lombok.Getter;
  * The coordinates are immutable, so every action performed on a object returns a new object with new values,
  * while the Vector3D on which the action was performed remains unchanged.
  */
-@AllArgsConstructor
 @EqualsAndHashCode
 
 @API
@@ -31,6 +30,17 @@ public class Vector3D
 
 
 	// INIT
+	@API
+	public Vector3D(double x, double y, double z)
+	{
+		Validate.notNaN(x, "x can't be NaN");
+		Validate.notNaN(y, "y can't be NaN");
+		Validate.notNaN(z, "z can't be NaN");
+
+		this.x = x;
+		this.y = y;
+		this.z = z;
+	}
 
 	/**
 	 * Constructs a null-Vector3D, where, x, y and z are set to 0.
@@ -54,7 +64,7 @@ public class Vector3D
 	@Override
 	public String toString()
 	{
-		return "vector[x="+MathUtil.round(x, 3)+",y="+MathUtil.round(y, 3)+",z="+MathUtil.round(z, 3)+"]";
+		return "Vector3D[x="+MathUtil.round(x, 3)+",y="+MathUtil.round(y, 3)+",z="+MathUtil.round(z, 3)+"]";
 	}
 
 
@@ -119,6 +129,8 @@ public class Vector3D
 	public Vector3D normalize()
 	{
 		double length = length();
+		if(length == 0)
+			throw new UnsupportedOperationException("can't normalize a vector of length 0");
 
 		return new Vector3D(x/length, y/length, z/length);
 	}
