@@ -2,23 +2,73 @@ package de.domisum.lib.auxilium.util;
 
 import de.domisum.lib.auxilium.util.java.annotations.API;
 import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
-public final class PHR
+/**
+ * PlaceHolderReplacer.
+ * <p>
+ * Replaces placeholders in strings with supplied values.
+ * Throws an exception if the number of placeholders in the String does not match the supplied number of objects.
+ */
+@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
+public final class PHR implements CharSequence
 {
 
 	// CONSTANTS
 	@API
 	public static final String PLACEHOLDER = "{}";
 
+	// INPUT
+	private final String text;
+	private final Object[] values;
+
+	// CACHED
+	private String replaced;
+
+
+	// INIT
+	@API
+	public static String r(String text, Object... values)
+	{
+		return rcs(text, values).toString();
+	}
+
+	/**
+	 * Creates a lazy CharSequence object which will only do the replacing if any of the CharSequence methods or #toString() is
+	 * called. This can improve performance when this method is called extremely often in performance critical parts of the code.
+	 *
+	 * @param text   the text with placeholders
+	 * @param values the values with which the placeholders shall be replaced
+	 * @return a CharSequence which represents the string with placeholders replaced by the supplied values
+	 */
+	@API
+	public static CharSequence rcs(String text, Object... values)
+	{
+		return new PHR(text, values);
+	}
+
+
+	// OBJECT
+	@Override
+	public synchronized String toString()
+	{
+		initReplacedIfNeeded();
+		return replaced;
+	}
+
 
 	// REPLACE
-	public static String r(String text, Object... values)
+	private void initReplacedIfNeeded()
+	{
+		if(replaced == null)
+			replaced = replacePlaceholders();
+	}
+
+	private String replacePlaceholders()
 	{
 		List<Integer> placeholderIndices = determinePlaceholderIndices(text);
 
@@ -62,6 +112,29 @@ public final class PHR
 		}
 
 		return filledInString;
+	}
+
+
+	// CHARSEQUENCE
+	@Override
+	public synchronized int length()
+	{
+		initReplacedIfNeeded();
+		return replaced.length();
+	}
+
+	@Override
+	public synchronized char charAt(int index)
+	{
+		initReplacedIfNeeded();
+		return replaced.charAt(index);
+	}
+
+	@Override
+	public synchronized CharSequence subSequence(int start, int end)
+	{
+		initReplacedIfNeeded();
+		return replaced.subSequence(start, end);
 	}
 
 }
