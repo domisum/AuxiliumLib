@@ -13,7 +13,8 @@ public final class PHR
 {
 
 	// CONSTANTS
-	@API public static final String PLACEHOLDER = "{}";
+	@API
+	public static final String PLACEHOLDER = "{}";
 
 
 	// REPLACE
