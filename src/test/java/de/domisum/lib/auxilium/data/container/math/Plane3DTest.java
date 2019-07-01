@@ -12,6 +12,7 @@ public class Plane3DTest
 		Vector3D a = new Vector3D(0, 0, 0);
 		Vector3D b = new Vector3D(1, 0, 1);
 		Vector3D c = new Vector3D(2, 0, 2);
+
 		Assertions.assertThrows(Exception.class, ()->Plane3D.throughPoints(a, b, c));
 	}
 
