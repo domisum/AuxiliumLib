@@ -48,6 +48,15 @@ public final class VectorUtil
 	}
 
 	@API
+	public static double getPitchFromDirection(Vector3D direction)
+	{
+		double opposedSide = direction.getY();
+		double adjacentSide = new Vector3D(direction.getX(), 0, direction.getZ()).length();
+
+		return -Math.toDegrees(Math.atan2(opposedSide, adjacentSide));
+	}
+
+	@API
 	public static Vector3D getCenter(Vector3D vector)
 	{
 		return new Vector3D(Math.floor(vector.x)+.5, Math.floor(vector.y)+.5, Math.floor(vector.z)+.5);
