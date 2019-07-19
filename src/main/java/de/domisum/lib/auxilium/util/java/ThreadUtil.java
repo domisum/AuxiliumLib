@@ -1,5 +1,6 @@
 package de.domisum.lib.auxilium.util.java;
 
+import de.domisum.lib.auxilium.data.container.DurationDisplay;
 import de.domisum.lib.auxilium.util.FileUtil;
 import de.domisum.lib.auxilium.util.java.annotations.API;
 import lombok.AccessLevel;
@@ -152,7 +153,7 @@ public final class ThreadUtil
 	}
 
 
-	// SHUTDOWN HOOKS
+	// SHUTDOWN
 	@API
 	public static void registerShutdownHook(Runnable shutdownHook)
 	{
@@ -164,6 +165,20 @@ public final class ThreadUtil
 	{
 		Thread shutdownHookThread = createThread(shutdownHook, shutdownHookName);
 		Runtime.getRuntime().addShutdownHook(shutdownHookThread);
+	}
+
+	@API
+	public static void scheduleEmergencyExit(Duration delay)
+	{
+		LOGGER.info("Scheduling emergency exit to run in {}", DurationDisplay.of(delay));
+
+		createAndStartDaemonThread(()->
+		{
+			sleep(delay);
+
+			LOGGER.error("Shutdown did not complete after {}, forcing exit", DurationDisplay.of(delay));
+			System.exit(-1);
+		}, "emergencyDelayedExit");
 	}
 
 
