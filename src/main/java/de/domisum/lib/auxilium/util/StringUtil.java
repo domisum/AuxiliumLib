@@ -1,21 +1,26 @@
 package de.domisum.lib.auxilium.util;
 
+import com.google.common.collect.Sets;
 import de.domisum.lib.auxilium.util.java.annotations.API;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class StringUtil
 {
 
 	// CONCAT
-	@API public static String repeat(String string, int repeats)
+	@API
+	public static String repeat(String string, int repeats)
 	{
 		StringBuilder result = new StringBuilder();
 		for(int i = 0; i < repeats; i++)
@@ -25,7 +30,8 @@ public final class StringUtil
 	}
 
 
-	@API public static String listToString(List<?> list, String delimiter)
+	@API
+	public static String listToString(List<?> list, String delimiter)
 	{
 		StringBuilder combined = new StringBuilder();
 		for(int i = 0; i < list.size(); i++)
@@ -37,22 +43,26 @@ public final class StringUtil
 		return combined.toString();
 	}
 
-	@API public static String collectionToString(Collection<?> collection, String delimiter)
+	@API
+	public static String collectionToString(Collection<?> collection, String delimiter)
 	{
 		return listToString(new ArrayList<>(collection), delimiter);
 	}
 
-	@API public static String concatWithSpace(String... toConcat)
+	@API
+	public static String concatWithSpace(String... toConcat)
 	{
 		return concat(" ", toConcat);
 	}
 
-	@API public static String concat(String delimiter, String... toConcat)
+	@API
+	public static String concat(String delimiter, String... toConcat)
 	{
 		return listToString(Arrays.asList(toConcat), delimiter);
 	}
 
-	@API public static String concatAsManyAsPossible(List<String> stringsInput, String delimiter, int maxLength)
+	@API
+	public static String concatAsManyAsPossible(List<String> stringsInput, String delimiter, int maxLength)
 	{
 		List<String> strings = new ArrayList<>(stringsInput);
 
@@ -71,7 +81,8 @@ public final class StringUtil
 
 
 	// ANALYSIS
-	@API public static String getCommonPrefix(String s1, String s2)
+	@API
+	public static String getCommonPrefix(String s1, String s2)
 	{
 		StringBuilder common = new StringBuilder();
 
@@ -91,7 +102,8 @@ public final class StringUtil
 
 
 	// MISC
-	@API public static String escapeStringForRegex(String input)
+	@API
+	public static String escapeStringForRegex(String input)
 	{
 		List<Character> charactersToEscape = Arrays.asList(ArrayUtils.toObject("<([{\\^-=$!|]})?*+.>".toCharArray()));
 
@@ -109,7 +121,8 @@ public final class StringUtil
 		return escaped;
 	}
 
-	@API public static String truncateStart(String string, int maxLength)
+	@API
+	public static String truncateStart(String string, int maxLength)
 	{
 		String toBeContinued = "...";
 
@@ -120,7 +133,8 @@ public final class StringUtil
 		return toBeContinued+string.substring(string.length()-desiredBaseStringLength);
 	}
 
-	@API public static String replaceLast(String string, String from, String to)
+	@API
+	public static String replaceLast(String string, String from, String to)
 	{
 		int pos = string.lastIndexOf(from);
 		if(pos > -1)
@@ -129,9 +143,39 @@ public final class StringUtil
 		return string;
 	}
 
-	@API public static List<String> split(String toSplit, String delimiter)
+	@API
+	public static List<String> split(String toSplit, String delimiter)
 	{
 		return new ArrayList<>(Arrays.asList(toSplit.split(delimiter)));
+	}
+
+
+	// COMBINATORICS
+	@API
+	@SafeVarargs
+	public static Set<String> generateAllPermutations(String base, Collection<String>... values)
+	{
+		String placeholder = "{}";
+		final String placeholderEscaped = escapeStringForRegex(placeholder);
+
+		int numberOfPlaceholders = StringUtils.countMatches(base, placeholder);
+		if(numberOfPlaceholders != values.length)
+			throw new IllegalArgumentException("number of placeholders does not match number of value collections");
+
+		if(values.length == 0)
+			return Sets.newHashSet(base);
+
+		Set<String> permutations = new HashSet<>();
+		for(String s : values[0])
+		{
+			String replaced = base.replaceFirst(placeholderEscaped, s);
+			Collection<String>[] remainingValues = Arrays.copyOfRange(values, 1, values.length);
+
+			Set<String> subPermutations = generateAllPermutations(replaced, remainingValues);
+			permutations.addAll(subPermutations);
+		}
+
+		return permutations;
 	}
 
 }
