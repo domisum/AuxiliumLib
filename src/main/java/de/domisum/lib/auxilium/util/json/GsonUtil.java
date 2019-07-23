@@ -13,25 +13,22 @@ public final class GsonUtil
 
 	// REFERENCES
 	private static Gson gson = null;
-	private static Gson prettyGson = null;
 
 
 	@API
 	public static synchronized Gson get()
 	{
 		if(gson == null)
-			gson = new GsonBuilder().enableComplexMapKeySerialization().create();
+			gson = new GsonBuilder().enableComplexMapKeySerialization().setPrettyPrinting().serializeNulls().create();
 
 		return gson;
 	}
 
 	@API
+	@Deprecated
 	public static synchronized Gson getPretty()
 	{
-		if(prettyGson == null)
-			prettyGson = new GsonBuilder().enableComplexMapKeySerialization().setPrettyPrinting().create();
-
-		return prettyGson;
+		return get();
 	}
 
 }

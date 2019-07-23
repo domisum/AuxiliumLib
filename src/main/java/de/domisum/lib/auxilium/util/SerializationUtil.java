@@ -57,7 +57,7 @@ public final class SerializationUtil
 	@API
 	public static byte[] serializeAsJsonString(Object object)
 	{
-		return serializeAsJsonString(object, GsonUtil.getPretty());
+		return serializeAsJsonString(object, GsonUtil.get());
 	}
 
 	@API
@@ -72,7 +72,7 @@ public final class SerializationUtil
 	@API
 	public static <T> T deserializeFromJsonString(byte[] jsonByteArray, Class<T> clazz)
 	{
-		Gson gson = GsonUtil.getPretty();
+		Gson gson = GsonUtil.get();
 		return deserializeFromJsonString(jsonByteArray, clazz, gson);
 	}
 
@@ -88,7 +88,7 @@ public final class SerializationUtil
 	@API
 	public static <T> T deserializeFromJsonString(byte[] jsonByteArray, Type type)
 	{
-		return deserializeFromJsonString(jsonByteArray, type, GsonUtil.getPretty());
+		return deserializeFromJsonString(jsonByteArray, type, GsonUtil.get());
 	}
 
 	@API
