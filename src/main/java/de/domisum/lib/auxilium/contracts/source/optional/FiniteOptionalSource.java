@@ -13,6 +13,7 @@ public interface FiniteOptionalSource<KeyT, T> extends OptionalSource<KeyT, T>
 	 *
 	 * @return a collection containing all the items
 	 */
-	@API Collection<T> fetchAll();
+	@API
+	Collection<T> fetchAll();
 
 }

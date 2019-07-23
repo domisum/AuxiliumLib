@@ -22,13 +22,15 @@ public interface Storage<KeyT, T> extends FiniteOptionalSource<KeyT, T>
 	 *
 	 * @param item the item to store
 	 */
-	@API void store(T item);
+	@API
+	void store(T item);
 
 	/**
 	 * Removes the item with the supplied key from the storage module.
 	 *
 	 * @param key the key of the item to remove
 	 */
-	@API void remove(KeyT key);
+	@API
+	void remove(KeyT key);
 
 }
