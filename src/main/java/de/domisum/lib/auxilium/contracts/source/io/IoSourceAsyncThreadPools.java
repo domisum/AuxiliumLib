@@ -21,11 +21,13 @@ public final class IoSourceAsyncThreadPools
 			EXECUTOR_SERVICES.put(clazz, Executors.newFixedThreadPool(size, runnable->
 			{
 				Thread thread = new Thread(runnable);
+				thread.setDaemon(true);
 				ThreadUtil.logUncaughtExceptions(thread);
 				return thread;
 			}));
 
-		return EXECUTOR_SERVICES.get(clazz);
+		ExecutorService executorService = EXECUTOR_SERVICES.get(clazz);
+		return executorService;
 	}
 
 }
