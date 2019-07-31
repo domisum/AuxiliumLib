@@ -1,21 +1,14 @@
 package de.domisum.lib.auxilium.util.java;
 
 import de.domisum.lib.auxilium.data.container.DurationDisplay;
-import de.domisum.lib.auxilium.util.FileUtil;
 import de.domisum.lib.auxilium.util.java.annotations.API;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.time.Duration;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
 
@@ -237,52 +230,7 @@ public final class ThreadUtil
 	@API
 	public static void dumpAllThreads()
 	{
-		threadDumped = true;
-
-		try
-		{
-			String pid = getPid();
-			LOGGER.info("pid: {}", pid);
-			File targetFile = new File("/home/dump"+System.currentTimeMillis()+".txt");
-
-			Runtime rt = Runtime.getRuntime();
-			Process proc = rt.exec("jstack -l "+pid);
-
-			BufferedReader stdInput = new BufferedReader(new InputStreamReader(proc.getInputStream()));
-			String commandOutput = "";
-			String s;
-			while((s = stdInput.readLine()) != null)
-				commandOutput += s+"\n";
-
-			FileUtil.writeString(targetFile, commandOutput);
-		}
-		catch(IOException|InterruptedException e)
-		{
-			LOGGER.error("failed to get pid", e);
-		}
-
 		LOGGER.info("Global thread dump:\n{}", getAllThreadsDump());
 	}
 
-	public static String getPid() throws IOException, InterruptedException
-	{
-		List<String> commands = new ArrayList<>();
-		commands.add("/bin/bash");
-		commands.add("-c");
-		commands.add("echo $PPID");
-		ProcessBuilder pb = new ProcessBuilder(commands);
-
-		Process pr = pb.start();
-		pr.waitFor();
-		if(pr.exitValue() == 0)
-		{
-			BufferedReader outReader = new BufferedReader(new InputStreamReader(pr.getInputStream()));
-			return outReader.readLine().trim();
-		}
-		else
-		{
-			LOGGER.error("error getting pid");
-			return "";
-		}
-	}
 }
