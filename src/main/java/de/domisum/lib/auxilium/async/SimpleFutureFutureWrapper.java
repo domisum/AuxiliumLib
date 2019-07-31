@@ -28,10 +28,7 @@ public class SimpleFutureFutureWrapper<T> implements SimpleFuture<T>
 		}
 		catch(ExecutionException e)
 		{
-			if(e.getCause() instanceof RuntimeException)
-				throw new UncheckedExecutionException(e.getCause());
-			else
-				throw new ShouldNeverHappenError(e);
+			throw new UncheckedExecutionException(e.getCause());
 		}
 	}
 
