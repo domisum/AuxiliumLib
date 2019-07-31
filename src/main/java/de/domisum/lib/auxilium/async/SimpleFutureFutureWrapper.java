@@ -1,5 +1,6 @@
 package de.domisum.lib.auxilium.async;
 
+import com.google.common.util.concurrent.UncheckedExecutionException;
 import de.domisum.lib.auxilium.util.java.exceptions.ShouldNeverHappenError;
 import lombok.RequiredArgsConstructor;
 
@@ -28,7 +29,7 @@ public class SimpleFutureFutureWrapper<T> implements SimpleFuture<T>
 		catch(ExecutionException e)
 		{
 			if(e.getCause() instanceof RuntimeException)
-				throw (RuntimeException) e.getCause();
+				throw new UncheckedExecutionException(e.getCause());
 			else
 				throw new ShouldNeverHappenError(e);
 		}
