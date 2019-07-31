@@ -1,14 +1,14 @@
 package de.domisum.lib.auxilium.contracts.source.io;
 
+import de.domisum.lib.auxilium.async.ExecutorServiceUser;
+import de.domisum.lib.auxilium.async.SimpleFuture;
 import de.domisum.lib.auxilium.run.RetryUntilSuccessfulIOAction;
 import de.domisum.lib.auxilium.util.java.annotations.API;
 
 import java.io.IOException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Future;
 
 @API
-public interface IoSource<KeyT, T>
+public interface IoSource<KeyT, T> extends ExecutorServiceUser
 {
 
 	// SOURCE
@@ -34,10 +34,9 @@ public interface IoSource<KeyT, T>
 	}
 
 	@API
-	default Future<IoOptional<T>> fetchOptionalAsync(KeyT key)
+	default SimpleFuture<IoOptional<T>> fetchOptionalAsync(KeyT key)
 	{
-		ExecutorService executorService = IoSourceAsyncThreadPools.getExecutorService(getClass(), getAsycnThreadPoolSize());
-		return executorService.submit(()->fetchOptional(key));
+		return submit(()->fetchOptional(key));
 	}
 
 
@@ -45,12 +44,6 @@ public interface IoSource<KeyT, T>
 	default String getFetchFailMessage(KeyT key)
 	{
 		return "failed to fetch "+key;
-	}
-
-	@API
-	default int getAsycnThreadPoolSize()
-	{
-		return 10;
 	}
 
 }
