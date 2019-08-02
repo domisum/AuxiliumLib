@@ -53,7 +53,7 @@ public class StringUtilTest
 
 	// COMBINATORICS
 	@Test
-	void testGenerateAllPermutations()
+	public void testGenerateAllPermutations()
 	{
 		Set<String> expectedOutput1 = Sets.newHashSet("a", "b", "c", "d");
 		assertGenerateAllPermutations(expectedOutput1, "{}", Arrays.asList("a", "b", "c", "d"));
@@ -63,7 +63,7 @@ public class StringUtilTest
 	}
 
 	@Test
-	void testGenerateAllPermutationsErrorMismatchedPlaceholders()
+	public void testGenerateAllPermutationsErrorMismatchedPlaceholders()
 	{
 		Assertions.assertThrows(IllegalArgumentException.class,
 				()->StringUtil.generateAllPermutations("{} {}", Arrays.asList("a", "b"))

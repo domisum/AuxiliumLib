@@ -7,7 +7,7 @@ public class Plane3DTest
 {
 
 	@Test
-	void testInitPointsOnLineFail()
+	public void testInitPointsOnLineFail()
 	{
 		Vector3D a = new Vector3D(0, 0, 0);
 		Vector3D b = new Vector3D(1, 0, 1);
@@ -17,7 +17,7 @@ public class Plane3DTest
 	}
 
 	@Test
-	void testAxisAlignedDistance()
+	public void testAxisAlignedDistance()
 	{
 		Vector3D a = new Vector3D(0, 0, 0);
 		Vector3D b = new Vector3D(1, 0, 1);
