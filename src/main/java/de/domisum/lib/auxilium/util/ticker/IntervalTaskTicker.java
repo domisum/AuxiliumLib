@@ -26,7 +26,8 @@ public class IntervalTaskTicker extends Ticker
 		super(TICK_INTERVAL, threadName);
 	}
 
-	@API public void addTask(String taskName, Runnable task, Duration interval)
+	@API
+	public void addTask(String taskName, Runnable task, Duration interval)
 	{
 		IntervalTask intervalTask = new IntervalTask(taskName, task, interval);
 		tasks.add(intervalTask);
@@ -34,7 +35,8 @@ public class IntervalTaskTicker extends Ticker
 
 
 	// TICK
-	@Override protected final void tick()
+	@Override
+	protected void tick()
 	{
 		for(IntervalTask task : tasks)
 		{
@@ -61,9 +63,9 @@ public class IntervalTaskTicker extends Ticker
 	private static class IntervalTask
 	{
 
-		@NonNull private final String taskName;
-		@NonNull private final Runnable task;
-		@NonNull private final Duration interval;
+		private final @NonNull String taskName;
+		private final @NonNull Runnable task;
+		private final @NonNull Duration interval;
 
 		private Instant lastExecution = Instant.MIN;
 
