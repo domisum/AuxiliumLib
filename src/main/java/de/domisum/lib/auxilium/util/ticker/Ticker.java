@@ -20,7 +20,7 @@ public abstract class Ticker
 
 
 	// CONSTANTS
-	private static final Duration TIMEOUT_DEFAULT = Duration.ofMinutes(10);
+	private static final Duration TIMEOUT_DEFAULT = null;
 
 	// SETTINGS
 	private final Duration tickInterval;
