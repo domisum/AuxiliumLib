@@ -25,8 +25,8 @@ public class MattpFormUrlEncodedBody extends MattpPlaintextBody
 
 		for(Entry<String, String> entry : values.entrySet())
 		{
-			String escapedKey = StringUtil.escapeUrlString(entry.getKey());
-			String escapedValue = StringUtil.escapeUrlString(entry.getValue());
+			String escapedKey = StringUtil.escapeUrlParameterString(entry.getKey());
+			String escapedValue = StringUtil.escapeUrlParameterString(entry.getValue());
 
 			String keyValuePair = escapedKey+"="+escapedValue;
 			keyValuePairs.add(keyValuePair);

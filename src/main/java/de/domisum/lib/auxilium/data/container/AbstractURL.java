@@ -68,7 +68,7 @@ public class AbstractURL
 	@Deprecated
 	public static String escapeParameterValue(String parameterValue)
 	{
-		return StringUtil.escapeUrlString(parameterValue);
+		return StringUtil.escapeUrlParameterString(parameterValue);
 	}
 
 }

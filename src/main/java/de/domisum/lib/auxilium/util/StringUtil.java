@@ -125,7 +125,7 @@ public final class StringUtil
 	}
 
 	@API
-	public static String escapeUrlString(String urlString)
+	public static String escapeUrlParameterString(String urlString)
 	{
 		try
 		{
@@ -135,6 +135,38 @@ public final class StringUtil
 		{
 			throw new UncheckedIOException(e);
 		}
+	}
+
+	@API
+	public static String escapeUrlPathString(String input)
+	{
+		// https://stackoverflow.com/a/4605816/4755690
+
+		StringBuilder result = new StringBuilder();
+		for(char c : input.toCharArray())
+			if(isCharUnsafe(c))
+			{
+				result.append('%');
+				result.append(charToHex(c/16));
+				result.append(charToHex(c%16));
+			}
+			else
+				result.append(c);
+
+		return result.toString();
+	}
+
+	private static char charToHex(int c)
+	{
+		return (char) ((c < 10) ? ('0'+c) : (('A'+c)-10));
+	}
+
+	private static boolean isCharUnsafe(char c)
+	{
+		if(c > 'z') // z is ascii 122
+			return true;
+
+		return " %$&+,/:;=?@<>#%".indexOf(c) >= 0;
 	}
 
 
