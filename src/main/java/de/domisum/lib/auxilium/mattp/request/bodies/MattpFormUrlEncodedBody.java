@@ -1,6 +1,5 @@
 package de.domisum.lib.auxilium.mattp.request.bodies;
 
-import de.domisum.lib.auxilium.data.container.AbstractURL;
 import de.domisum.lib.auxilium.util.StringUtil;
 import de.domisum.lib.auxilium.util.java.annotations.API;
 
@@ -14,7 +13,8 @@ public class MattpFormUrlEncodedBody extends MattpPlaintextBody
 {
 
 	// INIT
-	@API public MattpFormUrlEncodedBody(Map<String, String> values)
+	@API
+	public MattpFormUrlEncodedBody(Map<String, String> values)
 	{
 		super(encodeValueMap(values));
 	}
@@ -25,8 +25,8 @@ public class MattpFormUrlEncodedBody extends MattpPlaintextBody
 
 		for(Entry<String, String> entry : values.entrySet())
 		{
-			String escapedKey = AbstractURL.escapeParameterValue(entry.getKey());
-			String escapedValue = AbstractURL.escapeParameterValue(entry.getValue());
+			String escapedKey = StringUtil.escapeUrlString(entry.getKey());
+			String escapedValue = StringUtil.escapeUrlString(entry.getValue());
 
 			String keyValuePair = escapedKey+"="+escapedValue;
 			keyValuePairs.add(keyValuePair);
@@ -37,7 +37,8 @@ public class MattpFormUrlEncodedBody extends MattpPlaintextBody
 
 
 	// BODY
-	@Override public String getContentType()
+	@Override
+	public String getContentType()
 	{
 		return "application/x-www-form-urlencoded";
 	}

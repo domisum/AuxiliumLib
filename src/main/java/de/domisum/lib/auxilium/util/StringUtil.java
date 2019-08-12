@@ -7,6 +7,9 @@ import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 
+import java.io.UncheckedIOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -101,7 +104,7 @@ public final class StringUtil
 	}
 
 
-	// MISC
+	// ESCAPING
 	@API
 	public static String escapeStringForRegex(String input)
 	{
@@ -121,6 +124,21 @@ public final class StringUtil
 		return escaped;
 	}
 
+	@API
+	public static String escapeUrlString(String urlString)
+	{
+		try
+		{
+			return URLEncoder.encode(urlString, "UTF-8");
+		}
+		catch(UnsupportedEncodingException e)
+		{
+			throw new UncheckedIOException(e);
+		}
+	}
+
+
+	// MISC
 	@API
 	public static String truncateStart(String string, int maxLength)
 	{

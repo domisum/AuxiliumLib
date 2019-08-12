@@ -1,12 +1,11 @@
 package de.domisum.lib.auxilium.data.container;
 
+import de.domisum.lib.auxilium.util.StringUtil;
 import de.domisum.lib.auxilium.util.java.annotations.API;
 
 import java.io.UncheckedIOException;
-import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLEncoder;
 
 @API
 public class AbstractURL
@@ -16,7 +15,8 @@ public class AbstractURL
 
 
 	// INIT
-	@API public AbstractURL(String url)
+	@API
+	public AbstractURL(String url)
 	{
 		String cleanedUrl = url;
 		while(cleanedUrl.endsWith("/"))
@@ -25,7 +25,8 @@ public class AbstractURL
 		this.url = cleanedUrl;
 	}
 
-	@API public AbstractURL(AbstractURL base, String extension)
+	@API
+	public AbstractURL(AbstractURL base, String extension)
 	{
 		this(base.combineWith(extension));
 	}
@@ -41,14 +42,16 @@ public class AbstractURL
 
 
 	// OBJECT
-	@Override public String toString()
+	@Override
+	public String toString()
 	{
 		return url;
 	}
 
 
 	// CONVERSION
-	@API public URL toNet()
+	@API
+	public URL toNet()
 	{
 		try
 		{
@@ -62,16 +65,10 @@ public class AbstractURL
 
 
 	// UTIL
+	@Deprecated
 	public static String escapeParameterValue(String parameterValue)
 	{
-		try
-		{
-			return URLEncoder.encode(parameterValue, "UTF-8");
-		}
-		catch(UnsupportedEncodingException e)
-		{
-			throw new UncheckedIOException(e);
-		}
+		return StringUtil.escapeUrlString(parameterValue);
 	}
 
 }
