@@ -2,7 +2,6 @@ package de.domisum.lib.auxilium.contracts.source.io;
 
 import de.domisum.lib.auxilium.contracts.source.io.ioaction.IoAction;
 import de.domisum.lib.auxilium.util.java.annotations.API;
-import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.Validate;
 
 import java.io.IOException;
@@ -11,7 +10,6 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.function.Consumer;
 
-@RequiredArgsConstructor
 public class IoOptional<T>
 {
 
@@ -20,6 +18,18 @@ public class IoOptional<T>
 
 
 	// INIT
+	public IoOptional(T value, IOException exception)
+	{
+		this.value = value;
+		this.exception = exception;
+
+		if((value == null) && (exception == null))
+			throw new IllegalArgumentException("value and exception can't both be null");
+
+		if((value != null) && (exception != null))
+			throw new IllegalArgumentException("value can't be provided while exception is provided as well");
+	}
+
 	@API
 	public static <T> IoOptional<T> of(T value)
 	{
