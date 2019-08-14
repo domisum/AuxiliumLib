@@ -1,6 +1,5 @@
 package de.domisum.lib.auxilium.data.container;
 
-import de.domisum.lib.auxilium.util.StringUtil;
 import de.domisum.lib.auxilium.util.java.annotations.API;
 
 import java.io.UncheckedIOException;
@@ -61,14 +60,6 @@ public class AbstractURL
 		{
 			throw new UncheckedIOException(e);
 		}
-	}
-
-
-	// UTIL
-	@Deprecated
-	public static String escapeParameterValue(String parameterValue)
-	{
-		return StringUtil.escapeUrlParameterString(parameterValue);
 	}
 
 }
