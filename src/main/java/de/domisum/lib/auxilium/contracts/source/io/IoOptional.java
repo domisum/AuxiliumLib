@@ -90,6 +90,19 @@ public class IoOptional<T>
 	}
 
 	@API
+	public T getOrThrowWrapped(String message) throws IOException
+	{
+		try
+		{
+			return getOrThrow();
+		}
+		catch(IOException e)
+		{
+			throw new IOException(message, e);
+		}
+	}
+
+	@API
 	public T getOrThrowUnchecked()
 	{
 		if(isPresent())
