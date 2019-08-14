@@ -2,7 +2,6 @@ package de.domisum.lib.auxilium.contracts.source.io;
 
 import de.domisum.lib.auxilium.contracts.source.io.ioaction.IoAction;
 import de.domisum.lib.auxilium.util.java.annotations.API;
-import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.Validate;
 
@@ -12,8 +11,8 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.function.Consumer;
 
-@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
-public final class IoOptional<T>
+@RequiredArgsConstructor
+public class IoOptional<T>
 {
 
 	private final T value;
