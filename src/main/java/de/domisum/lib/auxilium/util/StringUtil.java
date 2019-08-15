@@ -1,6 +1,7 @@
 package de.domisum.lib.auxilium.util;
 
 import com.google.common.collect.Sets;
+import de.domisum.lib.auxilium.data.container.AbstractURL;
 import de.domisum.lib.auxilium.util.java.annotations.API;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -125,16 +126,10 @@ public final class StringUtil
 	}
 
 	@API
+	@Deprecated
 	public static String escapeUrlParameterString(String urlString)
 	{
-		try
-		{
-			return URLEncoder.encode(urlString, "UTF-8");
-		}
-		catch(UnsupportedEncodingException e)
-		{
-			throw new UncheckedIOException(e);
-		}
+		return AbstractURL.escapeUrlParameterString(urlString);
 	}
 
 

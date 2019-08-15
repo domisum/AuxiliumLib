@@ -3,8 +3,10 @@ package de.domisum.lib.auxilium.data.container;
 import de.domisum.lib.auxilium.util.java.annotations.API;
 
 import java.io.UncheckedIOException;
+import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLEncoder;
 
 @API
 public class AbstractURL
@@ -57,6 +59,20 @@ public class AbstractURL
 			return new URL(url);
 		}
 		catch(MalformedURLException e)
+		{
+			throw new UncheckedIOException(e);
+		}
+	}
+
+
+	@API
+	public static String escapeUrlParameterString(String urlString)
+	{
+		try
+		{
+			return URLEncoder.encode(urlString, "UTF-8");
+		}
+		catch(UnsupportedEncodingException e)
 		{
 			throw new UncheckedIOException(e);
 		}
