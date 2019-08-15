@@ -1,16 +1,12 @@
 package de.domisum.lib.auxilium.util;
 
 import com.google.common.collect.Sets;
-import de.domisum.lib.auxilium.data.container.AbstractURL;
 import de.domisum.lib.auxilium.util.java.annotations.API;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 
-import java.io.UncheckedIOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -125,13 +121,6 @@ public final class StringUtil
 		return escaped;
 	}
 
-	@API
-	@Deprecated
-	public static String escapeUrlParameterString(String urlString)
-	{
-		return AbstractURL.escapeUrlParameterString(urlString);
-	}
-
 
 	// MISC
 	@API
@@ -173,7 +162,7 @@ public final class StringUtil
 
 		int numberOfPlaceholders = StringUtils.countMatches(base, placeholder);
 		if(numberOfPlaceholders != values.length)
-			throw new IllegalArgumentException("number of placeholders does not match number of value collections");
+			throw new IllegalArgumentException("number of placeholders does not match number of value collection");
 
 		if(values.length == 0)
 			return Sets.newHashSet(base);
