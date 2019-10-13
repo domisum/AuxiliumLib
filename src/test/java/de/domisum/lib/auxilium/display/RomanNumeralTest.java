@@ -1,4 +1,4 @@
-package de.domisum.lib.auxilium.data.container;
+package de.domisum.lib.auxilium.display;
 
 import de.domisum.lib.auxilium.data.container.tuple.Pair;
 import de.domisum.lib.auxilium.display.RomanNumeral;
