@@ -1,5 +1,6 @@
 package de.domisum.lib.auxilium.data.container;
 
+import de.domisum.lib.auxilium.display.DurationDisplay;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

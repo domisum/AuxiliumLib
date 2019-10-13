@@ -1,4 +1,4 @@
-package de.domisum.lib.auxilium.data.container;
+package de.domisum.lib.auxilium.display;
 
 import com.google.common.collect.Range;
 import de.domisum.lib.auxilium.util.PHR;

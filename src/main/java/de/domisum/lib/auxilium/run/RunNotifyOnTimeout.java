@@ -1,6 +1,6 @@
 package de.domisum.lib.auxilium.run;
 
-import de.domisum.lib.auxilium.data.container.DurationDisplay;
+import de.domisum.lib.auxilium.display.DurationDisplay;
 import de.domisum.lib.auxilium.util.StringUtil;
 import de.domisum.lib.auxilium.util.java.ThreadUtil;
 import lombok.RequiredArgsConstructor;

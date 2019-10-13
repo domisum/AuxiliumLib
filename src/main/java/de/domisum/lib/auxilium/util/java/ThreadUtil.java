@@ -1,6 +1,6 @@
 package de.domisum.lib.auxilium.util.java;
 
-import de.domisum.lib.auxilium.data.container.DurationDisplay;
+import de.domisum.lib.auxilium.display.DurationDisplay;
 import de.domisum.lib.auxilium.util.java.annotations.API;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;

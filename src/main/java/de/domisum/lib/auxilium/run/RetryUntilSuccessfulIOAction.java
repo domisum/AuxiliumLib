@@ -2,7 +2,7 @@ package de.domisum.lib.auxilium.run;
 
 import de.domisum.lib.auxilium.contracts.source.io.ioaction.IoAction;
 import de.domisum.lib.auxilium.contracts.source.io.ioaction.VoidIoAction;
-import de.domisum.lib.auxilium.data.container.DurationDisplay;
+import de.domisum.lib.auxilium.display.DurationDisplay;
 import de.domisum.lib.auxilium.util.java.ThreadUtil;
 import de.domisum.lib.auxilium.util.time.DurationUtil;
 import lombok.RequiredArgsConstructor;

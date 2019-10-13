@@ -1,4 +1,4 @@
-package de.domisum.lib.auxilium.data.container;
+package de.domisum.lib.auxilium.display;
 
 import de.domisum.lib.auxilium.util.StringUtil;
 import de.domisum.lib.auxilium.util.java.annotations.API;
