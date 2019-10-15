@@ -14,9 +14,6 @@ import java.util.List;
 public final class DurationDisplay implements CharSequence
 {
 
-	// CONSTANTS
-	private static final double PRECISION_INTERVAL = 1400;
-
 	// ATTRIBUTES
 	@Getter
 	private final Duration duration;
@@ -93,6 +90,27 @@ public final class DurationDisplay implements CharSequence
 	}
 
 
+	// UNIT
+	@RequiredArgsConstructor
+	private enum TemporalUnit
+	{
+
+		DAY(Duration.ofDays(1), "d"),
+		HOUR(Duration.ofHours(1), "h"),
+		MINUTE(Duration.ofMinutes(1), "m"),
+		SECOND(Duration.ofSeconds(1), "s"),
+		MILLISECOND(Duration.ofMillis(1), "ms"),
+		MICROSECOND(Duration.ofNanos(1000), "us"),
+		NANOSECOND(Duration.ofNanos(1), "ns");
+
+		@Getter
+		private final Duration duration;
+		@Getter
+		private final String shortName;
+
+	}
+
+
 	// CHAR SEQUENCE
 	@Override
 	public int length()
@@ -117,27 +135,6 @@ public final class DurationDisplay implements CharSequence
 	public String toString()
 	{
 		return display;
-	}
-
-
-	// UNIT
-	@RequiredArgsConstructor
-	private enum TemporalUnit
-	{
-
-		DAY(Duration.ofDays(1), "d"),
-		HOUR(Duration.ofHours(1), "h"),
-		MINUTE(Duration.ofMinutes(1), "m"),
-		SECOND(Duration.ofSeconds(1), "s"),
-		MILLISECOND(Duration.ofMillis(1), "ms"),
-		MICROSECOND(Duration.ofNanos(1000), "us"),
-		NANOSECOND(Duration.ofNanos(1), "ns");
-
-		@Getter
-		private final Duration duration;
-		@Getter
-		private final String shortName;
-
 	}
 
 }
