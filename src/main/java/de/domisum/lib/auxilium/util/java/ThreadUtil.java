@@ -1,6 +1,7 @@
 package de.domisum.lib.auxilium.util.java;
 
 import de.domisum.lib.auxilium.display.DurationDisplay;
+import de.domisum.lib.auxilium.util.StringUtil;
 import de.domisum.lib.auxilium.util.java.annotations.API;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -8,7 +9,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
 
@@ -209,22 +212,32 @@ public final class ThreadUtil
 			if(dumpedThreadsIds.contains(thread.getId()))
 				continue;
 
-			threadDump
-					.append("Thread: ")
-					.append(thread)
-					.append(", id: ")
-					.append(thread.getId())
-					.append(", daemon: ")
-					.append(thread.isDaemon())
-					.append("\n");
-
-			for(StackTraceElement stackTraceElement : threadEntry.getValue())
-				threadDump.append("    ").append(stackTraceElement.toString()).append("\n");
-
+			threadDump.append(getThreadStackTrace(thread)).append("\n");
 			dumpedThreadsIds.add(thread.getId());
 		}
 
 		return threadDump.toString();
+	}
+
+	@API
+	public static String getThreadStackTrace(Thread thread)
+	{
+		StringBuilder threadStackTrace = new StringBuilder();
+		threadStackTrace
+				.append("Thread: ")
+				.append(thread)
+				.append(", id: ")
+				.append(thread.getId())
+				.append(", daemon: ")
+				.append(thread.isDaemon())
+				.append("\n");
+
+		List<String> lines = new ArrayList<>();
+		for(StackTraceElement stackTraceElement : thread.getStackTrace())
+			lines.add("    "+stackTraceElement.toString());
+		threadStackTrace.append(StringUtil.listToString(lines, "\n"));
+
+		return threadStackTrace.toString();
 	}
 
 	@API

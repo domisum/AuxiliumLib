@@ -1,8 +1,9 @@
 package de.domisum.lib.auxilium.util.ticker;
 
-import de.domisum.lib.auxilium.run.RunNotifyOnTimeout;
+import de.domisum.lib.auxilium.display.DurationDisplay;
 import de.domisum.lib.auxilium.util.java.ThreadUtil;
 import de.domisum.lib.auxilium.util.java.annotations.API;
+import de.domisum.lib.auxilium.util.time.DurationUtil;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
@@ -10,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.time.Duration;
+import java.time.Instant;
 import java.util.Objects;
 
 @API
@@ -26,20 +28,27 @@ public abstract class Ticker
 	private final Duration tickInterval;
 	private final String threadName;
 
-	@Getter @Setter private Duration timeout = TIMEOUT_DEFAULT;
+	@Getter
+	@Setter
+	private Duration timeout = TIMEOUT_DEFAULT;
 
 	// STATUS
-	@Getter(AccessLevel.PROTECTED) private Thread tickThread;
+	@Getter(AccessLevel.PROTECTED)
+	private Thread tickThread;
 	private boolean tickThreadRunning;
+	private Instant lastTickStart;
+	private Thread watchdogThread;
 
 
 	// INIT
-	@API protected Ticker(Duration tickInterval)
+	@API
+	protected Ticker(Duration tickInterval)
 	{
 		this(tickInterval, "ticker");
 	}
 
-	@API protected Ticker(Duration tickInterval, String threadName)
+	@API
+	protected Ticker(Duration tickInterval, String threadName)
 	{
 		this.tickInterval = tickInterval;
 		this.threadName = threadName;
@@ -47,14 +56,16 @@ public abstract class Ticker
 
 
 	// GETTERS
-	@API public synchronized boolean isRunning()
+	@API
+	public synchronized boolean isRunning()
 	{
 		return tickThreadRunning;
 	}
 
 
 	// CONTROL
-	@API public synchronized void start()
+	@API
+	public synchronized void start()
 	{
 		if(tickThread != null)
 			return;
@@ -62,19 +73,20 @@ public abstract class Ticker
 
 		tickThreadRunning = true;
 		tickThread = ThreadUtil.createAndStartThread(this::run, threadName);
+		watchdogThread = ThreadUtil.createAndStartDaemonThread(this::watchdogRun, "watchDog-"+threadName);
 	}
 
-	@API public synchronized void requestAndWaitForStop()
+	@API
+	public synchronized void requestAndWaitForStop()
 	{
 		logger.info("Stopping ticker {}...", getTickerName());
-
 		requestStop();
 		waitForStop();
-
 		logger.info("Stopped ticker {}", getTickerName());
 	}
 
-	@API public synchronized void requestStop()
+	@API
+	public synchronized void requestStop()
 	{
 		if(tickThread == null)
 			return;
@@ -83,7 +95,8 @@ public abstract class Ticker
 		tickThreadRunning = false;
 	}
 
-	@API public synchronized void waitForStop()
+	@API
+	public synchronized void waitForStop()
 	{
 		if(tickThread == null)
 			return;
@@ -95,7 +108,57 @@ public abstract class Ticker
 		if(Thread.currentThread() != tickThread)
 			ThreadUtil.join(tickThread);
 		tickThread = null;
+		lastTickStart = null;
+
+		watchdogThread.interrupt();
+		watchdogThread = null;
+
 		logger.info("Stopped ticker {}", getTickerName());
+	}
+
+
+	// WATCHDOG
+	private void watchdogRun()
+	{
+		while(!Thread.interrupted())
+		{
+			watchdogTick();
+			ThreadUtil.sleep(Duration.ofMillis(100));
+		}
+	}
+
+	private void watchdogTick()
+	{
+		// get local references to avoid impact of changes in variables during run of method
+		Instant lastTickStart = this.lastTickStart;
+		Duration timeout = this.timeout;
+
+		if(lastTickStart == null)
+			return;
+		if(timeout == null)
+			return;
+
+		if(DurationUtil.isOlderThan(lastTickStart, timeout))
+			timeout(timeout);
+	}
+
+	private synchronized void timeout(Duration timeout)
+	{
+		logger.error(
+				"Ticker {} timed out (after {}). Current stacktrace:\n{}",
+				getTickerName(),
+				DurationDisplay.of(timeout),
+				ThreadUtil.getThreadStackTrace(tickThread)
+		);
+
+		tickThreadRunning = false;
+		// noinspection deprecation
+		tickThread.destroy();
+		tickThread = null;
+		lastTickStart = null;
+
+		watchdogThread.interrupt();
+		watchdogThread = null;
 	}
 
 
@@ -104,19 +167,13 @@ public abstract class Ticker
 	{
 		while(tickThreadRunning)
 		{
-			if(timeout != null)
-				tickWithTimeout();
-			else
-				tickCaught();
+			lastTickStart = Instant.now();
+			tickCaught();
+			lastTickStart = null;
 
 			if(tickThreadRunning)
 				ThreadUtil.sleep(tickInterval.toMillis());
 		}
-	}
-
-	private void tickWithTimeout()
-	{
-		new RunNotifyOnTimeout(this::tickCaught, timeout).run();
 	}
 
 	private void tickCaught()
@@ -127,7 +184,7 @@ public abstract class Ticker
 		}
 		catch(RuntimeException e)
 		{
-			logger.error("Exception occured during tick\n", e);
+			logger.error("Exception occured during tick", e);
 		}
 	}
 
