@@ -43,6 +43,9 @@ public final class DurationDisplay implements CharSequence
 	// DISPLAY GENERATION
 	private static String generateDisplay(Duration duration)
 	{
+		if(duration == null)
+			return "/";
+
 		if(duration.isNegative())
 			return "-"+generateDisplay(duration.abs());
 

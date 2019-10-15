@@ -12,6 +12,8 @@ public class DurationDisplayTest
 	@Test
 	public void testSpecialDurations()
 	{
+		assertDisplays(null, "/");
+
 		assertDisplays(Duration.ofNanos(-1), "-1ns");
 		assertDisplays(Duration.ofMillis(-0), "0");
 		assertDisplays(Duration.ofMillis(0), "0");
