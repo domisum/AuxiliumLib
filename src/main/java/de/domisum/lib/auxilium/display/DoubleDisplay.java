@@ -16,24 +16,37 @@ public final class DoubleDisplay implements CharSequence
 
 	// ATTRIBUTES
 	@Getter
-	private final double number;
+	private final Double number;
 	private final String display;
 
 
 	// INIT
 	@API
-	public static String display(double number)
+	public static String display(Double number)
 	{
 		return of(number).toString();
 	}
 
 	@API
-	public static DoubleDisplay of(double number)
+	public static DoubleDisplay of(Double number)
 	{
 		return new DoubleDisplay(number);
 	}
 
-	private DoubleDisplay(double number)
+	@API
+	public static String display(double number)
+	{
+		return display((Double) number);
+	}
+
+	@API
+	public static DoubleDisplay of(double number)
+	{
+		return of((Double) number);
+	}
+
+
+	private DoubleDisplay(Double number)
 	{
 		this.number = number;
 		display = generateDisplay(number);
@@ -41,8 +54,11 @@ public final class DoubleDisplay implements CharSequence
 
 
 	// DISPLAY GENERATION
-	private static String generateDisplay(double number)
+	private static String generateDisplay(Double number)
 	{
+		if(number == null)
+			return "/";
+
 		if(number < 0)
 			return "-"+generateDisplay(Math.abs(number));
 

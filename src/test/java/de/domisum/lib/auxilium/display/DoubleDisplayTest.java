@@ -8,17 +8,18 @@ public class DoubleDisplayTest
 
 	// TEST
 	@Test
-	public void testZero()
+	public void testSpecialValues()
 	{
-		assertDisplays(0, "0.0");
+		assertDisplays(0d, "0.0");
+		assertDisplays(null, "/");
 	}
 
 	@Test
 	public void testBigValues()
 	{
-		assertDisplays(10, "10.0");
-		assertDisplays(999, "999.0");
-		assertDisplays(1000, "1.0~kilo");
+		assertDisplays(10d, "10.0");
+		assertDisplays(999d, "999.0");
+		assertDisplays(1000d, "1.0~kilo");
 		assertDisplays(8.888*Math.pow(10, 15), "8.888~peta");
 		assertDisplays(3.8134*Math.pow(10, 24), "3.813~yotta");
 
@@ -49,7 +50,7 @@ public class DoubleDisplayTest
 
 
 	// ASSERT
-	private static void assertDisplays(double number, String display)
+	private static void assertDisplays(Double number, String display)
 	{
 		Assertions.assertEquals(display, DoubleDisplay.of(number).toString());
 	}
