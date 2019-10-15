@@ -3,7 +3,7 @@ package de.domisum.lib.auxilium.display;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public class PointNumberDisplayTest
+public class DoubleDisplayTest
 {
 
 	// TEST
@@ -50,7 +50,7 @@ public class PointNumberDisplayTest
 	// ASSERT
 	private static void assertDisplays(double number, String display)
 	{
-		Assertions.assertEquals(display, PointNumberDisplay.of(number).toString());
+		Assertions.assertEquals(display, DoubleDisplay.of(number).toString());
 	}
 
 }

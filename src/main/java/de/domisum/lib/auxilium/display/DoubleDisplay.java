@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 import javax.annotation.Nonnull;
 
 @API
-public final class PointNumberDisplay implements CharSequence
+public final class DoubleDisplay implements CharSequence
 {
 
 	// CONSTANTS
@@ -28,12 +28,12 @@ public final class PointNumberDisplay implements CharSequence
 	}
 
 	@API
-	public static PointNumberDisplay of(double number)
+	public static DoubleDisplay of(double number)
 	{
-		return new PointNumberDisplay(number);
+		return new DoubleDisplay(number);
 	}
 
-	private PointNumberDisplay(double number)
+	private DoubleDisplay(double number)
 	{
 		this.number = number;
 		display = generateDisplay(number);
