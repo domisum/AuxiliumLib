@@ -17,6 +17,7 @@ public class DoubleDisplayTest
 	public void testBigValues()
 	{
 		assertDisplays(10, "10.0");
+		assertDisplays(999, "999.0");
 		assertDisplays(1000, "1.0~kilo");
 		assertDisplays(8.888*Math.pow(10, 15), "8.888~peta");
 		assertDisplays(3.8134*Math.pow(10, 24), "3.813~yotta");
@@ -27,7 +28,7 @@ public class DoubleDisplayTest
 	@Test
 	public void testCloseToZeroValues()
 	{
-		assertDisplays(0.1, "0.1");
+		assertDisplays(0.1, "100.0~milli");
 		assertDisplays(Math.pow(10, -3), "1.0~milli");
 		assertDisplays(7.9416*Math.pow(10, -24), "7.942~yocto");
 
@@ -38,7 +39,7 @@ public class DoubleDisplayTest
 	@Test
 	public void testNegativeValues()
 	{
-		assertDisplays(-0.1, "-0.1");
+		assertDisplays(-0.1, "-100.0~milli");
 		assertDisplays(-Math.pow(10, -3), "-1.0~milli");
 		assertDisplays(-7.9416*Math.pow(10, -24), "-7.942~yocto");
 

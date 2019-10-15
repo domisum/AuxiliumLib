@@ -46,9 +46,9 @@ public final class DoubleDisplay implements CharSequence
 		if(number < 0)
 			return "-"+generateDisplay(Math.abs(number));
 
-		SIPrefix closestSIPrefix = getClosestSiPrefix(number);
-		double dividedBySiPrefix = number/closestSIPrefix.getValue();
-		String siPrefixSuffix = (closestSIPrefix == SIPrefix.NONE) ? "" : (SEPARATOR+closestSIPrefix.name().toLowerCase());
+		SIPrefix bestSiPrefix = getBestSiPrefix(number);
+		double dividedBySiPrefix = number/bestSiPrefix.getValue();
+		String siPrefixSuffix = (bestSiPrefix == SIPrefix.NONE) ? "" : (SEPARATOR+bestSiPrefix.name().toLowerCase());
 
 		double dividedRounded = MathUtil.round(dividedBySiPrefix, 3);
 		String display = dividedRounded+siPrefixSuffix;
@@ -58,26 +58,19 @@ public final class DoubleDisplay implements CharSequence
 		return display;
 	}
 
-	private static SIPrefix getClosestSiPrefix(double number)
+	private static SIPrefix getBestSiPrefix(double number)
 	{
 		if(number == 0)
 			return SIPrefix.NONE;
 
 		double numberBaseTenExponent = Math.log10(number);
 
-		double minBaseTenExponentDelta = Double.MAX_VALUE;
-		SIPrefix closestPrefix = null;
-		for(SIPrefix siPrefix : SIPrefix.values())
-		{
-			double baseTenExponentDelta = Math.abs(siPrefix.getBaseTenExponent()-numberBaseTenExponent);
-			if(baseTenExponentDelta < minBaseTenExponentDelta)
-			{
-				minBaseTenExponentDelta = baseTenExponentDelta;
-				closestPrefix = siPrefix;
-			}
-		}
+		SIPrefix bestSIPrefix = SIPrefix.YOCTO;
+		for(SIPrefix prefix : SIPrefix.values())
+			if(numberBaseTenExponent >= prefix.getBaseTenExponent())
+				bestSIPrefix = prefix;
 
-		return closestPrefix;
+		return bestSIPrefix;
 	}
 
 
