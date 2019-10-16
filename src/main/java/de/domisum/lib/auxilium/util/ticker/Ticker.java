@@ -148,7 +148,7 @@ public abstract class Ticker
 				"Ticker {} timed out (after {}). Current stacktrace:\n{}",
 				getTickerName(),
 				DurationDisplay.of(timeout),
-				ThreadUtil.getThreadStackTrace(tickThread)
+				ThreadUtil.getThreadToString(tickThread)
 		);
 
 		tickThreadRunning = false;

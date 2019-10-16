@@ -212,7 +212,7 @@ public final class ThreadUtil
 			if(dumpedThreadsIds.contains(thread.getId()))
 				continue;
 
-			threadDump.append(getThreadStackTrace(thread)).append("\n");
+			threadDump.append(getThreadToString(thread)).append("\n");
 			dumpedThreadsIds.add(thread.getId());
 		}
 
@@ -220,11 +220,10 @@ public final class ThreadUtil
 	}
 
 	@API
-	public static String getThreadStackTrace(Thread thread)
+	public static String getThreadToString(Thread thread)
 	{
 		StringBuilder threadStackTrace = new StringBuilder();
 		threadStackTrace
-				.append("Thread: ")
 				.append(thread)
 				.append(", id: ")
 				.append(thread.getId())
@@ -236,6 +235,8 @@ public final class ThreadUtil
 		for(StackTraceElement stackTraceElement : thread.getStackTrace())
 			lines.add("    "+stackTraceElement.toString());
 		threadStackTrace.append(StringUtil.listToString(lines, "\n"));
+		if(lines.isEmpty())
+			threadStackTrace.append("(no stack trace)");
 
 		return threadStackTrace.toString();
 	}
