@@ -149,6 +149,7 @@ public final class ThreadUtil
 	}
 
 
+	@SuppressWarnings("deprecation")
 	@API
 	public static void tryDestroy(Thread thread)
 	{
