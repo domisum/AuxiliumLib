@@ -152,8 +152,8 @@ public abstract class Ticker
 		);
 
 		tickThreadRunning = false;
-		// noinspection deprecation
-		tickThread.destroy();
+		tickThread.interrupt();
+		ThreadUtil.tryDestroy(tickThread);
 		tickThread = null;
 		lastTickStart = null;
 

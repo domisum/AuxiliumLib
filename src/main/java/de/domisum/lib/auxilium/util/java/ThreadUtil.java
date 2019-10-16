@@ -149,6 +149,20 @@ public final class ThreadUtil
 	}
 
 
+	@API
+	public static void tryDestroy(Thread thread)
+	{
+		try
+		{
+			thread.destroy();
+		}
+		catch(NoSuchMethodError ignored)
+		{
+
+		}
+	}
+
+
 	// SHUTDOWN
 	@API
 	public static void registerShutdownHook(Runnable shutdownHook)
