@@ -26,7 +26,8 @@ import java.io.UncheckedIOException;
 public final class ImageUtil
 {
 
-	@API public static BufferedImage copy(RenderedImage bufferedImage)
+	@API
+	public static BufferedImage copy(RenderedImage bufferedImage)
 	{
 		ColorModel colorModel = bufferedImage.getColorModel();
 		boolean isAlphaPremultiplied = colorModel.isAlphaPremultiplied();
@@ -39,7 +40,8 @@ public final class ImageUtil
 		);
 	}
 
-	@API public static boolean equals(BufferedImage imageA, BufferedImage imageB)
+	@API
+	public static boolean equals(BufferedImage imageA, BufferedImage imageB)
 	{
 		if(imageA.getWidth() != imageB.getWidth())
 			return false;
@@ -60,7 +62,8 @@ public final class ImageUtil
 
 
 	// FROM PIXELS
-	@API public static BufferedImage getImageFromPixels(int[] pixels, int width, int height)
+	@API
+	public static BufferedImage getImageFromPixels(int[] pixels, int width, int height)
 	{
 		BufferedImage bi = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 		WritableRaster raster = (WritableRaster) bi.getData();
@@ -70,7 +73,8 @@ public final class ImageUtil
 		return bi;
 	}
 
-	@API public static BufferedImage getImageFromPixels(int[][] pixels)
+	@API
+	public static BufferedImage getImageFromPixels(int[][] pixels)
 	{
 		if((pixels.length == 0) || (pixels[0].length == 0))
 			throw new IllegalArgumentException("The array has to have at least a length of 1 in each direction");
@@ -92,12 +96,19 @@ public final class ImageUtil
 
 
 	// RAW DATA
+	@API
 	public static byte[] toRaw(RenderedImage image)
+	{
+		return toRaw(image, "png");
+	}
+
+	@API
+	public static byte[] toRaw(RenderedImage image, String formatName)
 	{
 		try
 		{
 			ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-			ImageIO.write(image, "png", byteArrayOutputStream);
+			ImageIO.write(image, formatName, byteArrayOutputStream);
 
 			return byteArrayOutputStream.toByteArray();
 		}
@@ -107,6 +118,7 @@ public final class ImageUtil
 		}
 	}
 
+	@API
 	public static BufferedImage fromRaw(byte[] raw)
 	{
 		try
@@ -122,7 +134,8 @@ public final class ImageUtil
 
 
 	// COLOR
-	@API public static BufferedImage dye(BufferedImage image, Color color)
+	@API
+	public static BufferedImage dye(BufferedImage image, Color color)
 	{
 		BufferedImage graphicsImage = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_INT_ARGB);
 
@@ -136,7 +149,8 @@ public final class ImageUtil
 		return graphicsImage;
 	}
 
-	@API public static void saturize(BufferedImage image, double saturation)
+	@API
+	public static void saturize(BufferedImage image, double saturation)
 	{
 		for(int x = 0; x < image.getWidth(); x++)
 			for(int y = 0; y < image.getHeight(); y++)
@@ -162,7 +176,8 @@ public final class ImageUtil
 
 
 	// EFFECTS
-	@API public static void sharpen(BufferedImage image, double sharpness)
+	@API
+	public static void sharpen(BufferedImage image, double sharpness)
 	{
 		float f = (float) sharpness;
 		Kernel kernel = new Kernel(3, 3, new float[] {-1*f, -1*f, -1*f, -1*f, (8*f)+1, -1*f, -1*f, -1*f, -1*f});
@@ -173,7 +188,8 @@ public final class ImageUtil
 		image.createGraphics().drawImage(imageSharpened, 0, 0, null);
 	}
 
-	@API public static void contrastAndBrightness(BufferedImage image, double dContrast, double dBrightness)
+	@API
+	public static void contrastAndBrightness(BufferedImage image, double dContrast, double dBrightness)
 	{
 		for(int x = 0; x < image.getWidth(); x++)
 			for(int y = 0; y < image.getHeight(); y++)
