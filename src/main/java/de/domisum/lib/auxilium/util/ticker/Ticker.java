@@ -127,7 +127,7 @@ public abstract class Ticker
 		}
 	}
 
-	private void watchdogTick()
+	private synchronized void watchdogTick()
 	{
 		// get local references to avoid impact of changes in variables during run of method
 		Instant lastTickStart = this.lastTickStart;
@@ -151,6 +151,8 @@ public abstract class Ticker
 				ThreadUtil.getThreadToString(tickThread)
 		);
 
+		boolean startAgain = tickThreadRunning;
+
 		tickThreadRunning = false;
 		tickThread.interrupt();
 		ThreadUtil.tryDestroy(tickThread);
@@ -160,7 +162,8 @@ public abstract class Ticker
 		watchdogThread.interrupt();
 		watchdogThread = null;
 
-		start();
+		if(startAgain)
+			start();
 	}
 
 
