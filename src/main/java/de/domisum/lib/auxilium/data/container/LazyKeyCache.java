@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
@@ -26,23 +27,27 @@ public final class LazyKeyCache<KeyT, T>
 
 
 	// INIT
-	@API public static <KeyT, T> LazyKeyCache<KeyT, T> neverExpires()
+	@API
+	public static <KeyT, T> LazyKeyCache<KeyT, T> neverExpires()
 	{
 		return expiresAfter(Duration.ofSeconds(Long.MAX_VALUE));
 	}
 
-	@API public static <KeyT, T> LazyKeyCache<KeyT, T> expiresAfter(Duration expirationDuration)
+	@API
+	public static <KeyT, T> LazyKeyCache<KeyT, T> expiresAfter(Duration expirationDuration)
 	{
 		return new LazyKeyCache<>(expirationDuration, false);
 	}
 
 
-	@API public static <KeyT, T> LazyKeyCache<KeyT, T> neverExpiresUnused()
+	@API
+	public static <KeyT, T> LazyKeyCache<KeyT, T> neverExpiresUnused()
 	{
 		return unusedExpiresAfter(Duration.ofSeconds(Long.MAX_VALUE));
 	}
 
-	@API public static <KeyT, T> LazyKeyCache<KeyT, T> unusedExpiresAfter(Duration expirationDuration)
+	@API
+	public static <KeyT, T> LazyKeyCache<KeyT, T> unusedExpiresAfter(Duration expirationDuration)
 	{
 		return new LazyKeyCache<>(expirationDuration, true);
 	}
@@ -58,6 +63,7 @@ public final class LazyKeyCache<KeyT, T>
 
 
 	// CACHE
+	@API
 	public void put(KeyT key, T value)
 	{
 		ifDueRemoveExpiredEntries();
@@ -74,6 +80,7 @@ public final class LazyKeyCache<KeyT, T>
 		return new CacheEntryIgnoreUsage(value);
 	}
 
+	@API
 	public Optional<T> get(KeyT key)
 	{
 		ifDueRemoveExpiredEntries();
@@ -83,6 +90,13 @@ public final class LazyKeyCache<KeyT, T>
 
 		return optionalCacheEntry.map(CacheEntry::getValue);
 	}
+
+	@API
+	public Map<KeyT, CacheEntry> getEntries()
+	{
+		return new HashMap<>(cache);
+	}
+
 
 	// EXPIRATION
 	private void ifDueRemoveExpiredEntries()
@@ -101,10 +115,10 @@ public final class LazyKeyCache<KeyT, T>
 
 
 	// ENTRY
-	private abstract class CacheEntry
+	public abstract class CacheEntry
 	{
 
-		abstract T getValue();
+		public abstract T getValue();
 
 		abstract void markAsUsed();
 
@@ -117,16 +131,19 @@ public final class LazyKeyCache<KeyT, T>
 	{
 
 		private Instant lastUsage = Instant.now();
-		@Getter private final T value;
+		@Getter
+		private final T value;
 
 
 		// STATUS
-		@Override public void markAsUsed()
+		@Override
+		public void markAsUsed()
 		{
 			lastUsage = Instant.now();
 		}
 
-		@Override public boolean isExpired()
+		@Override
+		public boolean isExpired()
 		{
 			Duration sinceLastUsage = DurationUtil.toNow(lastUsage);
 			return sinceLastUsage.compareTo(expirationDuration) > 0;
@@ -139,16 +156,19 @@ public final class LazyKeyCache<KeyT, T>
 	{
 
 		private final Instant created = Instant.now();
-		@Getter private final T value;
+		@Getter
+		private final T value;
 
 
 		// STATUS
-		@Override public void markAsUsed()
+		@Override
+		public void markAsUsed()
 		{
 
 		}
 
-		@Override public boolean isExpired()
+		@Override
+		public boolean isExpired()
 		{
 			Duration sinceCreation = DurationUtil.toNow(created);
 			return sinceCreation.compareTo(expirationDuration) > 0;
