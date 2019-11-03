@@ -159,6 +159,8 @@ public abstract class Ticker
 
 		watchdogThread.interrupt();
 		watchdogThread = null;
+
+		start();
 	}
 
 
@@ -172,7 +174,7 @@ public abstract class Ticker
 			lastTickStart = null;
 
 			if(tickThreadRunning)
-				ThreadUtil.sleep(tickInterval.toMillis());
+				ThreadUtil.sleep(tickInterval);
 		}
 	}
 
