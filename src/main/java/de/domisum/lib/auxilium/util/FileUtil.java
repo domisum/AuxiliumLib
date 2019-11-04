@@ -126,13 +126,19 @@ public final class FileUtil
 	{
 		try
 		{
-			createParentDirectory(file);
-			Files.copy(inputStream, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
+			writeStreamUncaught(file, inputStream);
 		}
 		catch(IOException e)
 		{
 			throw new UncheckedIOException(e);
 		}
+	}
+
+	@API
+	public static void writeStreamUncaught(File file, InputStream inputStream) throws IOException
+	{
+		createParentDirectory(file);
+		Files.copy(inputStream, file.toPath(), StandardCopyOption.REPLACE_EXISTING);
 	}
 
 
