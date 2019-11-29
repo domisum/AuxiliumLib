@@ -277,7 +277,7 @@ public final class RandomUtil
 		if(elementsWithChance.isEmpty())
 			throw new IllegalArgumentException("The map has to have at least 1 element");
 
-		double chanceSum = elementsWithChance.values().stream().reduce(0d, (a, b)->a+b);
+		double chanceSum = elementsWithChance.values().stream().reduce(0d, Double::sum);
 		double randomSumThreshold = random.nextDouble()*chanceSum;
 
 		double chanceRunningSum = 0;
