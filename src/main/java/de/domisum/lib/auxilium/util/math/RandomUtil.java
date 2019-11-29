@@ -48,6 +48,28 @@ public final class RandomUtil
 	}
 
 	@API
+	public static long nextLong(long bound)
+	{
+		return nextLong(bound, getRandom());
+	}
+
+	@API
+	public static long nextLong(long bound, Random r)
+	{
+		// https://stackoverflow.com/a/2546186/4755690
+
+		long bits;
+		long val;
+		do
+		{
+			bits = (r.nextLong()<<1) >>> 1;
+			val = bits%bound;
+		}
+		while(((bits-val)+(bound-1)) < 0L);
+		return val;
+	}
+
+	@API
 	public static short nextShort()
 	{
 		return nextShort(getRandom());
@@ -122,6 +144,22 @@ public final class RandomUtil
 	public static int distribute(int base, int maxDifference, Random r)
 	{
 		return (int) Math.round(distribute((double) base, maxDifference, r)); // cast to double so it picks the double method
+	}
+
+	@API
+	public static long distribute(long base, long maxDifference)
+	{
+		return distribute(base, maxDifference, getRandom());
+	}
+
+	@API
+	public static long distribute(long base, long maxDifference, Random random)
+	{
+		long offset = nextLong(maxDifference+1);
+		if(getByChance(1d/2, random))
+			offset *= -1;
+
+		return base*offset;
 	}
 
 	@API
