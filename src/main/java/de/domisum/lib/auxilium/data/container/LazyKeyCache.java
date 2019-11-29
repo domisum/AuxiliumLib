@@ -1,6 +1,7 @@
 package de.domisum.lib.auxilium.data.container;
 
 import de.domisum.lib.auxilium.util.java.annotations.API;
+import de.domisum.lib.auxilium.util.math.RandomUtil;
 import de.domisum.lib.auxilium.util.time.DurationUtil;
 import de.domisum.lib.auxilium.util.time.PassiveTimer;
 import lombok.Getter;
@@ -19,6 +20,7 @@ public final class LazyKeyCache<KeyT, T>
 
 	// SETTINGS
 	private final Duration expirationDuration;
+	private final boolean randomizeExpirationDuration;
 	private final boolean onlyExpireUnused;
 
 	// STATE
@@ -36,7 +38,13 @@ public final class LazyKeyCache<KeyT, T>
 	@API
 	public static <KeyT, T> LazyKeyCache<KeyT, T> expiresAfter(Duration expirationDuration)
 	{
-		return new LazyKeyCache<>(expirationDuration, false);
+		return new LazyKeyCache<>(expirationDuration, false, false);
+	}
+
+	@API
+	public static <KeyT, T> LazyKeyCache<KeyT, T> expiresAfterRandomized(Duration expirationDuration)
+	{
+		return new LazyKeyCache<>(expirationDuration, true, false);
 	}
 
 
@@ -49,13 +57,14 @@ public final class LazyKeyCache<KeyT, T>
 	@API
 	public static <KeyT, T> LazyKeyCache<KeyT, T> unusedExpiresAfter(Duration expirationDuration)
 	{
-		return new LazyKeyCache<>(expirationDuration, true);
+		return new LazyKeyCache<>(expirationDuration, false, true);
 	}
 
 
-	private LazyKeyCache(Duration expirationDuration, boolean onlyExpireUnused)
+	private LazyKeyCache(Duration expirationDuration, boolean randomizeExpirationDuration, boolean onlyExpireUnused)
 	{
 		this.expirationDuration = expirationDuration;
+		this.randomizeExpirationDuration = randomizeExpirationDuration;
 		this.onlyExpireUnused = onlyExpireUnused;
 
 		expireCheckDueTimer = PassiveTimer.fromDurationAndStart(expirationDuration);
@@ -74,10 +83,20 @@ public final class LazyKeyCache<KeyT, T>
 
 	private CacheEntry createCacheEntry(T value)
 	{
-		if(onlyExpireUnused)
-			return new CacheEntryRespectUsage(value);
+		Duration expirationDuration = this.expirationDuration;
+		if(randomizeExpirationDuration)
+		{
+			long expirationDurationMillis = expirationDuration.toMillis();
 
-		return new CacheEntryIgnoreUsage(value);
+			long maxDifference = expirationDurationMillis/5; // max 20% offset
+			long newExpirationDurationMillis = RandomUtil.distribute(expirationDurationMillis, maxDifference);
+			expirationDuration = Duration.ofMillis(newExpirationDurationMillis);
+		}
+
+		if(onlyExpireUnused)
+			return new CacheEntryRespectUsage(expirationDuration, value);
+
+		return new CacheEntryIgnoreUsage(expirationDuration, value);
 	}
 
 	@API
@@ -131,6 +150,7 @@ public final class LazyKeyCache<KeyT, T>
 	{
 
 		private Instant lastUsage = Instant.now();
+		private final Duration expirationDuration;
 		@Getter
 		private final T value;
 
@@ -156,6 +176,7 @@ public final class LazyKeyCache<KeyT, T>
 	{
 
 		private final Instant created = Instant.now();
+		private final Duration expirationDuration;
 		@Getter
 		private final T value;
 
