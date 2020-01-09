@@ -12,7 +12,8 @@ public class Base64Key
 
 
 	// GENERATION
-	@API public static String generate(int length)
+	@API
+	public static String generate(int length)
 	{
 		StringBuilder key = new StringBuilder();
 		for(int i = 0; i < length; i++)

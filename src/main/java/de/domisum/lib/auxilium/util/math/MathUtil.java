@@ -11,12 +11,14 @@ public final class MathUtil
 {
 
 	// NUMBERS
-	@API public static double getDelta(double a, double b)
+	@API
+	public static double getDelta(double a, double b)
 	{
 		return Math.abs(a-b);
 	}
 
-	@API public static double mix(double firstNumber, double firstPart, double secondNumber, double secondPart)
+	@API
+	public static double mix(double firstNumber, double firstPart, double secondNumber, double secondPart)
 	{
 		double firstPercentage = firstPart/(firstPart+secondPart);
 		double secondPercentage = 1-firstPercentage;
@@ -24,19 +26,22 @@ public final class MathUtil
 		return (firstPercentage*firstNumber)+(secondPercentage*secondNumber);
 	}
 
-	@API public static double mix(double firstNumber, double firstPart, double secondNumber)
+	@API
+	public static double mix(double firstNumber, double firstPart, double secondNumber)
 	{
 		double secondPercentage = 1-firstPart;
 
 		return (firstPart*firstNumber)+(secondPercentage*secondNumber);
 	}
 
-	@API public static double clampAbs(double number, double maximumAbs)
+	@API
+	public static double clampAbs(double number, double maximumAbs)
 	{
 		return ((number < 0) ? -1 : 1)*Math.min(Math.abs(number), maximumAbs);
 	}
 
-	@API public static double clamp(double min, double max, double value)
+	@API
+	public static double clamp(double min, double max, double value)
 	{
 		if(min > max)
 			throw new IllegalArgumentException(PHR.r("min ({}) was bigger than max ({})", min, max));
@@ -50,7 +55,8 @@ public final class MathUtil
 		return value;
 	}
 
-	@API public static double avg(double... values)
+	@API
+	public static double avg(double... values)
 	{
 		if(values.length == 0)
 			throw new IllegalArgumentException("can't average calculate average of no numbers");
@@ -75,17 +81,20 @@ public final class MathUtil
 
 
 	// ANGLE
-	@API public static boolean isAngleNearRad(double a, double b, double maxD)
+	@API
+	public static boolean isAngleNearRad(double a, double b, double maxD)
 	{
 		return isAngleNearDeg(Math.toDegrees(a), Math.toDegrees(b), maxD);
 	}
 
-	@API public static boolean isAngleNearDeg(double a, double b, double maxD)
+	@API
+	public static boolean isAngleNearDeg(double a, double b, double maxD)
 	{
 		return getAngleDistanceDeg(a, b) < maxD;
 	}
 
-	@API public static double getAngleDistanceDeg(double a, double b)
+	@API
+	public static double getAngleDistanceDeg(double a, double b)
 	{
 		double delta = Math.abs(a-b)%360;
 		if(delta > 180)
@@ -105,7 +114,8 @@ public final class MathUtil
 	 * @param decimalPlaces the number of decimal places to round to
 	 * @return the rounded number
 	 */
-	@API public static double round(double numberToRound, int decimalPlaces)
+	@API
+	public static double round(double numberToRound, int decimalPlaces)
 	{
 		if(Double.isNaN(numberToRound))
 			throw new IllegalArgumentException("can't round NaN");
@@ -119,7 +129,8 @@ public final class MathUtil
 
 
 	// FUNCTION
-	@API public static double smoothStep(double input)
+	@API
+	public static double smoothStep(double input)
 	{
 		// https://en.wikipedia.org/wiki/Smoothstep
 
@@ -133,7 +144,8 @@ public final class MathUtil
 		return (3*(input*input))-(2*(input*input*input));
 	}
 
-	@API public static double smootherStep(double input)
+	@API
+	public static double smootherStep(double input)
 	{
 		// https://en.wikipedia.org/wiki/Smoothstep#Variations
 

@@ -20,12 +20,14 @@ public final class PassiveTimer
 
 
 	// INIT
-	@API public static PassiveTimer fromDuration(Duration duration)
+	@API
+	public static PassiveTimer fromDuration(Duration duration)
 	{
 		return new PassiveTimer(duration);
 	}
 
-	@API public static PassiveTimer fromDurationAndStart(Duration duration)
+	@API
+	public static PassiveTimer fromDurationAndStart(Duration duration)
 	{
 		PassiveTimer timer = fromDuration(duration);
 		timer.start();
@@ -35,7 +37,8 @@ public final class PassiveTimer
 
 
 	// TIMER
-	@API public synchronized void start()
+	@API
+	public synchronized void start()
 	{
 		if(startTime != null)
 			throw new IllegalStateException("can't start timer that has already been started, use #reset() first");
@@ -43,12 +46,14 @@ public final class PassiveTimer
 		startTime = Instant.now();
 	}
 
-	@API public synchronized void reset()
+	@API
+	public synchronized void reset()
 	{
 		startTime = null;
 	}
 
-	@API public synchronized void resetAndStart()
+	@API
+	public synchronized void resetAndStart()
 	{
 		reset();
 		start();
@@ -56,12 +61,14 @@ public final class PassiveTimer
 
 
 	// STATUS
-	@API public synchronized boolean isReady()
+	@API
+	public synchronized boolean isReady()
 	{
 		return startTime == null;
 	}
 
-	@API public synchronized boolean isOver()
+	@API
+	public synchronized boolean isOver()
 	{
 		if(startTime == null)
 			throw new IllegalStateException("can't check if timer is over if it hasn't been started yet");

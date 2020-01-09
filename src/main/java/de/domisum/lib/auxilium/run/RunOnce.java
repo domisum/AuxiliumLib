@@ -15,7 +15,8 @@ public class RunOnce implements Runnable
 
 
 	// RUN
-	@Override public void run()
+	@Override
+	public void run()
 	{
 		synchronized(hasRunLock)
 		{

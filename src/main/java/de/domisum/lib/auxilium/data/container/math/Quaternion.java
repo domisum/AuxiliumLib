@@ -10,19 +10,25 @@ public class Quaternion
 {
 
 	// PROPERTIES
-	@API public final double w;
-	@API public final double x;
-	@API public final double y;
-	@API public final double z;
+	@API
+	public final double w;
+	@API
+	public final double x;
+	@API
+	public final double y;
+	@API
+	public final double z;
 
 
 	// INIT
-	@API public Quaternion()
+	@API
+	public Quaternion()
 	{
 		this(0, new Vector3D(1, 0, 0)); // vector can't be null-vector since this fucks everything up
 	}
 
-	@API public Quaternion(double angleRad, Vector3D vector)
+	@API
+	public Quaternion(double angleRad, Vector3D vector)
 	{
 		w = Math.cos(angleRad/2);
 
@@ -32,15 +38,17 @@ public class Quaternion
 		z = sin*vector.z;
 	}
 
-	@Override public String toString()
+	@Override
+	public String toString()
 	{
-		return "quaternion[w="+MathUtil.round(w, 3)+",x="+MathUtil.round(x, 3)+",y="+MathUtil.round(y, 3)+",z="+MathUtil.round(
-				z,
-				3)+"]";
+		return "quaternion[w="+MathUtil.round(w, 3)+",x="+MathUtil.round(x, 3)+",y="+MathUtil.round(y, 3)+",z="+MathUtil.round(z,
+				3
+		)+"]";
 	}
 
 
-	@API public static Quaternion getRotationFromTo(Vector3D vector1, Vector3D vector2)
+	@API
+	public static Quaternion getRotationFromTo(Vector3D vector1, Vector3D vector2)
 	{
 		double norm = Math.sqrt(vector1.lengthSquared()*vector2.lengthSquared());
 		double w = norm+vector1.dotProduct(vector2);
@@ -60,40 +68,47 @@ public class Quaternion
 
 
 	// SELF
-	@API public double length()
+	@API
+	public double length()
 	{
 		return Math.sqrt((w*w)+(x*x)+(y*y)+(z*z));
 	}
 
-	@API public Quaternion normalize()
+	@API
+	public Quaternion normalize()
 	{
 		return multiply(1/length());
 	}
 
-	@API public Quaternion inverse()
+	@API
+	public Quaternion inverse()
 	{
 		double d = (w*w)+(x*x)+(y*y)+(z*z);
 		return new Quaternion(w/d, -x/d, -y/d, -z/d);
 	}
 
-	@API public Quaternion conjugate()
+	@API
+	public Quaternion conjugate()
 	{
 		return new Quaternion(w, -x, -y, -z);
 	}
 
-	@API public Vector3D getVector()
+	@API
+	public Vector3D getVector()
 	{
 		return new Vector3D(x, y, z);
 	}
 
 
 	// COMBINE
-	@API public Quaternion add(Quaternion b)
+	@API
+	public Quaternion add(Quaternion b)
 	{
 		return new Quaternion(w+b.w, x+b.x, y+b.y, z+b.z);
 	}
 
-	@API public Quaternion multiply(Quaternion b)
+	@API
+	public Quaternion multiply(Quaternion b)
 	{
 		double nW = (w*b.w)-(x*b.x)-(y*b.y)-(z*b.z);
 		double nX = ((w*b.x)+(x*b.w)+(y*b.z))-(z*b.y);
@@ -102,12 +117,14 @@ public class Quaternion
 		return new Quaternion(nW, nX, nY, nZ);
 	}
 
-	@API public Quaternion multiply(double d)
+	@API
+	public Quaternion multiply(double d)
 	{
 		return new Quaternion(w*d, x*d, y*d, z*d);
 	}
 
-	@API public Quaternion divide(Quaternion b)
+	@API
+	public Quaternion divide(Quaternion b)
 	{
 		return multiply(b.inverse());
 	}

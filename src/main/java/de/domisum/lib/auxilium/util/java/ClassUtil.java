@@ -20,7 +20,8 @@ public final class ClassUtil
 {
 
 	// CLASS
-	@API public static Optional<Class<?>> getClass(String path)
+	@API
+	public static Optional<Class<?>> getClass(String path)
 	{
 		try
 		{
@@ -32,7 +33,8 @@ public final class ClassUtil
 		}
 	}
 
-	@API public static List<Class<?>> getClasses(String path)
+	@API
+	public static List<Class<?>> getClasses(String path)
 	{
 		try
 		{

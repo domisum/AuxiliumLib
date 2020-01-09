@@ -20,27 +20,32 @@ public class InMemoryStorage<KeyT, T extends Keyable<KeyT>> implements Storage<K
 
 
 	// STORAGE
-	@Override public void store(T item)
+	@Override
+	public void store(T item)
 	{
 		items.put(item.getKey(), item);
 	}
 
-	@Override public void remove(KeyT key)
+	@Override
+	public void remove(KeyT key)
 	{
 		items.remove(key);
 	}
 
-	@Override public Optional<T> fetch(KeyT key)
+	@Override
+	public Optional<T> fetch(KeyT key)
 	{
 		return Optional.ofNullable(items.get(key));
 	}
 
-	@Override public Collection<T> fetchAll()
+	@Override
+	public Collection<T> fetchAll()
 	{
 		return Collections.unmodifiableCollection(items.values());
 	}
 
-	@Override public boolean contains(KeyT key)
+	@Override
+	public boolean contains(KeyT key)
 	{
 		return items.containsKey(key);
 	}

@@ -15,7 +15,8 @@ public class DataRegister
 
 
 	// GETTERS
-	@API public Object get(String key)
+	@API
+	public Object get(String key)
 	{
 		Object value = data.get(key);
 		if(value == null)
@@ -24,14 +25,16 @@ public class DataRegister
 		return value;
 	}
 
-	@API public boolean doesValueExist(String key)
+	@API
+	public boolean doesValueExist(String key)
 	{
 		return data.get(key) != null;
 	}
 
 
 	// SETTERS
-	@API public DataRegister set(String key, Object object)
+	@API
+	public DataRegister set(String key, Object object)
 	{
 		data.put(key, object);
 		return this;

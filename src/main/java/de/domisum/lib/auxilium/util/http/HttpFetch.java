@@ -51,35 +51,41 @@ public abstract class HttpFetch<T>
 	private HttpCredentials credentials;
 
 	private int numberOfTries = 3;
-	@Getter(AccessLevel.PROTECTED) private ExceptionHandler<IOException> onFail = e->logger.error("error fetching", e);
+	@Getter(AccessLevel.PROTECTED)
+	private ExceptionHandler<IOException> onFail = e->logger.error("error fetching", e);
 
 
 	// INIT
-	@API public HttpFetch<T> method(HttpMethod method)
+	@API
+	public HttpFetch<T> method(HttpMethod method)
 	{
 		this.method = method;
 		return this;
 	}
 
-	@API public HttpFetch<T> body(HttpBody body)
+	@API
+	public HttpFetch<T> body(HttpBody body)
 	{
 		this.body = body;
 		return this;
 	}
 
-	@API public HttpFetch<T> credentials(HttpCredentials credentials)
+	@API
+	public HttpFetch<T> credentials(HttpCredentials credentials)
 	{
 		this.credentials = credentials;
 		return this;
 	}
 
-	@API public HttpFetch<T> numberOfTries(int numberOfTries)
+	@API
+	public HttpFetch<T> numberOfTries(int numberOfTries)
 	{
 		this.numberOfTries = numberOfTries;
 		return this;
 	}
 
-	@API public HttpFetch<T> onFail(ExceptionHandler<IOException> onFail)
+	@API
+	public HttpFetch<T> onFail(ExceptionHandler<IOException> onFail)
 	{
 		this.onFail = onFail;
 		return this;
@@ -87,7 +93,8 @@ public abstract class HttpFetch<T>
 
 
 	// FETCH
-	@API public Optional<T> fetch()
+	@API
+	public Optional<T> fetch()
 	{
 		int tries = method.retry ? numberOfTries : 1;
 
@@ -119,10 +126,10 @@ public abstract class HttpFetch<T>
 				return convertToSpecific(responseStream);
 
 			if(last)
-				throw new IOException(PHR.r(
-						"Failed to fetch: {}: {}",
+				throw new IOException(PHR.r("Failed to fetch: {}: {}",
 						response.getStatusLine(),
-						org.apache.commons.io.IOUtils.toString(responseStream, StandardCharsets.UTF_8)));
+						org.apache.commons.io.IOUtils.toString(responseStream, StandardCharsets.UTF_8)
+				));
 		}
 		catch(IOException e)
 		{
@@ -155,7 +162,8 @@ public abstract class HttpFetch<T>
 
 		CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
 		credentialsProvider.setCredentials(AuthScope.ANY,
-				new UsernamePasswordCredentials(credentials.getUsername(), credentials.getPassword()));
+				new UsernamePasswordCredentials(credentials.getUsername(), credentials.getPassword())
+		);
 
 		httpClientBuilder.setDefaultCredentialsProvider(credentialsProvider);
 	}

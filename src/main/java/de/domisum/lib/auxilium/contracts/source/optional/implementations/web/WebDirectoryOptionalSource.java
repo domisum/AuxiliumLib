@@ -18,12 +18,14 @@ public abstract class WebDirectoryOptionalSource<KeyT, T> implements OptionalSou
 
 
 	// SOURCE
-	@Override public Optional<T> fetch(KeyT key)
+	@Override
+	public Optional<T> fetch(KeyT key)
 	{
 		return fetch(getUrl(key));
 	}
 
-	@Override public T fetchOrException(KeyT key)
+	@Override
+	public T fetchOrException(KeyT key)
 	{
 		Optional<T> optional = fetch(key);
 		if(!optional.isPresent())

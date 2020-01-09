@@ -19,24 +19,28 @@ public class LineSegment2D
 
 
 	// GETTERS
-	@API public double getLength()
+	@API
+	public double getLength()
 	{
 		return a.distanceTo(b);
 	}
 
-	@API public double getLengthSquared()
+	@API
+	public double getLengthSquared()
 	{
 		return a.distanceToSquared(b);
 	}
 
-	@API public Vector2D getDirection()
+	@API
+	public Vector2D getDirection()
 	{
 		return b.subtract(a);
 	}
 
 
 	// DISTANCE
-	@API public double getDistanceTo(Vector2D point)
+	@API
+	public double getDistanceTo(Vector2D point)
 	{
 		// http://geomalgorithms.com/a02-_lines.html
 
@@ -56,7 +60,8 @@ public class LineSegment2D
 		return point.distanceTo(pointOnSegment);
 	}
 
-	@API public double getDistanceTo(LineSegment2D other)
+	@API
+	public double getDistanceTo(LineSegment2D other)
 	{
 		if(intersects(other))
 			return 0;
@@ -72,7 +77,8 @@ public class LineSegment2D
 
 
 	// CHECKS
-	@API public boolean intersects(LineSegment2D other)
+	@API
+	public boolean intersects(LineSegment2D other)
 	{
 		// http://www.geeksforgeeks.org/check-if-two-given-line-segments-intersect/
 
@@ -101,13 +107,15 @@ public class LineSegment2D
 		return true;
 	}
 
-	@API public boolean isColinear(LineSegment2D other)
+	@API
+	public boolean isColinear(LineSegment2D other)
 	{
 		return (getPointArrangement(a, b, other.a) == PointArrangement.COLINEAR) && (getPointArrangement(a, b, other.b)
 				== PointArrangement.COLINEAR);
 	}
 
-	@API public boolean contains(Vector2D point)
+	@API
+	public boolean contains(Vector2D point)
 	{
 		double distance = getDistanceTo(point);
 

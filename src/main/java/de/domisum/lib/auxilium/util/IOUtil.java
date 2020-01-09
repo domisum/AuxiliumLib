@@ -14,7 +14,8 @@ import java.io.UncheckedIOException;
 public final class IOUtil
 {
 
-	@API public static byte[] toByteArray(InputStream inputStream)
+	@API
+	public static byte[] toByteArray(InputStream inputStream)
 	{
 		try
 		{

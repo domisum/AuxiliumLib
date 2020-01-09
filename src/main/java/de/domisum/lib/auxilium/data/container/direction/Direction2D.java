@@ -26,7 +26,8 @@ public enum Direction2D
 
 
 	// GETTERS
-	@API public Direction2D getOpposite()
+	@API
+	public Direction2D getOpposite()
 	{
 		if(this == NORTH)
 			return SOUTH;
@@ -40,7 +41,8 @@ public enum Direction2D
 		return null;
 	}
 
-	@API public Direction2D getRandomOther(Random r)
+	@API
+	public Direction2D getRandomOther(Random r)
 	{
 		Direction2D dir;
 		do
@@ -52,7 +54,8 @@ public enum Direction2D
 
 
 	// UTIL
-	@API public static Direction2D getFromOffset(int dX, int dZ)
+	@API
+	public static Direction2D getFromOffset(int dX, int dZ)
 	{
 		for(Direction2D d : Direction2D.values())
 			if((d.dX == dX) && (d.dZ == dZ))
@@ -62,7 +65,8 @@ public enum Direction2D
 	}
 
 
-	@API public static Direction2D getFromYaw(float yaw)
+	@API
+	public static Direction2D getFromYaw(float yaw)
 	{
 		double adjustedYaw = yaw%360;
 
@@ -85,13 +89,15 @@ public enum Direction2D
 		return NORTH;
 	}
 
-	@API public static Direction2D getRandom(Random r)
+	@API
+	public static Direction2D getRandom(Random r)
 	{
 		return values()[r.nextInt(values().length)];
 	}
 
 
-	@API public static List<Direction2D> getValuesAsList()
+	@API
+	public static List<Direction2D> getValuesAsList()
 	{
 		return new ArrayList<>(Arrays.asList(values()));
 	}

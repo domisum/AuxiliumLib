@@ -13,7 +13,8 @@ public class LineSegmentWithWidth2D implements GeometricShape2D
 
 
 	// SHAPE
-	@Override public boolean contains(Vector2D point)
+	@Override
+	public boolean contains(Vector2D point)
 	{
 		return lineSegment.getDistanceTo(point) < maxDistance;
 	}

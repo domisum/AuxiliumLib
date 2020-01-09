@@ -14,41 +14,48 @@ public class ProfilerStopWatch
 	private final String name;
 
 	// TEMP
-	@Getter private transient long startNano;
+	@Getter
+	private transient long startNano;
 	private transient long endNano = -1;
 
 
 	// OBJECT
-	@Override public String toString()
+	@Override
+	public String toString()
 	{
 		return "[name="+name+";active="+isActive()+";elapsedMs="+MathUtil.round(getElapsedMilli(), 3)+"]";
 	}
 
 
 	// GETTERS
-	@API public boolean isActive()
+	@API
+	public boolean isActive()
 	{
 		return endNano == -1;
 	}
 
-	@API public long getElapsedNano()
+	@API
+	public long getElapsedNano()
 	{
 		return ((endNano == -1) ? System.nanoTime() : endNano)-startNano;
 	}
 
-	@API public double getElapsedMilli()
+	@API
+	public double getElapsedMilli()
 	{
 		return getElapsedNano()/1000d/1000d;
 	}
 
 
 	// START/STOP
-	@API public void start()
+	@API
+	public void start()
 	{
 		startNano = System.nanoTime();
 	}
 
-	@API public void stop()
+	@API
+	public void stop()
 	{
 		if(endNano != -1)
 			throw new IllegalStateException("The stopwatch has already been stopped");

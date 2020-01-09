@@ -13,8 +13,10 @@ import lombok.ToString;
 public class Coordinate2DInt
 {
 
-	@Getter public final int x;
-	@Getter public final int y;
+	@Getter
+	public final int x;
+	@Getter
+	public final int y;
 
 
 	public Coordinate2DInt add(Coordinate2DInt other)

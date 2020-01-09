@@ -26,7 +26,8 @@ public final class DirectoryCopy
 
 
 	// INIT
-	@API public static DirectoryCopy fromTo(File sourceRootDir, File targetRootDir, FileFilter... filters)
+	@API
+	public static DirectoryCopy fromTo(File sourceRootDir, File targetRootDir, FileFilter... filters)
 	{
 		DirectoryCopy directoryCopy = new DirectoryCopy(sourceRootDir, targetRootDir);
 		for(FileFilter ff : filters)
@@ -37,14 +38,16 @@ public final class DirectoryCopy
 
 
 	// SETTINGS
-	@API public void addFilter(FileFilter filter)
+	@API
+	public void addFilter(FileFilter filter)
 	{
 		filters.add(filter);
 	}
 
 
 	// COPY
-	@API public void copy()
+	@API
+	public void copy()
 	{
 		if(!sourceRootDirectory.exists())
 			return;

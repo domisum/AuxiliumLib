@@ -24,20 +24,24 @@ public final class SingleItemOptionalSourceCache<T> implements SingleItemOptiona
 
 
 	// INIT
-	@API public static <T> SingleItemOptionalSourceCache<T> neverInvalidate(SingleItemOptionalSource<T> backingSource)
+	@API
+	public static <T> SingleItemOptionalSourceCache<T> neverInvalidate(SingleItemOptionalSource<T> backingSource)
 	{
 		return new SingleItemOptionalSourceCache<>(null, backingSource);
 	}
 
 	@API
-	public static <T> SingleItemOptionalSourceCache<T> invalidateEvery(Duration invalidationInterval, SingleItemOptionalSource<T> backingSource)
+	public static <T> SingleItemOptionalSourceCache<T> invalidateEvery(
+			Duration invalidationInterval,
+			SingleItemOptionalSource<T> backingSource)
 	{
 		return new SingleItemOptionalSourceCache<>(invalidationInterval, backingSource);
 	}
 
 
 	// SOURCE
-	@Override public synchronized Optional<T> fetch()
+	@Override
+	public synchronized Optional<T> fetch()
 	{
 		if(shouldInvalidateCache())
 			invalidateCache();

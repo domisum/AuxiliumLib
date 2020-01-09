@@ -10,7 +10,9 @@ import lombok.RequiredArgsConstructor;
 public class HttpCredentials
 {
 
-	@Getter private final String username;
-	@Getter private final String password;
+	@Getter
+	private final String username;
+	@Getter
+	private final String password;
 
 }

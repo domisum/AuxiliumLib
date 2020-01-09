@@ -25,7 +25,8 @@ public class HttpFetchSerializedObject<T> extends HttpFetch<T>
 
 
 	// FETCH
-	@Override protected Optional<T> convertToSpecific(InputStream inputStream)
+	@Override
+	protected Optional<T> convertToSpecific(InputStream inputStream)
 	{
 		Optional<String> serializedOptional = new HttpFetchString(null).convertToSpecific(inputStream);
 		if(!serializedOptional.isPresent())

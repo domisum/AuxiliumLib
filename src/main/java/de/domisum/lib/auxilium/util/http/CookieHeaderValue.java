@@ -57,22 +57,27 @@ public class CookieHeaderValue implements CharSequence
 
 
 	// STRING
-	@Override public int length()
+	@Override
+	public int length()
 	{
 		return asString.length();
 	}
 
-	@Override public char charAt(int index)
+	@Override
+	public char charAt(int index)
 	{
 		return asString.charAt(index);
 	}
 
-	@Override public CharSequence subSequence(int start, int end)
+	@Override
+	public CharSequence subSequence(int start, int end)
 	{
 		return asString.subSequence(start, end);
 	}
 
-	@Nonnull @Override public String toString()
+	@Nonnull
+	@Override
+	public String toString()
 	{
 		return asString;
 	}

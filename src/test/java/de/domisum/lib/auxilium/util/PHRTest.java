@@ -7,7 +7,8 @@ public class PHRTest
 {
 
 	// TEST: ERRORS
-	@Test public void testErrorInvalidNumberOfArgs()
+	@Test
+	public void testErrorInvalidNumberOfArgs()
 	{
 		Assertions.assertThrows(IllegalArgumentException.class, ()->PHR.r("blah {} blah {} xd"));
 		Assertions.assertThrows(IllegalArgumentException.class, ()->PHR.r("blah {} blah {} xd", "meme"));
@@ -16,13 +17,15 @@ public class PHRTest
 
 
 	// TEST: PROPER VALUES
-	@Test public void testNoPlaceholders()
+	@Test
+	public void testNoPlaceholders()
 	{
 		assertReplaceEquals("here I go", "here I go");
 		assertReplaceEquals("", "");
 	}
 
-	@Test public void testSingleReplacement()
+	@Test
+	public void testSingleReplacement()
 	{
 		assertReplaceEquals("here I go", "here {} go", "I");
 		assertReplaceEquals("aha#asdf", "aha#{}df", "as");
@@ -32,7 +35,8 @@ public class PHRTest
 		assertReplaceEquals("3.141", "3.{}", "141");
 	}
 
-	@Test public void testMultiReplace()
+	@Test
+	public void testMultiReplace()
 	{
 		assertReplaceEquals("some text goes here", "some {} goes {}", "text", "here");
 		assertReplaceEquals(
@@ -41,10 +45,12 @@ public class PHRTest
 				"are",
 				"very",
 				"indeed",
-				"I'll");
+				"I'll"
+		);
 	}
 
-	@Test public void testReplaceWithPlaceholder()
+	@Test
+	public void testReplaceWithPlaceholder()
 	{
 		assertReplaceEquals("here {} go", "here {} go", "{}");
 		assertReplaceEquals("some silly face: :-{} xddd", "some silly face: {} xddd", ":-{}");

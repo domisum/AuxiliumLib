@@ -24,7 +24,8 @@ public class FilterOutDirectory implements FileFilter
 
 
 	// FILTER
-	@Override public boolean shouldFilterOut(File file, File sourceRootDirectory, File targetRootDirectory)
+	@Override
+	public boolean shouldFilterOut(File file, File sourceRootDirectory, File targetRootDirectory)
 	{
 		if(!file.isDirectory())
 			return false;

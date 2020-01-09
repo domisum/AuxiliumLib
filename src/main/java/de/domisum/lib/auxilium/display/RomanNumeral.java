@@ -16,7 +16,8 @@ public final class RomanNumeral
 	private static final Range<Integer> RANGE = Range.closed(1, 3999);
 
 	// ATTRIBUTES
-	@Getter private final int number;
+	@Getter
+	private final int number;
 	private final String roman;
 
 
@@ -77,7 +78,8 @@ public final class RomanNumeral
 				throw new IllegalArgumentException(PHR.r("invalid order of tokens: {} ({} before {})",
 						roman,
 						lastToken,
-						romanToken));
+						romanToken
+				));
 
 			value += romanToken.value;
 			remaining = remaining.substring(romanToken.name().length());
@@ -98,7 +100,8 @@ public final class RomanNumeral
 
 
 	// OBJECT
-	@Override public String toString()
+	@Override
+	public String toString()
 	{
 		return roman;
 	}

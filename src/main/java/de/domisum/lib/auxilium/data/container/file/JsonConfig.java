@@ -13,13 +13,15 @@ public interface JsonConfig
 {
 
 	// INIT
-	@API static <T extends JsonConfig> T load(File file, Class<T> tClass)
+	@API
+	static <T extends JsonConfig> T load(File file, Class<T> tClass)
 	{
 		String fileContent = FileUtil.readString(file);
 		return parse(fileContent, tClass);
 	}
 
-	@API static <T extends JsonConfig> T parse(String json, Class<T> tClass)
+	@API
+	static <T extends JsonConfig> T parse(String json, Class<T> tClass)
 	{
 		T jsonConfig = GsonUtil.get().fromJson(json, tClass);
 
@@ -32,16 +34,19 @@ public interface JsonConfig
 
 
 	// VALIDATE
-	@InitByDeserialization void validate();
+	@InitByDeserialization
+	void validate();
 
 
-	@API default void validateString(String toValidate, String fieldName)
+	@API
+	default void validateString(String toValidate, String fieldName)
 	{
 		if(toValidate == null)
 			throw new IllegalArgumentException(fieldName+" was missing from config");
 	}
 
-	@API default void validatePort(int port)
+	@API
+	default void validatePort(int port)
 	{
 		final int MAX_PORT_VALUE = 65535;
 

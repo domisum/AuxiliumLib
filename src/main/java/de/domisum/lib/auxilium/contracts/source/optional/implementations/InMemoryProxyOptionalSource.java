@@ -1,7 +1,7 @@
 package de.domisum.lib.auxilium.contracts.source.optional.implementations;
 
-import de.domisum.lib.auxilium.contracts.source.optional.FiniteOptionalSource;
 import de.domisum.lib.auxilium.contracts.Keyable;
+import de.domisum.lib.auxilium.contracts.source.optional.FiniteOptionalSource;
 import de.domisum.lib.auxilium.contracts.storage.Storage;
 import de.domisum.lib.auxilium.util.java.annotations.API;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +25,8 @@ public class InMemoryProxyOptionalSource<KeyT, T extends Keyable<KeyT>> implemen
 
 
 	// INIT
-	@API public void fetchAllToMemory()
+	@API
+	public void fetchAllToMemory()
 	{
 		Collection<T> itemsFromBackingstorage = backingSource.fetchAll();
 
@@ -48,7 +49,8 @@ public class InMemoryProxyOptionalSource<KeyT, T extends Keyable<KeyT>> implemen
 
 
 	// STORAGE
-	@Override public Optional<T> fetch(KeyT key)
+	@Override
+	public Optional<T> fetch(KeyT key)
 	{
 		Validate.notNull(key, "key can't be null");
 		checkReady();
@@ -56,14 +58,16 @@ public class InMemoryProxyOptionalSource<KeyT, T extends Keyable<KeyT>> implemen
 		return Optional.ofNullable(items.get(key));
 	}
 
-	@Override public Collection<T> fetchAll()
+	@Override
+	public Collection<T> fetchAll()
 	{
 		checkReady();
 
 		return Collections.unmodifiableCollection(items.values());
 	}
 
-	@Override public boolean contains(KeyT key)
+	@Override
+	public boolean contains(KeyT key)
 	{
 		checkReady();
 

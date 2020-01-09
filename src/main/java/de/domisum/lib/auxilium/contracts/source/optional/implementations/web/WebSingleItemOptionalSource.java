@@ -14,7 +14,8 @@ public abstract class WebSingleItemOptionalSource<T> implements SingleItemOption
 	protected final AbstractURL url;
 
 
-	@Override public T fetchOrException()
+	@Override
+	public T fetchOrException()
 	{
 		Optional<T> optional = fetch();
 		if(!optional.isPresent())

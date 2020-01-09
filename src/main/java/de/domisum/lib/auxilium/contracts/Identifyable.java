@@ -12,14 +12,16 @@ public interface Identifyable extends Keyable<String>
 
 	String getId();
 
-	@Override default String getKey()
+	@Override
+	default String getKey()
 	{
 		return getId();
 	}
 
 
 	// UTIL
-	@API static String getIdList(Collection<? extends Identifyable> identifyables)
+	@API
+	static String getIdList(Collection<? extends Identifyable> identifyables)
 	{
 		List<String> strings = new ArrayList<>();
 		for(Identifyable identifyable : identifyables)

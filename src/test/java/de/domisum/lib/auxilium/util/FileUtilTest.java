@@ -14,7 +14,8 @@ public class FileUtilTest
 	private final List<File> filesToTearDown = new ArrayList<>();
 
 
-	@AfterEach public void tearDown()
+	@AfterEach
+	public void tearDown()
 	{
 		for(File f : filesToTearDown)
 			if(f != null)
@@ -26,7 +27,8 @@ public class FileUtilTest
 
 
 	// TEST: STRING
-	@Test public void testSimpleReadAndWrite()
+	@Test
+	public void testSimpleReadAndWrite()
 	{
 		String text = "Hello world";
 		File tempFile = createTempFile();
@@ -34,7 +36,8 @@ public class FileUtilTest
 		writeReadAssertEquals(tempFile, text);
 	}
 
-	@Test public void testWriteInNotExistingFolder()
+	@Test
+	public void testWriteInNotExistingFolder()
 	{
 		String text = "meme\nasdf";
 		File tempDir = createTempDirectory();
@@ -45,7 +48,8 @@ public class FileUtilTest
 
 
 	// TEST: RAW
-	@Test public void testSimpleWriteReadRaw()
+	@Test
+	public void testSimpleWriteReadRaw()
 	{
 		byte[] testData = {0, 8, -3, 127};
 		File tempFile = createTempFile();
@@ -53,7 +57,8 @@ public class FileUtilTest
 		writeReadAssertEquals(tempFile, testData);
 	}
 
-	@Test public void testOverwriteRaw()
+	@Test
+	public void testOverwriteRaw()
 	{
 		byte[] testData = {-1, -29, 88, 18};
 		File tempFile = createTempFile();
@@ -65,7 +70,8 @@ public class FileUtilTest
 
 
 	// TEST: DIRECTORY
-	@Test public void testDeleteNestedDir()
+	@Test
+	public void testDeleteNestedDir()
 	{
 		String sampleText = "asdf\nwow";
 
@@ -83,7 +89,8 @@ public class FileUtilTest
 
 
 	// TEST: TEMP FILES
-	@Test public void testTempFilesExtensions()
+	@Test
+	public void testTempFilesExtensions()
 	{
 		File tempFile = FileUtil.createTemporaryFile("zip");
 		filesToTearDown.add(tempFile);
@@ -96,7 +103,8 @@ public class FileUtilTest
 
 
 	// TEST: GENERAL FILE
-	@Test void testCompositeFileExtension()
+	@Test
+	void testCompositeFileExtension()
 	{
 		Assertions.assertEquals(".json", FileUtil.getCompositeExtension(new File("wow/test.json")));
 		Assertions.assertEquals(".config.json", FileUtil.getCompositeExtension(new File("test.config.json")));
@@ -105,7 +113,8 @@ public class FileUtilTest
 		Assertions.assertEquals(".config.json", FileUtil.getCompositeExtension(new File("wow.xd/test.config.json")));
 	}
 
-	@Test void testNameWithoutCompositeExtension()
+	@Test
+	void testNameWithoutCompositeExtension()
 	{
 		Assertions.assertEquals("test", FileUtil.getNameWithoutCompositeExtension(new File("wow/test.json")));
 		Assertions.assertEquals("test", FileUtil.getNameWithoutCompositeExtension(new File("wow/test.meme.json")));

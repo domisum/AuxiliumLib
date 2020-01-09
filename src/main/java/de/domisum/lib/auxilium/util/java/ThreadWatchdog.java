@@ -33,12 +33,14 @@ public final class ThreadWatchdog
 
 
 	// SINGLETON
-	@API public static synchronized void registerOnTerminationAction(Thread thread, Runnable run)
+	@API
+	public static synchronized void registerOnTerminationAction(Thread thread, Runnable run)
 	{
 		getInstance().register(thread, run);
 	}
 
-	@API public static synchronized void unregisterOnTerminationActions(Thread thread)
+	@API
+	public static synchronized void unregisterOnTerminationActions(Thread thread)
 	{
 		getInstance().unregister(thread);
 	}

@@ -10,12 +10,15 @@ public class Line3D
 	public static final double THRESHOLD = 1d/(1000d*1000d*1000d);
 
 	// PROPERTIES
-	@API public final Vector3D base;
-	@API public final Vector3D direction;
+	@API
+	public final Vector3D base;
+	@API
+	public final Vector3D direction;
 
 
 	// INIT
-	@API public Line3D(Vector3D base, Vector3D direction)
+	@API
+	public Line3D(Vector3D base, Vector3D direction)
 	{
 		this.base = base;
 		this.direction = direction.normalize();
@@ -23,13 +26,15 @@ public class Line3D
 
 
 	// GETTERS
-	@API public boolean containsPoint(Vector3D point)
+	@API
+	public boolean containsPoint(Vector3D point)
 	{
 		Vector3D crossProduct = direction.crossProduct(point.subtract(base));
 		return crossProduct.lengthSquared() <= THRESHOLD;
 	}
 
-	@API public Vector3D getPointOnLineClosestToPoint(Vector3D point)
+	@API
+	public Vector3D getPointOnLineClosestToPoint(Vector3D point)
 	{
 		Vector3D w = point.subtract(base);
 
@@ -40,7 +45,8 @@ public class Line3D
 		return base.add(direction.multiply(productQuot));
 	}
 
-	@API public LineSegment3D getShortestConnection(Line3D other)
+	@API
+	public LineSegment3D getShortestConnection(Line3D other)
 	{
 		// http://geomalgorithms.com/a07-_distance.html#dist3D_Segment_to_Segment
 
@@ -69,7 +75,8 @@ public class Line3D
 
 
 	// DISTANCE
-	@API public double getDistanceTo(Vector3D point)
+	@API
+	public double getDistanceTo(Vector3D point)
 	{
 		// http://mathworld.wolfram.com/Point-LineDistance3-Dimensional.html
 
@@ -79,7 +86,8 @@ public class Line3D
 		return crossProduct.length()/direction.length();
 	}
 
-	@API public double getDistanceTo(Line3D other)
+	@API
+	public double getDistanceTo(Line3D other)
 	{
 		LineSegment3D lineSegment = getShortestConnection(other);
 		return lineSegment.getLength();

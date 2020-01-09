@@ -22,7 +22,8 @@ public class HttpFetchImage extends HttpFetch<BufferedImage>
 
 
 	// FETCH
-	@Override protected Optional<BufferedImage> convertToSpecific(InputStream inputStream)
+	@Override
+	protected Optional<BufferedImage> convertToSpecific(InputStream inputStream)
 	{
 		try
 		{

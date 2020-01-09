@@ -27,7 +27,8 @@ public class HttpFetchToFile extends HttpFetch<File>
 
 
 	// FETCH
-	@Override protected Optional<File> convertToSpecific(InputStream inputStream)
+	@Override
+	protected Optional<File> convertToSpecific(InputStream inputStream)
 	{
 		try
 		{

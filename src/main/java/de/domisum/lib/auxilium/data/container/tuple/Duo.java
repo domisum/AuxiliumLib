@@ -14,12 +14,15 @@ public class Duo<T>
 {
 
 	// ATTRIBUTES
-	@Getter private final T a;
-	@Getter private final T b;
+	@Getter
+	private final T a;
+	@Getter
+	private final T b;
 
 
 	// GETTERS
-	@API public Duo<T> getInverted()
+	@API
+	public Duo<T> getInverted()
 	{
 		return new Duo<>(b, a);
 	}

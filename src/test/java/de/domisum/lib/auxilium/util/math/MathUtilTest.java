@@ -6,7 +6,8 @@ import org.junit.jupiter.api.Test;
 public class MathUtilTest
 {
 
-	@Test public void testRemapLinear()
+	@Test
+	public void testRemapLinear()
 	{
 		// equal start and ends
 		Assertions.assertThrows(IllegalArgumentException.class, ()->MathUtil.remapLinear(0, 0, 1, 2, 0));
@@ -34,7 +35,8 @@ public class MathUtilTest
 		Assertions.assertEquals(0d, MathUtil.remapLinear(-100d, -200d, -5d, -15d, -50d)); // out of base bounds
 	}
 
-	@Test public void testRound()
+	@Test
+	public void testRound()
 	{
 		Assertions.assertEquals(7.14d, MathUtil.round(7.1415926, 2));
 
@@ -55,7 +57,8 @@ public class MathUtilTest
 	}
 
 
-	@Test public void testClamp()
+	@Test
+	public void testClamp()
 	{
 		Assertions.assertEquals(0.5, MathUtil.clamp(0, 1, 0.5));
 
@@ -69,7 +72,8 @@ public class MathUtilTest
 		Assertions.assertEquals(381.88, MathUtil.clamp(381.7, 381.88, 500));
 	}
 
-	@Test void testClampError()
+	@Test
+	void testClampError()
 	{
 		Assertions.assertThrows(IllegalArgumentException.class, ()->MathUtil.clamp(2, 1, 0));
 	}

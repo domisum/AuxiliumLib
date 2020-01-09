@@ -31,7 +31,8 @@ public class KeyableInDirectoryStorage<KeyT, T extends Keyable<KeyT>> implements
 
 
 	// SOURCE
-	@Override public Collection<T> fetchAll()
+	@Override
+	public Collection<T> fetchAll()
 	{
 		Collection<File> files = FileUtil.listFilesRecursively(directory, FileType.FILE);
 
@@ -54,7 +55,8 @@ public class KeyableInDirectoryStorage<KeyT, T extends Keyable<KeyT>> implements
 		return isValid;
 	}
 
-	@API protected Collection<T> readFromFiles(Collection<File> files)
+	@API
+	protected Collection<T> readFromFiles(Collection<File> files)
 	{
 		Collection<T> items = new ArrayList<>();
 
@@ -65,13 +67,15 @@ public class KeyableInDirectoryStorage<KeyT, T extends Keyable<KeyT>> implements
 	}
 
 
-	@Override public boolean contains(KeyT key)
+	@Override
+	public boolean contains(KeyT key)
 	{
 		File file = getFileFor(key);
 		return isFileValid(file);
 	}
 
-	@Override public Optional<T> fetch(KeyT key)
+	@Override
+	public Optional<T> fetch(KeyT key)
 	{
 		File file = getFileFor(key);
 		if(!isFileValid(file))
@@ -82,7 +86,8 @@ public class KeyableInDirectoryStorage<KeyT, T extends Keyable<KeyT>> implements
 
 
 	// STORAGE
-	@Override public void store(T item)
+	@Override
+	public void store(T item)
 	{
 		String serialized = serializer.serialize(item);
 
@@ -90,7 +95,8 @@ public class KeyableInDirectoryStorage<KeyT, T extends Keyable<KeyT>> implements
 		FileUtil.writeString(file, serialized);
 	}
 
-	@Override public void remove(KeyT key)
+	@Override
+	public void remove(KeyT key)
 	{
 		File file = getFileFor(key);
 		if(!isFileValid(file))
@@ -101,7 +107,8 @@ public class KeyableInDirectoryStorage<KeyT, T extends Keyable<KeyT>> implements
 
 
 	// FILE
-	@API protected T readFromFile(File file)
+	@API
+	protected T readFromFile(File file)
 	{
 		String serialized = FileUtil.readString(file);
 

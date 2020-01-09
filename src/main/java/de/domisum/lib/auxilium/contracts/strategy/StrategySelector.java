@@ -17,13 +17,15 @@ public class StrategySelector<T, StrategyT extends Strategy<T>>
 
 
 	// INIT
-	@API public StrategySelector(List<StrategyT> strategies)
+	@API
+	public StrategySelector(List<StrategyT> strategies)
 	{
 		this.strategies = Collections.unmodifiableList(strategies);
 		fallbackStrategy = null;
 	}
 
-	@API public StrategySelector(List<StrategyT> strategies, StrategyT fallbackStrategy)
+	@API
+	public StrategySelector(List<StrategyT> strategies, StrategyT fallbackStrategy)
 	{
 		this.strategies = Collections.unmodifiableList(strategies);
 		this.fallbackStrategy = fallbackStrategy;
@@ -31,7 +33,8 @@ public class StrategySelector<T, StrategyT extends Strategy<T>>
 
 
 	// SELECT
-	@API public Optional<StrategyT> selectFirstApplicable(T strategizedObject)
+	@API
+	public Optional<StrategyT> selectFirstApplicable(T strategizedObject)
 	{
 		for(StrategyT s : strategies)
 			if(s.doesApplyTo(strategizedObject))
@@ -40,7 +43,8 @@ public class StrategySelector<T, StrategyT extends Strategy<T>>
 		return Optional.ofNullable(fallbackStrategy);
 	}
 
-	@API public List<StrategyT> selectAllApplicableFor(T strategizedObject)
+	@API
+	public List<StrategyT> selectAllApplicableFor(T strategizedObject)
 	{
 		List<StrategyT> applicable = new ArrayList<>();
 		for(StrategyT strategy : strategies)

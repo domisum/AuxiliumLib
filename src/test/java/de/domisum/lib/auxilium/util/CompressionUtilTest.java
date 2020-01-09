@@ -11,13 +11,15 @@ public class CompressionUtilTest
 {
 
 	// TESTS: PROPER INPUT
-	@Test public void testEmptyData()
+	@Test
+	public void testEmptyData()
 	{
 		// noinspection ZeroLengthArrayAllocation
 		compressDecompressAndAssertEquals(new byte[] {});
 	}
 
-	@Test public void testUniformData()
+	@Test
+	public void testUniformData()
 	{
 		compressDecompressAndAssertEquals(new byte[] {0});
 		compressDecompressAndAssertEquals(new byte[] {-1});
@@ -33,13 +35,15 @@ public class CompressionUtilTest
 		compressDecompressAndAssertEquals(getUniformData(987977, 127));
 	}
 
-	@Test public void testBigUniformData()
+	@Test
+	public void testBigUniformData()
 	{
 		compressDecompressAndAssertEquals(getUniformData(32*1024*1024, -83));
 		compressDecompressAndAssertEquals(getUniformData(32*1024*1024, 31));
 	}
 
-	@Test public void testPseudorandomData()
+	@Test
+	public void testPseudorandomData()
 	{
 		Random random = new Random(381);
 
@@ -49,7 +53,8 @@ public class CompressionUtilTest
 
 
 	// TESTS: ERROR HANDLING
-	@Test public void testInvalidDecompressData()
+	@Test
+	public void testInvalidDecompressData()
 	{
 		Assertions.assertThrows(RuntimeException.class, ()->CompressionUtil.decompress(getUniformData(5, 0)));
 	}

@@ -6,6 +6,7 @@ import de.domisum.lib.auxilium.util.java.annotations.API;
 public interface Detector<InputT, OutputT>
 {
 
-	@API OutputT detect(InputT input);
+	@API
+	OutputT detect(InputT input);
 
 }

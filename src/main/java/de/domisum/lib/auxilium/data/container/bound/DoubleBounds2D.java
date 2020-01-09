@@ -16,7 +16,8 @@ public class DoubleBounds2D extends Square2D
 
 
 	// TRANSFORMS
-	@API public Vector2D toRelative(Vector2D absolute)
+	@API
+	public Vector2D toRelative(Vector2D absolute)
 	{
 		double rX = MathUtil.remapLinear(getMinX(), getMaxX(), 0, 1, absolute.getX());
 		double rY = MathUtil.remapLinear(getMinY(), getMaxY(), 0, 1, absolute.getY());

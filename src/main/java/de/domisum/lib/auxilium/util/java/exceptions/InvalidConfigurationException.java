@@ -6,12 +6,14 @@ import de.domisum.lib.auxilium.util.java.annotations.API;
 public class InvalidConfigurationException extends RuntimeException
 {
 
-	@API public InvalidConfigurationException(String message)
+	@API
+	public InvalidConfigurationException(String message)
 	{
 		super(message);
 	}
 
-	@API public InvalidConfigurationException(String message, Throwable cause)
+	@API
+	public InvalidConfigurationException(String message, Throwable cause)
 	{
 		super(message, cause);
 	}

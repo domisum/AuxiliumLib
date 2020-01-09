@@ -7,17 +7,20 @@ public class UnsupportedFileTypeException extends RuntimeException
 {
 
 	// INIT
-	@API public UnsupportedFileTypeException()
+	@API
+	public UnsupportedFileTypeException()
 	{
 
 	}
 
-	@API public UnsupportedFileTypeException(String s)
+	@API
+	public UnsupportedFileTypeException(String s)
 	{
 		super(s);
 	}
 
-	@API public UnsupportedFileTypeException(String s, Throwable throwable)
+	@API
+	public UnsupportedFileTypeException(String s, Throwable throwable)
 	{
 		super(s, throwable);
 	}

@@ -12,7 +12,8 @@ public final class ValidationUtil
 {
 
 	// COMMON
-	@API public static void notNull(Object object, String variableName)
+	@API
+	public static void notNull(Object object, String variableName)
 	{
 		if(object == null)
 			throw new IllegalArgumentException(variableName+" can't be null");
@@ -20,7 +21,8 @@ public final class ValidationUtil
 
 
 	// STRING
-	@API public static void notEmpty(String string, String variableName)
+	@API
+	public static void notEmpty(String string, String variableName)
 	{
 		notNull(string, variableName);
 
@@ -30,7 +32,8 @@ public final class ValidationUtil
 
 
 	// COMPARISON
-	@API public static void greaterZero(double number, String variableName)
+	@API
+	public static void greaterZero(double number, String variableName)
 	{
 		if(number <= 0)
 			throw new IllegalArgumentException(variableName+" has to be greater than zero, but was "+number);
@@ -38,7 +41,8 @@ public final class ValidationUtil
 
 
 	// DURATION
-	@API public static void greaterThan(Duration a, Duration b, String aName, String bName)
+	@API
+	public static void greaterThan(Duration a, Duration b, String aName, String bName)
 	{
 		if(b.compareTo(a) > 0)
 			throw new IllegalArgumentException(
@@ -48,12 +52,14 @@ public final class ValidationUtil
 
 
 	// INTERVAL
-	@API public static void inIntervalInclIncl(double start, double end, double value, String variableName)
+	@API
+	public static void inIntervalInclIncl(double start, double end, double value, String variableName)
 	{
 		inInterval(start, true, end, true, value, variableName);
 	}
 
-	@API public static void inIntervalExclIncl(double start, double end, double value, String variableName)
+	@API
+	public static void inIntervalExclIncl(double start, double end, double value, String variableName)
 	{
 		inInterval(start, false, end, true, value, variableName);
 	}

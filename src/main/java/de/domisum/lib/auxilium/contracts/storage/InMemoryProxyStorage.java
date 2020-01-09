@@ -23,7 +23,8 @@ public class InMemoryProxyStorage<KeyT, T extends Keyable<KeyT>> implements Stor
 
 
 	// INIT
-	@API public void fetchAllToMemory()
+	@API
+	public void fetchAllToMemory()
 	{
 		Collection<T> itemsFromBackingstorage = backingStorage.fetchAll();
 
@@ -46,7 +47,8 @@ public class InMemoryProxyStorage<KeyT, T extends Keyable<KeyT>> implements Stor
 
 
 	// STORAGE
-	@Override public void store(T item)
+	@Override
+	public void store(T item)
 	{
 		checkReady();
 
@@ -54,7 +56,8 @@ public class InMemoryProxyStorage<KeyT, T extends Keyable<KeyT>> implements Stor
 		backingStorage.store(item);
 	}
 
-	@Override public void remove(KeyT key)
+	@Override
+	public void remove(KeyT key)
 	{
 		checkReady();
 
@@ -62,7 +65,8 @@ public class InMemoryProxyStorage<KeyT, T extends Keyable<KeyT>> implements Stor
 		backingStorage.remove(key);
 	}
 
-	@Override public Optional<T> fetch(KeyT key)
+	@Override
+	public Optional<T> fetch(KeyT key)
 	{
 		Validate.notNull(key, "key can't be null");
 		checkReady();
@@ -70,14 +74,16 @@ public class InMemoryProxyStorage<KeyT, T extends Keyable<KeyT>> implements Stor
 		return Optional.ofNullable(items.get(key));
 	}
 
-	@Override public Collection<T> fetchAll()
+	@Override
+	public Collection<T> fetchAll()
 	{
 		checkReady();
 
 		return Collections.unmodifiableCollection(items.values());
 	}
 
-	@Override public boolean contains(KeyT key)
+	@Override
+	public boolean contains(KeyT key)
 	{
 		checkReady();
 

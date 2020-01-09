@@ -6,6 +6,7 @@ import de.domisum.lib.auxilium.util.java.annotations.API;
 public interface Converter<I, O>
 {
 
-	@API O convert(I input);
+	@API
+	O convert(I input);
 
 }

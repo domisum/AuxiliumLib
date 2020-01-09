@@ -13,7 +13,8 @@ public final class TextUtil
 {
 
 	// TO STRING
-	@API public static String getListAsString(List<?> list)
+	@API
+	public static String getListAsString(List<?> list)
 	{
 		StringBuilder string = new StringBuilder();
 
@@ -31,7 +32,8 @@ public final class TextUtil
 
 
 	// SPECIAL CHARACTERS
-	@API public static String replaceUmlauts(String input)
+	@API
+	public static String replaceUmlauts(String input)
 	{
 		String withoutUmlauts = input;
 
@@ -43,12 +45,14 @@ public final class TextUtil
 
 
 	// GRAMMAR
-	@API public static String getGenitiveSingular(String of)
+	@API
+	public static String getGenitiveSingular(String of)
 	{
 		return of+"'s";
 	}
 
-	@API public static String getTupleName(int number)
+	@API
+	public static String getTupleName(int number)
 	{
 		switch(number)
 		{

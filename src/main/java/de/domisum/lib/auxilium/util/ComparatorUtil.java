@@ -10,7 +10,8 @@ import java.util.Comparator;
 public final class ComparatorUtil
 {
 
-	@API public static <T> Comparator<T> noOrder()
+	@API
+	public static <T> Comparator<T> noOrder()
 	{
 		return (v, w)->0;
 	}

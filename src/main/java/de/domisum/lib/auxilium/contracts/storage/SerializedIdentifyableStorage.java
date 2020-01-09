@@ -32,7 +32,8 @@ public class SerializedIdentifyableStorage<T extends Identifyable> implements St
 
 
 	// SOURCE
-	@Override public Optional<T> fetch(String id)
+	@Override
+	public Optional<T> fetch(String id)
 	{
 		File file = new File(directory, id+getFileExtension());
 		if(!file.exists())
@@ -41,7 +42,8 @@ public class SerializedIdentifyableStorage<T extends Identifyable> implements St
 		return loadFromFile(file);
 	}
 
-	@Override public Collection<T> fetchAll()
+	@Override
+	public Collection<T> fetchAll()
 	{
 		Collection<File> files = FileUtil.listFilesFlat(directory, FileType.FILE);
 
@@ -53,17 +55,20 @@ public class SerializedIdentifyableStorage<T extends Identifyable> implements St
 	}
 
 
-	@Override public boolean contains(String id)
+	@Override
+	public boolean contains(String id)
 	{
 		throw new UnsupportedOperationException();
 	}
 
-	@Override public void store(T item)
+	@Override
+	public void store(T item)
 	{
 		throw new UnsupportedOperationException();
 	}
 
-	@Override public void remove(String key)
+	@Override
+	public void remove(String key)
 	{
 		throw new UnsupportedOperationException();
 	}
