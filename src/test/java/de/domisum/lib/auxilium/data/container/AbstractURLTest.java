@@ -6,7 +6,8 @@ import org.junit.jupiter.api.Test;
 public class AbstractURLTest
 {
 
-	@Test public void testSimpleUrlParsing()
+	@Test
+	public void testSimpleUrlParsing()
 	{
 		Assertions.assertEquals("http://www.google.com", new AbstractURL("http://www.google.com").toString());
 		Assertions.assertEquals("http://www.google.com", new AbstractURL("http://www.google.com/").toString());
@@ -15,7 +16,8 @@ public class AbstractURLTest
 		Assertions.assertEquals("http://www.google.com/test", new AbstractURL("http://www.google.com/test/").toString());
 	}
 
-	@Test public void testUrlExtension()
+	@Test
+	public void testUrlExtension()
 	{
 		AbstractURL googleBase = new AbstractURL("http://www.google.com");
 
@@ -25,7 +27,8 @@ public class AbstractURLTest
 		Assertions.assertEquals("http://www.google.com/somefile.html", new AbstractURL(googleBase, "somefile.html").toString());
 	}
 
-	@Test public void testJavaNetConversion()
+	@Test
+	public void testJavaNetConversion()
 	{
 		Assertions.assertEquals("http://www.google.com", new AbstractURL("http://www.google.com").toNet().toString());
 
@@ -33,7 +36,8 @@ public class AbstractURLTest
 	}
 
 
-	@Test public void testToString()
+	@Test
+	public void testToString()
 	{
 		Assertions.assertEquals("http://www.google.com", new AbstractURL("http://www.google.com").toString());
 		Assertions.assertEquals("http://www.google.com", new AbstractURL("http://www.google.com/").toString());
