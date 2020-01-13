@@ -155,7 +155,7 @@ public abstract class Ticker
 
 		tickThreadRunning = false;
 		tickThread.interrupt();
-		ThreadUtil.tryDestroy(tickThread);
+		ThreadUtil.tryStop(tickThread);
 		tickThread = null;
 		lastTickStart = null;
 

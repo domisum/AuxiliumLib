@@ -39,11 +39,12 @@ public final class SerializationUtil
 	}
 
 	@API
+	@SuppressWarnings("unchecked")
 	public static <T> T deserialize(byte[] serialized)
 	{
 		try(ObjectInputStream in = new ObjectInputStream(new ByteArrayInputStream(serialized)))
 		{
-			// noinspection unchecked
+
 			return (T) in.readObject();
 		}
 		catch(ClassNotFoundException|IOException var13)

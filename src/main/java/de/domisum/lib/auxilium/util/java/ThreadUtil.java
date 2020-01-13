@@ -149,13 +149,13 @@ public final class ThreadUtil
 	}
 
 
-	@SuppressWarnings("deprecation")
+	@SuppressWarnings({"deprecation", "ErrorNotRethrown"})
 	@API
-	public static void tryDestroy(Thread thread)
+	public static void tryStop(Thread thread)
 	{
 		try
 		{
-			thread.destroy();
+			thread.stop();
 		}
 		catch(NoSuchMethodError ignored)
 		{
