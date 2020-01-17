@@ -215,10 +215,9 @@ public final class FileUtil
 		if(dir.exists())
 			return;
 
-		boolean success = dir.mkdirs();
-		if(!success)
-			throw new UncheckedIOException(new IOException(
-					"Failed to create directory (and possibly parent directories) of "+dir));
+		dir.mkdirs();
+		if(!dir.exists())
+			throw new UncheckedIOException(new IOException("Failed to create directory '"+dir+"'"));
 	}
 
 	@API
