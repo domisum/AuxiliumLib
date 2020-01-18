@@ -4,6 +4,7 @@ import de.domisum.lib.auxilium.display.DurationDisplay;
 import de.domisum.lib.auxilium.util.java.ThreadUtil;
 import de.domisum.lib.auxilium.util.java.annotations.API;
 import de.domisum.lib.auxilium.util.time.DurationUtil;
+import lombok.Getter;
 import org.apache.commons.lang3.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,6 +24,7 @@ public abstract class Ticker
 	private static final Duration TIMEOUT_DEFAULT = null;
 
 	// SETTINGS
+	@Getter
 	private final String name;
 	private final Duration interval;
 	@Nullable
