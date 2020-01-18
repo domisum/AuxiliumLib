@@ -151,7 +151,7 @@ public final class ThreadUtil
 
 	@SuppressWarnings({"deprecation", "ErrorNotRethrown"})
 	@API
-	public static void tryStop(Thread thread)
+	public static void tryKill(Thread thread)
 	{
 		try
 		{

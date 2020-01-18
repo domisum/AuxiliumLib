@@ -21,9 +21,9 @@ public class IntervalTaskTicker extends Ticker
 
 
 	// INIT
-	public IntervalTaskTicker(String threadName)
+	public IntervalTaskTicker(String threadName, Duration timeout)
 	{
-		super(TICK_INTERVAL, threadName);
+		super(threadName, TICK_INTERVAL, timeout);
 	}
 
 	@API
