@@ -93,6 +93,7 @@ public abstract class Ticker
 		logger.info("Requesting stop of ticker {}...", getTickerName());
 
 		tickThreadRunning = false;
+		watchdogThread.interrupt();
 	}
 
 	@API
@@ -104,15 +105,12 @@ public abstract class Ticker
 			throw new IllegalStateException("can't wait for stop of ticker if request stop hasn't been called");
 
 		logger.info("Waiting for stop of ticker {}...", getTickerName());
-
 		if(Thread.currentThread() != tickThread)
 			ThreadUtil.join(tickThread);
+
 		tickThread = null;
 		lastTickStart = null;
-
-		watchdogThread.interrupt();
 		watchdogThread = null;
-
 		logger.info("Stopped ticker {}", getTickerName());
 	}
 
