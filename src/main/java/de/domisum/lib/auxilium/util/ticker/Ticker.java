@@ -108,10 +108,8 @@ public abstract class Ticker
 
 	protected synchronized void stop(boolean waitForCompletion)
 	{
-		if(status == Status.STOPPED)
-			return;
 		if(status != Status.RUNNING)
-			throw new IllegalStateException("Can't stop ticker with status "+status);
+			return;
 
 		logger.info("Stopping ticker {} (Waiting for completion: {})...", name, waitForCompletion);
 		status = Status.STOPPED;
