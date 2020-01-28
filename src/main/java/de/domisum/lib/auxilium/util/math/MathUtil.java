@@ -56,6 +56,21 @@ public final class MathUtil
 	}
 
 	@API
+	public static int clamp(int min, int max, int value)
+	{
+		if(min > max)
+			throw new IllegalArgumentException(PHR.r("min ({}) was bigger than max ({})", min, max));
+
+		if(value < min)
+			return min;
+
+		if(value > max)
+			return max;
+
+		return value;
+	}
+
+	@API
 	public static double avg(double... values)
 	{
 		if(values.length == 0)
