@@ -14,7 +14,7 @@ public class IntervalTaskTicker extends Ticker
 {
 
 	// CONSTANTS
-	private static final Duration TICK_INTERVAL = Duration.ofMillis(100);
+	private static final Duration TICK_INTERVAL = Duration.ofMillis(10);
 
 	// TASKS
 	private final List<IntervalTask> tasks = new ArrayList<>();
@@ -24,6 +24,13 @@ public class IntervalTaskTicker extends Ticker
 	public IntervalTaskTicker(String threadName, Duration timeout)
 	{
 		super(threadName, TICK_INTERVAL, timeout);
+	}
+
+	@API
+	public IntervalTaskTicker(String threadName, Duration timeout, Runnable task, Duration interval)
+	{
+		this(threadName, timeout);
+		addTask(threadName+"-task", task, interval);
 	}
 
 	@API
