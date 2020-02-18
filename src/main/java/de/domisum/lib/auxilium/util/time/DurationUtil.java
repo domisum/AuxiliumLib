@@ -39,6 +39,18 @@ public final class DurationUtil
 		return duration.getSeconds()/(double) Duration.ofMinutes(1).getSeconds();
 	}
 
+	@API
+	public static double getSecondsDecimal(Duration duration)
+	{
+		return duration.toMillis()/(double) Duration.ofSeconds(1).toMillis();
+	}
+
+	@API
+	public static Duration fromSecondsDecimal(double seconds)
+	{
+		return Duration.ofMillis(Math.round(seconds*1000));
+	}
+
 
 	// DISPLAY
 	@API
