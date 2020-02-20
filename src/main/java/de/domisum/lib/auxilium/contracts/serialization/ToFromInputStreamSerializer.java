@@ -6,11 +6,11 @@ import java.io.IOException;
 import java.io.InputStream;
 
 @API
-public interface ByteStreamSerializer<T>
+public interface ToFromInputStreamSerializer<T>
 {
 
-	InputStream serialize(T object) throws IOException;
+	InputStream serializeToInputStream(T object) throws IOException;
 
-	T deserialize(InputStream stream) throws IOException;
+	T deserializeFromInputStream(InputStream stream) throws IOException;
 
 }
