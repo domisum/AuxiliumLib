@@ -305,6 +305,12 @@ public final class FileUtil
 
 	// TEMP
 	@API
+	public static File getNonExistentTemporaryFile()
+	{
+		return getNonExistentTemporaryFile(null);
+	}
+
+	@API
 	public static File getNonExistentTemporaryFile(String extension)
 	{
 		File temporaryFile = createTemporaryFile(extension);
