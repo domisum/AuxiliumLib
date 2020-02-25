@@ -40,6 +40,25 @@ public abstract class Ticker
 
 	// INIT
 	@API
+	public static Ticker create(String name, Duration interval, Runnable tick)
+	{
+		return create(name, interval, TIMEOUT_DEFAULT, tick);
+	}
+
+	@API
+	public static Ticker create(String name, Duration interval, @Nullable Duration timeout, Runnable tick)
+	{
+		return new Ticker(name, interval, timeout)
+		{
+			@Override
+			protected void tick()
+			{
+				tick.run();
+			}
+		};
+	}
+
+	@API
 	protected Ticker(String name, Duration interval, @Nullable Duration timeout)
 	{
 		Validate.notNull(name, "name can't be null");
@@ -97,22 +116,30 @@ public abstract class Ticker
 	@API
 	public synchronized void stopAndWaitForCompletion()
 	{
-		stop(true);
+		stop(false, true);
 	}
 
 	@API
 	public synchronized void stopAndIgnoreCompletion()
 	{
-		stop(false);
+		stop(false, false);
 	}
 
-	protected synchronized void stop(boolean waitForCompletion)
+	@API
+	public synchronized void stopHardAndWaitForCompletion()
+	{
+		stop(true, true);
+	}
+
+	protected synchronized void stop(boolean hard, boolean waitForCompletion)
 	{
 		if(status != Status.RUNNING)
 			return;
 
-		logger.info("Stopping ticker {} (Waiting for completion: {})...", name, waitForCompletion);
+		logger.info("Stopping ticker {} (hard: {}, waiting for completion: {})...", name, hard, waitForCompletion);
 		status = Status.STOPPED;
+		if(hard)
+			tickThread.interrupt();
 		watchdogThread.interrupt();
 
 		if(waitForCompletion && (Thread.currentThread() != tickThread))
