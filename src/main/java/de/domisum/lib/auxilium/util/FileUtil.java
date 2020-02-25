@@ -208,6 +208,15 @@ public final class FileUtil
 	}
 
 
+	// MOVE
+	@API
+	public static void moveFile(File from, File to)
+	{
+		createParentDirectory(to);
+		from.renameTo(to);
+	}
+
+
 	// DIRECTORY
 	@API
 	public static void mkdirs(File dir)
@@ -380,6 +389,41 @@ public final class FileUtil
 	}
 
 
+	// LAST MODIFIED
+	@API
+	public static Instant getContentLastModified(File file)
+	{
+		if(!file.isDirectory())
+			return getLastModified(file);
+
+		Collection<File> files = listFilesFlat(file, FileType.FILE_AND_DIRECTORY);
+		if(files.isEmpty())
+			return getLastModified(file);
+
+		Instant mostRecentModified = Instant.MIN;
+		for(File f : files)
+		{
+			Instant fLastModified = getContentLastModified(f);
+			if(fLastModified.compareTo(mostRecentModified) > 0)
+				mostRecentModified = fLastModified;
+		}
+
+		return mostRecentModified;
+	}
+
+	@API
+	public static Instant getLastModified(File file)
+	{
+		return Instant.ofEpochMilli(file.lastModified());
+	}
+
+	@API
+	public static void markAsModified(File file)
+	{
+		file.setLastModified(Instant.now().toEpochMilli());
+	}
+
+
 	// GENERAL FILE
 	@API
 	public static boolean createFile(File file)
@@ -471,34 +515,8 @@ public final class FileUtil
 		return path.replaceAll(StringUtil.escapeStringForRegex("\\"), "/");
 	}
 
-	@API
-	public static Instant getContentLastModified(File file)
-	{
-		if(!file.isDirectory())
-			return getLastModified(file);
 
-		Collection<File> files = listFilesFlat(file, FileType.FILE_AND_DIRECTORY);
-		if(files.isEmpty())
-			return getLastModified(file);
-
-		Instant mostRecentModified = Instant.MIN;
-		for(File f : files)
-		{
-			Instant fLastModified = getContentLastModified(f);
-			if(fLastModified.compareTo(mostRecentModified) > 0)
-				mostRecentModified = fLastModified;
-		}
-
-		return mostRecentModified;
-	}
-
-	@API
-	public static Instant getLastModified(File file)
-	{
-		return Instant.ofEpochMilli(file.lastModified());
-	}
-
-
+	// UTIL
 	public enum FileType
 	{
 
