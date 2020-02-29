@@ -23,4 +23,16 @@ public final class ExceptionUtil
 		return stringBuilder.toString();
 	}
 
+	@API
+	public static boolean doesThrowableContain(Throwable throwable, Class<? extends Throwable> type)
+	{
+		if(throwable == null)
+			return false;
+
+		if(type.isAssignableFrom(throwable.getClass()))
+			return true;
+
+		return doesThrowableContain(throwable.getCause(), type);
+	}
+
 }
