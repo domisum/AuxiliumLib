@@ -15,7 +15,7 @@ import java.util.Map;
 
 @API
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public final class ThreadWatchdog
+public final class ThreadWatchdog // TODO improve remove targeting
 {
 
 	private final Logger logger = LoggerFactory.getLogger(getClass());
