@@ -64,6 +64,11 @@ public class IoOptional<T>
 		return value != null;
 	}
 
+	public boolean isEmpty()
+	{
+		return value == null;
+	}
+
 	public T get()
 	{
 		if(!isPresent())
