@@ -38,7 +38,7 @@ public abstract class Ticker
 	private Instant lastTickStart;
 
 
-	// INIT
+	// INIT HELPER
 	@API
 	public static Ticker create(String name, Duration interval, Runnable tick)
 	{
@@ -58,6 +58,24 @@ public abstract class Ticker
 		};
 	}
 
+	@API
+	public static Ticker createAndStart(String name, Duration interval, Runnable tick)
+	{
+		var ticker = create(name, interval, tick);
+		ticker.start();
+		return ticker;
+	}
+
+	@API
+	public static Ticker createAndStart(String name, Duration interval, @Nullable Duration timeout, Runnable tick)
+	{
+		var ticker = create(name, interval, timeout, tick);
+		ticker.start();
+		return ticker;
+	}
+
+
+	// INIT
 	@API
 	protected Ticker(String name, Duration interval, @Nullable Duration timeout)
 	{
