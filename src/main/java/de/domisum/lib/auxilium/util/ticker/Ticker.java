@@ -31,11 +31,7 @@ public abstract class Ticker
 	private final Duration timeout;
 
 	// STATUS
-	private Thread tickThread;
-	private Thread watchdogThread;
-
-	private Status status = Status.READY;
-	private Instant lastTickStart;
+	private Ticking ticking;
 
 
 	// INIT HELPER
@@ -95,163 +91,164 @@ public abstract class Ticker
 	}
 
 
-	// GETTERS
-	@API
-	public synchronized boolean isRunning()
-	{
-		return status == Status.RUNNING;
-	}
-
-	@API
-	public Thread getTickThread()
-	{
-		if(status != Status.RUNNING)
-			throw new IllegalStateException("can't get tick thread while not running");
-
-		return tickThread;
-	}
-
-
 	// CONTROL
 	@API
 	public synchronized void start()
 	{
-		if(status != Status.READY)
-			throw new IllegalStateException("Can't start ticker with status "+status);
+		var alreadyActiveTicking = getTicking();
+		if(alreadyActiveTicking != null)
+			throw new IllegalStateException("Can't start ticker with status "+alreadyActiveTicking.status);
 
 		logger.info("Starting ticker {}...", name);
-		status = Status.RUNNING;
-		startThreads();
-	}
-
-	private void startThreads()
-	{
-		tickThread = ThreadUtil.createAndStartThread(this::run, name);
-		watchdogThread = ThreadUtil.createAndStartDaemonThread(this::watchdogRun, "watchDog-"+name);
+		ticking = new Ticking();
 	}
 
 
 	@API
-	public synchronized void stopAndWaitForCompletion()
+	public synchronized void stopSoft()
 	{
-		stop(false, true);
+		stop(false);
 	}
 
 	@API
-	public synchronized void stopAndIgnoreCompletion()
+	public synchronized void stopHard()
 	{
-		stop(false, false);
+		stop(true);
 	}
 
-	@API
-	public synchronized void stopHardAndWaitForCompletion()
+	private synchronized void stop(boolean hard)
 	{
-		stop(true, true);
-	}
-
-	protected synchronized void stop(boolean hard, boolean waitForCompletion)
-	{
-		if(status != Status.RUNNING)
+		var ticking = getTicking();
+		if(ticking == null)
 			return;
 
-		logger.info("Stopping ticker {} (hard: {}, waiting for completion: {})...", name, hard, waitForCompletion);
-		status = Status.STOPPED;
-		if(hard)
-			tickThread.interrupt();
-		watchdogThread.interrupt();
-
-		if(waitForCompletion && (Thread.currentThread() != tickThread))
-		{
-			ThreadUtil.join(tickThread);
-			logger.info("Ticker {} completed", name);
-		}
+		logger.info("Stopping ticker {} (hard: {})...", name, hard);
+		ticking.stop(hard);
 	}
 
 
 	// TICK
-	private void run()
-	{
-		while(status == Status.RUNNING)
-		{
-			lastTickStart = Instant.now();
-			tickCaught();
-			lastTickStart = null;
-
-			if(status == Status.RUNNING)
-				ThreadUtil.sleep(interval);
-		}
-	}
-
-	private void tickCaught()
-	{
-		try
-		{
-			tick();
-		}
-		catch(RuntimeException e)
-		{
-			logger.error("Exception occured during tick", e);
-		}
-	}
-
 	protected abstract void tick();
 
 
-	// WATCHDOG
-	private void watchdogRun()
+	// TICKING
+	private Ticking getTicking()
 	{
-		while(!Thread.interrupted())
+		if(ticking != null && ticking.status == TickingStatus.DEAD)
+			ticking = null;
+
+		return ticking;
+	}
+
+	class Ticking
+	{
+
+		private final Thread tickThread;
+		@Getter
+		private TickingStatus status = TickingStatus.RUNNING;
+		private Instant lastTickStart;
+
+
+		// INIT
+		public Ticking()
 		{
-			watchdogTick();
-			ThreadUtil.sleep(Duration.ofSeconds(1));
+			tickThread = ThreadUtil.createAndStartThread(this::run, name);
+			if(timeout != null)
+				TickerWatchdog.watch(this);
 		}
-	}
 
-	private void watchdogTick()
-	{
-		if(timeout == null)
-			return;
 
-		// get local reference to avoid impact of changes in variable during run of method
-		Instant lastTickStart = this.lastTickStart;
-		if(lastTickStart == null)
-			return;
-
-		if(DurationUtil.isOlderThan(lastTickStart, timeout))
-			timeout(timeout);
-	}
-
-	private void timeout(Duration timeout)
-	{
-		logger.error(
-				"Ticker {} timed out (after {}). Current stacktrace:\n{}",
-				name,
-				DurationDisplay.of(timeout),
-				ThreadUtil.getThreadToString(tickThread)
-		);
-
-		tickThread.interrupt();
-		ThreadUtil.tryKill(tickThread);
-		watchdogThread.interrupt();
-
-		lastTickStart = null;
-
-		if(status == Status.RUNNING)
+		// CONTROL
+		private void stop(boolean hard)
 		{
-			logger.info("Starting ticker {} back up...", name);
-			startThreads();
+			if(status != TickingStatus.RUNNING)
+				return;
+
+			status = TickingStatus.STOPPING;
+			if(hard)
+				tickThread.interrupt();
+			if(Thread.currentThread() != tickThread)
+				ThreadUtil.join(tickThread);
+
+			logger.info("Ticker {} stopped", name);
+			status = TickingStatus.DEAD;
 		}
+
+
+		// TICK
+		private void run()
+		{
+			while(status == TickingStatus.RUNNING)
+			{
+				lastTickStart = Instant.now();
+				tickCaught();
+				lastTickStart = null;
+
+				if(status == TickingStatus.RUNNING)
+					ThreadUtil.sleep(interval);
+			}
+		}
+
+		private void tickCaught()
+		{
+			try
+			{
+				tick();
+			}
+			catch(RuntimeException e)
+			{
+				logger.error("Exception occured during tick", e);
+			}
+			catch(Throwable t)
+			{
+				logger.error("Uncaught exception in ticker {}, exiting", name, t);
+				System.exit(-1);
+			}
+		}
+
+
+		// WATCHDOG
+		void watchdogTick()
+		{
+			// get local reference to avoid impact of changes in variable during run of method
+			Instant lastTickStart = this.lastTickStart;
+			if(lastTickStart == null)
+				return;
+
+			if(DurationUtil.isOlderThan(lastTickStart, timeout))
+				timeout();
+		}
+
+		private void timeout()
+		{
+			logger.error(
+					"Ticker {} timed out (after {}). Current stacktrace:\n{}",
+					name,
+					DurationDisplay.of(timeout),
+					ThreadUtil.getThreadToString(tickThread)
+			);
+
+			boolean restart = status == TickingStatus.RUNNING;
+
+			tickThread.interrupt();
+			ThreadUtil.tryKill(tickThread);
+			lastTickStart = null;
+			status = TickingStatus.DEAD;
+
+			if(restart)
+				start();
+		}
+
 	}
 
-
-	// STATUS
-	private enum Status
+	enum TickingStatus
 	{
 
-		READY,
 		RUNNING,
-		STOPPED
+		STOPPING,
+		DEAD
 
 	}
 
 }
+
