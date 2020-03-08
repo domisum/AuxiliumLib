@@ -127,6 +127,13 @@ public abstract class Ticker
 	}
 
 
+	@API
+	public synchronized boolean isRunning()
+	{
+		return getTicking() != null;
+	}
+
+
 	// TICK
 	protected abstract void tick();
 
