@@ -12,7 +12,7 @@ public interface OptionalSource<KeyT, T>
 	 * Fetches the item associated with the given key.
 	 *
 	 * @param key the key of the object to retrieve from storage
-	 * @return the T associated with the key
+	 * @return the Optional.of(T) associated with the key or Optional.empty() if there is no T associated with key
 	 */
 	@API
 	Optional<T> fetch(KeyT key);
