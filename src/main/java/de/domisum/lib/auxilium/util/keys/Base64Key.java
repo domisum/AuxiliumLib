@@ -2,13 +2,17 @@ package de.domisum.lib.auxilium.util.keys;
 
 import de.domisum.lib.auxilium.util.java.annotations.API;
 import de.domisum.lib.auxilium.util.math.RandomUtil;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
 @API
-public class Base64Key
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+public final class Base64Key
 {
 
 	// CONSTANTS
-	private static final String CHARACTERS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890_-";
+	@API
+	public static final String CHARACTERS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890_-";
 
 
 	// GENERATION
