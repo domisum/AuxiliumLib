@@ -103,7 +103,7 @@ public final class DurationDisplay implements CharSequence
 		MINUTE(Duration.ofMinutes(1), "m"),
 		SECOND(Duration.ofSeconds(1), "s"),
 		MILLISECOND(Duration.ofMillis(1), "ms"),
-		MICROSECOND(Duration.ofNanos(1000), "us"),
+		MICROSECOND(Duration.ofNanos(1000), "micros"),
 		NANOSECOND(Duration.ofNanos(1), "ns");
 
 		@Getter
