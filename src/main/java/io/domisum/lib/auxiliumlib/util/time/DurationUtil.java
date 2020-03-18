@@ -54,19 +54,19 @@ public final class DurationUtil
 
 	// DISPLAY
 	@API
-	public static String getMinutesSeconds(Duration duration)
+	public static String displayMinutesSeconds(Duration duration)
 	{
 		final int secondsInMinute = 60;
 
-		long secondsMinutesCombinedSeconds = duration.getSeconds();
-		long minutes = secondsMinutesCombinedSeconds/secondsInMinute;
-		long seconds = secondsMinutesCombinedSeconds%secondsInMinute;
+		long totalSeconds = (int) Math.ceil(duration.toMillis()/(double) 1000);
+		long displayMinutes = totalSeconds/secondsInMinute;
+		long displaySeconds = totalSeconds%secondsInMinute;
 
-		String secondsString = seconds+"";
+		String secondsString = displaySeconds+"";
 		if(secondsString.length() == 1)
 			secondsString = "0"+secondsString;
 
-		return minutes+":"+secondsString;
+		return displayMinutes+":"+secondsString;
 	}
 
 
