@@ -56,9 +56,11 @@ public final class DurationUtil
 	@API
 	public static String getMinutesSeconds(Duration duration)
 	{
+		final int secondsInMinute = 60;
+
 		long secondsMinutesCombinedSeconds = duration.getSeconds();
-		long minutes = secondsMinutesCombinedSeconds/60;
-		long seconds = secondsMinutesCombinedSeconds%60;
+		long minutes = secondsMinutesCombinedSeconds/secondsInMinute;
+		long seconds = secondsMinutesCombinedSeconds%secondsInMinute;
 
 		String secondsString = seconds+"";
 		if(secondsString.length() == 1)
