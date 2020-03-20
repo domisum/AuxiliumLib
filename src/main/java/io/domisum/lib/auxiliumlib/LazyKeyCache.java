@@ -77,8 +77,14 @@ public final class LazyKeyCache<KeyT, T>
 	{
 		ifDueRemoveExpiredEntries();
 
-		CacheEntry newCacheEntry = createCacheEntry(value);
+		var newCacheEntry = createCacheEntry(value);
 		cache.put(key, newCacheEntry);
+	}
+
+	@API
+	public void remove(KeyT key)
+	{
+		cache.remove(key);
 	}
 
 	private CacheEntry createCacheEntry(T value)
