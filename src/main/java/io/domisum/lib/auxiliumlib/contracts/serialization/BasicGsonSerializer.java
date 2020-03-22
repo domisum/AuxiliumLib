@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 
 @API
 @RequiredArgsConstructor
-public class BasicJsonSerializer<T> implements JsonSerializer<T>
+public class BasicGsonSerializer<T> implements JsonSerializer<T>
 {
 
 	private final Logger logger = LoggerFactory.getLogger(getClass());
