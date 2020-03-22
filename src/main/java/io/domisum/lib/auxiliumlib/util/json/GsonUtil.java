@@ -24,11 +24,4 @@ public final class GsonUtil
 		return gson;
 	}
 
-	@API
-	@Deprecated
-	public static synchronized Gson getPretty()
-	{
-		return get();
-	}
-
 }
