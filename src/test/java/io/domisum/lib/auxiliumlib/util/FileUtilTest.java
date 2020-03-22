@@ -85,7 +85,7 @@ public class FileUtilTest
 
 
 		FileUtil.deleteDirectory(tempDir);
-		Assertions.assertTrue(!tempDir.exists(), "directory wasn't deleted");
+		Assertions.assertFalse(tempDir.exists(), "directory wasn't deleted");
 	}
 
 
