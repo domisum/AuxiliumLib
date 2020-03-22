@@ -107,11 +107,11 @@ public class FileUtilTest
 	@Test
 	void testCompositeFileExtension()
 	{
-		Assertions.assertEquals(".json", FileUtil.getCompositeExtension(new File("wow/test.json")));
-		Assertions.assertEquals(".config.json", FileUtil.getCompositeExtension(new File("test.config.json")));
+		Assertions.assertEquals("json", FileUtil.getCompositeExtension(new File("wow/test.json")));
+		Assertions.assertEquals("config.json", FileUtil.getCompositeExtension(new File("test.config.json")));
 
-		Assertions.assertEquals(".json", FileUtil.getCompositeExtension(new File("wow.xd/test.json")));
-		Assertions.assertEquals(".config.json", FileUtil.getCompositeExtension(new File("wow.xd/test.config.json")));
+		Assertions.assertEquals("json", FileUtil.getCompositeExtension(new File("wow.xd/test.json")));
+		Assertions.assertEquals("config.json", FileUtil.getCompositeExtension(new File("wow.xd/test.config.json")));
 	}
 
 	@Test

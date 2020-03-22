@@ -478,6 +478,19 @@ public final class FileUtil
 		return FilenameUtils.getExtension(fileName);
 	}
 
+	/**
+	 * Returns the composite exension of the file without a preceding dot.
+	 * <p>
+	 * Examples:
+	 * <ul>
+	 *     <li>folder/data.json -> 'json'</li>
+	 *     <li>test.xd/archive.tar.gz -> 'tar.gz'</li>
+	 *     <li>a/b/c/name.very.long.extension.ok -> 'very.long.extension.ok'</li>
+	 * </ul>
+	 *
+	 * @param file the file of which to determine the extension
+	 * @return composite file extension without dot
+	 */
 	@API
 	public static String getCompositeExtension(File file)
 	{
@@ -485,7 +498,7 @@ public final class FileUtil
 		if(!fileName.contains("."))
 			return "";
 
-		return fileName.substring(fileName.indexOf('.'));
+		return fileName.substring(fileName.indexOf('.')+1);
 	}
 
 	@API
@@ -494,7 +507,10 @@ public final class FileUtil
 		String compositeFileExtension = getCompositeExtension(file);
 		String fileName = file.getName();
 
-		String fileNameWithout = fileName.substring(0, fileName.length()-compositeFileExtension.length());
+		if(compositeFileExtension.length() == 0)
+			return fileName;
+
+		String fileNameWithout = fileName.substring(0, fileName.length()-compositeFileExtension.length()-1);
 		return fileNameWithout;
 	}
 
