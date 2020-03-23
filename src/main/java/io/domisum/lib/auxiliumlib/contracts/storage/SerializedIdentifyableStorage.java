@@ -3,8 +3,8 @@ package io.domisum.lib.auxiliumlib.contracts.storage;
 import io.domisum.lib.auxiliumlib.contracts.Identifyable;
 import io.domisum.lib.auxiliumlib.contracts.serialization.ToStringSerializer;
 import io.domisum.lib.auxiliumlib.file.FileUtil;
+import io.domisum.lib.auxiliumlib.file.FileUtil.FileType;
 import io.domisum.lib.auxiliumlib.util.java.annotations.API;
-import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,7 +17,6 @@ import java.util.Objects;
 import java.util.Optional;
 
 @API
-@RequiredArgsConstructor
 public class SerializedIdentifyableStorage<T extends Identifyable> implements Storage<String, T>
 {
 
@@ -26,15 +25,28 @@ public class SerializedIdentifyableStorage<T extends Identifyable> implements St
 
 	// SETTINGS
 	private final File directory;
-	private final String fileExtension;
+	private final String fileExension; // without dot
 	private final ToStringSerializer<T> serializer;
+
+
+	// INIT
+	public SerializedIdentifyableStorage(
+			File directory, String fileExtension, ToStringSerializer<T> serializer)
+	{
+		if(fileExtension.startsWith("."))
+			fileExtension = fileExtension.substring(1);
+
+		this.directory = directory;
+		fileExension = fileExtension;
+		this.serializer = serializer;
+	}
 
 
 	// SOURCE
 	@Override
 	public Optional<T> fetch(String id)
 	{
-		File file = new File(directory, id+getFileExtension());
+		File file = new File(directory, id+"."+fileExension);
 		if(!file.exists())
 			return Optional.empty();
 
@@ -44,7 +56,7 @@ public class SerializedIdentifyableStorage<T extends Identifyable> implements St
 	@Override
 	public Collection<T> fetchAll()
 	{
-		Collection<File> files = FileUtil.listFilesFlat(directory, FileUtil.FileType.FILE);
+		Collection<File> files = FileUtil.listFilesFlat(directory, FileType.FILE);
 
 		List<T> storageItems = new ArrayList<>();
 		for(File f : files)
@@ -77,7 +89,7 @@ public class SerializedIdentifyableStorage<T extends Identifyable> implements St
 	private Optional<T> loadFromFile(File file)
 	{
 		String extension = FileUtil.getCompositeExtension(file);
-		if(!Objects.equals(getFileExtension(), extension))
+		if(!Objects.equals(fileExension, extension))
 		{
 			logger.warn("Storage directory contains file with invalid extension ({}), skipping: {}", extension, file.getName());
 			return Optional.empty();
@@ -125,16 +137,6 @@ public class SerializedIdentifyableStorage<T extends Identifyable> implements St
 			throw new NoSuchFieldException("no field called id neither in class nor in superclasses");
 
 		return findIdField(clazz.getSuperclass());
-	}
-
-
-	// UTIL
-	private String getFileExtension()
-	{
-		if(fileExtension.startsWith("."))
-			return fileExtension;
-
-		return "."+fileExtension;
 	}
 
 }
