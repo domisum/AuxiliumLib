@@ -5,8 +5,6 @@ import lombok.Getter;
 import lombok.ToString;
 import org.apache.commons.lang3.Validate;
 
-import java.awt.Rectangle;
-
 @API
 @ToString
 public final class IntBounds2D
@@ -141,13 +139,6 @@ public final class IntBounds2D
 				Math.max(minY, limit.minY),
 				Math.min(maxY, limit.maxY)
 		);
-	}
-
-
-	// CONVERSION
-	public Rectangle toAwtRectangle()
-	{
-		return new Rectangle(minX, minY, getWidth(), getHeight());
 	}
 
 }

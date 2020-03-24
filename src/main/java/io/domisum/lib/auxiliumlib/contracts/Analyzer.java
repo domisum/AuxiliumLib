@@ -3,9 +3,10 @@ package io.domisum.lib.auxiliumlib.contracts;
 import io.domisum.lib.auxiliumlib.annotations.API;
 
 @API
-public interface Analyzer<InputT, OutputT>
+public interface Analyzer<I, O>
 {
 
-	OutputT analyze(InputT input);
+	@API
+	O analyze(I input);
 
 }

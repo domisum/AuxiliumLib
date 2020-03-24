@@ -46,7 +46,7 @@ public class StrategySelector<T, StrategyT extends Strategy<T>>
 	@API
 	public List<StrategyT> selectAllApplicableFor(T strategizedObject)
 	{
-		List<StrategyT> applicable = new ArrayList<>();
+		var applicable = new ArrayList<StrategyT>();
 		for(StrategyT strategy : strategies)
 			if(strategy.doesApplyTo(strategizedObject))
 				applicable.add(strategy);

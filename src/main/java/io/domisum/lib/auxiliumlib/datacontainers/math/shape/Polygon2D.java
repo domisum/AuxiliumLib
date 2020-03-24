@@ -1,9 +1,9 @@
 package io.domisum.lib.auxiliumlib.datacontainers.math.shape;
 
+import io.domisum.lib.auxiliumlib.annotations.API;
 import io.domisum.lib.auxiliumlib.datacontainers.bound.DoubleBounds2D;
 import io.domisum.lib.auxiliumlib.datacontainers.math.LineSegment2D;
 import io.domisum.lib.auxiliumlib.datacontainers.math.Vector2D;
-import io.domisum.lib.auxiliumlib.annotations.API;
 import lombok.Getter;
 import lombok.ToString;
 
@@ -60,17 +60,15 @@ public class Polygon2D implements GeometricShape2D
 		if(lines == null)
 		{
 			lines = new ArrayList<>();
-
 			Vector2D last = null;
-			for(Vector2D v : points)
+			for(var vector2D : points)
 			{
 				if(last != null)
-					lines.add(new LineSegment2D(last, v));
+					lines.add(new LineSegment2D(last, vector2D));
 
-				last = v;
+				last = vector2D;
 			}
 			lines.add(new LineSegment2D(last, points.get(0)));
-
 			lines = Collections.unmodifiableList(lines);
 		}
 
@@ -91,9 +89,7 @@ public class Polygon2D implements GeometricShape2D
 				double angleDeg = before.getDirection().getAngleToDeg(ls.getDirection());
 
 				boolean convex = (angleDeg < 0)^isClockwise();
-				PolygonCornerOrientation orientation = convex ?
-						PolygonCornerOrientation.CONVEX :
-						PolygonCornerOrientation.CONCAVE;
+				var orientation = convex ? PolygonCornerOrientation.CONVEX : PolygonCornerOrientation.CONCAVE;
 				corners.add(new PolygonCorner(angleDeg, orientation));
 
 				before = ls;
@@ -116,17 +112,17 @@ public class Polygon2D implements GeometricShape2D
 		double minY = Double.MAX_VALUE;
 		double maxY = -Double.MAX_VALUE;
 
-		for(Vector2D p : points)
+		for(var point : points)
 		{
-			if(p.getX() < minX)
-				minX = p.getX();
-			if(p.getX() > maxX)
-				maxX = p.getX();
+			if(point.getX() < minX)
+				minX = point.getX();
+			if(point.getX() > maxX)
+				maxX = point.getX();
 
-			if(p.getY() < minY)
-				minY = p.getY();
-			if(p.getY() > maxY)
-				maxY = p.getY();
+			if(point.getY() < minY)
+				minY = point.getY();
+			if(point.getY() > maxY)
+				maxY = point.getY();
 		}
 
 		boundingBox = new DoubleBounds2D(minX, maxX, minY, maxY);
@@ -138,10 +134,9 @@ public class Polygon2D implements GeometricShape2D
 	{
 		if(pointCenter == null)
 		{
-			Vector2D pointSum = new Vector2D();
-			for(Vector2D p : points)
-				pointSum = pointSum.add(p);
-
+			var pointSum = new Vector2D();
+			for(var point : points)
+				pointSum = pointSum.add(point);
 			pointCenter = pointSum.divide(points.size());
 		}
 
@@ -154,32 +149,32 @@ public class Polygon2D implements GeometricShape2D
 	@API
 	public boolean contains(Vector2D point)
 	{
-		DoubleBounds2D boundingBox = getBoundingBox();
-		List<LineSegment2D> lines = getLines();
+		var boundingBox = getBoundingBox();
+		var lines = getLines();
 
 		// if outside bounding box, cant be inside polygon
 		if(!boundingBox.contains(point))
 			return false;
 
 		// if the point is on one of the bounding lines, it is contained in the polygon
-		for(LineSegment2D ls : lines)
-			if(ls.contains(point))
+		for(var lineSegment2D : lines)
+			if(lineSegment2D.contains(point))
 				return true;
 
-		Vector2D pointOutside = new Vector2D(boundingBox.getMinX()-1, boundingBox.getMinY()-1);
-		LineSegment2D ray = new LineSegment2D(pointOutside, point);
+		var pointOutside = new Vector2D(boundingBox.getMinX()-1, boundingBox.getMinY()-1);
+		var ray = new LineSegment2D(pointOutside, point);
 
 		int intersections = 0;
-		for(LineSegment2D ls : lines)
-			if(ray.intersects(ls))
+		for(var lineSegment2D : lines)
+			if(ray.intersects(lineSegment2D))
 				intersections++;
 
-		for(LineSegment2D line : getLines())
-			if(line.isColinear(ray))
+		for(var lineSegment2D : getLines())
+			if(lineSegment2D.isColinear(ray))
 				intersections--;
 
-		for(Vector2D vector2D : getPoints())
-			if(ray.contains(vector2D))
+		for(var p : getPoints())
+			if(ray.contains(p))
 				intersections--;
 
 		return (intersections%2) == 1;
@@ -189,9 +184,9 @@ public class Polygon2D implements GeometricShape2D
 	public boolean overlaps(Polygon2D other)
 	{
 		// do lines intersect? if yes, the polygons overlap
-		for(LineSegment2D lineSegment2D : getLines())
-			for(LineSegment2D ls : other.getLines())
-				if(lineSegment2D.intersects(ls))
+		for(var lsA : getLines())
+			for(var lsB : other.getLines())
+				if(lsA.intersects(lsB))
 					return true;
 
 		// is a point of the other polygon contained in this polygon? if yes, the polygons overlap
@@ -213,10 +208,9 @@ public class Polygon2D implements GeometricShape2D
 			return clockwise;
 
 		// https://stackoverflow.com/a/1165943/4755690
-
 		double sum = 0;
-		for(LineSegment2D ls : getLines())
-			sum += (ls.b.getX()-ls.a.getX())*(ls.a.getY()+ls.b.getY());
+		for(var lineSegment2D : getLines())
+			sum += (lineSegment2D.b.getX()-lineSegment2D.a.getX())*(lineSegment2D.a.getY()+lineSegment2D.b.getY());
 
 		clockwise = sum > 0;
 		return clockwise;
@@ -229,7 +223,7 @@ public class Polygon2D implements GeometricShape2D
 	{
 		double sum = 0;
 
-		Vector2D last = points.get(points.size()-1);
+		var last = points.get(points.size()-1);
 		for(Vector2D p : points)
 		{
 			sum += (last.getX()*p.getY())-(p.getX()*last.getY());
@@ -246,8 +240,7 @@ public class Polygon2D implements GeometricShape2D
 			return 0;
 
 		double minDistance = Double.MAX_VALUE;
-
-		for(LineSegment2D lineSegment2D : getLines())
+		for(var lineSegment2D : getLines())
 		{
 			double distance = lineSegment2D.getDistanceTo(point);
 			if(distance < minDistance)
@@ -271,10 +264,9 @@ public class Polygon2D implements GeometricShape2D
 	@API
 	public Polygon2D move(Vector2D movement)
 	{
-		List<Vector2D> movedPoints = new ArrayList<>();
-		for(Vector2D p : points)
-			movedPoints.add(p.add(movement));
-
+		var movedPoints = new ArrayList<Vector2D>();
+		for(var point : points)
+			movedPoints.add(point.add(movement));
 		return new Polygon2D(movedPoints);
 	}
 
@@ -282,8 +274,7 @@ public class Polygon2D implements GeometricShape2D
 	// HELPER
 	private double getPointsDistanceTo(Polygon2D pointPolygon, Polygon2D polygon)
 	{
-		//noinspection ConstantConditions
-		return pointPolygon.points.stream().mapToDouble(polygon::getDistanceTo).min().getAsDouble();
+		return pointPolygon.points.stream().mapToDouble(polygon::getDistanceTo).min().orElseThrow();
 	}
 
 

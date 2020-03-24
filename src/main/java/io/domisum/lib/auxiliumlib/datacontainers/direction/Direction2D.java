@@ -3,9 +3,6 @@ package io.domisum.lib.auxiliumlib.datacontainers.direction;
 import io.domisum.lib.auxiliumlib.annotations.API;
 import lombok.AllArgsConstructor;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Random;
 
 @API
@@ -13,14 +10,14 @@ import java.util.Random;
 public enum Direction2D
 {
 
-	// @formatter:off
+	// VALUES
 	NORTH(0, -1),
 	SOUTH(0, 1),
 	EAST(1, 0),
 	WEST(-1, 0);
-	// @formatter:on
 
 
+	// ATTRIBUTES
 	public final int dX;
 	public final int dZ;
 
@@ -57,9 +54,9 @@ public enum Direction2D
 	@API
 	public static Direction2D getFromOffset(int dX, int dZ)
 	{
-		for(Direction2D d : Direction2D.values())
-			if((d.dX == dX) && (d.dZ == dZ))
-				return d;
+		for(var direction2D : Direction2D.values())
+			if((direction2D.dX == dX) && (direction2D.dZ == dZ))
+				return direction2D;
 
 		return null;
 	}
@@ -93,13 +90,6 @@ public enum Direction2D
 	public static Direction2D getRandom(Random r)
 	{
 		return values()[r.nextInt(values().length)];
-	}
-
-
-	@API
-	public static List<Direction2D> getValuesAsList()
-	{
-		return new ArrayList<>(Arrays.asList(values()));
 	}
 
 }

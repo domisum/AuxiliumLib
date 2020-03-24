@@ -1,10 +1,10 @@
 package io.domisum.lib.auxiliumlib.contracts.storage;
 
+import io.domisum.lib.auxiliumlib.annotations.API;
 import io.domisum.lib.auxiliumlib.contracts.Identifyable;
 import io.domisum.lib.auxiliumlib.contracts.serialization.ToStringSerializer;
 import io.domisum.lib.auxiliumlib.util.file.FileUtil;
 import io.domisum.lib.auxiliumlib.util.file.FileUtil.FileType;
-import io.domisum.lib.auxiliumlib.annotations.API;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -12,7 +12,6 @@ import java.io.File;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -46,22 +45,19 @@ public class SerializedIdentifyableStorage<T extends Identifyable> implements St
 	@Override
 	public Optional<T> fetch(String id)
 	{
-		File file = new File(directory, id+"."+fileExension);
+		var file = new File(directory, id+"."+fileExension);
 		if(!file.exists())
 			return Optional.empty();
-
 		return loadFromFile(file);
 	}
 
 	@Override
 	public Collection<T> fetchAll()
 	{
-		Collection<File> files = FileUtil.listFilesFlat(directory, FileType.FILE);
-
-		List<T> storageItems = new ArrayList<>();
-		for(File f : files)
-			loadFromFile(f).ifPresent(storageItems::add);
-
+		var files = FileUtil.listFilesFlat(directory, FileType.FILE);
+		var storageItems = new ArrayList<T>();
+		for(var file : files)
+			loadFromFile(file).ifPresent(storageItems::add);
 		return storageItems;
 	}
 
@@ -106,7 +102,6 @@ public class SerializedIdentifyableStorage<T extends Identifyable> implements St
 			logger.error("An error occured while deserializing {}", file, e);
 			return Optional.empty();
 		}
-
 		injectId(deserialized, FileUtil.getNameWithoutCompositeExtension(file));
 
 		return Optional.of(deserialized);
@@ -116,7 +111,7 @@ public class SerializedIdentifyableStorage<T extends Identifyable> implements St
 	{
 		try
 		{
-			Field idField = findIdField(injectInto.getClass());
+			var idField = findIdField(injectInto.getClass());
 			idField.setAccessible(true);
 			idField.set(injectInto, id);
 		}

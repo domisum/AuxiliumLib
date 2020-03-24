@@ -1,7 +1,7 @@
-package io.domisum.lib.auxiliumlib.contracts.source.optional.implementations.web;
+package io.domisum.lib.auxiliumlib.contracts.source.implementations.web;
 
 import io.domisum.lib.auxiliumlib.contracts.Converter;
-import io.domisum.lib.auxiliumlib.contracts.source.optional.OptionalSource;
+import io.domisum.lib.auxiliumlib.contracts.source.Source;
 import io.domisum.lib.auxiliumlib.datacontainers.AbstractURL;
 import io.domisum.lib.auxiliumlib.PHR;
 import lombok.RequiredArgsConstructor;
@@ -10,7 +10,7 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @RequiredArgsConstructor
-public abstract class WebDirectoryOptionalSource<KeyT, T> implements OptionalSource<KeyT, T>
+public abstract class WebDirectorySource<KeyT, T> implements Source<KeyT, T>
 {
 
 	private final AbstractURL webDirectory;
@@ -25,10 +25,10 @@ public abstract class WebDirectoryOptionalSource<KeyT, T> implements OptionalSou
 	}
 
 	@Override
-	public T fetchOrException(KeyT key)
+	public T fetchOrError(KeyT key)
 	{
-		Optional<T> optional = fetch(key);
-		if(!optional.isPresent())
+		var optional = fetch(key);
+		if(optional.isEmpty())
 			throw new NoSuchElementException(PHR.r("could not fetch key {}: ({})", key, getUrl(key)));
 
 		return optional.get();

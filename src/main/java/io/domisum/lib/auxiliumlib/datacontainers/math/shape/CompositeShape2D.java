@@ -19,10 +19,9 @@ public class CompositeShape2D implements GeometricShape2D
 	@Override
 	public boolean contains(Vector2D point)
 	{
-		for(GeometricShape2D s : geometricShapes)
-			if(s.contains(point))
+		for(var geometricShape2D : geometricShapes)
+			if(geometricShape2D.contains(point))
 				return true;
-
 		return false;
 	}
 

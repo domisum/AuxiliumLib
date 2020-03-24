@@ -1,4 +1,4 @@
-package io.domisum.lib.auxiliumlib.contracts.source.io;
+package io.domisum.lib.auxiliumlib.contracts.iosource;
 
 import io.domisum.lib.auxiliumlib.run.RetryUntilSuccessfulIOAction;
 import io.domisum.lib.auxiliumlib.annotations.API;

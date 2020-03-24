@@ -1,11 +1,11 @@
-package io.domisum.lib.auxiliumlib.contracts.source.optional;
+package io.domisum.lib.auxiliumlib.contracts.source;
 
 import io.domisum.lib.auxiliumlib.annotations.API;
 
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
-public interface OptionalSource<KeyT, T>
+public interface Source<KeyT, T>
 {
 
 	/**
@@ -30,7 +30,7 @@ public interface OptionalSource<KeyT, T>
 	}
 
 	@API
-	default T fetchOrException(KeyT key)
+	default T fetchOrError(KeyT key)
 	{
 		return fetch(key).orElseThrow(()->new NoSuchElementException("source does not contain element with key: "+key));
 	}

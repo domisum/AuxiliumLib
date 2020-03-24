@@ -1,7 +1,7 @@
-package io.domisum.lib.auxiliumlib.contracts.source.optional.implementations.cache;
+package io.domisum.lib.auxiliumlib.contracts.source.implementations;
 
-import io.domisum.lib.auxiliumlib.contracts.source.optional.SingleItemOptionalSource;
 import io.domisum.lib.auxiliumlib.annotations.API;
+import io.domisum.lib.auxiliumlib.contracts.source.SingleItemSource;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 
@@ -11,12 +11,12 @@ import java.util.Optional;
 
 @API
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
-public final class SingleItemOptionalSourceCache<T> implements SingleItemOptionalSource<T>
+public final class SingleItemSourceCache<T> implements SingleItemSource<T>
 {
 
 	// REFERENCES
 	private final Duration invalidationInterval;
-	private final SingleItemOptionalSource<T> backingSource;
+	private final SingleItemSource<T> backingSource;
 
 	// CACHE
 	private T cachedItem;
@@ -25,17 +25,15 @@ public final class SingleItemOptionalSourceCache<T> implements SingleItemOptiona
 
 	// INIT
 	@API
-	public static <T> SingleItemOptionalSourceCache<T> neverInvalidate(SingleItemOptionalSource<T> backingSource)
+	public static <T> SingleItemSourceCache<T> neverInvalidate(SingleItemSource<T> backingSource)
 	{
-		return new SingleItemOptionalSourceCache<>(null, backingSource);
+		return new SingleItemSourceCache<>(null, backingSource);
 	}
 
 	@API
-	public static <T> SingleItemOptionalSourceCache<T> invalidateEvery(
-			Duration invalidationInterval,
-			SingleItemOptionalSource<T> backingSource)
+	public static <T> SingleItemSourceCache<T> invalidateEvery(Duration invalidationInterval, SingleItemSource<T> backingSource)
 	{
-		return new SingleItemOptionalSourceCache<>(invalidationInterval, backingSource);
+		return new SingleItemSourceCache<>(invalidationInterval, backingSource);
 	}
 
 
@@ -48,7 +46,6 @@ public final class SingleItemOptionalSourceCache<T> implements SingleItemOptiona
 
 		if(cachedItem == null)
 			fetchFromBackingSource();
-
 		return Optional.ofNullable(cachedItem);
 	}
 
@@ -56,10 +53,9 @@ public final class SingleItemOptionalSourceCache<T> implements SingleItemOptiona
 	// CACHE
 	private void fetchFromBackingSource()
 	{
-		Optional<T> fromBackingSource = backingSource.fetch();
-		if(!fromBackingSource.isPresent())
+		var fromBackingSource = backingSource.fetch();
+		if(fromBackingSource.isEmpty())
 			return;
-
 		cachedItem = fromBackingSource.get();
 		lastFetchFromBackingSource = Instant.now();
 	}
@@ -76,7 +72,7 @@ public final class SingleItemOptionalSourceCache<T> implements SingleItemOptiona
 		if(invalidationInterval == null)
 			return false;
 
-		Instant oldestAllowedFetchInstant = Instant.now().minus(invalidationInterval);
+		var oldestAllowedFetchInstant = Instant.now().minus(invalidationInterval);
 		return (cachedItem != null) && lastFetchFromBackingSource.isBefore(oldestAllowedFetchInstant);
 	}
 

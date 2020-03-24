@@ -87,9 +87,26 @@ public final class LazyKeyCache<KeyT, T>
 		cache.remove(key);
 	}
 
+	@API
+	public Optional<T> get(KeyT key)
+	{
+		ifDueRemoveExpiredEntries();
+
+		var optionalCacheEntry = Optional.ofNullable(cache.get(key));
+		optionalCacheEntry.ifPresent(CacheEntry::markAsUsed);
+		return optionalCacheEntry.map(CacheEntry::getValue);
+	}
+
+	@API
+	public Map<KeyT, CacheEntry> getEntries()
+	{
+		return new HashMap<>(cache);
+	}
+
+
 	private CacheEntry createCacheEntry(T value)
 	{
-		Duration expirationDuration = this.expirationDuration;
+		var expirationDuration = this.expirationDuration;
 		if(randomizeExpirationDuration)
 		{
 			long expirationDurationMillis = expirationDuration.toMillis();
@@ -103,23 +120,6 @@ public final class LazyKeyCache<KeyT, T>
 			return new CacheEntryRespectUsage(expirationDuration, value);
 
 		return new CacheEntryIgnoreUsage(expirationDuration, value);
-	}
-
-	@API
-	public Optional<T> get(KeyT key)
-	{
-		ifDueRemoveExpiredEntries();
-
-		Optional<CacheEntry> optionalCacheEntry = Optional.ofNullable(cache.get(key));
-		optionalCacheEntry.ifPresent(CacheEntry::markAsUsed);
-
-		return optionalCacheEntry.map(CacheEntry::getValue);
-	}
-
-	@API
-	public Map<KeyT, CacheEntry> getEntries()
-	{
-		return new HashMap<>(cache);
 	}
 
 

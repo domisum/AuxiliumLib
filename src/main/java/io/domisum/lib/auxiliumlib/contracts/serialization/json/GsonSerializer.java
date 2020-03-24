@@ -7,6 +7,8 @@ import io.domisum.lib.auxiliumlib.util.json.GsonUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.lang.reflect.Type;
+
 @API
 public class GsonSerializer<T> implements JsonSerializer<T>
 {
@@ -16,35 +18,39 @@ public class GsonSerializer<T> implements JsonSerializer<T>
 
 	// ATTRIBUTES
 	private final Gson gson;
-	private final Class<T> clazz;
+	private final Type type;
 
 
 	// INIT
-	public GsonSerializer(Class<T> clazz)
+	@API
+	public GsonSerializer(Type type)
 	{
-		this(GsonUtil.get(), clazz);
+		this(GsonUtil.get(), type);
 	}
 
-	public GsonSerializer(Gson gson, Class<T> clazz)
+	@API
+	public GsonSerializer(Gson gson, Type type)
 	{
 		this.gson = gson;
-		this.clazz = clazz;
+		this.type = type;
 	}
 
 
-	// SERIALIZE
+	// SERIALIZER
+	@API
 	@Override
 	public String serialize(T object)
 	{
 		return gson.toJson(object);
 	}
 
+	@API
 	@Override
 	public T deserialize(String objectString)
 	{
 		try
 		{
-			return gson.fromJson(objectString, clazz);
+			return gson.fromJson(objectString, type);
 		}
 		catch(JsonSyntaxException e)
 		{

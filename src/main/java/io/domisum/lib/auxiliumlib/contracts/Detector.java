@@ -3,10 +3,10 @@ package io.domisum.lib.auxiliumlib.contracts;
 import io.domisum.lib.auxiliumlib.annotations.API;
 
 @API
-public interface Detector<InputT, OutputT>
+public interface Detector<I, O>
 {
 
 	@API
-	OutputT detect(InputT input);
+	O detect(I input);
 
 }

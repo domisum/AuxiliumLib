@@ -1,6 +1,6 @@
-package io.domisum.lib.auxiliumlib.contracts.source.io;
+package io.domisum.lib.auxiliumlib.contracts.iosource;
 
-import io.domisum.lib.auxiliumlib.contracts.source.io.ioaction.IoAction;
+import io.domisum.lib.auxiliumlib.contracts.iosource.ioaction.IoAction;
 import io.domisum.lib.auxiliumlib.annotations.API;
 import org.apache.commons.lang3.Validate;
 

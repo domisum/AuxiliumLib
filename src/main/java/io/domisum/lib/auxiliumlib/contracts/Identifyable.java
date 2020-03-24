@@ -1,11 +1,10 @@
 package io.domisum.lib.auxiliumlib.contracts;
 
-import io.domisum.lib.auxiliumlib.util.StringUtil;
 import io.domisum.lib.auxiliumlib.annotations.API;
+import io.domisum.lib.auxiliumlib.util.StringUtil;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 public interface Identifyable extends Keyable<String>
 {
@@ -23,8 +22,8 @@ public interface Identifyable extends Keyable<String>
 	@API
 	static String getIdList(Collection<? extends Identifyable> identifyables)
 	{
-		List<String> strings = new ArrayList<>();
-		for(Identifyable identifyable : identifyables)
+		var strings = new ArrayList<String>();
+		for(var identifyable : identifyables)
 			strings.add(identifyable.getId());
 
 		return "["+StringUtil.listToString(strings, ", ")+"]";

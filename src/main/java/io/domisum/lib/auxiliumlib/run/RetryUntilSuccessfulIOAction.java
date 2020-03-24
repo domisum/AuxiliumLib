@@ -1,7 +1,7 @@
 package io.domisum.lib.auxiliumlib.run;
 
-import io.domisum.lib.auxiliumlib.contracts.source.io.ioaction.IoAction;
-import io.domisum.lib.auxiliumlib.contracts.source.io.ioaction.VoidIoAction;
+import io.domisum.lib.auxiliumlib.contracts.iosource.ioaction.IoAction;
+import io.domisum.lib.auxiliumlib.contracts.iosource.ioaction.VoidIoAction;
 import io.domisum.lib.auxiliumlib.display.DurationDisplay;
 import io.domisum.lib.auxiliumlib.util.java.thread.ThreadUtil;
 import io.domisum.lib.auxiliumlib.util.DurationUtil;

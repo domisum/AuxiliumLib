@@ -6,10 +6,8 @@ import io.domisum.lib.auxiliumlib.annotations.API;
 public enum Axis
 {
 
-	// @formatter:off
 	X,
 	Y,
 	Z
-	// @formatter:on
 
 }

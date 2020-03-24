@@ -1,7 +1,7 @@
-package io.domisum.lib.auxiliumlib.contracts.source.optional.implementations;
+package io.domisum.lib.auxiliumlib.contracts.source.implementations;
 
 import io.domisum.lib.auxiliumlib.contracts.Keyable;
-import io.domisum.lib.auxiliumlib.contracts.source.optional.FiniteOptionalSource;
+import io.domisum.lib.auxiliumlib.contracts.source.FiniteSource;
 import io.domisum.lib.auxiliumlib.contracts.storage.Storage;
 import io.domisum.lib.auxiliumlib.annotations.API;
 import lombok.RequiredArgsConstructor;
@@ -14,7 +14,7 @@ import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
 @RequiredArgsConstructor
-public class InMemoryProxyOptionalSource<KeyT, T extends Keyable<KeyT>> implements FiniteOptionalSource<KeyT, T>
+public class InMemoryProxySource<KeyT, T extends Keyable<KeyT>> implements FiniteSource<KeyT, T>
 {
 
 	// REFERENCES
@@ -28,20 +28,18 @@ public class InMemoryProxyOptionalSource<KeyT, T extends Keyable<KeyT>> implemen
 	@API
 	public void fetchAllToMemory()
 	{
-		Collection<T> itemsFromBackingstorage = backingSource.fetchAll();
-
+		var itemsFromBackingstorage = backingSource.fetchAll();
 		items = new ConcurrentHashMap<>();
 		for(T item : itemsFromBackingstorage)
 		{
 			KeyT key = item.getKey();
 			if(key == null)
 				throw new IllegalStateException("key of item from backingstorage was null: "+item);
-
 			items.put(item.getKey(), item);
 		}
 	}
 
-	protected void checkReady()
+	private void checkReady()
 	{
 		if(items == null)
 			throw new IllegalStateException("can't use this proxy before fetching all the items to memory");
@@ -54,7 +52,6 @@ public class InMemoryProxyOptionalSource<KeyT, T extends Keyable<KeyT>> implemen
 	{
 		Validate.notNull(key, "key can't be null");
 		checkReady();
-
 		return Optional.ofNullable(items.get(key));
 	}
 
@@ -62,7 +59,6 @@ public class InMemoryProxyOptionalSource<KeyT, T extends Keyable<KeyT>> implemen
 	public Collection<T> fetchAll()
 	{
 		checkReady();
-
 		return Collections.unmodifiableCollection(items.values());
 	}
 
@@ -70,7 +66,6 @@ public class InMemoryProxyOptionalSource<KeyT, T extends Keyable<KeyT>> implemen
 	public boolean contains(KeyT key)
 	{
 		checkReady();
-
 		return items.containsKey(key);
 	}
 

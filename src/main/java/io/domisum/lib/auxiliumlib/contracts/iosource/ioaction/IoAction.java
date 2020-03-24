@@ -1,4 +1,4 @@
-package io.domisum.lib.auxiliumlib.contracts.source.io.ioaction;
+package io.domisum.lib.auxiliumlib.contracts.iosource.ioaction;
 
 import java.io.IOException;
 

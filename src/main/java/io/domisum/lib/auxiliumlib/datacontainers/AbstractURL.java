@@ -3,10 +3,10 @@ package io.domisum.lib.auxiliumlib.datacontainers;
 import io.domisum.lib.auxiliumlib.annotations.API;
 
 import java.io.UncheckedIOException;
-import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 
 @API
 public class AbstractURL
@@ -19,11 +19,11 @@ public class AbstractURL
 	@API
 	public AbstractURL(String url)
 	{
-		String cleanedUrl = url;
-		while(cleanedUrl.endsWith("/"))
-			cleanedUrl = cleanedUrl.substring(0, cleanedUrl.length()-1);
+		String beingCleanedUrl = url;
+		while(beingCleanedUrl.endsWith("/"))
+			beingCleanedUrl = beingCleanedUrl.substring(0, beingCleanedUrl.length()-1);
 
-		this.url = cleanedUrl;
+		this.url = beingCleanedUrl;
 	}
 
 	@API
@@ -34,11 +34,9 @@ public class AbstractURL
 
 	private String combineWith(String extension)
 	{
-		String processedExtension = extension;
-		if(!processedExtension.startsWith("/"))
-			processedExtension = "/"+processedExtension;
-
-		return url+processedExtension;
+		if(!extension.startsWith("/"))
+			extension = "/"+extension;
+		return url+extension;
 	}
 
 
@@ -68,14 +66,7 @@ public class AbstractURL
 	@API
 	public static String escapeUrlParameterString(String urlString)
 	{
-		try
-		{
-			return URLEncoder.encode(urlString, "UTF-8");
-		}
-		catch(UnsupportedEncodingException e)
-		{
-			throw new UncheckedIOException(e);
-		}
+		return URLEncoder.encode(urlString, StandardCharsets.UTF_8);
 	}
 
 }

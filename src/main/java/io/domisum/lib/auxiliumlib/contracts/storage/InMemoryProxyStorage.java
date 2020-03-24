@@ -26,7 +26,7 @@ public class InMemoryProxyStorage<KeyT, T extends Keyable<KeyT>> implements Stor
 	@API
 	public void fetchAllToMemory()
 	{
-		Collection<T> itemsFromBackingstorage = backingStorage.fetchAll();
+		var itemsFromBackingstorage = backingStorage.fetchAll();
 
 		items = new ConcurrentHashMap<>();
 		for(T item : itemsFromBackingstorage)
@@ -51,7 +51,6 @@ public class InMemoryProxyStorage<KeyT, T extends Keyable<KeyT>> implements Stor
 	public void store(T item)
 	{
 		checkReady();
-
 		items.put(item.getKey(), item);
 		backingStorage.store(item);
 	}
@@ -60,7 +59,6 @@ public class InMemoryProxyStorage<KeyT, T extends Keyable<KeyT>> implements Stor
 	public void remove(KeyT key)
 	{
 		checkReady();
-
 		items.remove(key);
 		backingStorage.remove(key);
 	}
@@ -70,7 +68,6 @@ public class InMemoryProxyStorage<KeyT, T extends Keyable<KeyT>> implements Stor
 	{
 		Validate.notNull(key, "key can't be null");
 		checkReady();
-
 		return Optional.ofNullable(items.get(key));
 	}
 
@@ -78,7 +75,6 @@ public class InMemoryProxyStorage<KeyT, T extends Keyable<KeyT>> implements Stor
 	public Collection<T> fetchAll()
 	{
 		checkReady();
-
 		return Collections.unmodifiableCollection(items.values());
 	}
 
@@ -86,7 +82,6 @@ public class InMemoryProxyStorage<KeyT, T extends Keyable<KeyT>> implements Stor
 	public boolean contains(KeyT key)
 	{
 		checkReady();
-
 		return items.containsKey(key);
 	}
 

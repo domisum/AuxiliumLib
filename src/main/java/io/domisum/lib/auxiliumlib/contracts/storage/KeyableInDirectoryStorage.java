@@ -5,6 +5,7 @@ import io.domisum.lib.auxiliumlib.contracts.Keyable;
 import io.domisum.lib.auxiliumlib.contracts.serialization.ToStringSerializer;
 import io.domisum.lib.auxiliumlib.util.file.FileUtil;
 import io.domisum.lib.auxiliumlib.annotations.API;
+import io.domisum.lib.auxiliumlib.util.file.FileUtil.FileType;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,13 +34,11 @@ public class KeyableInDirectoryStorage<KeyT, T extends Keyable<KeyT>> implements
 	@Override
 	public Collection<T> fetchAll()
 	{
-		Collection<File> files = FileUtil.listFilesRecursively(directory, FileUtil.FileType.FILE);
-
-		Collection<File> validFiles = new ArrayList<>();
-		for(File file : files)
+		var files = FileUtil.listFilesRecursively(directory, FileType.FILE);
+		var validFiles = new ArrayList<File>();
+		for(var file : files)
 			if(isFileExtensionValid(file))
 				validFiles.add(file);
-
 		return readFromFiles(validFiles);
 	}
 
@@ -47,21 +46,17 @@ public class KeyableInDirectoryStorage<KeyT, T extends Keyable<KeyT>> implements
 	{
 		String extension = FileUtil.getCompositeExtension(file);
 		boolean isValid = Objects.equals(fileExtension, extension);
-
 		if(!isValid)
 			logger.warn("Storage directory contains file with invalid extension ({}), skipping: {}", extension, file.getName());
-
 		return isValid;
 	}
 
 	@API
 	protected Collection<T> readFromFiles(Collection<File> files)
 	{
-		Collection<T> items = new ArrayList<>();
-
-		for(File file : files)
+		var items = new ArrayList<T>();
+		for(var file : files)
 			items.add(readFromFile(file));
-
 		return items;
 	}
 
@@ -69,17 +64,16 @@ public class KeyableInDirectoryStorage<KeyT, T extends Keyable<KeyT>> implements
 	@Override
 	public boolean contains(KeyT key)
 	{
-		File file = getFileFor(key);
+		var file = getFileFor(key);
 		return isFileValid(file);
 	}
 
 	@Override
 	public Optional<T> fetch(KeyT key)
 	{
-		File file = getFileFor(key);
+		var file = getFileFor(key);
 		if(!isFileValid(file))
 			return Optional.empty();
-
 		return Optional.of(readFromFile(file));
 	}
 
@@ -89,18 +83,16 @@ public class KeyableInDirectoryStorage<KeyT, T extends Keyable<KeyT>> implements
 	public void store(T item)
 	{
 		String serialized = serializer.serialize(item);
-
-		File file = getFileFor(item.getKey());
+		var file = getFileFor(item.getKey());
 		FileUtil.writeString(file, serialized);
 	}
 
 	@Override
 	public void remove(KeyT key)
 	{
-		File file = getFileFor(key);
+		var file = getFileFor(key);
 		if(!isFileValid(file))
 			return;
-
 		FileUtil.deleteFile(file);
 	}
 
@@ -110,11 +102,9 @@ public class KeyableInDirectoryStorage<KeyT, T extends Keyable<KeyT>> implements
 	protected T readFromFile(File file)
 	{
 		String serialized = FileUtil.readString(file);
-
 		T deserialized = deserialize(file, serialized);
 		if(deserialized == null)
 			throw new IllegalStateException("deserializer returned null for content of file: "+file);
-
 		return deserialized;
 	}
 

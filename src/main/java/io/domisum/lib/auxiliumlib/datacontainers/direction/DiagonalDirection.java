@@ -12,14 +12,13 @@ public enum DiagonalDirection
 {
 
 	// VALUES
-	// @formatter:off
-	NORTH_EAST(1,-1),
+	NORTH_EAST(1, -1),
 	SOUTH_EAST(1, 1),
 	SOUTH_WEST(-1, 1),
-	NORTH_WEST(-1 ,-1);
-	// @formatter:on
+	NORTH_WEST(-1, -1);
 
 
+	// ATTRIBUTES
 	public final int dX;
 	public final int dZ;
 

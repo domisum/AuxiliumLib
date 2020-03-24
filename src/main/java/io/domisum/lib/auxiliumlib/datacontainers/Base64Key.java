@@ -19,7 +19,7 @@ public final class Base64Key
 	@API
 	public static String generate(int length)
 	{
-		StringBuilder key = new StringBuilder();
+		var key = new StringBuilder();
 		for(int i = 0; i < length; i++)
 			key.append(getRandomCharacter());
 

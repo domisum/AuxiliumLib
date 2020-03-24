@@ -1,6 +1,6 @@
 package io.domisum.lib.auxiliumlib.contracts.storage;
 
-import io.domisum.lib.auxiliumlib.contracts.source.optional.FiniteOptionalSource;
+import io.domisum.lib.auxiliumlib.contracts.source.FiniteSource;
 import io.domisum.lib.auxiliumlib.annotations.API;
 
 /**
@@ -13,7 +13,7 @@ import io.domisum.lib.auxiliumlib.annotations.API;
  *
  * @param <T> the type of item to be stored
  */
-public interface Storage<KeyT, T> extends FiniteOptionalSource<KeyT, T>
+public interface Storage<KeyT, T> extends FiniteSource<KeyT, T>
 {
 
 	/**
