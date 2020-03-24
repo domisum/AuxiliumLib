@@ -29,7 +29,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.concurrent.ConcurrentLinkedQueue;
-import java.util.stream.Stream;
 
 @API
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
@@ -294,8 +293,8 @@ public final class FileUtil
 		if(!directory.exists())
 			return Collections.emptySet();
 		
-		Collection<File> directoryContents = new ConcurrentLinkedQueue<>();
-		try(Stream<Path> stream = Files.list(directory.toPath()))
+		var directoryContents = new ConcurrentLinkedQueue<File>();
+		try(var stream = Files.list(directory.toPath()))
 		{
 			stream.parallel().map(Path::toFile).forEach(f->
 			{
@@ -541,7 +540,7 @@ public final class FileUtil
 		public boolean isOfType(File file)
 		{
 			if(!file.exists())
-				throw new IllegalArgumentException("file does not exist: "+file);
+				return false;
 			
 			if(this == FILE_AND_DIRECTORY)
 				return true;
