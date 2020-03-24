@@ -18,12 +18,12 @@ public class FileUtilTest
 	@AfterEach
 	public void tearDown()
 	{
-		for(File f : filesToTearDown)
-			if(f != null)
-				if(f.isFile())
-					FileUtil.deleteFile(f);
+		for(var file : filesToTearDown)
+			if(file != null)
+				if(file.isFile())
+					FileUtil.deleteFile(file);
 				else
-					FileUtil.deleteDirectory(f);
+					FileUtil.deleteDirectory(file);
 	}
 	
 	
@@ -32,7 +32,7 @@ public class FileUtilTest
 	public void testSimpleReadAndWrite()
 	{
 		String text = "Hello world";
-		File tempFile = createTempFile();
+		var tempFile = createTempFile();
 		
 		writeReadAssertEquals(tempFile, text);
 	}
@@ -41,8 +41,8 @@ public class FileUtilTest
 	public void testWriteInNotExistingFolder()
 	{
 		String text = "meme\nasdf";
-		File tempDir = createTempDirectory();
-		File deeperInTempDir = new File(tempDir, "folder1/folder2");
+		var tempDir = createTempDirectory();
+		var deeperInTempDir = new File(tempDir, "folder1/folder2");
 		
 		writeReadAssertEquals(deeperInTempDir, text);
 	}
@@ -53,7 +53,7 @@ public class FileUtilTest
 	public void testSimpleWriteReadRaw()
 	{
 		byte[] testData = {0, 8, -3, 127};
-		File tempFile = createTempFile();
+		var tempFile = createTempFile();
 		
 		writeReadAssertEquals(tempFile, testData);
 	}
@@ -62,7 +62,7 @@ public class FileUtilTest
 	public void testOverwriteRaw()
 	{
 		byte[] testData = {-1, -29, 88, 18};
-		File tempFile = createTempFile();
+		var tempFile = createTempFile();
 		
 		FileUtil.writeRaw(tempFile, testData);
 		byte[] testData2 = {0, 8, -3, 127};
@@ -76,13 +76,12 @@ public class FileUtilTest
 	{
 		String sampleText = "asdf\nwow";
 		
-		File tempDir = createTempDirectory();
+		var tempDir = createTempDirectory();
 		
-		File textFileInDir = new File(tempDir, "test.txt");
+		var textFileInDir = new File(tempDir, "test.txt");
 		FileUtil.writeString(textFileInDir, sampleText);
-		File fileDeeper = new File(tempDir, "dir/test2.txt");
+		var fileDeeper = new File(tempDir, "dir/test2.txt");
 		FileUtil.writeString(fileDeeper, sampleText);
-		
 		
 		FileUtil.deleteDirectory(tempDir);
 		Assertions.assertFalse(tempDir.exists(), "directory wasn't deleted");
@@ -93,11 +92,11 @@ public class FileUtilTest
 	@Test
 	public void testTempFilesExtensions()
 	{
-		File tempFile = FileUtil.createTemporaryFile("zip");
+		var tempFile = FileUtil.createTemporaryFile("zip");
 		filesToTearDown.add(tempFile);
 		Assertions.assertTrue(tempFile.getPath().endsWith(".zip"), "wrong file extension :"+tempFile.getPath());
 		
-		File tempFile2 = FileUtil.createTemporaryFile(".bat");
+		var tempFile2 = FileUtil.createTemporaryFile(".bat");
 		filesToTearDown.add(tempFile2);
 		Assertions.assertTrue(tempFile2.getPath().endsWith(".bat"), "wrong file extension :"+tempFile2.getPath());
 	}
@@ -126,14 +125,14 @@ public class FileUtilTest
 	// ARRANGE
 	private File createTempFile()
 	{
-		File tempFile = FileUtil.createTemporaryFile();
+		var tempFile = FileUtil.createTemporaryFile();
 		filesToTearDown.add(tempFile);
 		return tempFile;
 	}
 	
 	private File createTempDirectory()
 	{
-		File tempDir = FileUtil.createTemporaryDirectory();
+		var tempDir = FileUtil.createTemporaryDirectory();
 		filesToTearDown.add(tempDir);
 		return tempDir;
 	}

@@ -10,9 +10,9 @@ public class Polygon2DTest
 	@Test
 	public void testSimpleContains()
 	{
-		Polygon2D polygon2D = new Polygon2D(new Vector2D(0, 0), new Vector2D(10, 0), new Vector2D(0, 10));
-		Vector2D inside = new Vector2D(5, 5);
-		Vector2D outside = new Vector2D(5, 5000);
+		var polygon2D = new Polygon2D(new Vector2D(0, 0), new Vector2D(10, 0), new Vector2D(0, 10));
+		var inside = new Vector2D(5, 5);
+		var outside = new Vector2D(5, 5000);
 		
 		Assertions.assertTrue(polygon2D.contains(inside));
 		Assertions.assertFalse(polygon2D.contains(outside));
@@ -21,8 +21,8 @@ public class Polygon2DTest
 	@Test
 	public void testContains2()
 	{
-		Polygon2D polygon2D = new Polygon2D(new Vector2D(48, -85), new Vector2D(41, -85), new Vector2D(41, -79));
-		Vector2D vector2D = new Vector2D(43, -83);
+		var polygon2D = new Polygon2D(new Vector2D(48, -85), new Vector2D(41, -85), new Vector2D(41, -79));
+		var vector2D = new Vector2D(43, -83);
 		
 		Assertions.assertTrue(polygon2D.contains(vector2D));
 	}

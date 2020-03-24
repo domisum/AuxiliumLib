@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 
 public class PHRTest
 {
-
+	
 	// TEST: ERRORS
 	@Test
 	public void testErrorInvalidNumberOfArgs()
@@ -15,8 +15,8 @@ public class PHRTest
 		Assertions.assertThrows(IllegalArgumentException.class, ()->PHR.r("blah {} blah {} xd", "meme"));
 		Assertions.assertThrows(IllegalArgumentException.class, ()->PHR.r("blah {} blah {} xd", 8, 8, 100));
 	}
-
-
+	
+	
 	// TEST: PROPER VALUES
 	@Test
 	public void testNoPlaceholders()
@@ -24,18 +24,18 @@ public class PHRTest
 		assertReplaceEquals("here I go", "here I go");
 		assertReplaceEquals("", "");
 	}
-
+	
 	@Test
 	public void testSingleReplacement()
 	{
 		assertReplaceEquals("here I go", "here {} go", "I");
 		assertReplaceEquals("aha#asdf", "aha#{}df", "as");
 		assertReplaceEquals("topKek4", "topKek{}", 4);
-
+		
 		assertReplaceEquals("something", "{}thing", "some");
 		assertReplaceEquals("3.141", "3.{}", "141");
 	}
-
+	
 	@Test
 	public void testMultiReplace()
 	{
@@ -49,23 +49,23 @@ public class PHRTest
 				"I'll"
 		);
 	}
-
+	
 	@Test
 	public void testReplaceWithPlaceholder()
 	{
 		assertReplaceEquals("here {} go", "here {} go", "{}");
 		assertReplaceEquals("some silly face: :-{} xddd", "some silly face: {} xddd", ":-{}");
-
+		
 		assertReplaceEquals("{}{}", "{}{}", "{}", "{}");
 		assertReplaceEquals("as{}", "{}{}", "as", "{}");
 		assertReplaceEquals("wow {} between", "{} {} {}", "wow", "{}", "between");
 	}
-
-
+	
+	
 	private static void assertReplaceEquals(String expected, String withPlaceholders, Object... values)
 	{
 		String replaced = PHR.r(withPlaceholders, values);
 		Assertions.assertEquals(expected, replaced);
 	}
-
+	
 }

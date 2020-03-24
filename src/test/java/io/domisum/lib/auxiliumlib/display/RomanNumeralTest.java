@@ -38,21 +38,21 @@ public class RomanNumeralTest
 	@Test
 	public void testNumbersToNumeral()
 	{
-		for(Pair<Integer,String> numeral : VALID_NUMERALS)
+		for(var numeral : VALID_NUMERALS)
 			Assertions.assertEquals(numeral.getB(), RomanNumeral.of(numeral.getA()).toString());
 	}
 	
 	@Test
 	public void testParsing()
 	{
-		for(Pair<Integer,String> numeral : VALID_NUMERALS)
+		for(var numeral : VALID_NUMERALS)
 			Assertions.assertEquals((int) numeral.getA(), RomanNumeral.parse(numeral.getB()).getNumber());
 	}
 	
 	@Test
 	public void testLowercaseParsing()
 	{
-		for(Pair<Integer,String> numeral : VALID_NUMERALS)
+		for(var numeral : VALID_NUMERALS)
 			Assertions.assertEquals((int) numeral.getA(), RomanNumeral.parse(numeral.getB().toLowerCase()).getNumber());
 	}
 	

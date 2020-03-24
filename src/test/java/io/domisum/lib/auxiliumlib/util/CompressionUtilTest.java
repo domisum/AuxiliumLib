@@ -14,7 +14,6 @@ public class CompressionUtilTest
 	@Test
 	public void testEmptyData()
 	{
-		// noinspection ZeroLengthArrayAllocation
 		compressDecompressAndAssertEquals(new byte[] {});
 	}
 	

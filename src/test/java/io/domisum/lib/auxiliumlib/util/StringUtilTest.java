@@ -55,29 +55,24 @@ public class StringUtilTest
 	@Test
 	public void testGenerateAllPermutations()
 	{
-		Set<String> expectedOutput1 = Sets.newHashSet("a", "b", "c", "d");
+		var expectedOutput1 = Sets.newHashSet("a", "b", "c", "d");
 		assertGenerateAllPermutations(expectedOutput1, "{}", Arrays.asList("a", "b", "c", "d"));
 		
-		Set<String> expectedOutput2 = Sets.newHashSet("aa", "ab", "bb", "ba");
+		var expectedOutput2 = Sets.newHashSet("aa", "ab", "bb", "ba");
 		assertGenerateAllPermutations(expectedOutput2, "{}{}", Arrays.asList("a", "b"), Arrays.asList("a", "b"));
 	}
 	
 	@Test
 	public void testGenerateAllPermutationsErrorMismatchedPlaceholders()
 	{
-		Assertions.assertThrows(IllegalArgumentException.class,
-				()->StringUtil.generateAllPermutations("{} {}", Arrays.asList("a", "b"))
-		);
-		
-		Assertions.assertThrows(IllegalArgumentException.class,
-				()->StringUtil.generateAllPermutations("{}", Arrays.asList("a", "b"), Arrays.asList("c", "d"))
-		);
+		Assertions.assertThrows(IllegalArgumentException.class, ()->StringUtil.generateAllPermutations("{} {}", Arrays.asList("a", "b")));
+		Assertions.assertThrows(IllegalArgumentException.class, ()->StringUtil.generateAllPermutations("{}", Arrays.asList("a", "b"), Arrays.asList("c", "d")));
 	}
 	
 	@SafeVarargs
-	private final void assertGenerateAllPermutations(Set<String> expectedOutput, String base, Collection<String>... values)
+	private void assertGenerateAllPermutations(Set<String> expectedOutput, String base, Collection<String>... values)
 	{
-		Set<String> permutations = StringUtil.generateAllPermutations(base, values);
+		var permutations = StringUtil.generateAllPermutations(base, values);
 		Assertions.assertEquals(expectedOutput, permutations);
 	}
 	
