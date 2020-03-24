@@ -12,6 +12,7 @@ import java.nio.charset.StandardCharsets;
 public class AbstractURL
 {
 	
+	// ATTRIBUTES
 	private final String url;
 	
 	
@@ -63,6 +64,7 @@ public class AbstractURL
 	}
 	
 	
+	// UTIL
 	@API
 	public static String escapeUrlParameterString(String urlString)
 	{

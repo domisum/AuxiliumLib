@@ -12,21 +12,17 @@ import org.apache.commons.lang3.Validate;
  * The coordinates are immutable, so every action performed on a object returns a new object with new values,
  * while the Vector3D on which the action was performed remains unchanged.
  */
-@EqualsAndHashCode
-
 @API
+@EqualsAndHashCode
 public class Vector3D
 {
 	
-	@API
 	@Getter
-	public final double x;
-	@API
+	private final double x;
 	@Getter
-	public final double y;
-	@API
+	private final double y;
 	@Getter
-	public final double z;
+	private final double z;
 	
 	
 	// INIT
@@ -126,12 +122,11 @@ public class Vector3D
 	 * @return normalized copy of this vector
 	 */
 	@API
-	public Vector3D normalize()
+	public Vector3D deriveNormalized()
 	{
 		double length = length();
 		if(length == 0)
 			throw new UnsupportedOperationException("can't normalize a vector of length 0");
-		
 		return new Vector3D(x/length, y/length, z/length);
 	}
 	
@@ -141,9 +136,9 @@ public class Vector3D
 	 * @return inverted copy of this vector
 	 */
 	@API
-	public Vector3D invert()
+	public Vector3D deriveInverted()
 	{
-		return multiply(-1);
+		return deriveMultiply(-1);
 	}
 	
 	/**
@@ -155,12 +150,12 @@ public class Vector3D
 	 * @return vector orthogonal to this vector
 	 */
 	@API
-	public Vector3D orthogonal()
+	public Vector3D deriveOrthogonal()
 	{
-		Vector3D independent = ((x == 0) && (y == 0)) ?
+		var independent = ((x == 0) && (y == 0)) ?
 				new Vector3D(1, 1, z) :
 				new Vector3D(x, y, z+1);
-		return crossProduct(independent);
+		return deriveCrossProduct(independent);
 	}
 	
 	// INTERACTION
@@ -173,7 +168,7 @@ public class Vector3D
 	 * @return new vector that is the sum of both vectors
 	 */
 	@API
-	public Vector3D add(Vector3D other)
+	public Vector3D deriveAdd(Vector3D other)
 	{
 		return new Vector3D(x+other.x, y+other.y, z+other.z);
 	}
@@ -188,7 +183,7 @@ public class Vector3D
 	 * @return new vector that is the sum of both vectors
 	 */
 	@API
-	public Vector3D add(double dX, double dY, double dZ)
+	public Vector3D deriveAdd(double dX, double dY, double dZ)
 	{
 		return new Vector3D(x+dX, y+dY, z+dZ);
 	}
@@ -201,12 +196,12 @@ public class Vector3D
 	 *
 	 * @param other the vector to subtract from this one
 	 * @return new vector that is the difference of both vectors
-	 * @see #add(Vector3D)
+	 * @see #deriveAdd(Vector3D)
 	 */
 	@API
-	public Vector3D subtract(Vector3D other)
+	public Vector3D deriveSubtract(Vector3D other)
 	{
-		return add(other.invert());
+		return deriveAdd(other.deriveInverted());
 	}
 	
 	/**
@@ -224,10 +219,10 @@ public class Vector3D
 	 * @return the moved copy of this vector
 	 */
 	@API
-	public Vector3D moveTowards(Vector3D other, double distance)
+	public Vector3D deriveMovedTowards(Vector3D other, double distance)
 	{
-		Vector3D dir = other.subtract(this).normalize();
-		return add(dir.multiply(distance));
+		var dir = other.deriveSubtract(this).deriveNormalized();
+		return deriveAdd(dir.deriveMultiply(distance));
 	}
 	
 	
@@ -240,7 +235,7 @@ public class Vector3D
 	 * @return the multiplied copy of this vector
 	 */
 	@API
-	public Vector3D multiply(double factor)
+	public Vector3D deriveMultiply(double factor)
 	{
 		return new Vector3D(x*factor, y*factor, z*factor);
 	}
@@ -255,9 +250,9 @@ public class Vector3D
 	 * @return the divided vector
 	 */
 	@API
-	public Vector3D divide(double divisor)
+	public Vector3D deriveDivide(double divisor)
 	{
-		return multiply(1/divisor);
+		return deriveMultiply(1/divisor);
 	}
 	
 	/**
@@ -282,7 +277,7 @@ public class Vector3D
 	 * @return the crossProduct of the vectors in a new Vector3D
 	 */
 	@API
-	public Vector3D crossProduct(Vector3D other)
+	public Vector3D deriveCrossProduct(Vector3D other)
 	{
 		double nX = (y*other.z)-(z*other.y);
 		double nY = (z*other.x)-(x*other.z);
@@ -315,7 +310,7 @@ public class Vector3D
 	@API
 	public double distanceToSquared(Vector3D other)
 	{
-		return subtract(other).lengthSquared();
+		return deriveSubtract(other).lengthSquared();
 	}
 	
 	
@@ -330,7 +325,7 @@ public class Vector3D
 	@API
 	public Line3D getLineTowards(Vector3D other)
 	{
-		return new Line3D(this, other.subtract(this));
+		return new Line3D(this, other.deriveSubtract(this));
 	}
 	
 	/**
@@ -370,8 +365,8 @@ public class Vector3D
 	@API
 	public Vector3D rotate(Quaternion rotation)
 	{
-		Quaternion thisAsQuaternion = getPureQuaternion();
-		Quaternion resultQuaternion = rotation.conjugate().multiply(thisAsQuaternion).multiply(rotation);
+		var thisAsQuaternion = getPureQuaternion();
+		var resultQuaternion = rotation.deriveConjugated().deriveMultiply(thisAsQuaternion).deriveMultiply(rotation);
 		return resultQuaternion.getVector();
 	}
 	

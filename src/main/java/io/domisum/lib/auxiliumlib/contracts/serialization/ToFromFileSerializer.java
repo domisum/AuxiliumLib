@@ -8,11 +8,13 @@ import java.io.IOException;
 @API
 public interface ToFromFileSerializer<T>
 {
-
+	
+	@API
 	File serializeToFile(T object)
 			throws IOException;
-
+	
+	@API
 	T deserializeFromFile(File file)
 			throws IOException;
-
+	
 }

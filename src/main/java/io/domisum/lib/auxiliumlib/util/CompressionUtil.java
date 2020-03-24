@@ -23,25 +23,29 @@ public final class CompressionUtil
 	
 	// COMPRESSION
 	@API
+	public static byte[] compress(byte[] input)
+	{
+		return compress(input, Speed.BALANCED);
+	}
+	
+	@API
 	public static byte[] compress(byte[] input, Speed compressionSpeed)
 	{
 		Validate.notNull(input);
 		Validate.notNull(compressionSpeed);
 		
-		
-		Deflater compressor = new Deflater();
+		var compressor = new Deflater();
 		compressor.setLevel(compressionSpeed.deflaterLevel);
 		compressor.setInput(input);
 		compressor.finish();
-		
-		try(ByteArrayOutputStream bos = new ByteArrayOutputStream(input.length))
+		try(var outputStream = new ByteArrayOutputStream(input.length))
 		{
 			byte[] buffer = new byte[BUFFER_SIZE];
 			
 			while(!compressor.finished())
-				bos.write(buffer, 0, compressor.deflate(buffer));
+				outputStream.write(buffer, 0, compressor.deflate(buffer));
 			
-			return bos.toByteArray();
+			return outputStream.toByteArray();
 		}
 		catch(IOException e)
 		{
@@ -54,18 +58,16 @@ public final class CompressionUtil
 	{
 		Validate.notNull(input);
 		
-		
-		Inflater decompressor = new Inflater();
+		var decompressor = new Inflater();
 		decompressor.setInput(input);
-		
-		try(ByteArrayOutputStream bos = new ByteArrayOutputStream(input.length))
+		try(var outputStream = new ByteArrayOutputStream(input.length))
 		{
 			byte[] buffer = new byte[BUFFER_SIZE];
 			while(!decompressor.finished())
-				bos.write(buffer, 0, decompressor.inflate(buffer));
+				outputStream.write(buffer, 0, decompressor.inflate(buffer));
 			
-			bos.close();
-			return bos.toByteArray();
+			outputStream.close();
+			return outputStream.toByteArray();
 		}
 		catch(DataFormatException e)
 		{
@@ -78,14 +80,16 @@ public final class CompressionUtil
 	}
 	
 	
+	@API
 	public enum Speed
 	{
 		
-		@API FAST(Deflater.BEST_SPEED),
-		@API BALANCED((Deflater.BEST_COMPRESSION+Deflater.BEST_SPEED)/2),
-		@API QUALITY(Deflater.BEST_COMPRESSION);
+		FAST(Deflater.BEST_SPEED),
+		BALANCED((Deflater.BEST_COMPRESSION+Deflater.BEST_SPEED)/2),
+		QUALITY(Deflater.BEST_COMPRESSION);
 		
 		
+		// ATTRIBUTES
 		private final int deflaterLevel;
 		
 		

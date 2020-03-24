@@ -1,26 +1,31 @@
 package io.domisum.lib.auxiliumlib.exceptions;
 
-@SuppressWarnings("ClassWithTooManyConstructors")
+import io.domisum.lib.auxiliumlib.annotations.API;
+
+@API
 public class ShouldNeverHappenError
 		extends AssertionError
 {
 	
-	// INIT
+	@API
 	public ShouldNeverHappenError()
 	{
 	
 	}
 	
+	@API
 	public ShouldNeverHappenError(String message)
 	{
 		super(message);
 	}
 	
+	@API
 	public ShouldNeverHappenError(String message, Throwable cause)
 	{
 		super(message, cause);
 	}
 	
+	@API
 	public ShouldNeverHappenError(Throwable cause)
 	{
 		super(cause);

@@ -20,7 +20,7 @@ public class Plane3D
 	protected Plane3D(Vector3D point, Vector3D normal)
 	{
 		this.point = point;
-		this.normal = normal.normalize();
+		this.normal = normal.deriveNormalized();
 	}
 	
 	@API
@@ -32,9 +32,9 @@ public class Plane3D
 	@API
 	public static Plane3D throughPoints(Vector3D pointA, Vector3D pointB, Vector3D pointC)
 	{
-		Vector3D aToB = pointB.subtract(pointA);
-		Vector3D aToC = pointC.subtract(pointA);
-		Vector3D normal = aToB.crossProduct(aToC);
+		var aToB = pointB.deriveSubtract(pointA);
+		var aToC = pointC.deriveSubtract(pointA);
+		var normal = aToB.deriveCrossProduct(aToC);
 		
 		if(normal.length() == 0)
 			throw new IllegalArgumentException(PHR.r("can't create plane from points which are on the same line ({}, {}, {})",
@@ -48,9 +48,10 @@ public class Plane3D
 	
 	
 	// DISTANCE
+	@API
 	public double distanceTo(Vector3D point)
 	{
-		double distanceSigned = normal.dotProduct(this.point.subtract(point));
+		double distanceSigned = normal.dotProduct(this.point.deriveSubtract(point));
 		return Math.abs(distanceSigned);
 	}
 	

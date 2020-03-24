@@ -1,7 +1,6 @@
 package io.domisum.lib.auxiliumlib.contracts.iosource;
 
 import io.domisum.lib.auxiliumlib.annotations.API;
-import io.domisum.lib.auxiliumlib.contracts.iosource.ioaction.IoAction;
 import org.apache.commons.lang3.Validate;
 
 import java.io.IOException;
@@ -10,14 +9,17 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.function.Consumer;
 
+@API
 public class IoOptional<T>
 {
 	
+	// ATTRIBUTES
 	private final T value;
 	private final IOException exception;
 	
 	
 	// INIT
+	@API
 	public IoOptional(T value, IOException exception)
 	{
 		this.value = value;
@@ -25,7 +27,6 @@ public class IoOptional<T>
 		
 		if((value == null) && (exception == null))
 			throw new IllegalArgumentException("value and exception can't both be null");
-		
 		if((value != null) && (exception != null))
 			throw new IllegalArgumentException("value can't be provided while exception is provided as well");
 	}
@@ -59,29 +60,31 @@ public class IoOptional<T>
 	
 	
 	// GETTERS
+	@API
 	public boolean isPresent()
 	{
 		return value != null;
 	}
 	
+	@API
 	public boolean isEmpty()
 	{
 		return value == null;
 	}
 	
+	@API
 	public T get()
 	{
 		if(!isPresent())
 			throw new NoSuchElementException("no value present");
-		
 		return value;
 	}
 	
+	@API
 	public IOException getException()
 	{
 		if(exception == null)
 			throw new NoSuchElementException("no exception present");
-		
 		return exception;
 	}
 	
@@ -91,7 +94,6 @@ public class IoOptional<T>
 	{
 		if(isPresent())
 			return value;
-		
 		throw exception;
 	}
 	
@@ -114,12 +116,11 @@ public class IoOptional<T>
 	{
 		if(isPresent())
 			return value;
-		
 		throw new UncheckedIOException(exception);
 	}
 	
 	
-	// USAGE
+	// FUNCTIONAL
 	@API
 	public void ifPresent(Consumer<T> consumer)
 	{

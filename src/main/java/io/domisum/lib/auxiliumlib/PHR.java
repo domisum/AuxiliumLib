@@ -18,6 +18,7 @@ import java.util.Objects;
  * The names of the class and the static methods are chosen as an acronym
  * to keep static method calls as short as possible.
  */
+@API
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public final class PHR
 		implements CharSequence
@@ -101,9 +102,7 @@ public final class PHR
 	private static String replacePlaceholdersWithValues(String text, List<Integer> placeholderIndices, Object[] values)
 	{
 		String filledInString = text;
-		
-		// iterate from back so inserting string doesn't change the indices of the other placeholders
-		for(int i = placeholderIndices.size()-1; i >= 0; i--)
+		for(int i = placeholderIndices.size()-1; i >= 0; i--) // iterate from back so inserting string doesn't change the indices of the other placeholders
 		{
 			int placeholderStartIndex = placeholderIndices.get(i);
 			

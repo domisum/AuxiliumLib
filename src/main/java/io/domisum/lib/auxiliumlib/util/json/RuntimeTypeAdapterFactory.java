@@ -127,24 +127,24 @@ import java.util.Map.Entry;
 public final class RuntimeTypeAdapterFactory<T>
 		implements TypeAdapterFactory
 {
-
+	
 	private final Class<?> baseType;
 	private final String typeFieldName;
 	private final Map<String,Class<?>> labelToSubtype = new LinkedHashMap<>();
 	private final Map<Class<?>,String> subtypeToLabel = new LinkedHashMap<>();
-
-
+	
+	
 	// INIT
 	private RuntimeTypeAdapterFactory(Class<?> baseType, String typeFieldName)
 	{
 		if((typeFieldName == null) || (baseType == null))
 			throw new IllegalArgumentException("baseType and typeFieldName can't be null");
-
+		
 		this.baseType = baseType;
 		this.typeFieldName = typeFieldName;
 	}
-
-
+	
+	
 	/**
 	 * Creates a new runtime type adapter using for {@code baseType} using {@code
 	 * typeFieldName} as the type field name. Type field names are case sensitive.
@@ -154,7 +154,7 @@ public final class RuntimeTypeAdapterFactory<T>
 	{
 		return new RuntimeTypeAdapterFactory<>(baseType, typeFieldName);
 	}
-
+	
 	/**
 	 * Creates a new runtime type adapter for {@code baseType} using {@code "type"} as
 	 * the type field name.
@@ -164,7 +164,7 @@ public final class RuntimeTypeAdapterFactory<T>
 	{
 		return new RuntimeTypeAdapterFactory<>(baseType, "type");
 	}
-
+	
 	/**
 	 * Registers {@code type} identified by {@code label}. Labels are case
 	 * sensitive.
@@ -177,15 +177,15 @@ public final class RuntimeTypeAdapterFactory<T>
 	{
 		if((type == null) || (label == null))
 			throw new IllegalArgumentException("type and label can't be null");
-
+		
 		if(subtypeToLabel.containsKey(type) || labelToSubtype.containsKey(label))
 			throw new IllegalArgumentException("types and labels must be unique");
-
+		
 		labelToSubtype.put(label, type);
 		subtypeToLabel.put(type, label);
 		return this;
 	}
-
+	
 	/**
 	 * Registers {@code type} identified by its {@link Class#getSimpleName simple
 	 * name}. Labels are case sensitive.
@@ -198,13 +198,13 @@ public final class RuntimeTypeAdapterFactory<T>
 	{
 		return registerSubtype(type, type.getSimpleName());
 	}
-
+	
 	@Override
 	public <R> TypeAdapter<R> create(Gson gson, TypeToken<R> type)
 	{
 		if(type.getRawType() != baseType)
 			return null;
-
+		
 		Map<String,TypeAdapter<?>> labelToDelegate = new LinkedHashMap<>();
 		Map<Class<?>,TypeAdapter<?>> subtypeToDelegate = new LinkedHashMap<>();
 		for(Entry<String,Class<?>> entry : labelToSubtype.entrySet())
@@ -213,10 +213,10 @@ public final class RuntimeTypeAdapterFactory<T>
 			labelToDelegate.put(entry.getKey(), delegate);
 			subtypeToDelegate.put(entry.getValue(), delegate);
 		}
-
+		
 		return new TypeAdapter<R>()
 		{
-
+			
 			@Override
 			public R read(JsonReader in)
 			{
@@ -225,7 +225,7 @@ public final class RuntimeTypeAdapterFactory<T>
 				if(labelJsonElement == null)
 					throw new JsonParseException(
 							"cannot deserialize "+baseType+" because it does not define a field named "+typeFieldName);
-
+				
 				String label = labelJsonElement.getAsString();
 				// registration requires that subtype extends T
 				@SuppressWarnings("unchecked")
@@ -233,37 +233,37 @@ public final class RuntimeTypeAdapterFactory<T>
 				if(delegate == null)
 					throw new JsonParseException(
 							"cannot deserialize "+baseType+" subtype named "+label+"; did you forget to register a subtype?");
-
+				
 				return delegate.fromJsonTree(jsonElement);
 			}
-
+			
 			@Override
 			public void write(JsonWriter out, R value)
 					throws IOException
 			{
 				Class<?> srcType = value.getClass();
 				String label = subtypeToLabel.get(srcType);
-
+				
 				// registration requires that subtype extends T
 				@SuppressWarnings("unchecked")
 				TypeAdapter<R> delegate = (TypeAdapter<R>) subtypeToDelegate.get(srcType);
 				if(delegate == null)
 					throw new JsonParseException("cannot serialize "+srcType.getName()+"; did you forget to register a subtype?");
-
+				
 				JsonObject jsonObject = delegate.toJsonTree(value).getAsJsonObject();
 				if(jsonObject.has(typeFieldName))
 					throw new JsonParseException(
 							"cannot serialize "+srcType.getName()+" because it already defines a field named "+typeFieldName);
-
+				
 				JsonObject clone = new JsonObject();
 				clone.add(typeFieldName, new JsonPrimitive(label));
 				for(Entry<String,JsonElement> e : jsonObject.entrySet())
 					clone.add(e.getKey(), e.getValue());
-
+				
 				Streams.write(clone, out);
 			}
-
+			
 		}.nullSafe();
 	}
-
+	
 }

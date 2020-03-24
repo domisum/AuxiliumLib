@@ -15,7 +15,7 @@ import java.util.Map;
 
 @API
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public final class ThreadWatchdog // TODO improve remove targeting
+public final class ThreadWatchdog
 {
 	
 	private final Logger logger = LoggerFactory.getLogger(getClass());
@@ -103,7 +103,7 @@ public final class ThreadWatchdog // TODO improve remove targeting
 	
 	private synchronized void tick()
 	{
-		for(Thread thread : new HashSet<>(watchedThreadsOnTerminationActions.keySet()))
+		for(var thread : new HashSet<>(watchedThreadsOnTerminationActions.keySet()))
 			if(!thread.isAlive())
 				onWatchedThreadDied(thread);
 	}
@@ -112,10 +112,10 @@ public final class ThreadWatchdog // TODO improve remove targeting
 	{
 		logger.info("Watched thread died: {}", thread);
 		
-		List<Runnable> threadOnTerminationActions = watchedThreadsOnTerminationActions.get(thread);
+		var threadOnTerminationActions = watchedThreadsOnTerminationActions.get(thread);
 		watchedThreadsOnTerminationActions.remove(thread);
 		
-		for(Runnable runnable : threadOnTerminationActions)
+		for(var runnable : threadOnTerminationActions)
 			ThreadUtil.createAndStartThread(runnable, "shutdownAction-"+thread.getName());
 	}
 	

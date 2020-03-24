@@ -14,6 +14,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+@API
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class StringUtil
 {

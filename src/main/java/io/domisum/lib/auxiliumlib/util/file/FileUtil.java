@@ -275,6 +275,7 @@ public final class FileUtil
 	}
 	
 	
+	// LIST FILES
 	@API
 	public static Collection<File> listFilesFlat(File directory, FileType fileType)
 	{
@@ -379,7 +380,7 @@ public final class FileUtil
 	private static synchronized void deleteDirectoryOnShutdown(File directory)
 	{
 		if(temporaryDirectories.isEmpty())
-			ThreadUtil.registerShutdownHook(()->temporaryDirectories.forEach(FileUtil::deleteDirectory));
+			ThreadUtil.registerShutdownHook(()->temporaryDirectories.forEach(FileUtil::deleteDirectory), "deleteTempDirs");
 		
 		temporaryDirectories.add(directory);
 	}
@@ -428,7 +429,7 @@ public final class FileUtil
 	
 	// GENERAL FILE
 	@API
-	public static boolean createFile(File file)
+	public static boolean createEmptyFile(File file)
 	{
 		try
 		{
@@ -463,6 +464,8 @@ public final class FileUtil
 		}
 	}
 	
+	
+	// EXTENSION
 	@API
 	public static String getExtension(File file)
 	{
@@ -518,23 +521,16 @@ public final class FileUtil
 	}
 	
 	
+	// PATH
 	@API
-	public static String getFilePath(File file)
-	{
-		String path = file.getAbsoluteFile().getPath();
-		path = unifyDelimiters(path);
-		
-		return path;
-	}
-	
-	@API
-	public static String unifyDelimiters(String path)
+	public static String replaceDelimitersWithForwardSlash(String path)
 	{
 		return path.replaceAll(StringUtil.escapeStringForRegex("\\"), "/");
 	}
 	
 	
 	// UTIL
+	@API
 	public enum FileType
 	{
 		

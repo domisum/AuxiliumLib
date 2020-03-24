@@ -1,42 +1,39 @@
 package io.domisum.lib.auxiliumlib.datacontainers.math;
 
 import io.domisum.lib.auxiliumlib.annotations.API;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 import java.util.Objects;
 
 @API
-@AllArgsConstructor
+@RequiredArgsConstructor
 public final class LineSegment3D
 {
-
+	
 	// PROPERTIES
-	@API
 	@Getter
-	private final Vector3D a;
-	@API
+	private final Vector3D pointA;
 	@Getter
-	private final Vector3D b;
-
-
+	private final Vector3D pointB;
+	
+	
 	// CONVERSION
 	@API
 	public Line3D toLine()
 	{
-		return new Line3D(a, b.subtract(a));
+		return new Line3D(pointA, pointB.deriveSubtract(pointA));
 	}
-
+	
 	@API
-	public LineSegment3D getShortenedBothEnds(double distance)
+	public LineSegment3D deriveShortenedBothEnds(double distance)
 	{
-		Vector3D newA = a.moveTowards(b, distance);
-		Vector3D newB = b.moveTowards(a, distance);
-
+		var newA = pointA.deriveMovedTowards(pointB, distance);
+		var newB = pointB.deriveMovedTowards(pointA, distance);
 		return new LineSegment3D(newA, newB);
 	}
-
-
+	
+	
 	// OBJECT
 	@Override
 	public boolean equals(Object o)
@@ -45,112 +42,108 @@ public final class LineSegment3D
 			return true;
 		if((o == null) || (getClass() != o.getClass()))
 			return false;
-
-		LineSegment3D that = (LineSegment3D) o;
-		boolean defaultWay = a.equals(that.a) && b.equals(that.b);
-		boolean invertedWay = a.equals(that.b) && b.equals(that.a);
+		
+		var other = (LineSegment3D) o;
+		boolean defaultWay = pointA.equals(other.pointA) && pointB.equals(other.pointB);
+		boolean invertedWay = pointA.equals(other.pointB) && pointB.equals(other.pointA);
 		return defaultWay || invertedWay;
 	}
-
+	
 	@Override
 	public int hashCode()
 	{
-		return Objects.hash(a)+Objects.hash(b);
+		return Objects.hash(pointA)+Objects.hash(pointB);
 	}
-
-
+	
+	
 	// GETTERS
 	@API
 	public double getLength()
 	{
-		return a.distanceTo(b);
+		return pointA.distanceTo(pointB);
 	}
-
+	
 	@API
 	public double getLengthSquared()
 	{
-		return a.distanceToSquared(b);
+		return pointA.distanceToSquared(pointB);
 	}
-
+	
 	@API
 	public boolean containsPoint(Vector3D point)
 	{
 		if(!toLine().containsPoint(point))
 			return false;
-
-		double delta = Math.abs((point.distanceTo(a)+point.distanceTo(b))-getLength());
+		double delta = Math.abs((point.distanceTo(pointA)+point.distanceTo(pointB))-getLength());
 		return delta<Line3D.THRESHOLD;
 	}
-
-
+	
+	
 	// DISTANCE
 	@API
 	public double getDistanceTo(Vector3D point)
 	{
 		// http://geomalgorithms.com/a02-_lines.html
-
-		Vector3D v = b.subtract(a);
-		Vector3D w = point.subtract(a);
-
+		
+		var v = pointB.deriveSubtract(pointA);
+		var w = point.deriveSubtract(pointA);
 		double wvProduct = w.dotProduct(v);
 		double vvProduct = v.dotProduct(v);
 		if(wvProduct<=0)
-			return point.distanceTo(a);
+			return point.distanceTo(pointA);
 		if(v.dotProduct(v)<=wvProduct)
-			return point.distanceTo(b);
-
+			return point.distanceTo(pointB);
 		double productQuot = wvProduct/vvProduct;
-		Vector3D pointOnSegment = a.add(v.multiply(productQuot));
-
-		return point.distanceTo(pointOnSegment);
+		var pointOnSegment = pointA.deriveAdd(v.deriveMultiply(productQuot));
+		double distance = point.distanceTo(pointOnSegment);
+		
+		return distance;
 	}
-
+	
 	@API
 	public double getDistanceTo(LineSegment3D other)
 	{
-		LineSegment3D shortestConnection = toLine().getShortestConnection(other.toLine());
-		boolean aOnSegment = containsPoint(shortestConnection.a);
-		boolean bOnSegment = other.containsPoint(shortestConnection.b);
-
+		var shortestConnection = toLine().getShortestConnection(other.toLine());
+		boolean aOnSegment = containsPoint(shortestConnection.pointA);
+		boolean bOnSegment = other.containsPoint(shortestConnection.pointB);
+		
 		// if(aOnLine && bOnLine) else
 		if(aOnSegment && !bOnSegment)
 		{
-			Vector3D newB = other.a;
-			if(shortestConnection.a.distanceToSquared(other.b)<shortestConnection.a.distanceToSquared(newB))
-				newB = other.b;
-
-			shortestConnection = new LineSegment3D(shortestConnection.a, newB);
+			var newB = other.pointA;
+			if(shortestConnection.pointA.distanceToSquared(other.pointB)<shortestConnection.pointA.distanceToSquared(newB))
+				newB = other.pointB;
+			shortestConnection = new LineSegment3D(shortestConnection.pointA, newB);
 		}
 		else if(!aOnSegment && bOnSegment)
 		{
-			Vector3D newA = a;
-			if(shortestConnection.b.distanceToSquared(b)<shortestConnection.b.distanceToSquared(newA))
-				newA = b;
-
-			shortestConnection = new LineSegment3D(newA, shortestConnection.b);
+			var newA = pointA;
+			if(shortestConnection.pointB.distanceToSquared(pointB)<shortestConnection.pointB.distanceToSquared(newA))
+				newA = pointB;
+			shortestConnection = new LineSegment3D(newA, shortestConnection.pointB);
 		}
 		else if(!aOnSegment) // && !bOnSegment
 		{
-			LineSegment3D newShortestConnection = new LineSegment3D(a, other.a);
-			double shortestDistanceSquared = a.distanceToSquared(other.a);
-
-			if(a.distanceToSquared(other.b)<shortestDistanceSquared)
+			var newShortestConnection = new LineSegment3D(pointA, other.pointA);
+			double shortestDistanceSquared = pointA.distanceToSquared(other.pointA);
+			
+			if(pointA.distanceToSquared(other.pointB)<shortestDistanceSquared)
 			{
-				shortestDistanceSquared = a.distanceToSquared(other.b);
-				newShortestConnection = new LineSegment3D(a, other.b);
+				shortestDistanceSquared = pointA.distanceToSquared(other.pointB);
+				newShortestConnection = new LineSegment3D(pointA, other.pointB);
 			}
-			if(b.distanceToSquared(other.a)<shortestDistanceSquared)
+			if(pointB.distanceToSquared(other.pointA)<shortestDistanceSquared)
 			{
-				shortestDistanceSquared = b.distanceToSquared(other.a);
-				newShortestConnection = new LineSegment3D(b, other.a);
+				shortestDistanceSquared = pointB.distanceToSquared(other.pointA);
+				newShortestConnection = new LineSegment3D(pointB, other.pointA);
 			}
-			if(b.distanceToSquared(other.b)<shortestDistanceSquared)
-				newShortestConnection = new LineSegment3D(b, other.b);
-
+			if(pointB.distanceToSquared(other.pointB)<shortestDistanceSquared)
+				newShortestConnection = new LineSegment3D(pointB, other.pointB);
+			
 			shortestConnection = newShortestConnection;
 		}
-
+		
 		return shortestConnection.getLength();
 	}
-
+	
 }

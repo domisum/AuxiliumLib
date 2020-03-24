@@ -235,7 +235,7 @@ public abstract class Ticker
 					"Ticker {} timed out (after {}). Current stacktrace:\n{}",
 					name,
 					DurationDisplay.of(timeout),
-					ThreadUtil.getThreadToString(tickThread)
+					ThreadUtil.convertThreadToString(tickThread)
 			);
 			
 			boolean restart = status == TickingStatus.RUNNING;

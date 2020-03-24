@@ -40,6 +40,7 @@ public class IntervalTaskTicker
 		tasks.add(intervalTask);
 	}
 	
+	@API
 	@Override
 	public synchronized void start()
 	{

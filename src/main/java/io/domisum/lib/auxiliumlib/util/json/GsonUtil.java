@@ -19,7 +19,11 @@ public final class GsonUtil
 	public static synchronized Gson get()
 	{
 		if(gson == null)
-			gson = new GsonBuilder().enableComplexMapKeySerialization().setPrettyPrinting().serializeNulls().create();
+			gson = new GsonBuilder()
+					.enableComplexMapKeySerialization()
+					.setPrettyPrinting()
+					.serializeNulls()
+					.create();
 		
 		return gson;
 	}

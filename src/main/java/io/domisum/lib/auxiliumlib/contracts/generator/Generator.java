@@ -6,6 +6,7 @@ import io.domisum.lib.auxiliumlib.annotations.API;
 public interface Generator<I, O>
 {
 	
+	@API
 	O generate(I input);
 	
 }

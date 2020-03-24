@@ -8,6 +8,7 @@ import java.time.Duration;
 import java.time.Instant;
 import java.time.temporal.Temporal;
 
+@API
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class DurationUtil
 {

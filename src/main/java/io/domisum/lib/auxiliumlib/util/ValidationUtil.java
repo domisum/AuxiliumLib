@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 
 import java.time.Duration;
 
+@API
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public final class ValidationUtil
 {
@@ -64,35 +65,39 @@ public final class ValidationUtil
 		inInterval(start, false, end, true, value, variableName);
 	}
 	
-	private static void inInterval(
-			double start, boolean startInclusive, double end, boolean endInclusive, double value, String variableName)
+	@API
+	public static void inIntervalExclExcl(double start, double end, double value, String variableName)
+	{
+		inInterval(start, false, end, false, value, variableName);
+	}
+	
+	private static void inInterval(double start, boolean startInclusive, double end, boolean endInclusive, double value, String variableName)
 	{
 		if(end<start)
 			throw new IllegalArgumentException("start and end are the wrong way around");
 		
 		if((value<start) || (value>end))
-			throw new IllegalArgumentException(
-					variableName+" has to be in interval "+displayInterval(start, startInclusive, end, endInclusive)+", but was "
-							+value);
+			throw new IllegalArgumentException(variableName+" has to be in interval "+
+					displayInterval(start, startInclusive, end, endInclusive)+", but was "+value);
 		
 		if((value == start) && !startInclusive)
-			throw new IllegalArgumentException(
-					variableName+" has to be in interval "+displayInterval(start, startInclusive, end, endInclusive)+", but was "
-							+value+" (is equal to start and therefore excluded)");
+			throw new IllegalArgumentException(variableName+" has to be in interval "+
+					displayInterval(start, startInclusive, end, endInclusive)+", but was "+value+" (is equal to start and therefore excluded)");
 		
 		if((value == end) && !endInclusive)
-			throw new IllegalArgumentException(
-					variableName+" has to be in interval "+displayInterval(start, startInclusive, end, endInclusive)+", but was "
-							+value+" (is equal to end and therefore excluded)");
+			throw new IllegalArgumentException(variableName+" has to be in interval "+
+					displayInterval(start, startInclusive, end, endInclusive)+", but was "+value+" (is equal to end and therefore excluded)");
 	}
 	
 	private static String displayInterval(double start, boolean startInclusive, double end, boolean endInclusive)
 	{
-		return (startInclusive ?
+		String startBracket = startInclusive ?
 				"[" :
-				"]")+start+", "+end+(endInclusive ?
+				"]";
+		String endBracket = endInclusive ?
 				"]" :
-				"[");
+				"[";
+		return startBracket+start+" to "+end+endBracket;
 	}
 	
 }

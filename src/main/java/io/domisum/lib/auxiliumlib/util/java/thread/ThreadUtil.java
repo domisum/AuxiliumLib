@@ -10,17 +10,12 @@ import org.slf4j.LoggerFactory;
 
 import java.time.Duration;
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map.Entry;
-import java.util.Set;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class ThreadUtil
 {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger("threadUtil");
-	private static boolean threadDumped = false;
 	
 	
 	// TIMING
@@ -45,6 +40,8 @@ public final class ThreadUtil
 		}
 	}
 	
+	
+	// SYNCHRONIZATION
 	@API
 	public static boolean join(Thread thread)
 	{
@@ -57,36 +54,6 @@ public final class ThreadUtil
 		{
 			Thread.currentThread().interrupt();
 			return false;
-		}
-	}
-	
-	
-	// SYNCHRONIZATION
-	@API
-	public static boolean wait(Object object)
-	{
-		try
-		{
-			//noinspection SynchronizationOnLocalVariableOrMethodParameter
-			synchronized(object)
-			{
-				object.wait();
-			}
-			return true;
-		}
-		catch(InterruptedException ignored)
-		{
-			return false;
-		}
-	}
-	
-	@API
-	public static void notifyAll(Object object)
-	{
-		//noinspection SynchronizationOnLocalVariableOrMethodParameter
-		synchronized(object)
-		{
-			object.notifyAll();
 		}
 	}
 	
@@ -106,7 +73,7 @@ public final class ThreadUtil
 	
 	private static Thread createThread(Runnable runnable, String threadName, boolean daemon)
 	{
-		Thread thread = new Thread(runnable);
+		var thread = new Thread(runnable);
 		thread.setName(threadName);
 		thread.setDaemon(daemon);
 		logUncaughtExceptions(thread);
@@ -136,21 +103,9 @@ public final class ThreadUtil
 	}
 	
 	
+	// KILL THREAD
 	@API
-	public static Thread runDelayed(Runnable run, long ms)
-	{
-		Runnable delayed = ()->
-		{
-			sleep(ms);
-			run.run();
-		};
-		
-		return createAndStartThread(delayed, "delayedTask");
-	}
-	
-	
 	@SuppressWarnings({"deprecation", "ErrorNotRethrown"})
-	@API
 	public static void tryKill(Thread thread)
 	{
 		try
@@ -165,12 +120,6 @@ public final class ThreadUtil
 	
 	
 	// SHUTDOWN
-	@API
-	public static void registerShutdownHook(Runnable shutdownHook)
-	{
-		registerShutdownHook(shutdownHook, "shutdownHook");
-	}
-	
 	@API
 	public static void registerShutdownHook(Runnable shutdownHook, String shutdownHookName)
 	{
@@ -203,42 +152,16 @@ public final class ThreadUtil
 				return;
 			
 			LOGGER.error("uncaught exception in thread {}", t, e);
-			
-			if(e instanceof OutOfMemoryError)
-			{
-				if(!threadDumped)
-					dumpAllThreads();
-				System.exit(-1);
-			}
 		});
 	}
 	
 	
 	// DEBUGGING
 	@API
-	public static String getAllThreadsDump()
+	public static String convertThreadToString(Thread thread)
 	{
-		StringBuilder threadDump = new StringBuilder();
-		Set<Long> dumpedThreadsIds = new HashSet<>();
-		
-		for(Entry<Thread,StackTraceElement[]> threadEntry : Thread.getAllStackTraces().entrySet())
-		{
-			Thread thread = threadEntry.getKey();
-			if(dumpedThreadsIds.contains(thread.getId()))
-				continue;
-			
-			threadDump.append(getThreadToString(thread)).append("\n");
-			dumpedThreadsIds.add(thread.getId());
-		}
-		
-		return threadDump.toString();
-	}
-	
-	@API
-	public static String getThreadToString(Thread thread)
-	{
-		StringBuilder threadStackTrace = new StringBuilder();
-		threadStackTrace
+		var threadToString = new StringBuilder();
+		threadToString
 				.append(thread)
 				.append(", id: ")
 				.append(thread.getId())
@@ -246,20 +169,16 @@ public final class ThreadUtil
 				.append(thread.isDaemon())
 				.append("\n");
 		
-		List<String> lines = new ArrayList<>();
-		for(StackTraceElement stackTraceElement : thread.getStackTrace())
-			lines.add("    "+stackTraceElement.toString());
-		threadStackTrace.append(StringUtil.listToString(lines, "\n"));
-		if(lines.isEmpty())
-			threadStackTrace.append("(no stack trace)");
+		var stackTraceLines = new ArrayList<String>();
+		for(var stackTraceElement : thread.getStackTrace())
+			stackTraceLines.add("    "+stackTraceElement.toString());
 		
-		return threadStackTrace.toString();
-	}
-	
-	@API
-	public static void dumpAllThreads()
-	{
-		LOGGER.info("Global thread dump:\n{}", getAllThreadsDump());
+		if(stackTraceLines.isEmpty())
+			threadToString.append("(no stack trace)");
+		else
+			threadToString.append(StringUtil.listToString(stackTraceLines, "\n"));
+		
+		return threadToString.toString();
 	}
 	
 }

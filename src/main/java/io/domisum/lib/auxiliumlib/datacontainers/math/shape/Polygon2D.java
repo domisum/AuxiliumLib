@@ -17,7 +17,7 @@ public class Polygon2D
 		implements GeometricShape2D
 {
 	
-	// data
+	// ATTRIBUTES
 	@Getter
 	private final List<Vector2D> points;
 	
@@ -26,8 +26,7 @@ public class Polygon2D
 	private List<PolygonCorner> corners;
 	private DoubleBounds2D boundingBox;
 	private Vector2D pointCenter;
-	
-	private Boolean clockwise; // using Boolean so it can be null before it has been determined
+	private Boolean clockwise;
 	
 	
 	// INIT
@@ -36,10 +35,10 @@ public class Polygon2D
 	{
 		if(points.size()<=2)
 			throw new IllegalArgumentException("A polygon has to have at least 3 points");
-		
 		this.points = Collections.unmodifiableList(points);
 	}
 	
+	@API
 	public Polygon2D(Vector2D... points)
 	{
 		this(Arrays.asList(points));
@@ -84,10 +83,10 @@ public class Polygon2D
 			corners = new ArrayList<>();
 			
 			// start with last linesegment
-			LineSegment2D before = getLines().get(getLines().size()-1);
-			for(LineSegment2D ls : getLines())
+			var before = getLines().get(getLines().size()-1);
+			for(var lineSegment2D : getLines())
 			{
-				double angleDeg = before.getDirection().getAngleToDeg(ls.getDirection());
+				double angleDeg = before.getDirection().getAngleToDeg(lineSegment2D.getDirection());
 				
 				boolean convex = (angleDeg<0)^isClockwise();
 				var orientation = convex ?
@@ -95,7 +94,7 @@ public class Polygon2D
 						PolygonCornerOrientation.CONCAVE;
 				corners.add(new PolygonCorner(angleDeg, orientation));
 				
-				before = ls;
+				before = lineSegment2D;
 			}
 			
 			corners = Collections.unmodifiableList(corners);
@@ -139,8 +138,8 @@ public class Polygon2D
 		{
 			var pointSum = new Vector2D();
 			for(var point : points)
-				pointSum = pointSum.add(point);
-			pointCenter = pointSum.divide(points.size());
+				pointSum = pointSum.deriveAdd(point);
+			pointCenter = pointSum.deriveDivide(points.size());
 		}
 		
 		return pointCenter;
@@ -148,8 +147,8 @@ public class Polygon2D
 	
 	
 	// CHECKS
-	@Override
 	@API
+	@Override
 	public boolean contains(Vector2D point)
 	{
 		var boundingBox = getBoundingBox();
@@ -213,7 +212,7 @@ public class Polygon2D
 		// https://stackoverflow.com/a/1165943/4755690
 		double sum = 0;
 		for(var lineSegment2D : getLines())
-			sum += (lineSegment2D.b.getX()-lineSegment2D.a.getX())*(lineSegment2D.a.getY()+lineSegment2D.b.getY());
+			sum += (lineSegment2D.getPointB().getX()-lineSegment2D.getPointA().getX())*(lineSegment2D.getPointA().getY()+lineSegment2D.getPointB().getY());
 		
 		clockwise = sum>0;
 		return clockwise;
@@ -269,7 +268,7 @@ public class Polygon2D
 	{
 		var movedPoints = new ArrayList<Vector2D>();
 		for(var point : points)
-			movedPoints.add(point.add(movement));
+			movedPoints.add(point.deriveAdd(movement));
 		return new Polygon2D(movedPoints);
 	}
 	
@@ -286,6 +285,7 @@ public class Polygon2D
 	public static class PolygonCorner
 	{
 		
+		// ATTRIBUTES
 		public final double angleDegAbs;
 		public final PolygonCornerOrientation orientation;
 		
@@ -301,8 +301,10 @@ public class Polygon2D
 	
 	public enum PolygonCornerOrientation
 	{
+		
 		CONCAVE,
 		CONVEX
+		
 	}
 	
 }

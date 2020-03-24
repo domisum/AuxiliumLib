@@ -5,31 +5,26 @@ import com.google.gson.JsonSyntaxException;
 import io.domisum.lib.auxiliumlib.annotations.API;
 import io.domisum.lib.auxiliumlib.util.json.GsonUtil;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 @API
 @RequiredArgsConstructor
 public class GsonSerializer<T>
 		implements JsonSerializer<T>
 {
-
-	private final Logger logger = LoggerFactory.getLogger(getClass());
-
-
+	
 	// ATTRIBUTES
 	private final Gson gson;
 	private final Class<T> clazz;
-
-
+	
+	
 	// INIT
 	@API
 	public GsonSerializer(Class<T> clazz)
 	{
 		this(GsonUtil.get(), clazz);
 	}
-
-
+	
+	
 	// SERIALIZER
 	@API
 	@Override
@@ -37,7 +32,7 @@ public class GsonSerializer<T>
 	{
 		return gson.toJson(object);
 	}
-
+	
 	@API
 	@Override
 	public T deserialize(String objectString)
@@ -48,9 +43,8 @@ public class GsonSerializer<T>
 		}
 		catch(JsonSyntaxException e)
 		{
-			logger.error("failed to deserialize {}", objectString, e);
-			throw e;
+			throw new JsonSyntaxException("failed to deserialize:\n"+objectString, e);
 		}
 	}
-
+	
 }

@@ -11,33 +11,33 @@ import java.time.Duration;
 import java.util.Set;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public final class TickerWatchdog
+final class TickerWatchdog
 {
-
+	
 	// CONSTANTS
 	private static final Duration INTERVAL = Duration.ofSeconds(1);
-
+	
 	// STATUS
 	private static final Set<Ticking> watchedTickings = Sets.newConcurrentHashSet();
 	private static Thread thread = null;
-
-
+	
+	
 	// CONTROL
-	public static void watch(Ticking ticking)
+	static void watch(Ticking ticking)
 	{
 		watchedTickings.add(ticking);
 		ensureThreadRunning();
 	}
-
+	
 	private static void ensureThreadRunning()
 	{
 		if(thread != null)
 			return;
-
+		
 		thread = ThreadUtil.createAndStartDaemonThread(TickerWatchdog::run, "ticker-watchdog");
 	}
-
-
+	
+	
 	private static void run()
 	{
 		while(!Thread.currentThread().isInterrupted())
@@ -46,13 +46,13 @@ public final class TickerWatchdog
 			ThreadUtil.sleep(INTERVAL);
 		}
 	}
-
+	
 	private static void tick()
 	{
 		watchedTickings.removeIf(t->t.getStatus() == TickingStatus.DEAD);
-
+		
 		for(var ticking : watchedTickings)
 			ticking.watchdogTick();
 	}
-
+	
 }

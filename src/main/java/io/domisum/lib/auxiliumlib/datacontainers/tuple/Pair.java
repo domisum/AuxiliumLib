@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 
+@API
 @RequiredArgsConstructor
 @EqualsAndHashCode
 @ToString

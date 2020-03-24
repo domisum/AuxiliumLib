@@ -1,7 +1,6 @@
 package io.domisum.lib.auxiliumlib.util.java;
 
 import com.google.common.reflect.ClassPath;
-import com.google.common.reflect.ClassPath.ClassInfo;
 import io.domisum.lib.auxiliumlib.annotations.API;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -9,16 +8,14 @@ import lombok.NoArgsConstructor;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 @API
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class ClassUtil
 {
-
+	
 	// CLASS
 	@API
 	public static Optional<Class<?>> getClass(String path)
@@ -32,24 +29,20 @@ public final class ClassUtil
 			return Optional.empty();
 		}
 	}
-
+	
 	@API
+	@SuppressWarnings("UnstableApiUsage")
 	public static List<Class<?>> getClasses(String path)
 	{
 		try
 		{
-			ClassPath classPath = ClassPath.from(ClassUtil.class.getClassLoader());
-			Set<ClassInfo> classInfo = classPath.getTopLevelClassesRecursive(path);
-			Iterator<ClassInfo> iterator = classInfo.iterator();
-
-			List<Class<?>> classes = new ArrayList<>();
-			while(iterator.hasNext())
-			{
-				ClassInfo ci = iterator.next();
-				Optional<Class<?>> classOptional = getClass(ci.getName());
-				classOptional.ifPresent(classes::add);
-			}
-
+			var classPath = ClassPath.from(ClassUtil.class.getClassLoader());
+			var classInfos = classPath.getTopLevelClassesRecursive(path);
+			
+			var classes = new ArrayList<Class<?>>();
+			for(var classInfo : classInfos)
+				getClass(classInfo.getName()).ifPresent(classes::add);
+			
 			return classes;
 		}
 		catch(IOException e)
@@ -57,5 +50,5 @@ public final class ClassUtil
 			throw new UncheckedIOException(e);
 		}
 	}
-
+	
 }

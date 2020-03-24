@@ -10,29 +10,23 @@ import org.apache.commons.lang3.Validate;
 public final class IntBounds2D
 {
 	
-	@API
 	@Getter
-	public final int minX;
-	@API
+	private final int minX;
 	@Getter
-	public final int maxX;
-	@API
+	private final int maxX;
 	@Getter
-	public final int minY;
-	@API
+	private final int minY;
 	@Getter
-	public final int maxY;
+	private final int maxY;
 	
 	
 	// INIT
-	@SuppressWarnings("MethodWithTooManyParameters")
 	@API
 	public static IntBounds2D fromBounds(int x1, int x2, int y1, int y2)
 	{
 		return new IntBounds2D(x1, x2, y1, y2);
 	}
 	
-	@SuppressWarnings("MethodWithTooManyParameters")
 	@API
 	public static IntBounds2D fromPosAndSize(int x, int y, int width, int height)
 	{

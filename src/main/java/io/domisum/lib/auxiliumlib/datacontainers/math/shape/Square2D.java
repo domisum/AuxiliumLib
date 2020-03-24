@@ -5,25 +5,22 @@ import io.domisum.lib.auxiliumlib.datacontainers.math.Vector2D;
 import lombok.Getter;
 import lombok.ToString;
 
+@API
 @ToString
 public class Square2D
 		implements GeometricShape2D
 {
-
-	@API
+	
 	@Getter
 	private final double minX;
-	@API
 	@Getter
 	private final double maxX;
-	@API
 	@Getter
 	private final double minY;
-	@API
 	@Getter
 	private final double maxY;
-
-
+	
+	
 	// INIT
 	@API
 	public Square2D(double x1, double x2, double y1, double y2)
@@ -33,20 +30,20 @@ public class Square2D
 		minY = Math.min(y1, y2);
 		maxY = Math.max(y1, y2);
 	}
-
-
+	
+	
 	// SHAPE
-	@Override
 	@API
+	@Override
 	public boolean contains(Vector2D point)
 	{
 		if((point.getX()<minX) || (point.getX()>maxX))
 			return false;
-
+		
 		if((point.getY()<minY) || (point.getY()>maxY))
 			return false;
-
+		
 		return true;
 	}
-
+	
 }

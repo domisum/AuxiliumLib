@@ -81,11 +81,7 @@ public final class RomanNumeral
 				throw new IllegalArgumentException("invalid characters in roman numeral: "+roman);
 			
 			if(previousToken != null && romanToken.getValue()>previousToken.getValue())
-				throw new IllegalArgumentException(PHR.r("invalid order of tokens: {} ({} before {})",
-						roman,
-						previousToken,
-						romanToken
-				));
+				throw new IllegalArgumentException(PHR.r("invalid order of tokens: {} ({} before {})", roman, previousToken, romanToken));
 			
 			value += romanToken.getValue();
 			remaining = remaining.substring(romanToken.name().length());
@@ -95,10 +91,7 @@ public final class RomanNumeral
 			previousToken = romanToken;
 			previousTokenCount++;
 			if(previousTokenCount>previousToken.getMaxRepeatNumber())
-				throw new IllegalArgumentException(PHR.r("token {} repeated too often (max repeats: {})",
-						previousToken,
-						previousToken.getMaxRepeatNumber()
-				));
+				throw new IllegalArgumentException(PHR.r("token {} repeated too often (max repeats: {})", previousToken, previousToken.getMaxRepeatNumber()));
 		}
 		
 		return value;
