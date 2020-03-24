@@ -2,12 +2,14 @@ package io.domisum.lib.auxiliumlib.display;
 
 import io.domisum.lib.auxiliumlib.annotations.API;
 import io.domisum.lib.auxiliumlib.util.math.MathUtil;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 import java.util.Objects;
 
 @API
+@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public final class DoubleDisplay implements CharSequence
 {
 
@@ -18,7 +20,7 @@ public final class DoubleDisplay implements CharSequence
 	// ATTRIBUTES
 	@Getter
 	private final Double number;
-	private final String display;
+	private String display; // lazy init for possible performance boost when used extremely often
 
 
 	// INIT
@@ -47,14 +49,13 @@ public final class DoubleDisplay implements CharSequence
 	}
 
 
-	private DoubleDisplay(Double number)
+	// DISPLAY GENERATION
+	private synchronized void ensureDisplayGenerated()
 	{
-		this.number = number;
-		display = generateDisplay(number);
+		if(display == null)
+			display = generateDisplay(number);
 	}
 
-
-	// DISPLAY GENERATION
 	private static String generateDisplay(Double number)
 	{
 		if(number == null)
@@ -91,33 +92,7 @@ public final class DoubleDisplay implements CharSequence
 	}
 
 
-	// CHAR SEQUENCE
-	@Override
-	public int length()
-	{
-		return display.length();
-	}
-
-	@Override
-	public char charAt(int i)
-	{
-		return display.charAt(i);
-	}
-
-	@Override
-	public CharSequence subSequence(int beginIndex, int endIndex)
-	{
-		return display.subSequence(beginIndex, endIndex);
-	}
-
-	@Override
-	public String toString()
-	{
-		return display;
-	}
-
-
-	// UNIT
+	// SIPREFIX
 	@RequiredArgsConstructor
 	private enum SiPrefix
 	{
@@ -161,6 +136,36 @@ public final class DoubleDisplay implements CharSequence
 			return values()[0]; // because they are ordered
 		}
 
+	}
+
+
+	// CHAR SEQUENCE
+	@Override
+	public int length()
+	{
+		ensureDisplayGenerated();
+		return display.length();
+	}
+
+	@Override
+	public char charAt(int i)
+	{
+		ensureDisplayGenerated();
+		return display.charAt(i);
+	}
+
+	@Override
+	public CharSequence subSequence(int beginIndex, int endIndex)
+	{
+		ensureDisplayGenerated();
+		return display.subSequence(beginIndex, endIndex);
+	}
+
+	@Override
+	public String toString()
+	{
+		ensureDisplayGenerated();
+		return display;
 	}
 
 }

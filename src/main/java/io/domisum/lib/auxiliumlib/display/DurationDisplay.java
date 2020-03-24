@@ -1,23 +1,23 @@
 package io.domisum.lib.auxiliumlib.display;
 
-import io.domisum.lib.auxiliumlib.util.StringUtil;
 import io.domisum.lib.auxiliumlib.annotations.API;
+import io.domisum.lib.auxiliumlib.util.StringUtil;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
-import javax.annotation.Nonnull;
 import java.time.Duration;
 import java.util.ArrayList;
-import java.util.List;
 
 @API
+@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public final class DurationDisplay implements CharSequence
 {
 
 	// ATTRIBUTES
 	@Getter
 	private final Duration duration;
-	private final String display;
+	private String display; // lazy init for possible performance boost when used extremely often
 
 
 	// INIT
@@ -33,14 +33,14 @@ public final class DurationDisplay implements CharSequence
 		return new DurationDisplay(duration);
 	}
 
-	private DurationDisplay(Duration duration)
-	{
-		this.duration = duration;
-		display = generateDisplay(duration);
-	}
-
 
 	// DISPLAY GENERATION
+	private synchronized void ensureDisplayGenerated()
+	{
+		if(display == null)
+			display = generateDisplay(duration);
+	}
+
 	private static String generateDisplay(Duration duration)
 	{
 		if(duration == null)
@@ -52,24 +52,23 @@ public final class DurationDisplay implements CharSequence
 		if(duration.isZero())
 			return "0";
 
-		Duration durationRemaining = duration;
-		List<String> displayComponents = new ArrayList<>();
-		for(TemporalUnit unit : TemporalUnit.values())
+		var durationRemaining = duration;
+		var displayComponents = new ArrayList<String>();
+		for(var temporalUnit : TemporalUnit.values())
 		{
-
 			if(displayComponents.size() >= 2)
 				break;
 
-			if(isUnitTooBigForDuration(durationRemaining, unit) && displayComponents.isEmpty())
+			if(isUnitTooBigForDuration(durationRemaining, temporalUnit) && displayComponents.isEmpty())
 				continue;
 
-			double ofUnitDecimal = howManyTimesFitsInside(durationRemaining, unit.getDuration());
+			double ofUnitDecimal = howManyTimesFitsInside(durationRemaining, temporalUnit.getDuration());
 			long ofUnit = (long) Math.floor(ofUnitDecimal);
 
-			String unitComponent = ofUnit+unit.getShortName();
+			String unitComponent = ofUnit+temporalUnit.getShortName();
 			displayComponents.add(unitComponent);
 
-			Duration ofUnitDuration = unit.getDuration().multipliedBy(ofUnit);
+			var ofUnitDuration = temporalUnit.getDuration().multipliedBy(ofUnit);
 			durationRemaining = durationRemaining.minus(ofUnitDuration);
 		}
 
@@ -78,7 +77,7 @@ public final class DurationDisplay implements CharSequence
 
 	private static boolean isUnitTooBigForDuration(Duration durationRemaining, TemporalUnit unit)
 	{
-		return lessThan(durationRemaining, unit.getDuration());
+		return isLessThan(durationRemaining, unit.getDuration());
 	}
 
 
@@ -87,7 +86,7 @@ public final class DurationDisplay implements CharSequence
 		return base.toNanos()/(double) part.toNanos();
 	}
 
-	private static boolean lessThan(Duration a, Duration b)
+	private static boolean isLessThan(Duration a, Duration b)
 	{
 		return a.compareTo(b) < 0;
 	}
@@ -106,6 +105,7 @@ public final class DurationDisplay implements CharSequence
 		MICROSECOND(Duration.ofNanos(1000), "us"),
 		NANOSECOND(Duration.ofNanos(1), "ns");
 
+
 		@Getter
 		private final Duration duration;
 		@Getter
@@ -118,25 +118,28 @@ public final class DurationDisplay implements CharSequence
 	@Override
 	public int length()
 	{
+		ensureDisplayGenerated();
 		return display.length();
 	}
 
 	@Override
 	public char charAt(int i)
 	{
+		ensureDisplayGenerated();
 		return display.charAt(i);
 	}
 
 	@Override
 	public CharSequence subSequence(int beginIndex, int endIndex)
 	{
+		ensureDisplayGenerated();
 		return display.subSequence(beginIndex, endIndex);
 	}
 
-	@Nonnull
 	@Override
 	public String toString()
 	{
+		ensureDisplayGenerated();
 		return display;
 	}
 

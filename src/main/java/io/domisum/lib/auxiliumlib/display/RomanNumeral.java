@@ -9,7 +9,7 @@ import lombok.RequiredArgsConstructor;
 
 @API
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
-public final class RomanNumeral
+public final class RomanNumeral implements CharSequence
 {
 
 	// CONSTANTS
@@ -18,23 +18,21 @@ public final class RomanNumeral
 	// ATTRIBUTES
 	@Getter
 	private final int number;
-	private final String roman;
+	private String roman; // lazy init for possible performance boost
 
 
 	// INIT
 	public static RomanNumeral of(int number)
 	{
 		validateNumberInRange(number);
-
-		return new RomanNumeral(number, romanOf(number));
+		return new RomanNumeral(number);
 	}
 
 	public static RomanNumeral of(String numeral)
 	{
 		int number = parse(numeral.toUpperCase());
 		validateNumberInRange(number);
-
-		return new RomanNumeral(number, romanOf(number));
+		return new RomanNumeral(number);
 	}
 
 	private static void validateNumberInRange(int number)
@@ -45,17 +43,23 @@ public final class RomanNumeral
 
 
 	// CONVERSION
+	private synchronized void ensureRomanGenerated()
+	{
+		if(roman == null)
+			roman = romanOf(number);
+	}
+
 	private static String romanOf(int number)
 	{
 		int remaining = number;
-		StringBuilder roman = new StringBuilder();
+		var roman = new StringBuilder();
 
 		while(remaining > 0)
-			for(RomanToken rt : RomanToken.values())
-				if(remaining >= rt.value)
+			for(var romanToken : RomanToken.values())
+				if(remaining >= romanToken.value)
 				{
-					remaining -= rt.value;
-					roman.append(rt.name());
+					remaining -= romanToken.value;
+					roman.append(romanToken.name());
 					break;
 				}
 
@@ -67,10 +71,10 @@ public final class RomanNumeral
 		String remaining = roman;
 		int value = 0;
 
-		RomanToken lastToken = RomanToken.M;
+		var lastToken = RomanToken.M;
 		while(!remaining.isEmpty())
 		{
-			RomanToken romanToken = getHighestValueToken(remaining);
+			var romanToken = getHighestValueToken(remaining);
 			if(romanToken == null)
 				throw new IllegalArgumentException("invalid characters in roman numeral: "+roman);
 
@@ -91,7 +95,7 @@ public final class RomanNumeral
 
 	private static RomanToken getHighestValueToken(String remaining)
 	{
-		for(RomanToken romanToken : RomanToken.values())
+		for(var romanToken : RomanToken.values())
 			if(remaining.startsWith(romanToken.name()))
 				return romanToken;
 
@@ -99,14 +103,7 @@ public final class RomanNumeral
 	}
 
 
-	// OBJECT
-	@Override
-	public String toString()
-	{
-		return roman;
-	}
-
-
+	// ROMAN TOKEN
 	@RequiredArgsConstructor
 	private enum RomanToken
 	{
@@ -125,8 +122,39 @@ public final class RomanNumeral
 		IV(4),
 		I(1);
 
+
 		private final int value;
 
+	}
+
+
+	// CHAR SEQUENCE
+	@Override
+	public int length()
+	{
+		ensureRomanGenerated();
+		return roman.length();
+	}
+
+	@Override
+	public char charAt(int i)
+	{
+		ensureRomanGenerated();
+		return roman.charAt(i);
+	}
+
+	@Override
+	public CharSequence subSequence(int beginIndex, int endIndex)
+	{
+		ensureRomanGenerated();
+		return roman.subSequence(beginIndex, endIndex);
+	}
+
+	@Override
+	public String toString()
+	{
+		ensureRomanGenerated();
+		return roman;
 	}
 
 }
