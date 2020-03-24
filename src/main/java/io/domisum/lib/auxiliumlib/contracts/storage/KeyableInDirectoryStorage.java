@@ -1,10 +1,10 @@
 package io.domisum.lib.auxiliumlib.contracts.storage;
 
 import com.google.gson.JsonSyntaxException;
+import io.domisum.lib.auxiliumlib.annotations.API;
 import io.domisum.lib.auxiliumlib.contracts.Keyable;
 import io.domisum.lib.auxiliumlib.contracts.serialization.ToStringSerializer;
 import io.domisum.lib.auxiliumlib.util.file.FileUtil;
-import io.domisum.lib.auxiliumlib.annotations.API;
 import io.domisum.lib.auxiliumlib.util.file.FileUtil.FileType;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -18,18 +18,19 @@ import java.util.Optional;
 
 @API
 @RequiredArgsConstructor
-public class KeyableInDirectoryStorage<KeyT, T extends Keyable<KeyT>> implements Storage<KeyT, T>
+public class KeyableInDirectoryStorage<KeyT, T extends Keyable<KeyT>>
+		implements Storage<KeyT,T>
 {
-
+	
 	private final Logger logger = LoggerFactory.getLogger(getClass());
-
-
+	
+	
 	// SETTINGS
 	private final File directory;
 	private final String fileExtension;
 	private final ToStringSerializer<T> serializer;
-
-
+	
+	
 	// SOURCE
 	@Override
 	public Collection<T> fetchAll()
@@ -41,7 +42,7 @@ public class KeyableInDirectoryStorage<KeyT, T extends Keyable<KeyT>> implements
 				validFiles.add(file);
 		return readFromFiles(validFiles);
 	}
-
+	
 	private boolean isFileExtensionValid(File file)
 	{
 		String extension = FileUtil.getCompositeExtension(file);
@@ -50,7 +51,7 @@ public class KeyableInDirectoryStorage<KeyT, T extends Keyable<KeyT>> implements
 			logger.warn("Storage directory contains file with invalid extension ({}), skipping: {}", extension, file.getName());
 		return isValid;
 	}
-
+	
 	@API
 	protected Collection<T> readFromFiles(Collection<File> files)
 	{
@@ -59,15 +60,15 @@ public class KeyableInDirectoryStorage<KeyT, T extends Keyable<KeyT>> implements
 			items.add(readFromFile(file));
 		return items;
 	}
-
-
+	
+	
 	@Override
 	public boolean contains(KeyT key)
 	{
 		var file = getFileFor(key);
 		return isFileValid(file);
 	}
-
+	
 	@Override
 	public Optional<T> fetch(KeyT key)
 	{
@@ -76,8 +77,8 @@ public class KeyableInDirectoryStorage<KeyT, T extends Keyable<KeyT>> implements
 			return Optional.empty();
 		return Optional.of(readFromFile(file));
 	}
-
-
+	
+	
 	// STORAGE
 	@Override
 	public void store(T item)
@@ -86,7 +87,7 @@ public class KeyableInDirectoryStorage<KeyT, T extends Keyable<KeyT>> implements
 		var file = getFileFor(item.getKey());
 		FileUtil.writeString(file, serialized);
 	}
-
+	
 	@Override
 	public void remove(KeyT key)
 	{
@@ -95,8 +96,8 @@ public class KeyableInDirectoryStorage<KeyT, T extends Keyable<KeyT>> implements
 			return;
 		FileUtil.deleteFile(file);
 	}
-
-
+	
+	
 	// FILE
 	@API
 	protected T readFromFile(File file)
@@ -107,7 +108,7 @@ public class KeyableInDirectoryStorage<KeyT, T extends Keyable<KeyT>> implements
 			throw new IllegalStateException("deserializer returned null for content of file: "+file);
 		return deserialized;
 	}
-
+	
 	private T deserialize(File file, String toDeserialize)
 	{
 		try
@@ -121,17 +122,17 @@ public class KeyableInDirectoryStorage<KeyT, T extends Keyable<KeyT>> implements
 			throw new JsonSyntaxException("Failed to deserialize content of file "+file, e);
 		}
 	}
-
-
+	
+	
 	private boolean isFileValid(File file)
 	{
 		return file.exists() && file.isFile();
 	}
-
+	
 	private File getFileFor(KeyT key)
 	{
 		String fileName = key.toString()+fileExtension;
 		return new File(directory, fileName);
 	}
-
+	
 }

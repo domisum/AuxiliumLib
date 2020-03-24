@@ -3,7 +3,8 @@ package io.domisum.lib.auxiliumlib.exceptions;
 import io.domisum.lib.auxiliumlib.annotations.API;
 
 @API
-public class NotApplicableException extends RuntimeException
+public class NotApplicableException
+		extends RuntimeException
 {
 
 	// INIT

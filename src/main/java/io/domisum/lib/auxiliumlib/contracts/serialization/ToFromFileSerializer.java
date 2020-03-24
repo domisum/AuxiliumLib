@@ -9,8 +9,10 @@ import java.io.IOException;
 public interface ToFromFileSerializer<T>
 {
 
-	File serializeToFile(T object) throws IOException;
+	File serializeToFile(T object)
+			throws IOException;
 
-	T deserializeFromFile(File file) throws IOException;
+	T deserializeFromFile(File file)
+			throws IOException;
 
 }

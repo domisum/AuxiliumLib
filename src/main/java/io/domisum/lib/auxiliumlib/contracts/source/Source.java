@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public interface Source<KeyT, T>
 {
-
+	
 	/**
 	 * Fetches the item associated with the given key.
 	 *
@@ -16,7 +16,7 @@ public interface Source<KeyT, T>
 	 */
 	@API
 	Optional<T> fetch(KeyT key);
-
+	
 	/**
 	 * Checks if this source contains a {@code T} with the key equal to the supplied key.
 	 *
@@ -28,11 +28,11 @@ public interface Source<KeyT, T>
 	{
 		return fetch(key).isPresent();
 	}
-
+	
 	@API
 	default T fetchOrError(KeyT key)
 	{
 		return fetch(key).orElseThrow(()->new NoSuchElementException("source does not contain element with key: "+key));
 	}
-
+	
 }

@@ -17,7 +17,7 @@ import org.apache.commons.lang3.Validate;
 @API
 public class Vector3D
 {
-
+	
 	@API
 	@Getter
 	public final double x;
@@ -27,8 +27,8 @@ public class Vector3D
 	@API
 	@Getter
 	public final double z;
-
-
+	
+	
 	// INIT
 	@API
 	public Vector3D(double x, double y, double z)
@@ -36,12 +36,12 @@ public class Vector3D
 		Validate.notNaN(x, "x can't be NaN");
 		Validate.notNaN(y, "y can't be NaN");
 		Validate.notNaN(z, "z can't be NaN");
-
+		
 		this.x = x;
 		this.y = y;
 		this.z = z;
 	}
-
+	
 	/**
 	 * Constructs a null-Vector3D, where, x, y and z are set to 0.
 	 */
@@ -50,10 +50,10 @@ public class Vector3D
 	{
 		this(0, 0, 0);
 	}
-
-
+	
+	
 	// OBJECT
-
+	
 	/**
 	 * Combines the coordinates of this object into a string.
 	 * <p>
@@ -66,10 +66,10 @@ public class Vector3D
 	{
 		return "Vector3D[x="+MathUtil.round(x, 3)+",y="+MathUtil.round(y, 3)+",z="+MathUtil.round(z, 3)+"]";
 	}
-
-
+	
+	
 	// SELF
-
+	
 	/**
 	 * Returns the length of the vector.
 	 *
@@ -80,7 +80,7 @@ public class Vector3D
 	{
 		return Math.sqrt(lengthSquared());
 	}
-
+	
 	/**
 	 * Returns the length of the vector squared.
 	 * <p>
@@ -94,7 +94,7 @@ public class Vector3D
 	{
 		return (x*x)+(y*y)+(z*z);
 	}
-
+	
 	/**
 	 * Returns the length of the vector, ignoring the y-component.
 	 *
@@ -105,7 +105,7 @@ public class Vector3D
 	{
 		return Math.sqrt(xzLengthSquared());
 	}
-
+	
 	/**
 	 * Returns the length of the vector, ignoring the y-component, squared.
 	 * <p>
@@ -119,7 +119,7 @@ public class Vector3D
 	{
 		return (x*x)+(z*z);
 	}
-
+	
 	/**
 	 * Returns a normalized copy of this vector, leaving the vector upon this method was called unchanged.
 	 *
@@ -131,10 +131,10 @@ public class Vector3D
 		double length = length();
 		if(length == 0)
 			throw new UnsupportedOperationException("can't normalize a vector of length 0");
-
+		
 		return new Vector3D(x/length, y/length, z/length);
 	}
-
+	
 	/**
 	 * Returns an inverted copy of this vector, this means every component is negated (multiplied by -1)
 	 *
@@ -145,7 +145,7 @@ public class Vector3D
 	{
 		return multiply(-1);
 	}
-
+	
 	/**
 	 * Returns a new vector that is orthogonal to this one.
 	 * <p>
@@ -157,12 +157,14 @@ public class Vector3D
 	@API
 	public Vector3D orthogonal()
 	{
-		Vector3D independent = ((x == 0) && (y == 0)) ? new Vector3D(1, 1, z) : new Vector3D(x, y, z+1);
+		Vector3D independent = ((x == 0) && (y == 0)) ?
+				new Vector3D(1, 1, z) :
+				new Vector3D(x, y, z+1);
 		return crossProduct(independent);
 	}
-
+	
 	// INTERACTION
-
+	
 	/**
 	 * Returns a new vector that adds the coordinates of this vector to the coordinates of the vector supplied
 	 * through the argument.
@@ -175,7 +177,7 @@ public class Vector3D
 	{
 		return new Vector3D(x+other.x, y+other.y, z+other.z);
 	}
-
+	
 	/**
 	 * Returns a new vector that adds the coordinates of this vector to
 	 * the coordinates supplied through the argument.
@@ -190,7 +192,7 @@ public class Vector3D
 	{
 		return new Vector3D(x+dX, y+dY, z+dZ);
 	}
-
+	
 	/**
 	 * Returns a new vector that subtracts the coordinates of the vector supplied
 	 * through the argument from the coordinates of this vector.
@@ -206,7 +208,7 @@ public class Vector3D
 	{
 		return add(other.invert());
 	}
-
+	
 	/**
 	 * Returns a new vector, which is a copy of this vector moved towards the vector
 	 * supplied through the argument by the distance supplied through the argument.
@@ -227,8 +229,8 @@ public class Vector3D
 		Vector3D dir = other.subtract(this).normalize();
 		return add(dir.multiply(distance));
 	}
-
-
+	
+	
 	/**
 	 * Returns a copy of this vector multiplied by a scalar value supplied through the argument.
 	 * <p>
@@ -242,7 +244,7 @@ public class Vector3D
 	{
 		return new Vector3D(x*factor, y*factor, z*factor);
 	}
-
+	
 	/**
 	 * Returns a copy of this vector divided by a scalar value supplied through the argument.
 	 * <p>
@@ -257,7 +259,7 @@ public class Vector3D
 	{
 		return multiply(1/divisor);
 	}
-
+	
 	/**
 	 * This method calculates the dot product of this vector and the vector supplied through the argument.
 	 * The dot product is also known as the scalar product.
@@ -270,7 +272,7 @@ public class Vector3D
 	{
 		return (x*other.x)+(y*other.y)+(z*other.z);
 	}
-
+	
 	/**
 	 * This method calculates the cross product of this vector and the vector supplied through the argument,
 	 * returning a new Vector3D.
@@ -285,10 +287,10 @@ public class Vector3D
 		double nX = (y*other.z)-(z*other.y);
 		double nY = (z*other.x)-(x*other.z);
 		double nZ = (x*other.y)-(y*other.x);
-
+		
 		return new Vector3D(nX, nY, nZ);
 	}
-
+	
 	/**
 	 * Calculates the distance from this vector to the vector supplied through the argument.
 	 *
@@ -300,7 +302,7 @@ public class Vector3D
 	{
 		return Math.sqrt(distanceToSquared(other));
 	}
-
+	
 	/**
 	 * Calculates the distance from this vector to the vector supplied through the argument, squared.
 	 * <p>
@@ -315,10 +317,10 @@ public class Vector3D
 	{
 		return subtract(other).lengthSquared();
 	}
-
-
+	
+	
 	// LINE
-
+	
 	/**
 	 * Creates a line through this point and the point from the argument.
 	 *
@@ -330,7 +332,7 @@ public class Vector3D
 	{
 		return new Line3D(this, other.subtract(this));
 	}
-
+	
 	/**
 	 * Creates a line segment which uses this point as one endpoint and
 	 * the point from the argument as the other endpoint.
@@ -343,10 +345,10 @@ public class Vector3D
 	{
 		return new LineSegment3D(this, other);
 	}
-
-
+	
+	
 	// QUATERNION
-
+	
 	/**
 	 * Creates a pure quaternion from this vector.
 	 * The quaterion will have set {@code w} to zero, the x-, y- and z-values will be copied from this vector.
@@ -358,7 +360,7 @@ public class Vector3D
 	{
 		return new Quaternion(0, x, y, z);
 	}
-
+	
 	/**
 	 * Returns a copy of this vector rotated by the quaternion from the argument.
 	 *
@@ -372,5 +374,5 @@ public class Vector3D
 		Quaternion resultQuaternion = rotation.conjugate().multiply(thisAsQuaternion).multiply(rotation);
 		return resultQuaternion.getVector();
 	}
-
+	
 }

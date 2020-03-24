@@ -1,7 +1,7 @@
 package io.domisum.lib.auxiliumlib.ticker;
 
-import io.domisum.lib.auxiliumlib.util.java.thread.ThreadUtil;
 import io.domisum.lib.auxiliumlib.annotations.API;
+import io.domisum.lib.auxiliumlib.util.java.thread.ThreadUtil;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.slf4j.Logger;
@@ -37,7 +37,9 @@ public final class MultiTickerStopperCompleter
 		var waitThreads = new HashSet<Thread>();
 		for(var ticker : tickers)
 		{
-			Runnable run = hard ? ticker::stopHard : ticker::stopSoft;
+			Runnable run = hard ?
+					ticker::stopHard :
+					ticker::stopSoft;
 			var thread = ThreadUtil.createAndStartThread(run, ticker.getName()+"-stop");
 			waitThreads.add(thread);
 		}

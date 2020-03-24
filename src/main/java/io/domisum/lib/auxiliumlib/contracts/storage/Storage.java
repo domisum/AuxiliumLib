@@ -1,7 +1,7 @@
 package io.domisum.lib.auxiliumlib.contracts.storage;
 
-import io.domisum.lib.auxiliumlib.contracts.source.FiniteSource;
 import io.domisum.lib.auxiliumlib.annotations.API;
+import io.domisum.lib.auxiliumlib.contracts.source.FiniteSource;
 
 /**
  * Interface describing the contract of a storage module. The purpose of the module is to store objects of the type
@@ -13,9 +13,10 @@ import io.domisum.lib.auxiliumlib.annotations.API;
  *
  * @param <T> the type of item to be stored
  */
-public interface Storage<KeyT, T> extends FiniteSource<KeyT, T>
+public interface Storage<KeyT, T>
+		extends FiniteSource<KeyT,T>
 {
-
+	
 	/**
 	 * Stores a {@code T} in this module in order to fetch it later on. If the storage module already contains
 	 * another item with the same key, the old item is discarded and the new item stored in its place.
@@ -24,7 +25,7 @@ public interface Storage<KeyT, T> extends FiniteSource<KeyT, T>
 	 */
 	@API
 	void store(T item);
-
+	
 	/**
 	 * Removes the item with the supplied key from the storage module.
 	 *
@@ -32,5 +33,5 @@ public interface Storage<KeyT, T> extends FiniteSource<KeyT, T>
 	 */
 	@API
 	void remove(KeyT key);
-
+	
 }

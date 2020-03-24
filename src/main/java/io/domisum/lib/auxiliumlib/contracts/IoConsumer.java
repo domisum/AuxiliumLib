@@ -6,8 +6,9 @@ import java.io.IOException;
 
 public interface IoConsumer<T>
 {
-
+	
 	@API
-	void accept(T input) throws IOException;
-
+	void accept(T input)
+			throws IOException;
+	
 }

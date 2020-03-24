@@ -4,13 +4,14 @@ import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import io.domisum.lib.auxiliumlib.annotations.API;
 import io.domisum.lib.auxiliumlib.util.json.GsonUtil;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.lang.reflect.Type;
-
 @API
-public class GsonSerializer<T> implements JsonSerializer<T>
+@RequiredArgsConstructor
+public class GsonSerializer<T>
+		implements JsonSerializer<T>
 {
 
 	private final Logger logger = LoggerFactory.getLogger(getClass());
@@ -18,21 +19,14 @@ public class GsonSerializer<T> implements JsonSerializer<T>
 
 	// ATTRIBUTES
 	private final Gson gson;
-	private final Type type;
+	private final Class<T> clazz;
 
 
 	// INIT
 	@API
-	public GsonSerializer(Type type)
+	public GsonSerializer(Class<T> clazz)
 	{
-		this(GsonUtil.get(), type);
-	}
-
-	@API
-	public GsonSerializer(Gson gson, Type type)
-	{
-		this.gson = gson;
-		this.type = type;
+		this(GsonUtil.get(), clazz);
 	}
 
 
@@ -50,7 +44,7 @@ public class GsonSerializer<T> implements JsonSerializer<T>
 	{
 		try
 		{
-			return gson.fromJson(objectString, type);
+			return gson.fromJson(objectString, clazz);
 		}
 		catch(JsonSyntaxException e)
 		{

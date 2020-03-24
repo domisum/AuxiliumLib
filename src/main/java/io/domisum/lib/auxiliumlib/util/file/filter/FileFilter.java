@@ -1,7 +1,7 @@
 package io.domisum.lib.auxiliumlib.util.file.filter;
 
-import io.domisum.lib.auxiliumlib.util.file.FileUtil;
 import io.domisum.lib.auxiliumlib.PHR;
+import io.domisum.lib.auxiliumlib.util.file.FileUtil;
 
 import java.io.File;
 

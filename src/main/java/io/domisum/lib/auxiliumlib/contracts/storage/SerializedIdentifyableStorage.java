@@ -16,31 +16,32 @@ import java.util.Objects;
 import java.util.Optional;
 
 @API
-public class SerializedIdentifyableStorage<T extends Identifyable> implements Storage<String, T>
+public class SerializedIdentifyableStorage<T extends Identifyable>
+		implements Storage<String,T>
 {
-
+	
 	private final Logger logger = LoggerFactory.getLogger(getClass());
-
-
+	
+	
 	// SETTINGS
 	private final File directory;
 	private final String fileExension; // without dot
 	private final ToStringSerializer<T> serializer;
-
-
+	
+	
 	// INIT
 	public SerializedIdentifyableStorage(
 			File directory, String fileExtension, ToStringSerializer<T> serializer)
 	{
 		if(fileExtension.startsWith("."))
 			fileExtension = fileExtension.substring(1);
-
+		
 		this.directory = directory;
 		fileExension = fileExtension;
 		this.serializer = serializer;
 	}
-
-
+	
+	
 	// SOURCE
 	@Override
 	public Optional<T> fetch(String id)
@@ -50,7 +51,7 @@ public class SerializedIdentifyableStorage<T extends Identifyable> implements St
 			return Optional.empty();
 		return loadFromFile(file);
 	}
-
+	
 	@Override
 	public Collection<T> fetchAll()
 	{
@@ -60,27 +61,27 @@ public class SerializedIdentifyableStorage<T extends Identifyable> implements St
 			loadFromFile(file).ifPresent(storageItems::add);
 		return storageItems;
 	}
-
-
+	
+	
 	@Override
 	public boolean contains(String id)
 	{
 		throw new UnsupportedOperationException();
 	}
-
+	
 	@Override
 	public void store(T item)
 	{
 		throw new UnsupportedOperationException();
 	}
-
+	
 	@Override
 	public void remove(String key)
 	{
 		throw new UnsupportedOperationException();
 	}
-
-
+	
+	
 	// FILE
 	private Optional<T> loadFromFile(File file)
 	{
@@ -90,7 +91,7 @@ public class SerializedIdentifyableStorage<T extends Identifyable> implements St
 			logger.warn("Storage directory contains file with invalid extension ({}), skipping: {}", extension, file.getName());
 			return Optional.empty();
 		}
-
+		
 		T deserialized;
 		try
 		{
@@ -103,10 +104,10 @@ public class SerializedIdentifyableStorage<T extends Identifyable> implements St
 			return Optional.empty();
 		}
 		injectId(deserialized, FileUtil.getNameWithoutCompositeExtension(file));
-
+		
 		return Optional.of(deserialized);
 	}
-
+	
 	private void injectId(T injectInto, String id)
 	{
 		try
@@ -120,18 +121,19 @@ public class SerializedIdentifyableStorage<T extends Identifyable> implements St
 			throw new IllegalStateException("could not set id using reflection", e);
 		}
 	}
-
-	private Field findIdField(Class<?> clazz) throws NoSuchFieldException
+	
+	private Field findIdField(Class<?> clazz)
+			throws NoSuchFieldException
 	{
 		Field[] fields = clazz.getDeclaredFields();
 		for(Field f : fields)
 			if("id".equals(f.getName()))
 				return f;
-
+		
 		if(clazz.getSuperclass() == Object.class)
 			throw new NoSuchFieldException("no field called id neither in class nor in superclasses");
-
+		
 		return findIdField(clazz.getSuperclass());
 	}
-
+	
 }

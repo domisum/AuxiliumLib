@@ -67,20 +67,20 @@ public enum Direction2D
 	{
 		double adjustedYaw = yaw%360;
 
-		while(adjustedYaw < -180)
+		while(adjustedYaw<-180)
 			adjustedYaw += 360;
 
-		while(adjustedYaw > 180)
+		while(adjustedYaw>180)
 			adjustedYaw -= 360;
 
 
-		if(adjustedYaw < -135.0f)
+		if(adjustedYaw<-135.0f)
 			return NORTH;
-		if(adjustedYaw < -45.0f)
+		if(adjustedYaw<-45.0f)
 			return EAST;
-		if(adjustedYaw < 45.0f)
+		if(adjustedYaw<45.0f)
 			return SOUTH;
-		if(adjustedYaw < 135.0f)
+		if(adjustedYaw<135.0f)
 			return WEST;
 		//if(adjustedYaw >= 135.0f)
 		return NORTH;

@@ -7,14 +7,14 @@ import java.util.Optional;
 
 public interface SingleItemSource<T>
 {
-
+	
 	@API
 	Optional<T> fetch();
-
+	
 	@API
 	default T fetchOrError()
 	{
 		return fetch().orElseThrow(()->new NoSuchElementException("single item source is empty"));
 	}
-
+	
 }

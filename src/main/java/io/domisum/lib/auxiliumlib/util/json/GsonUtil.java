@@ -10,18 +10,18 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class GsonUtil
 {
-
+	
 	// REFERENCES
 	private static Gson gson = null;
-
-
+	
+	
 	@API
 	public static synchronized Gson get()
 	{
 		if(gson == null)
 			gson = new GsonBuilder().enableComplexMapKeySerialization().setPrettyPrinting().serializeNulls().create();
-
+		
 		return gson;
 	}
-
+	
 }

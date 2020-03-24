@@ -7,7 +7,8 @@ import lombok.RequiredArgsConstructor;
 import java.util.NoSuchElementException;
 
 @RequiredArgsConstructor
-public abstract class WebSingleItemSource<T> implements SingleItemSource<T>
+public abstract class WebSingleItemSource<T>
+		implements SingleItemSource<T>
 {
 
 	protected final AbstractURL url;

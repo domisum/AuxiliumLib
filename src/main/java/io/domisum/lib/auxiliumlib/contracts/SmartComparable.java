@@ -2,50 +2,55 @@ package io.domisum.lib.auxiliumlib.contracts;
 
 import io.domisum.lib.auxiliumlib.annotations.API;
 
-public interface SmartComparable<T> extends Comparable<T>
+public interface SmartComparable<T>
+		extends Comparable<T>
 {
-
+	
 	@API
 	default boolean isLessThan(T other)
 	{
-		return compareTo(other) < 0;
+		return compareTo(other)<0;
 	}
-
+	
 	@API
 	default boolean isLessThanOrEqual(T other)
 	{
-		return compareTo(other) <= 0;
+		return compareTo(other)<=0;
 	}
-
+	
 	@API
 	default boolean isEqual(T other)
 	{
 		return compareTo(other) == 0;
 	}
-
+	
 	@API
 	default boolean isGreaterThanOrEqual(T other)
 	{
 		return compareTo(other) >= 0;
 	}
-
+	
 	@API
 	default boolean isGreaterThan(T other)
 	{
-		return compareTo(other) > 0;
+		return compareTo(other)>0;
 	}
-
-
+	
+	
 	@API
 	static <T extends SmartComparable<T>> T max(T a, T b)
 	{
-		return a.isLessThan(b) ? b : a;
+		return a.isLessThan(b) ?
+				b :
+				a;
 	}
-
+	
 	@API
 	static <T extends SmartComparable<T>> T min(T a, T b)
 	{
-		return b.isLessThan(b) ? b : a;
+		return b.isLessThan(b) ?
+				b :
+				a;
 	}
-
+	
 }

@@ -1,7 +1,7 @@
 package io.domisum.lib.auxiliumlib.datacontainers.math;
 
-import io.domisum.lib.auxiliumlib.datacontainers.bound.DoubleBounds2D;
 import io.domisum.lib.auxiliumlib.annotations.API;
+import io.domisum.lib.auxiliumlib.datacontainers.bound.DoubleBounds2D;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
@@ -49,9 +49,9 @@ public class LineSegment2D
 
 		double wvProduct = w.dotProduct(v);
 		double vvProduct = v.dotProduct(v);
-		if(wvProduct <= 0)
+		if(wvProduct<=0)
 			return point.distanceTo(a);
-		if(v.dotProduct(v) <= wvProduct)
+		if(v.dotProduct(v)<=wvProduct)
 			return point.distanceTo(b);
 
 		double productQuot = wvProduct/vvProduct;
@@ -119,7 +119,7 @@ public class LineSegment2D
 	{
 		double distance = getDistanceTo(point);
 
-		return distance < Line3D.THRESHOLD;
+		return distance<Line3D.THRESHOLD;
 	}
 
 
@@ -132,10 +132,12 @@ public class LineSegment2D
 		Vector2D twoToThree = p3.subtract(p2);
 
 		double rot = (oneToTwo.getY()*twoToThree.getX())-(twoToThree.getY()*oneToTwo.getX());
-		if(Math.abs(rot) < Line3D.THRESHOLD)
+		if(Math.abs(rot)<Line3D.THRESHOLD)
 			return PointArrangement.COLINEAR;
 
-		return (rot < 0) ? PointArrangement.COUNTERCLOCKWISE : PointArrangement.CLOCKWISE;
+		return (rot<0) ?
+				PointArrangement.COUNTERCLOCKWISE :
+				PointArrangement.CLOCKWISE;
 	}
 
 	private enum PointArrangement

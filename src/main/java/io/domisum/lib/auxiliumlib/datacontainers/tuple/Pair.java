@@ -11,19 +11,19 @@ import lombok.ToString;
 @ToString
 public class Pair<T, U>
 {
-
+	
 	// VALUES
 	@Getter
 	private final T a;
 	@Getter
 	private final U b;
-
-
+	
+	
 	// GETTERS
 	@API
-	public Pair<U, T> getInverted()
+	public Pair<U,T> getInverted()
 	{
 		return new Pair<>(b, a);
 	}
-
+	
 }

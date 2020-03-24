@@ -1,7 +1,7 @@
 package io.domisum.lib.auxiliumlib.contracts.iosource;
 
-import io.domisum.lib.auxiliumlib.contracts.iosource.ioaction.IoAction;
 import io.domisum.lib.auxiliumlib.annotations.API;
+import io.domisum.lib.auxiliumlib.contracts.iosource.ioaction.IoAction;
 import org.apache.commons.lang3.Validate;
 
 import java.io.IOException;
@@ -12,38 +12,38 @@ import java.util.function.Consumer;
 
 public class IoOptional<T>
 {
-
+	
 	private final T value;
 	private final IOException exception;
-
-
+	
+	
 	// INIT
 	public IoOptional(T value, IOException exception)
 	{
 		this.value = value;
 		this.exception = exception;
-
+		
 		if((value == null) && (exception == null))
 			throw new IllegalArgumentException("value and exception can't both be null");
-
+		
 		if((value != null) && (exception != null))
 			throw new IllegalArgumentException("value can't be provided while exception is provided as well");
 	}
-
+	
 	@API
 	public static <T> IoOptional<T> of(T value)
 	{
 		Validate.notNull(value);
 		return new IoOptional<>(value, null);
 	}
-
+	
 	@API
 	public static <T> IoOptional<T> ofException(IOException exception)
 	{
 		Validate.notNull(exception);
 		return new IoOptional<>(null, exception);
 	}
-
+	
 	@API
 	public static <T> IoOptional<T> ofAction(IoAction<T> ioAction)
 	{
@@ -56,46 +56,48 @@ public class IoOptional<T>
 			return ofException(e);
 		}
 	}
-
-
+	
+	
 	// GETTERS
 	public boolean isPresent()
 	{
 		return value != null;
 	}
-
+	
 	public boolean isEmpty()
 	{
 		return value == null;
 	}
-
+	
 	public T get()
 	{
 		if(!isPresent())
 			throw new NoSuchElementException("no value present");
-
+		
 		return value;
 	}
-
+	
 	public IOException getException()
 	{
 		if(exception == null)
 			throw new NoSuchElementException("no exception present");
-
+		
 		return exception;
 	}
-
+	
 	@API
-	public T getOrThrow() throws IOException
+	public T getOrThrow()
+			throws IOException
 	{
 		if(isPresent())
 			return value;
-
+		
 		throw exception;
 	}
-
+	
 	@API
-	public T getOrThrowWrapped(String message) throws IOException
+	public T getOrThrowWrapped(String message)
+			throws IOException
 	{
 		try
 		{
@@ -106,17 +108,17 @@ public class IoOptional<T>
 			throw new IOException(message, e);
 		}
 	}
-
+	
 	@API
 	public T getOrThrowUnchecked()
 	{
 		if(isPresent())
 			return value;
-
+		
 		throw new UncheckedIOException(exception);
 	}
-
-
+	
+	
 	// USAGE
 	@API
 	public void ifPresent(Consumer<T> consumer)
@@ -124,13 +126,13 @@ public class IoOptional<T>
 		if(isPresent())
 			consumer.accept(value);
 	}
-
-
+	
+	
 	// CONVERSION
 	@API
 	public Optional<T> toOptional()
 	{
 		return Optional.ofNullable(value);
 	}
-
+	
 }

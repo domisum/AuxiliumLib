@@ -124,13 +124,14 @@ import java.util.Map.Entry;
  * }</pre>
  */
 @API
-public final class RuntimeTypeAdapterFactory<T> implements TypeAdapterFactory
+public final class RuntimeTypeAdapterFactory<T>
+		implements TypeAdapterFactory
 {
 
 	private final Class<?> baseType;
 	private final String typeFieldName;
-	private final Map<String, Class<?>> labelToSubtype = new LinkedHashMap<>();
-	private final Map<Class<?>, String> subtypeToLabel = new LinkedHashMap<>();
+	private final Map<String,Class<?>> labelToSubtype = new LinkedHashMap<>();
+	private final Map<Class<?>,String> subtypeToLabel = new LinkedHashMap<>();
 
 
 	// INIT
@@ -204,9 +205,9 @@ public final class RuntimeTypeAdapterFactory<T> implements TypeAdapterFactory
 		if(type.getRawType() != baseType)
 			return null;
 
-		Map<String, TypeAdapter<?>> labelToDelegate = new LinkedHashMap<>();
-		Map<Class<?>, TypeAdapter<?>> subtypeToDelegate = new LinkedHashMap<>();
-		for(Entry<String, Class<?>> entry : labelToSubtype.entrySet())
+		Map<String,TypeAdapter<?>> labelToDelegate = new LinkedHashMap<>();
+		Map<Class<?>,TypeAdapter<?>> subtypeToDelegate = new LinkedHashMap<>();
+		for(Entry<String,Class<?>> entry : labelToSubtype.entrySet())
 		{
 			TypeAdapter<?> delegate = gson.getDelegateAdapter(this, TypeToken.get(entry.getValue()));
 			labelToDelegate.put(entry.getKey(), delegate);
@@ -215,6 +216,7 @@ public final class RuntimeTypeAdapterFactory<T> implements TypeAdapterFactory
 
 		return new TypeAdapter<R>()
 		{
+
 			@Override
 			public R read(JsonReader in)
 			{
@@ -236,7 +238,8 @@ public final class RuntimeTypeAdapterFactory<T> implements TypeAdapterFactory
 			}
 
 			@Override
-			public void write(JsonWriter out, R value) throws IOException
+			public void write(JsonWriter out, R value)
+					throws IOException
 			{
 				Class<?> srcType = value.getClass();
 				String label = subtypeToLabel.get(srcType);
@@ -254,7 +257,7 @@ public final class RuntimeTypeAdapterFactory<T> implements TypeAdapterFactory
 
 				JsonObject clone = new JsonObject();
 				clone.add(typeFieldName, new JsonPrimitive(label));
-				for(Entry<String, JsonElement> e : jsonObject.entrySet())
+				for(Entry<String,JsonElement> e : jsonObject.entrySet())
 					clone.add(e.getKey(), e.getValue());
 
 				Streams.write(clone, out);

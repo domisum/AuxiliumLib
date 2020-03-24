@@ -19,28 +19,29 @@ import java.util.Objects;
  * to keep static method calls as short as possible.
  */
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
-public final class PHR implements CharSequence
+public final class PHR
+		implements CharSequence
 {
-
+	
 	// CONSTANTS
 	@API
 	public static final String PLACEHOLDER = "{}";
-
+	
 	// INPUT
 	private final String text;
 	private final Object[] values;
-
+	
 	// CACHED
 	private String replaced;
-
-
+	
+	
 	// INIT
 	@API
 	public static String r(String text, Object... values)
 	{
 		return rcs(text, values).toString();
 	}
-
+	
 	/**
 	 * Creates a lazy CharSequence object which will only do the replacing if any of the CharSequence methods or #toString() is
 	 * called. This can improve performance when this method is called extremely often in performance critical parts of the code.
@@ -54,8 +55,8 @@ public final class PHR implements CharSequence
 	{
 		return new PHR(text, values);
 	}
-
-
+	
+	
 	// OBJECT
 	@Override
 	public synchronized String toString()
@@ -63,15 +64,15 @@ public final class PHR implements CharSequence
 		ensureReplacedSet();
 		return replaced;
 	}
-
-
+	
+	
 	// REPLACE
 	private void ensureReplacedSet()
 	{
 		if(replaced == null)
 			replaced = replacePlaceholders();
 	}
-
+	
 	private String replacePlaceholders()
 	{
 		var placeholderIndices = determinePlaceholderIndices(text);
@@ -79,7 +80,7 @@ public final class PHR implements CharSequence
 			throw new IllegalArgumentException("given values: "+values.length+", found placeholders: "+placeholderIndices.size());
 		return replacePlaceholdersWithValues(text, placeholderIndices, values);
 	}
-
+	
 	private static List<Integer> determinePlaceholderIndices(String text)
 	{
 		var placeholderIndices = new ArrayList<Integer>();
@@ -89,34 +90,34 @@ public final class PHR implements CharSequence
 			int index = text.indexOf(PLACEHOLDER, searchFrom);
 			if(index == -1)
 				break;
-
+			
 			placeholderIndices.add(index);
 			searchFrom = index+1;
 		}
-
+		
 		return placeholderIndices;
 	}
-
+	
 	private static String replacePlaceholdersWithValues(String text, List<Integer> placeholderIndices, Object[] values)
 	{
 		String filledInString = text;
-
+		
 		// iterate from back so inserting string doesn't change the indices of the other placeholders
 		for(int i = placeholderIndices.size()-1; i >= 0; i--)
 		{
 			int placeholderStartIndex = placeholderIndices.get(i);
-
+			
 			String beforePlaceholder = filledInString.substring(0, placeholderStartIndex);
 			String valueForPlaceholder = Objects.toString(values[i]);
 			String afterPlaceholder = filledInString.substring(placeholderStartIndex+PLACEHOLDER.length());
-
+			
 			filledInString = beforePlaceholder+valueForPlaceholder+afterPlaceholder;
 		}
-
+		
 		return filledInString;
 	}
-
-
+	
+	
 	// CHARSEQUENCE
 	@Override
 	public synchronized int length()
@@ -124,19 +125,19 @@ public final class PHR implements CharSequence
 		ensureReplacedSet();
 		return replaced.length();
 	}
-
+	
 	@Override
 	public synchronized char charAt(int index)
 	{
 		ensureReplacedSet();
 		return replaced.charAt(index);
 	}
-
+	
 	@Override
 	public synchronized CharSequence subSequence(int start, int end)
 	{
 		ensureReplacedSet();
 		return replaced.subSequence(start, end);
 	}
-
+	
 }

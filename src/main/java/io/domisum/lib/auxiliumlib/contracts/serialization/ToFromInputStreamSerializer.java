@@ -8,9 +8,11 @@ import java.io.InputStream;
 @API
 public interface ToFromInputStreamSerializer<T>
 {
-
-	InputStream serializeToInputStream(T object) throws IOException;
-
-	T deserializeFromInputStream(InputStream stream) throws IOException;
-
+	
+	InputStream serializeToInputStream(T object)
+			throws IOException;
+	
+	T deserializeFromInputStream(InputStream stream)
+			throws IOException;
+	
 }

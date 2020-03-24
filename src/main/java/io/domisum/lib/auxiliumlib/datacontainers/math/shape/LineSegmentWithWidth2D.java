@@ -5,7 +5,8 @@ import io.domisum.lib.auxiliumlib.datacontainers.math.Vector2D;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-public class LineSegmentWithWidth2D implements GeometricShape2D
+public class LineSegmentWithWidth2D
+		implements GeometricShape2D
 {
 
 	private final LineSegment2D lineSegment;
@@ -16,7 +17,7 @@ public class LineSegmentWithWidth2D implements GeometricShape2D
 	@Override
 	public boolean contains(Vector2D point)
 	{
-		return lineSegment.getDistanceTo(point) < maxDistance;
+		return lineSegment.getDistanceTo(point)<maxDistance;
 	}
 
 }

@@ -31,8 +31,10 @@ public final class NetworkUtil
 		}
 
 		StringBuilder macAddress = new StringBuilder();
-		for(int i = 0; i < macAddressAsBytes.length; i++)
-			macAddress.append(String.format("%02X%s", macAddressAsBytes[i], (i < (macAddressAsBytes.length-1)) ? "-" : ""));
+		for(int i = 0; i<macAddressAsBytes.length; i++)
+			macAddress.append(String.format("%02X%s", macAddressAsBytes[i], (i<(macAddressAsBytes.length-1)) ?
+					"-" :
+					""));
 
 		return macAddress.toString();
 	}

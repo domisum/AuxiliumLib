@@ -4,7 +4,8 @@ import java.io.IOException;
 
 public interface VoidIoAction
 {
-
-	void execute() throws IOException;
-
+	
+	void execute()
+			throws IOException;
+	
 }

@@ -1,8 +1,8 @@
 package io.domisum.lib.auxiliumlib.util.math;
 
+import io.domisum.lib.auxiliumlib.annotations.API;
 import io.domisum.lib.auxiliumlib.datacontainers.math.Vector2D;
 import io.domisum.lib.auxiliumlib.datacontainers.math.Vector3D;
-import io.domisum.lib.auxiliumlib.annotations.API;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 

@@ -4,7 +4,8 @@ import io.domisum.lib.auxiliumlib.annotations.API;
 
 @API
 @SuppressWarnings("ClassWithTooManyConstructors")
-public class IncompleteCodeError extends AssertionError
+public class IncompleteCodeError
+		extends AssertionError
 {
 
 	// INIT

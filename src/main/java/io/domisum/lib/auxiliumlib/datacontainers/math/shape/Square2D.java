@@ -1,12 +1,13 @@
 package io.domisum.lib.auxiliumlib.datacontainers.math.shape;
 
-import io.domisum.lib.auxiliumlib.datacontainers.math.Vector2D;
 import io.domisum.lib.auxiliumlib.annotations.API;
+import io.domisum.lib.auxiliumlib.datacontainers.math.Vector2D;
 import lombok.Getter;
 import lombok.ToString;
 
 @ToString
-public class Square2D implements GeometricShape2D
+public class Square2D
+		implements GeometricShape2D
 {
 
 	@API
@@ -39,10 +40,10 @@ public class Square2D implements GeometricShape2D
 	@API
 	public boolean contains(Vector2D point)
 	{
-		if((point.getX() < minX) || (point.getX() > maxX))
+		if((point.getX()<minX) || (point.getX()>maxX))
 			return false;
 
-		if((point.getY() < minY) || (point.getY() > maxY))
+		if((point.getY()<minY) || (point.getY()>maxY))
 			return false;
 
 		return true;

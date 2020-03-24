@@ -2,7 +2,8 @@ package io.domisum.lib.auxiliumlib.datacontainers.math.shape;
 
 import io.domisum.lib.auxiliumlib.datacontainers.math.Vector2D;
 
-public class CompositeShape2D implements GeometricShape2D
+public class CompositeShape2D
+		implements GeometricShape2D
 {
 
 	private final GeometricShape2D[] geometricShapes;

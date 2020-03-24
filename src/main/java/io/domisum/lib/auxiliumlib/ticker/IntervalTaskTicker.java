@@ -10,37 +10,38 @@ import java.util.ArrayList;
 import java.util.List;
 
 @API
-public class IntervalTaskTicker extends Ticker
+public class IntervalTaskTicker
+		extends Ticker
 {
-
+	
 	// CONSTANTS
 	private static final Duration TICK_INTERVAL = Duration.ofMillis(10);
-
+	
 	// TASKS
 	private final List<IntervalTask> tasks = new ArrayList<>();
-
-
+	
+	
 	// INIT
 	public IntervalTaskTicker(String threadName, Duration timeout)
 	{
 		super(threadName, TICK_INTERVAL, timeout);
 	}
-
+	
 	@API
 	public IntervalTaskTicker(String threadName, Duration timeout, Runnable task, Duration interval)
 	{
 		this(threadName, timeout);
 		addTask(threadName+"-task", task, interval);
 	}
-
+	
 	@API
 	public void addTask(String taskName, Runnable task, Duration interval)
 	{
 		IntervalTask intervalTask = new IntervalTask(taskName, task, interval);
 		tasks.add(intervalTask);
 	}
-
-
+	
+	
 	// TICK
 	@Override
 	protected void tick()
@@ -49,10 +50,10 @@ public class IntervalTaskTicker extends Ticker
 		{
 			if(Thread.currentThread().isInterrupted())
 				return;
-
+			
 			if(!task.shouldRunNow())
 				continue;
-
+			
 			try
 			{
 				task.run();
@@ -63,32 +64,32 @@ public class IntervalTaskTicker extends Ticker
 			}
 		}
 	}
-
-
+	
+	
 	// TASK
 	@RequiredArgsConstructor
 	private static class IntervalTask
 	{
-
+		
 		private final @NonNull String taskName;
 		private final @NonNull Runnable task;
 		private final @NonNull Duration interval;
-
+		
 		private Instant lastExecution = Instant.MIN;
-
-
+		
+		
 		protected boolean shouldRunNow()
 		{
 			Duration sinceLastExcecution = Duration.between(lastExecution, Instant.now());
 			return sinceLastExcecution.compareTo(interval) >= 0;
 		}
-
+		
 		protected void run()
 		{
 			lastExecution = Instant.now();
 			task.run();
 		}
-
+		
 	}
-
+	
 }

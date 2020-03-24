@@ -54,11 +54,13 @@ public class Quaternion
 		double w = norm+vector1.dotProduct(vector2);
 
 		Vector3D axis;
-		if(w < (1.e-5d*norm))
+		if(w<(1.e-5d*norm))
 		{
 			w = 0;
 			// noinspection SuspiciousNameCombination
-			axis = (vector1.x > vector1.z) ? new Vector3D(-vector1.y, vector1.x, 0) : new Vector3D(0, -vector1.z, vector1.y);
+			axis = (vector1.x>vector1.z) ?
+					new Vector3D(-vector1.y, vector1.x, 0) :
+					new Vector3D(0, -vector1.z, vector1.y);
 		}
 		else
 			axis = vector1.crossProduct(vector2);
