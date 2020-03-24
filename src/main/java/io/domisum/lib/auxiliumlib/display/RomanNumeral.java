@@ -28,9 +28,9 @@ public final class RomanNumeral implements CharSequence
 		return new RomanNumeral(number);
 	}
 
-	public static RomanNumeral of(String numeral)
+	public static RomanNumeral parse(String numeral)
 	{
-		int number = parse(numeral.toUpperCase());
+		int number = parseRoman(numeral.toUpperCase());
 		validateNumberInRange(number);
 		return new RomanNumeral(number);
 	}
@@ -56,9 +56,9 @@ public final class RomanNumeral implements CharSequence
 
 		while(remaining > 0)
 			for(var romanToken : RomanToken.values())
-				if(remaining >= romanToken.value)
+				if(remaining >= romanToken.getValue())
 				{
-					remaining -= romanToken.value;
+					remaining -= romanToken.getValue();
 					roman.append(romanToken.name());
 					break;
 				}
@@ -66,34 +66,44 @@ public final class RomanNumeral implements CharSequence
 		return roman.toString();
 	}
 
-	private static int parse(String roman)
+	private static int parseRoman(String roman)
 	{
 		String remaining = roman;
 		int value = 0;
 
-		var lastToken = RomanToken.M;
+		RomanToken previousToken = null;
+		int previousTokenCount = 0;
 		while(!remaining.isEmpty())
 		{
-			var romanToken = getHighestValueToken(remaining);
+			var romanToken = getTokenAtStart(remaining);
 			if(romanToken == null)
 				throw new IllegalArgumentException("invalid characters in roman numeral: "+roman);
 
-			if(romanToken.value > lastToken.value)
+			if(previousToken != null && romanToken.getValue() > previousToken.getValue())
 				throw new IllegalArgumentException(PHR.r("invalid order of tokens: {} ({} before {})",
 						roman,
-						lastToken,
+						previousToken,
 						romanToken
 				));
 
-			value += romanToken.value;
+			value += romanToken.getValue();
 			remaining = remaining.substring(romanToken.name().length());
-			lastToken = romanToken;
+
+			if(romanToken != previousToken)
+				previousTokenCount = 0;
+			previousToken = romanToken;
+			previousTokenCount++;
+			if(previousTokenCount > previousToken.getMaxRepeatNumber())
+				throw new IllegalArgumentException(PHR.r("token {} repeated too often (max repeats: {})",
+						previousToken,
+						previousToken.getMaxRepeatNumber()
+				));
 		}
 
 		return value;
 	}
 
-	private static RomanToken getHighestValueToken(String remaining)
+	private static RomanToken getTokenAtStart(String remaining)
 	{
 		for(var romanToken : RomanToken.values())
 			if(remaining.startsWith(romanToken.name()))
@@ -108,22 +118,34 @@ public final class RomanNumeral implements CharSequence
 	private enum RomanToken
 	{
 
-		M(1000),
+		M(1000, 3),
 		CM(900),
 		D(500),
 		CD(400),
-		C(100),
+		C(100, 3),
 		XC(90),
 		L(50),
 		XL(40),
-		X(10),
+		X(10, 3),
 		IX(9),
 		V(5),
 		IV(4),
-		I(1);
+		I(1, 3);
 
 
+		// ATTRIBUTES
+		@Getter
 		private final int value;
+		@Getter
+		private final int maxRepeatNumber;
+
+
+		// INIT
+		RomanToken(int value)
+		{
+			this.value = value;
+			maxRepeatNumber = 1;
+		}
 
 	}
 

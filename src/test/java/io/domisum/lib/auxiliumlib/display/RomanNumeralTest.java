@@ -10,7 +10,7 @@ import java.util.List;
 public class RomanNumeralTest
 {
 
-	private static final List<Pair<Integer, String>> NUMERALS = Arrays.asList(
+	private static final List<Pair<Integer, String>> VALID_NUMERALS = Arrays.asList(
 			new Pair<>(1, "I"),
 			new Pair<>(3, "III"),
 			new Pair<>(4, "IV"),
@@ -38,29 +38,29 @@ public class RomanNumeralTest
 	@Test
 	public void testNumbersToNumeral()
 	{
-		for(Pair<Integer, String> numeral : NUMERALS)
+		for(Pair<Integer, String> numeral : VALID_NUMERALS)
 			Assertions.assertEquals(numeral.getB(), RomanNumeral.of(numeral.getA()).toString());
 	}
 
 	@Test
 	public void testParsing()
 	{
-		for(Pair<Integer, String> numeral : NUMERALS)
-			Assertions.assertEquals((int) numeral.getA(), RomanNumeral.of(numeral.getB()).getNumber());
+		for(Pair<Integer, String> numeral : VALID_NUMERALS)
+			Assertions.assertEquals((int) numeral.getA(), RomanNumeral.parse(numeral.getB()).getNumber());
 	}
 
 	@Test
 	public void testLowercaseParsing()
 	{
-		for(Pair<Integer, String> numeral : NUMERALS)
-			Assertions.assertEquals((int) numeral.getA(), RomanNumeral.of(numeral.getB().toLowerCase()).getNumber());
+		for(Pair<Integer, String> numeral : VALID_NUMERALS)
+			Assertions.assertEquals((int) numeral.getA(), RomanNumeral.parse(numeral.getB().toLowerCase()).getNumber());
 	}
 
 	@Test
 	public void testMixedCaseParsing()
 	{
-		Assertions.assertEquals(8, RomanNumeral.of("ViIi").getNumber());
-		Assertions.assertEquals(999, RomanNumeral.of("cmXcIX").getNumber());
+		Assertions.assertEquals(8, RomanNumeral.parse("ViIi").getNumber());
+		Assertions.assertEquals(999, RomanNumeral.parse("cmXcIX").getNumber());
 	}
 
 
@@ -79,23 +79,31 @@ public class RomanNumeralTest
 	@Test
 	public void testTooBigNumerals()
 	{
-		Assertions.assertThrows(IllegalArgumentException.class, ()->RomanNumeral.of("MMMM"));
-		Assertions.assertThrows(IllegalArgumentException.class, ()->RomanNumeral.of("MMMMI"));
-		Assertions.assertThrows(IllegalArgumentException.class, ()->RomanNumeral.of("MMMMXI"));
+		Assertions.assertThrows(IllegalArgumentException.class, ()->RomanNumeral.parse("MMMM"));
+		Assertions.assertThrows(IllegalArgumentException.class, ()->RomanNumeral.parse("MMMMI"));
+		Assertions.assertThrows(IllegalArgumentException.class, ()->RomanNumeral.parse("MMMMXI"));
 	}
 
 	@Test
-	public void testInvalidNumerals()
+	public void testInvalidTokenOrderNumerals()
 	{
-		Assertions.assertThrows(IllegalArgumentException.class, ()->RomanNumeral.of("IIX"));
-		Assertions.assertThrows(IllegalArgumentException.class, ()->RomanNumeral.of("IM"));
+		Assertions.assertThrows(IllegalArgumentException.class, ()->RomanNumeral.parse("IIX"));
+		Assertions.assertThrows(IllegalArgumentException.class, ()->RomanNumeral.parse("IM"));
+	}
+
+	@Test
+	public void testTokenRepeatedTooManyTimesNumerals()
+	{
+		Assertions.assertThrows(IllegalArgumentException.class, ()->RomanNumeral.parse("IIII"));
+		Assertions.assertThrows(IllegalArgumentException.class, ()->RomanNumeral.parse("IVIV"));
+		Assertions.assertThrows(IllegalArgumentException.class, ()->RomanNumeral.parse("VV"));
 	}
 
 	@Test
 	public void testInvalidCharactersInNumerals()
 	{
-		Assertions.assertThrows(IllegalArgumentException.class, ()->RomanNumeral.of("IXasdf"));
-		Assertions.assertThrows(IllegalArgumentException.class, ()->RomanNumeral.of("XIwow"));
+		Assertions.assertThrows(IllegalArgumentException.class, ()->RomanNumeral.parse("IXasdf"));
+		Assertions.assertThrows(IllegalArgumentException.class, ()->RomanNumeral.parse("XIwow"));
 	}
 
 }
