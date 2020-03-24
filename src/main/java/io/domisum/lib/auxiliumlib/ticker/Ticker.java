@@ -53,6 +53,7 @@ public abstract class Ticker
 			{
 				tick.run();
 			}
+			
 		};
 	}
 	
