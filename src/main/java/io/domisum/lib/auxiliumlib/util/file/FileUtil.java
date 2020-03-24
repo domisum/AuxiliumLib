@@ -1,10 +1,10 @@
 package io.domisum.lib.auxiliumlib.util.file;
 
-import io.domisum.lib.auxiliumlib.util.file.filter.FileFilter;
-import io.domisum.lib.auxiliumlib.util.StringUtil;
-import io.domisum.lib.auxiliumlib.util.java.thread.ThreadUtil;
 import io.domisum.lib.auxiliumlib.annotations.API;
-import io.domisum.lib.auxiliumlib.exceptions.ShouldNeverHappenError;
+import io.domisum.lib.auxiliumlib.exceptions.IncompleteCodeError;
+import io.domisum.lib.auxiliumlib.util.StringUtil;
+import io.domisum.lib.auxiliumlib.util.file.filter.FileFilter;
+import io.domisum.lib.auxiliumlib.util.java.thread.ThreadUtil;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.apache.commons.io.FileUtils;
@@ -552,7 +552,7 @@ public final class FileUtil
 			else if(this == DIRECTORY)
 				return file.isDirectory();
 
-			throw new ShouldNeverHappenError("unknown file type: "+this);
+			throw new IncompleteCodeError("unknown file type: "+this);
 		}
 
 	}
