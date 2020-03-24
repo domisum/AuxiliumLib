@@ -5,7 +5,7 @@ import io.domisum.lib.auxiliumlib.util.math.MathUtil;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
-import javax.annotation.Nonnull;
+import java.util.Objects;
 
 @API
 public final class DoubleDisplay implements CharSequence
@@ -13,6 +13,7 @@ public final class DoubleDisplay implements CharSequence
 
 	// CONSTANTS
 	private static final String SEPARATOR = "~";
+	private static final int ROUNDING_DECIMAL_PLACES = 3;
 
 	// ATTRIBUTES
 	@Getter
@@ -58,35 +59,35 @@ public final class DoubleDisplay implements CharSequence
 	{
 		if(number == null)
 			return "/";
-
 		if(number < 0)
 			return "-"+generateDisplay(Math.abs(number));
+		if(Objects.equals(number, 0.0))
+			return "0.0";
 
-		SIPrefix bestSiPrefix = getBestSiPrefix(number);
-		double dividedBySiPrefix = number/bestSiPrefix.getValue();
-		String siPrefixSuffix = (bestSiPrefix == SIPrefix.NONE) ? "" : (SEPARATOR+bestSiPrefix.name().toLowerCase());
+		var bestFittingSiPrefix = getBestFittingSiPrefix(number);
+		double dividedNumber = number/bestFittingSiPrefix.getValue();
+		String displaySuffix = (bestFittingSiPrefix == SiPrefix.NONE) ? "" : (SEPARATOR+bestFittingSiPrefix.name().toLowerCase());
 
-		double dividedRounded = MathUtil.round(dividedBySiPrefix, 3);
-		String display = dividedRounded+siPrefixSuffix;
-		if((dividedRounded == 0) && (number != 0))
-			display = "lessthan"+SEPARATOR+display;
+		double dividedRoundedNumber = MathUtil.round(dividedNumber, ROUNDING_DECIMAL_PLACES);
+		if(dividedRoundedNumber == 0)
+		{
+			double lowestDisplayableRoundedNumber = 1/Math.pow(10, ROUNDING_DECIMAL_PLACES);
+			return "below"+SEPARATOR+lowestDisplayableRoundedNumber+displaySuffix;
+		}
 
-		return display;
+		return dividedRoundedNumber+displaySuffix;
 	}
 
-	private static SIPrefix getBestSiPrefix(double number)
+	private static SiPrefix getBestFittingSiPrefix(double number)
 	{
-		if(number == 0)
-			return SIPrefix.NONE;
-
 		double numberBaseTenExponent = Math.log10(number);
 
-		SIPrefix bestSIPrefix = SIPrefix.YOCTO;
-		for(SIPrefix prefix : SIPrefix.values())
+		var bestFittingSiPrefix = SiPrefix.getSmallest();
+		for(var prefix : SiPrefix.values())
 			if(numberBaseTenExponent >= prefix.getBaseTenExponent())
-				bestSIPrefix = prefix;
+				bestFittingSiPrefix = prefix;
 
-		return bestSIPrefix;
+		return bestFittingSiPrefix;
 	}
 
 
@@ -109,7 +110,6 @@ public final class DoubleDisplay implements CharSequence
 		return display.subSequence(beginIndex, endIndex);
 	}
 
-	@Nonnull
 	@Override
 	public String toString()
 	{
@@ -119,7 +119,7 @@ public final class DoubleDisplay implements CharSequence
 
 	// UNIT
 	@RequiredArgsConstructor
-	private enum SIPrefix
+	private enum SiPrefix
 	{
 
 		YOCTO(-24),
@@ -150,10 +150,15 @@ public final class DoubleDisplay implements CharSequence
 
 
 		// INIT
-		SIPrefix(int baseTenExponent)
+		SiPrefix(int baseTenExponent)
 		{
 			this.baseTenExponent = baseTenExponent;
 			value = Math.pow(10, baseTenExponent);
+		}
+
+		public static SiPrefix getSmallest()
+		{
+			return values()[0]; // because they are ordered
 		}
 
 	}

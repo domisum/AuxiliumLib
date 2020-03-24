@@ -34,7 +34,7 @@ public class DoubleDisplayTest
 		assertDisplays(7.9416*Math.pow(10, -24), "7.942~yocto");
 
 		assertDisplays(3.5*Math.pow(10, -24-3), "0.004~yocto");
-		assertDisplays(3.5*Math.pow(10, -24-4), "lessthan~0.0~yocto");
+		assertDisplays(3.5*Math.pow(10, -24-4), "below~0.001~yocto");
 	}
 
 	@Test
@@ -43,16 +43,15 @@ public class DoubleDisplayTest
 		assertDisplays(-0.1, "-100.0~milli");
 		assertDisplays(-Math.pow(10, -3), "-1.0~milli");
 		assertDisplays(-7.9416*Math.pow(10, -24), "-7.942~yocto");
-
 		assertDisplays(-3.5*Math.pow(10, -24-3), "-0.004~yocto");
-		assertDisplays(-3.5*Math.pow(10, -24-4), "-lessthan~0.0~yocto");
+		assertDisplays(-3.5*Math.pow(10, -24-4), "-below~0.001~yocto");
 	}
 
 
 	// ASSERT
 	private static void assertDisplays(Double number, String display)
 	{
-		Assertions.assertEquals(display, DoubleDisplay.of(number).toString());
+		Assertions.assertEquals(display, DoubleDisplay.display(number));
 	}
 
 }
