@@ -1,6 +1,6 @@
 package io.domisum.lib.auxiliumlib.contracts.source.optional;
 
-import io.domisum.lib.auxiliumlib.util.java.annotations.API;
+import io.domisum.lib.auxiliumlib.annotations.API;
 
 import java.util.NoSuchElementException;
 import java.util.Optional;

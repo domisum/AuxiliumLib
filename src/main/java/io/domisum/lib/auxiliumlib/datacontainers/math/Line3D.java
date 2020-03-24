@@ -1,6 +1,6 @@
 package io.domisum.lib.auxiliumlib.datacontainers.math;
 
-import io.domisum.lib.auxiliumlib.util.java.annotations.API;
+import io.domisum.lib.auxiliumlib.annotations.API;
 
 @API
 public class Line3D

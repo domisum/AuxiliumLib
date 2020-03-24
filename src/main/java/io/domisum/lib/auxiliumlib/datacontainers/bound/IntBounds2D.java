@@ -1,6 +1,6 @@
 package io.domisum.lib.auxiliumlib.datacontainers.bound;
 
-import io.domisum.lib.auxiliumlib.util.java.annotations.API;
+import io.domisum.lib.auxiliumlib.annotations.API;
 import lombok.Getter;
 import lombok.ToString;
 import org.apache.commons.lang3.Validate;

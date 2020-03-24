@@ -1,7 +1,7 @@
 package io.domisum.lib.auxiliumlib.contracts.source.io;
 
 import io.domisum.lib.auxiliumlib.contracts.source.io.ioaction.IoAction;
-import io.domisum.lib.auxiliumlib.util.java.annotations.API;
+import io.domisum.lib.auxiliumlib.annotations.API;
 import org.apache.commons.lang3.Validate;
 
 import java.io.IOException;

@@ -1,7 +1,7 @@
 package io.domisum.lib.auxiliumlib.contracts.source.optional.implementations.cache;
 
 import io.domisum.lib.auxiliumlib.contracts.source.optional.SingleItemOptionalSource;
-import io.domisum.lib.auxiliumlib.util.java.annotations.API;
+import io.domisum.lib.auxiliumlib.annotations.API;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 

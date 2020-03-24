@@ -1,7 +1,7 @@
 package io.domisum.lib.auxiliumlib.contracts.storage;
 
 import io.domisum.lib.auxiliumlib.contracts.source.optional.FiniteOptionalSource;
-import io.domisum.lib.auxiliumlib.util.java.annotations.API;
+import io.domisum.lib.auxiliumlib.annotations.API;
 
 /**
  * Interface describing the contract of a storage module. The purpose of the module is to store objects of the type

@@ -2,7 +2,7 @@ package io.domisum.lib.auxiliumlib.util.json;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import io.domisum.lib.auxiliumlib.util.java.annotations.API;
+import io.domisum.lib.auxiliumlib.annotations.API;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 

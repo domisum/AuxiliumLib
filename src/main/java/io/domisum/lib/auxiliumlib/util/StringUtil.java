@@ -1,7 +1,7 @@
 package io.domisum.lib.auxiliumlib.util;
 
 import com.google.common.collect.Sets;
-import io.domisum.lib.auxiliumlib.util.java.annotations.API;
+import io.domisum.lib.auxiliumlib.annotations.API;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.ArrayUtils;
@@ -20,26 +20,14 @@ public final class StringUtil
 
 	// CONCAT
 	@API
-	public static String repeat(String string, int repeats)
-	{
-		StringBuilder result = new StringBuilder();
-		for(int i = 0; i < repeats; i++)
-			result.append(string);
-
-		return result.toString();
-	}
-
-
-	@API
 	public static String listToString(List<?> list, String delimiter)
 	{
-		StringBuilder combined = new StringBuilder();
+		var combined = new StringBuilder();
 		for(int i = 0; i < list.size(); i++)
 		{
 			combined.append(list.get(i));
 			combined.append(((i+1) == list.size()) ? "" : delimiter);
 		}
-
 		return combined.toString();
 	}
 
@@ -64,8 +52,7 @@ public final class StringUtil
 	@API
 	public static String concatAsManyAsPossible(List<String> stringsInput, String delimiter, int maxLength)
 	{
-		List<String> strings = new ArrayList<>(stringsInput);
-
+		var strings = new ArrayList<>(stringsInput);
 		String lastPassing = "";
 		for(String string : strings)
 		{
@@ -75,7 +62,6 @@ public final class StringUtil
 			if(withCurrent.length() <= maxLength)
 				lastPassing = withCurrent;
 		}
-
 		return lastPassing;
 	}
 
@@ -84,8 +70,7 @@ public final class StringUtil
 	@API
 	public static String getCommonPrefix(String s1, String s2)
 	{
-		StringBuilder common = new StringBuilder();
-
+		var commonPrefix = new StringBuilder();
 		for(int ci = 0; ci < Math.min(s1.length(), s2.length()); ci++)
 		{
 			char c1 = s1.charAt(ci);
@@ -94,10 +79,9 @@ public final class StringUtil
 			if(c1 != c2)
 				break;
 
-			common.append(c1);
+			commonPrefix.append(c1);
 		}
-
-		return common.toString();
+		return commonPrefix.toString();
 	}
 
 
@@ -105,7 +89,7 @@ public final class StringUtil
 	@API
 	public static String escapeStringForRegex(String input)
 	{
-		List<Character> charactersToEscape = Arrays.asList(ArrayUtils.toObject("<([{\\^-=$!|]})?*+.>".toCharArray()));
+		final var charactersToEscape = Arrays.asList(ArrayUtils.toObject("<([{\\^-=$!|]})?*+.>".toCharArray()));
 
 		String escaped = input;
 		for(int i = 0; i < escaped.length(); i++)
@@ -140,7 +124,7 @@ public final class StringUtil
 	{
 		int pos = string.lastIndexOf(from);
 		if(pos > -1)
-			return string.substring(0, pos)+to+string.substring(pos+from.length(), string.length());
+			return string.substring(0, pos)+to+string.substring(pos+from.length());
 
 		return string;
 	}
@@ -167,13 +151,13 @@ public final class StringUtil
 		if(values.length == 0)
 			return Sets.newHashSet(base);
 
-		Set<String> permutations = new HashSet<>();
+		var permutations = new HashSet<String>();
 		for(String s : values[0])
 		{
 			String replaced = base.replaceFirst(placeholderEscaped, s);
 			Collection<String>[] remainingValues = Arrays.copyOfRange(values, 1, values.length);
 
-			Set<String> subPermutations = generateAllPermutations(replaced, remainingValues);
+			var subPermutations = generateAllPermutations(replaced, remainingValues);
 			permutations.addAll(subPermutations);
 		}
 

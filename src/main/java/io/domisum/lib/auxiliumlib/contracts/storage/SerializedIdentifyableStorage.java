@@ -2,9 +2,9 @@ package io.domisum.lib.auxiliumlib.contracts.storage;
 
 import io.domisum.lib.auxiliumlib.contracts.Identifyable;
 import io.domisum.lib.auxiliumlib.contracts.serialization.ToStringSerializer;
-import io.domisum.lib.auxiliumlib.file.FileUtil;
-import io.domisum.lib.auxiliumlib.file.FileUtil.FileType;
-import io.domisum.lib.auxiliumlib.util.java.annotations.API;
+import io.domisum.lib.auxiliumlib.util.file.FileUtil;
+import io.domisum.lib.auxiliumlib.util.file.FileUtil.FileType;
+import io.domisum.lib.auxiliumlib.annotations.API;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

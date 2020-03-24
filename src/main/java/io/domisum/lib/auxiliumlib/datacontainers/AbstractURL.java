@@ -1,6 +1,6 @@
 package io.domisum.lib.auxiliumlib.datacontainers;
 
-import io.domisum.lib.auxiliumlib.util.java.annotations.API;
+import io.domisum.lib.auxiliumlib.annotations.API;
 
 import java.io.UncheckedIOException;
 import java.io.UnsupportedEncodingException;

@@ -2,7 +2,7 @@ package io.domisum.lib.auxiliumlib.datacontainers.bound;
 
 import io.domisum.lib.auxiliumlib.datacontainers.math.Vector2D;
 import io.domisum.lib.auxiliumlib.datacontainers.math.shape.Square2D;
-import io.domisum.lib.auxiliumlib.util.java.annotations.API;
+import io.domisum.lib.auxiliumlib.annotations.API;
 import io.domisum.lib.auxiliumlib.util.math.MathUtil;
 
 public class DoubleBounds2D extends Square2D

@@ -1,7 +1,7 @@
 package io.domisum.lib.auxiliumlib.contracts.storage;
 
 import io.domisum.lib.auxiliumlib.contracts.Keyable;
-import io.domisum.lib.auxiliumlib.util.java.annotations.API;
+import io.domisum.lib.auxiliumlib.annotations.API;
 import lombok.RequiredArgsConstructor;
 
 import java.util.Collection;

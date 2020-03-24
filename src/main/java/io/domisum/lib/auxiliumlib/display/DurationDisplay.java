@@ -1,7 +1,7 @@
 package io.domisum.lib.auxiliumlib.display;
 
 import io.domisum.lib.auxiliumlib.util.StringUtil;
-import io.domisum.lib.auxiliumlib.util.java.annotations.API;
+import io.domisum.lib.auxiliumlib.annotations.API;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 

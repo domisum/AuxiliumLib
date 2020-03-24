@@ -1,7 +1,7 @@
 package io.domisum.lib.auxiliumlib.datacontainers.math.shape;
 
 import io.domisum.lib.auxiliumlib.datacontainers.math.Vector2D;
-import io.domisum.lib.auxiliumlib.util.java.annotations.API;
+import io.domisum.lib.auxiliumlib.annotations.API;
 import lombok.Getter;
 import lombok.ToString;
 

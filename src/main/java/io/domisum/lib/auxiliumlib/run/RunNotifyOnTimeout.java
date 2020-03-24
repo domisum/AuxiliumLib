@@ -2,7 +2,7 @@ package io.domisum.lib.auxiliumlib.run;
 
 import io.domisum.lib.auxiliumlib.display.DurationDisplay;
 import io.domisum.lib.auxiliumlib.util.StringUtil;
-import io.domisum.lib.auxiliumlib.util.java.ThreadUtil;
+import io.domisum.lib.auxiliumlib.util.java.thread.ThreadUtil;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

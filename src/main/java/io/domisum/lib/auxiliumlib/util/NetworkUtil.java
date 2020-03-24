@@ -1,6 +1,8 @@
 package io.domisum.lib.auxiliumlib.util;
 
-import io.domisum.lib.auxiliumlib.util.java.annotations.API;
+import io.domisum.lib.auxiliumlib.annotations.API;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
 import java.io.UncheckedIOException;
 import java.net.InetAddress;
@@ -9,14 +11,9 @@ import java.net.SocketException;
 import java.net.UnknownHostException;
 
 @API
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class NetworkUtil
 {
-
-	private NetworkUtil()
-	{
-		throw new UnsupportedOperationException();
-	}
-
 
 	@API
 	public static String getMacAddress()

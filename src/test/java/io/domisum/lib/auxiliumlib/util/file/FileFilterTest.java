@@ -1,6 +1,6 @@
 package io.domisum.lib.auxiliumlib.util.file;
 
-import io.domisum.lib.auxiliumlib.file.FileFilter;
+import io.domisum.lib.auxiliumlib.util.file.filter.FileFilter;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

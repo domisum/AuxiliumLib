@@ -1,6 +1,6 @@
 package io.domisum.lib.auxiliumlib.run;
 
-import io.domisum.lib.auxiliumlib.util.java.ThreadUtil;
+import io.domisum.lib.auxiliumlib.util.java.thread.ThreadUtil;
 import lombok.RequiredArgsConstructor;
 
 import java.util.Scanner;

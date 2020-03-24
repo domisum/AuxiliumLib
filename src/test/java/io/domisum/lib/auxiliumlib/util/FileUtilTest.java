@@ -1,6 +1,6 @@
 package io.domisum.lib.auxiliumlib.util;
 
-import io.domisum.lib.auxiliumlib.file.FileUtil;
+import io.domisum.lib.auxiliumlib.util.file.FileUtil;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

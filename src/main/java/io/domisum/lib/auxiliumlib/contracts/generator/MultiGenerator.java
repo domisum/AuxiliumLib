@@ -1,6 +1,6 @@
 package io.domisum.lib.auxiliumlib.contracts.generator;
 
-import io.domisum.lib.auxiliumlib.util.java.annotations.API;
+import io.domisum.lib.auxiliumlib.annotations.API;
 
 import java.util.List;
 

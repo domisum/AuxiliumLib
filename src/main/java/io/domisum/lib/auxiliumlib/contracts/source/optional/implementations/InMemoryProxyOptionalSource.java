@@ -3,7 +3,7 @@ package io.domisum.lib.auxiliumlib.contracts.source.optional.implementations;
 import io.domisum.lib.auxiliumlib.contracts.Keyable;
 import io.domisum.lib.auxiliumlib.contracts.source.optional.FiniteOptionalSource;
 import io.domisum.lib.auxiliumlib.contracts.storage.Storage;
-import io.domisum.lib.auxiliumlib.util.java.annotations.API;
+import io.domisum.lib.auxiliumlib.annotations.API;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.Validate;
 

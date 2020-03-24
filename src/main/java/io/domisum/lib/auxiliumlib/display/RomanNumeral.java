@@ -1,8 +1,8 @@
 package io.domisum.lib.auxiliumlib.display;
 
 import com.google.common.collect.Range;
-import io.domisum.lib.auxiliumlib.util.PHR;
-import io.domisum.lib.auxiliumlib.util.java.annotations.API;
+import io.domisum.lib.auxiliumlib.PHR;
+import io.domisum.lib.auxiliumlib.annotations.API;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

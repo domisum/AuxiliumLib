@@ -1,6 +1,6 @@
 package io.domisum.lib.auxiliumlib.datacontainers.math;
 
-import io.domisum.lib.auxiliumlib.util.java.annotations.API;
+import io.domisum.lib.auxiliumlib.annotations.API;
 import io.domisum.lib.auxiliumlib.util.math.MathUtil;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

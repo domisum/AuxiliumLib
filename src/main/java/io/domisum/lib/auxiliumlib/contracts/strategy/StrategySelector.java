@@ -1,6 +1,6 @@
 package io.domisum.lib.auxiliumlib.contracts.strategy;
 
-import io.domisum.lib.auxiliumlib.util.java.annotations.API;
+import io.domisum.lib.auxiliumlib.annotations.API;
 
 import java.util.ArrayList;
 import java.util.Collections;

@@ -1,7 +1,7 @@
 package io.domisum.lib.auxiliumlib.datacontainers.math;
 
-import io.domisum.lib.auxiliumlib.util.PHR;
-import io.domisum.lib.auxiliumlib.util.java.annotations.API;
+import io.domisum.lib.auxiliumlib.PHR;
+import io.domisum.lib.auxiliumlib.annotations.API;
 import lombok.Getter;
 
 @API

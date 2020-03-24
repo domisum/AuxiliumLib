@@ -3,7 +3,7 @@ package io.domisum.lib.auxiliumlib.contracts.source.optional.implementations.web
 import io.domisum.lib.auxiliumlib.contracts.Converter;
 import io.domisum.lib.auxiliumlib.contracts.source.optional.OptionalSource;
 import io.domisum.lib.auxiliumlib.datacontainers.AbstractURL;
-import io.domisum.lib.auxiliumlib.util.PHR;
+import io.domisum.lib.auxiliumlib.PHR;
 import lombok.RequiredArgsConstructor;
 
 import java.util.NoSuchElementException;
