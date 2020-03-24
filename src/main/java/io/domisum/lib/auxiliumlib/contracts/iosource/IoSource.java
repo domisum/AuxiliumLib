@@ -1,7 +1,6 @@
 package io.domisum.lib.auxiliumlib.contracts.iosource;
 
 import io.domisum.lib.auxiliumlib.annotations.API;
-import io.domisum.lib.auxiliumlib.run.RetryUntilSuccessfulIOAction;
 
 import java.io.IOException;
 
@@ -24,19 +23,6 @@ public interface IoSource<KeyT, T>
 	default T fetchOrThrowUncheckedException(KeyT key)
 	{
 		return fetchOptional(key).getOrThrowUnchecked();
-	}
-	
-	@API
-	default T fetchRetryUntilSuccessful(KeyT key)
-	{
-		return new RetryUntilSuccessfulIOAction<>(()->fetch(key), getFetchFailMessage(key)).execute();
-	}
-	
-	
-	@API
-	default String getFetchFailMessage(KeyT key)
-	{
-		return "failed to fetch "+key;
 	}
 	
 }

@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import javax.annotation.Nullable;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.function.Supplier;
 
 @API
 public abstract class Ticker
@@ -48,7 +49,7 @@ public abstract class Ticker
 		{
 			
 			@Override
-			protected void tick()
+			protected void tick(Supplier<Boolean> shouldStop)
 			{
 				tick.run();
 			}
@@ -136,7 +137,7 @@ public abstract class Ticker
 	
 	
 	// TICK
-	protected abstract void tick();
+	protected abstract void tick(Supplier<Boolean> shouldStop);
 	
 	
 	// TICKING
@@ -201,7 +202,7 @@ public abstract class Ticker
 		{
 			try
 			{
-				tick();
+				tick(()->status != TickingStatus.RUNNING);
 			}
 			catch(RuntimeException e)
 			{

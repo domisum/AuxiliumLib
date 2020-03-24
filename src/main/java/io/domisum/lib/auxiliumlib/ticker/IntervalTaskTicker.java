@@ -1,13 +1,14 @@
 package io.domisum.lib.auxiliumlib.ticker;
 
 import io.domisum.lib.auxiliumlib.annotations.API;
-import lombok.NonNull;
+import io.domisum.lib.auxiliumlib.util.DurationUtil;
 import lombok.RequiredArgsConstructor;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.function.Supplier;
 
 @API
 public class IntervalTaskTicker
@@ -18,76 +19,88 @@ public class IntervalTaskTicker
 	private static final Duration TICK_INTERVAL = Duration.ofMillis(10);
 	
 	// TASKS
-	private final List<IntervalTask> tasks = new ArrayList<>();
+	private final Set<IntervalTask> tasks = new HashSet<>();
+	private boolean tasksLocked = false;
 	
 	
 	// INIT
+	@API
 	public IntervalTaskTicker(String threadName, Duration timeout)
 	{
 		super(threadName, TICK_INTERVAL, timeout);
 	}
 	
 	@API
-	public IntervalTaskTicker(String threadName, Duration timeout, Runnable task, Duration interval)
+	public synchronized void addTask(String taskName, Runnable task, Duration interval)
 	{
-		this(threadName, timeout);
-		addTask(threadName+"-task", task, interval);
+		if(tasksLocked)
+			throw new IllegalStateException("can't add tasks after first start");
+		
+		var intervalTask = new IntervalTask(taskName, task, interval);
+		tasks.add(intervalTask);
 	}
 	
-	@API
-	public void addTask(String taskName, Runnable task, Duration interval)
+	@Override
+	public synchronized void start()
 	{
-		IntervalTask intervalTask = new IntervalTask(taskName, task, interval);
-		tasks.add(intervalTask);
+		tasksLocked = true;
+		super.start();
 	}
 	
 	
 	// TICK
 	@Override
-	protected void tick()
+	protected void tick(Supplier<Boolean> shouldStop)
 	{
-		for(IntervalTask task : tasks)
+		for(var task : tasks)
 		{
 			if(Thread.currentThread().isInterrupted())
 				return;
+			if(shouldStop.get())
+				return;
 			
-			if(!task.shouldRunNow())
-				continue;
-			
-			try
-			{
+			if(task.shouldRunNow())
 				task.run();
-			}
-			catch(RuntimeException e)
-			{
-				logger.error("error occured during execution of task {}", task.taskName, e);
-			}
 		}
 	}
 	
 	
 	// TASK
 	@RequiredArgsConstructor
-	private static class IntervalTask
+	private class IntervalTask
 	{
 		
-		private final @NonNull String taskName;
-		private final @NonNull Runnable task;
-		private final @NonNull Duration interval;
+		// BASE ATTRIBUTES
+		private final String name;
+		private final Runnable task;
+		private final Duration interval;
 		
+		// STATUS
 		private Instant lastExecution = Instant.MIN;
 		
 		
+		// GETTERS
 		protected boolean shouldRunNow()
 		{
-			Duration sinceLastExcecution = Duration.between(lastExecution, Instant.now());
-			return sinceLastExcecution.compareTo(interval) >= 0;
+			return DurationUtil.isOlderThan(lastExecution, interval);
 		}
 		
+		
+		// RUN
 		protected void run()
 		{
-			lastExecution = Instant.now();
-			task.run();
+			try
+			{
+				task.run();
+			}
+			catch(RuntimeException e)
+			{
+				logger.error("error occured during execution of task {}", name, e);
+			}
+			finally
+			{
+				lastExecution = Instant.now();
+			}
 		}
 		
 	}
