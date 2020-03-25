@@ -9,7 +9,7 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 
 @API
-public class AbstractURL
+public class AbstractUrl
 {
 	
 	// ATTRIBUTES
@@ -18,7 +18,7 @@ public class AbstractURL
 	
 	// INIT
 	@API
-	public AbstractURL(String url)
+	public AbstractUrl(String url)
 	{
 		String beingCleanedUrl = url;
 		while(beingCleanedUrl.endsWith("/"))
@@ -28,7 +28,7 @@ public class AbstractURL
 	}
 	
 	@API
-	public AbstractURL(AbstractURL base, String extension)
+	public AbstractUrl(AbstractUrl base, String extension)
 	{
 		this(base.combineWith(extension));
 	}
