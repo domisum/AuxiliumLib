@@ -79,13 +79,13 @@ public final class ThreadWatchdog
 	// WATCHING
 	private void startWatchdogThread()
 	{
-		logger.info("Starting general watchdog thread ...");
+		logger.info("Starting thread watchdog");
 		watchdogThread = ThreadUtil.createAndStartThread(this::run, "threadWatchdog");
 	}
 	
 	private void stopWatchdogThread()
 	{
-		logger.info("Stopping watchdog thread...");
+		logger.info("Stopping thread watchdog");
 		
 		watchdogThread.interrupt();
 		ThreadUtil.join(watchdogThread);
