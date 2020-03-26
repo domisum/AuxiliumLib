@@ -4,7 +4,7 @@ import io.domisum.lib.auxiliumlib.util.file.FileUtil;
 
 import java.io.File;
 
-public class FilterOutDirectory
+public class FilterOutBaseDirectory
 		implements FileFilter
 {
 	
@@ -13,7 +13,7 @@ public class FilterOutDirectory
 	
 	
 	// INIT
-	public FilterOutDirectory(String directoryName)
+	public FilterOutBaseDirectory(String directoryName)
 	{
 		String cleanedDirectoryName = FileUtil.replaceDelimitersWithForwardSlash(directoryName);
 		if(cleanedDirectoryName.endsWith("/"))
