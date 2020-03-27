@@ -227,6 +227,8 @@ public final class FileUtil
 	@API
 	public static void moveDirectory(File oldDirLocation, File newDirLocation)
 	{
+		mkdirs(newDirLocation);
+		
 		for(var file : oldDirLocation.listFiles())
 		{
 			var targetFile = new File(newDirLocation, file.getName());
