@@ -1,7 +1,8 @@
-*
+/*
+/*/
 
 # ignore everything except:
-!/src
+!/src/
 !/.gitignore
 !/pom.xml
 !/LICENSE*
