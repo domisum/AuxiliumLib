@@ -1,9 +1,11 @@
-.classpath
-.project
-*.iml
+*
 
-.settings/
-target/
-.idea/
+# ignore everything except:
+!/src
+!/.gitignore
+!/pom.xml
+!/LICENSE*
+!/README*
 
-TestLauncher.java
+# but still ignore prototype test classes:
+___*.java
