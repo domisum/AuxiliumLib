@@ -214,7 +214,29 @@ public final class FileUtil
 	public static void moveFile(File from, File to)
 	{
 		createParentDirectory(to);
-		from.renameTo(to);
+		try
+		{
+			Files.move(from.toPath(), to.toPath(), StandardCopyOption.REPLACE_EXISTING);
+		}
+		catch(IOException e)
+		{
+			throw new UncheckedIOException(e);
+		}
+	}
+	
+	@API
+	public static void moveDirectory(File oldDirLocation, File newDirLocation)
+	{
+		for(var file : oldDirLocation.listFiles())
+		{
+			var targetFile = new File(newDirLocation, file.getName());
+			if(file.isDirectory())
+				moveDirectory(file, targetFile);
+			else
+				moveFile(file, targetFile);
+		}
+		
+		deleteDirectory(oldDirLocation);
 	}
 	
 	
@@ -406,7 +428,7 @@ public final class FileUtil
 		for(File f : files)
 		{
 			Instant fLastModified = getContentLastModified(f);
-			if(fLastModified.compareTo(mostRecentModified)>0)
+			if(fLastModified.compareTo(mostRecentModified) > 0)
 				mostRecentModified = fLastModified;
 		}
 		
