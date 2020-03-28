@@ -476,10 +476,12 @@ public final class FileUtil
 	@API
 	public static void deleteFile(File file)
 	{
+		if(!file.exists())
+			return;
+		
 		try
 		{
-			if(file.exists())
-				Files.delete(file.toPath());
+			Files.delete(file.toPath());
 		}
 		catch(IOException e)
 		{
