@@ -6,7 +6,6 @@ import io.domisum.lib.auxiliumlib.exceptions.InvalidConfigurationException;
 import io.domisum.lib.auxiliumlib.util.json.GsonUtil;
 
 import java.io.File;
-import java.util.Map;
 
 @API
 public interface JsonConfig
@@ -46,31 +45,5 @@ public interface JsonConfig
 	@InitByDeserialization
 	void validate()
 			throws InvalidConfigurationException;
-	
-	@API
-	default <T> void validateContainsKey(Map<T,?> map, T key, String mapName)
-			throws InvalidConfigurationException
-	{
-		if(!map.containsKey(key))
-			throw new InvalidConfigurationException(mapName+" has to contain key "+key+", but didn't");
-	}
-	
-	@API
-	default void validateString(String toValidate, String fieldName)
-			throws InvalidConfigurationException
-	{
-		if(toValidate == null)
-			throw new InvalidConfigurationException(fieldName+" was missing from config");
-	}
-	
-	@API
-	default void validatePort(int port, String portName)
-			throws InvalidConfigurationException
-	{
-		final int MAX_PORT_VALUE = 65535;
-		
-		if(port < 1 || port > MAX_PORT_VALUE)
-			throw new InvalidConfigurationException("port "+portName+" out of range [1-"+MAX_PORT_VALUE+"]: "+port);
-	}
 	
 }
