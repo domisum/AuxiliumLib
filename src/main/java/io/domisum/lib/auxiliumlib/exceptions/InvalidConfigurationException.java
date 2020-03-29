@@ -7,6 +7,7 @@ public class InvalidConfigurationException
 		extends Exception
 {
 	
+	// INIT
 	@API
 	public InvalidConfigurationException(String message)
 	{
@@ -17,6 +18,25 @@ public class InvalidConfigurationException
 	public InvalidConfigurationException(String message, Throwable cause)
 	{
 		super(message, cause);
+	}
+	
+	
+	// VALIDATION
+	@API
+	@SuppressWarnings("BooleanParameter")
+	public static void validateIsTrue(boolean expression, String failMessage)
+			throws InvalidConfigurationException
+	{
+		if(!expression)
+			throw new InvalidConfigurationException(failMessage);
+	}
+	
+	@API
+	public static void validateNotNull(Object object, String objectName)
+			throws InvalidConfigurationException
+	{
+		if(object == null)
+			throw new InvalidConfigurationException(objectName+" can't be null");
 	}
 	
 }
