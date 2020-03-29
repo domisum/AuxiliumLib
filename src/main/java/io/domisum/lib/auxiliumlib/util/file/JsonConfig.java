@@ -3,7 +3,7 @@ package io.domisum.lib.auxiliumlib.util.file;
 import io.domisum.lib.auxiliumlib.annotations.API;
 import io.domisum.lib.auxiliumlib.annotations.InitByDeserialization;
 import io.domisum.lib.auxiliumlib.exceptions.InvalidConfigurationException;
-import io.domisum.lib.auxiliumlib.util.json.GsonUtil;
+import io.domisum.lib.auxiliumlib.util.GsonUtil;
 
 import java.io.File;
 

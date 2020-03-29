@@ -3,7 +3,7 @@ package io.domisum.lib.auxiliumlib.contracts.serialization.json;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import io.domisum.lib.auxiliumlib.annotations.API;
-import io.domisum.lib.auxiliumlib.util.json.GsonUtil;
+import io.domisum.lib.auxiliumlib.util.GsonUtil;
 import lombok.RequiredArgsConstructor;
 
 @API
