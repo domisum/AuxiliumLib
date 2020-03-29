@@ -24,7 +24,7 @@ public final class StringUtil
 	public static String listToString(List<?> list, String delimiter)
 	{
 		var combined = new StringBuilder();
-		for(int i = 0; i<list.size(); i++)
+		for(int i = 0; i < list.size(); i++)
 		{
 			combined.append(list.get(i));
 			combined.append(((i+1) == list.size()) ?
@@ -64,7 +64,7 @@ public final class StringUtil
 					delimiter;
 			
 			String withCurrent = lastPassing+delimiterBeforeCurrent+string;
-			if(withCurrent.length()<=maxLength)
+			if(withCurrent.length() <= maxLength)
 				lastPassing = withCurrent;
 		}
 		return lastPassing;
@@ -76,7 +76,7 @@ public final class StringUtil
 	public static String getCommonPrefix(String s1, String s2)
 	{
 		var commonPrefix = new StringBuilder();
-		for(int ci = 0; ci<Math.min(s1.length(), s2.length()); ci++)
+		for(int ci = 0; ci < Math.min(s1.length(), s2.length()); ci++)
 		{
 			char c1 = s1.charAt(ci);
 			char c2 = s2.charAt(ci);
@@ -97,7 +97,7 @@ public final class StringUtil
 		final var charactersToEscape = Arrays.asList(ArrayUtils.toObject("<([{\\^-=$!|]})?*+.>".toCharArray()));
 		
 		String escaped = input;
-		for(int i = 0; i<escaped.length(); i++)
+		for(int i = 0; i < escaped.length(); i++)
 		{
 			char charAt = escaped.charAt(i);
 			if(charactersToEscape.contains(charAt))
@@ -117,7 +117,7 @@ public final class StringUtil
 	{
 		String toBeContinued = "...";
 		
-		if(string.length()<=maxLength)
+		if(string.length() <= maxLength)
 			return string;
 		
 		int desiredBaseStringLength = maxLength-toBeContinued.length();
@@ -128,7 +128,7 @@ public final class StringUtil
 	public static String replaceLast(String string, String from, String to)
 	{
 		int pos = string.lastIndexOf(from);
-		if(pos>-1)
+		if(pos > -1)
 			return string.substring(0, pos)+to+string.substring(pos+from.length());
 		
 		return string;
@@ -137,7 +137,8 @@ public final class StringUtil
 	@API
 	public static List<String> split(String toSplit, String delimiter)
 	{
-		return new ArrayList<>(Arrays.asList(toSplit.split(delimiter)));
+		String[] split = toSplit.split(delimiter, -1); // -1 to include trailing empty strings
+		return Arrays.asList(split);
 	}
 	
 	
