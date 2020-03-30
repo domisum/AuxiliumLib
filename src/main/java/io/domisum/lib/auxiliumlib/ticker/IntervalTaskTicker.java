@@ -78,7 +78,7 @@ public class IntervalTaskTicker
 		private final Duration interval;
 		
 		// STATUS
-		private Instant nextExecution = Instant.MAX;
+		private Instant nextExecution = Instant.MIN;
 		
 		
 		// GETTERS
