@@ -10,7 +10,7 @@ public final class ExceptionUtil
 {
 	
 	@API
-	public static String convertThrowableToString(Throwable throwable)
+	public static String convertToString(Throwable throwable)
 	{
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder.append(throwable.toString()).append("\n");
@@ -19,13 +19,13 @@ public final class ExceptionUtil
 			stringBuilder.append("    ").append(stackTraceElement.toString()).append("\n");
 		
 		if(throwable.getCause() != null)
-			stringBuilder.append("Caused by: ").append(convertThrowableToString(throwable.getCause()));
+			stringBuilder.append("Caused by: ").append(convertToString(throwable.getCause()));
 		
 		return stringBuilder.toString();
 	}
 	
 	@API
-	public static boolean doesThrowableContain(Throwable throwable, Class<? extends Throwable> type)
+	public static boolean doesContain(Throwable throwable, Class<? extends Throwable> type)
 	{
 		if(throwable == null)
 			return false;
@@ -33,7 +33,18 @@ public final class ExceptionUtil
 		if(type.isAssignableFrom(throwable.getClass()))
 			return true;
 		
-		return doesThrowableContain(throwable.getCause(), type);
+		return doesContain(throwable.getCause(), type);
+	}
+	
+	@API
+	public static String getShortSynopsis(Throwable throwable)
+	{
+		String causeSynopsis = throwable.getCause() == null ? null : getShortSynopsis(throwable.getCause());
+		String synopsis = throwable.getClass().getSimpleName()+": "+throwable.getMessage();
+		if(causeSynopsis != null)
+			synopsis += "; caused by: ("+causeSynopsis+")";
+		
+		return synopsis;
 	}
 	
 }
