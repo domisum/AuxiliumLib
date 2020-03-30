@@ -23,7 +23,7 @@ public final class DurationUtil
 	@API
 	public static Duration min(Duration a, Duration b)
 	{
-		return (a.compareTo(b)<0) ?
+		return (a.compareTo(b) < 0) ?
 				a :
 				b;
 	}
@@ -31,7 +31,7 @@ public final class DurationUtil
 	@API
 	public static Duration max(Duration a, Duration b)
 	{
-		return (a.compareTo(b)>0) ?
+		return (a.compareTo(b) > 0) ?
 				a :
 				b;
 	}
@@ -48,6 +48,12 @@ public final class DurationUtil
 	public static double getSecondsDecimal(Duration duration)
 	{
 		return duration.toMillis()/(double) Duration.ofSeconds(1).toMillis();
+	}
+	
+	@API
+	public static double getMillisecondsDecimal(Duration duration)
+	{
+		return duration.getSeconds()*1000+(duration.toNanosPart()/(double) (1000*1000));
 	}
 	
 	@API
@@ -86,7 +92,7 @@ public final class DurationUtil
 	public static boolean isOlderThan(Instant instant, Duration duration)
 	{
 		var age = toNow(instant);
-		return age.compareTo(duration)>0;
+		return age.compareTo(duration) > 0;
 	}
 	
 	@API
