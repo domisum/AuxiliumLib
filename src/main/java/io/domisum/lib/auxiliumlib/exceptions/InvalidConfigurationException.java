@@ -45,6 +45,8 @@ public class InvalidConfigurationException
 	public static <T> void validateContainsKey(Map<T,?> map, T key, String mapName)
 			throws InvalidConfigurationException
 	{
+		validateIsSet(map, mapName);
+		
 		if(!map.containsKey(key))
 			throw new InvalidConfigurationException(mapName+" has to contain key "+key+", but didn't");
 	}
