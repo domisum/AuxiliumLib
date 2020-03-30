@@ -17,6 +17,7 @@ public class IntervalTaskTicker
 	
 	// CONSTANTS
 	private static final Duration TICK_INTERVAL = Duration.ofMillis(10);
+	private static final Duration TASK_ERROR_COOLDOWN = Duration.ofSeconds(10);
 	
 	// TASKS
 	private final Set<IntervalTask> tasks = new HashSet<>();
@@ -77,13 +78,13 @@ public class IntervalTaskTicker
 		private final Duration interval;
 		
 		// STATUS
-		private Instant lastExecution = Instant.MIN;
+		private Instant nextExecution = Instant.MAX;
 		
 		
 		// GETTERS
 		protected boolean shouldRunNow()
 		{
-			return DurationUtil.isOlderThan(lastExecution, interval);
+			return DurationUtil.hasPassed(nextExecution);
 		}
 		
 		
@@ -93,14 +94,12 @@ public class IntervalTaskTicker
 			try
 			{
 				task.run();
+				nextExecution = Instant.now().plus(interval);
 			}
 			catch(RuntimeException e)
 			{
 				logger.error("error occured during execution of task {}", name, e);
-			}
-			finally
-			{
-				lastExecution = Instant.now();
+				nextExecution = Instant.now().plus(TASK_ERROR_COOLDOWN);
 			}
 		}
 		
