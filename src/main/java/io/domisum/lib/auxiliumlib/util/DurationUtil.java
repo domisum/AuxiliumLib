@@ -89,6 +89,12 @@ public final class DurationUtil
 	}
 	
 	@API
+	public static Duration until(Temporal until)
+	{
+		return Duration.between(Instant.now(), until);
+	}
+	
+	@API
 	public static boolean isOlderThan(Instant instant, Duration duration)
 	{
 		var age = toNow(instant);
