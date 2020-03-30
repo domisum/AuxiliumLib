@@ -37,6 +37,27 @@ public abstract class Ticker
 	
 	// INIT HELPER
 	@API
+	public static Ticker create(String name, Duration interval, Tickable tickable)
+	{
+		return create(name, interval, TIMEOUT_DEFAULT, tickable);
+	}
+	
+	@API
+	public static Ticker create(String name, Duration interval, @Nullable Duration timeout, Tickable tickable)
+	{
+		return new Ticker(name, interval, timeout)
+		{
+			
+			@Override
+			protected void tick(Supplier<Boolean> shouldStop)
+			{
+				tickable.tick(shouldStop);
+			}
+			
+		};
+	}
+	
+	@API
 	public static Ticker create(String name, Duration interval, Runnable tick)
 	{
 		return create(name, interval, TIMEOUT_DEFAULT, tick);
@@ -57,22 +78,6 @@ public abstract class Ticker
 		};
 	}
 	
-	@API
-	public static Ticker createAndStart(String name, Duration interval, Runnable tick)
-	{
-		var ticker = create(name, interval, tick);
-		ticker.start();
-		return ticker;
-	}
-	
-	@API
-	public static Ticker createAndStart(String name, Duration interval, @Nullable Duration timeout, Runnable tick)
-	{
-		var ticker = create(name, interval, timeout, tick);
-		ticker.start();
-		return ticker;
-	}
-	
 	
 	// INIT
 	@API
@@ -80,7 +85,7 @@ public abstract class Ticker
 	{
 		Validate.notNull(name, "name can't be null");
 		Validate.notNull(interval, "interval can't be null");
-		Validate.isTrue(interval.compareTo(Duration.ZERO)>0, "interval has to be greater than zero");
+		Validate.isTrue(interval.compareTo(Duration.ZERO) > 0, "interval has to be greater than zero");
 		
 		this.name = name;
 		this.interval = interval;
@@ -257,6 +262,15 @@ public abstract class Ticker
 		RUNNING,
 		STOPPING,
 		DEAD
+		
+	}
+	
+	
+	// TICKABLE
+	public interface Tickable
+	{
+		
+		void tick(Supplier<Boolean> shouldStop);
 		
 	}
 	
