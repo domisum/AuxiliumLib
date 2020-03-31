@@ -37,9 +37,9 @@ public final class ExceptionUtil
 	}
 	
 	@API
-	public static String getShortSynopsis(Throwable throwable)
+	public static String getSynopsis(Throwable throwable)
 	{
-		String causeSynopsis = throwable.getCause() == null ? null : getShortSynopsis(throwable.getCause());
+		String causeSynopsis = throwable.getCause() == null ? null : getSynopsis(throwable.getCause());
 		String synopsis = throwable.getClass().getSimpleName()+": "+throwable.getMessage();
 		if(causeSynopsis != null)
 			synopsis += "; caused by: ("+causeSynopsis+")";
