@@ -214,6 +214,11 @@ public abstract class Ticker
 			{
 				logger.error("Exception occured during tick", e);
 			}
+			catch(ThreadDeath e)
+			{
+				logger.info("Detected ThreadDeath", e);
+				throw e;
+			}
 			catch(Throwable t)
 			{
 				logger.error("Uncaught exception in ticker {}, exiting", name, t);
