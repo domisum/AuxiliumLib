@@ -107,4 +107,10 @@ public final class DurationUtil
 		return instant.isBefore(Instant.now());
 	}
 	
+	@API
+	public static boolean isInFuture(Instant instant)
+	{
+		return instant.isAfter(Instant.now());
+	}
+	
 }
