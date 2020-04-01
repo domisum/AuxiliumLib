@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 
 @API
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public final class ComparableUtil
+public final class Compare
 {
 	
 	@API
