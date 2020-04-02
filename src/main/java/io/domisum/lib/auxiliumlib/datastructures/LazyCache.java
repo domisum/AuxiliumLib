@@ -135,11 +135,10 @@ public final class LazyCache<KeyT, T>
 			var expirationDuration = LazyCache.this.expirationDuration;
 			if(expirationDuration != null && randomizeExpirationDuration)
 			{
-				long expirationDurationMillis = expirationDuration.toMillis();
-				long maxDifference = expirationDurationMillis/5; // max 20% offset
-				long newExpirationDurationMillis = RandomUtil.distribute(expirationDurationMillis, maxDifference);
-				expirationDuration = Duration.ofMillis(newExpirationDurationMillis);
+				final double maxOffsetRel = 0.2;
+				expirationDuration = RandomUtil.distributeRel(expirationDuration, maxOffsetRel);
 			}
+			
 			return expirationDuration;
 		}
 		
