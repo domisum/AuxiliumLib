@@ -1,14 +1,42 @@
 package io.domisum.lib.auxiliumlib.util.java;
 
 import io.domisum.lib.auxiliumlib.annotations.API;
+import io.domisum.lib.auxiliumlib.util.ValidationUtil;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+
+import java.util.Optional;
 
 @API
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class ExceptionUtil
 {
 	
+	// CONTAINS
+	@API
+	@SuppressWarnings("unchecked")
+	public static <T extends Throwable> Optional<T> getContained(Throwable throwable, Class<T> type)
+	{
+		ValidationUtil.notNull(throwable, "throwable");
+		
+		if(type.equals(throwable.getClass()))
+			return Optional.of((T) throwable);
+		
+		var cause = throwable.getCause();
+		if(cause == null)
+			return Optional.empty();
+		
+		return getContained(cause, type);
+	}
+	
+	@API
+	public static boolean doesContain(Throwable throwable, Class<? extends Throwable> type)
+	{
+		return getContained(throwable, type).isPresent();
+	}
+	
+	
+	// TO STRING
 	@API
 	public static String convertToString(Throwable throwable)
 	{
@@ -22,18 +50,6 @@ public final class ExceptionUtil
 			stringBuilder.append("Caused by: ").append(convertToString(throwable.getCause()));
 		
 		return stringBuilder.toString();
-	}
-	
-	@API
-	public static boolean doesContain(Throwable throwable, Class<? extends Throwable> type)
-	{
-		if(throwable == null)
-			return false;
-		
-		if(type.isAssignableFrom(throwable.getClass()))
-			return true;
-		
-		return doesContain(throwable.getCause(), type);
 	}
 	
 	@API
