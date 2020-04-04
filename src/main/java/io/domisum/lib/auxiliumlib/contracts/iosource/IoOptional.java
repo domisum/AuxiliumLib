@@ -8,6 +8,7 @@ import java.io.UncheckedIOException;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 @API
 public class IoOptional<T>
@@ -101,13 +102,20 @@ public class IoOptional<T>
 	public T getOrThrowWrapped(String message)
 			throws IOException
 	{
+		return getOrThrowWrapped(e->new IOException(message, e));
+	}
+	
+	@API
+	public <E extends Throwable> T getOrThrowWrapped(Function<IOException,E> wrap)
+			throws E
+	{
 		try
 		{
 			return getOrThrow();
 		}
 		catch(IOException e)
 		{
-			throw new IOException(message, e);
+			throw wrap.apply(e);
 		}
 	}
 	
