@@ -28,8 +28,7 @@ public final class ValidationUtil
 	public static void notBlank(String string, String variableName)
 	{
 		notNull(string, variableName);
-		
-		if(string.isEmpty())
+		if(string.isBlank())
 			throw new IllegalArgumentException("String '"+variableName+"' can't be blank");
 	}
 	
