@@ -2,6 +2,7 @@ package io.domisum.lib.auxiliumlib.exceptions;
 
 import io.domisum.lib.auxiliumlib.annotations.API;
 
+import java.util.Collection;
 import java.util.Map;
 
 @API
@@ -42,11 +43,28 @@ public class InvalidConfigurationException
 	}
 	
 	@API
+	public static void validateNotBlank(String value, String stringName)
+			throws InvalidConfigurationException
+	{
+		validateIsSet(value, stringName);
+		if(value.isBlank())
+			throw new InvalidConfigurationException(stringName+" can't be blank");
+	}
+	
+	@API
+	public static void validateNotEmpty(Collection<?> collection, String collectionName)
+			throws InvalidConfigurationException
+	{
+		validateIsSet(collection, collectionName);
+		if(collection.isEmpty())
+			throw new InvalidConfigurationException(collectionName+" can't be empty");
+	}
+	
+	@API
 	public static <T> void validateContainsKey(Map<T,?> map, T key, String mapName)
 			throws InvalidConfigurationException
 	{
 		validateIsSet(map, mapName);
-		
 		if(!map.containsKey(key))
 			throw new InvalidConfigurationException(mapName+" has to contain key "+key+", but didn't");
 	}
