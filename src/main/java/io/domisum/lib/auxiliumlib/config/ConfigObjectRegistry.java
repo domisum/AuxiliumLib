@@ -4,8 +4,6 @@ import io.domisum.lib.auxiliumlib.annotations.API;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.Map;
 
 @API
@@ -17,14 +15,9 @@ public class ConfigObjectRegistry<T extends ConfigObject>
 	
 	
 	// INIT
-	ConfigObjectRegistry(Collection<T> configObjects)
+	ConfigObjectRegistry(Map<String,T> configObjectsById)
 	{
-		var configObjectsMap = new HashMap<String,T>();
-		
-		for(T configObject : configObjects)
-			configObjectsMap.put(configObject.getId(), configObject);
-		
-		this.configObjects = Collections.unmodifiableMap(configObjectsMap);
+		configObjects = Map.copyOf(configObjectsById);
 	}
 	
 	

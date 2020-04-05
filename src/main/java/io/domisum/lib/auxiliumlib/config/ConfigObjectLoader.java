@@ -11,9 +11,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.util.HashSet;
+import java.util.HashMap;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @API
 public abstract class ConfigObjectLoader<T extends ConfigObject>
@@ -43,21 +42,29 @@ public abstract class ConfigObjectLoader<T extends ConfigObject>
 		if(fileExtension.startsWith("."))
 			fileExtension = fileExtension.substring(1);
 		
-		var configObjects = new HashSet<T>();
+		var configObjectsById = new HashMap<String,T>();
 		for(var file : FileUtil.listFilesRecursively(configDirectory, FileType.FILE))
 			if(fileExtension.equalsIgnoreCase(FileUtil.getCompositeExtension(file)))
-				configObjects.add(loadConfigObjectFromFile(file));
+			{
+				T configObject = loadConfigObjectFromFile(file);
+				
+				if(configObjectsById.containsKey(configObject.getId()))
+					throw new InvalidConfigException(PHR.r("Duplicate config object id '{}'. Duplicate file: {}",
+							configObject.getId(), file));
+				configObjectsById.put(configObject.getId(), configObject);
+			}
 			else
 				logger.warn("Config directory of {} contains file with wrong extension: '{}' (expected extension: '{}')",
 						OBJECT_NAME_PLURAL(), file.getName(), fileExtension);
 		
-		if(configObjects.isEmpty())
+		if(configObjectsById.isEmpty())
 			logger.info("(There are no {})", OBJECT_NAME_PLURAL());
 		
-		var configObjectIds = configObjects.stream().map(ConfigObject::getId).collect(Collectors.toSet());
-		logger.info("...Loading {} done, loaded {}: [{}]", OBJECT_NAME_PLURAL(), configObjects.size(), StringUtil.collectionToString(configObjectIds, ", "));
+		var configObjectIds = configObjectsById.keySet();
+		logger.info("...Loading {} done, loaded {}: [{}]",
+				OBJECT_NAME_PLURAL(), configObjectsById.size(), StringUtil.collectionToString(configObjectIds, ", "));
 		
-		return new ConfigObjectRegistry<>(configObjects);
+		return new ConfigObjectRegistry<>(configObjectsById);
 	}
 	
 	private T loadConfigObjectFromFile(File file)
