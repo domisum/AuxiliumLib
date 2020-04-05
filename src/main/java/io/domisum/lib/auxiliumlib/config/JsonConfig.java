@@ -1,9 +1,9 @@
-package io.domisum.lib.auxiliumlib.util.file;
+package io.domisum.lib.auxiliumlib.config;
 
 import io.domisum.lib.auxiliumlib.annotations.API;
 import io.domisum.lib.auxiliumlib.annotations.InitByDeserialization;
-import io.domisum.lib.auxiliumlib.exceptions.InvalidConfigurationException;
 import io.domisum.lib.auxiliumlib.util.GsonUtil;
+import io.domisum.lib.auxiliumlib.util.file.FileUtil;
 
 import java.io.File;
 
@@ -14,7 +14,7 @@ public interface JsonConfig
 	// INIT
 	@API
 	static <T extends JsonConfig> T load(File file, Class<T> tClass)
-			throws InvalidConfigurationException
+			throws InvalidConfigException
 	{
 		String fileContent = FileUtil.readString(file);
 		return parse(fileContent, tClass);
@@ -22,7 +22,7 @@ public interface JsonConfig
 	
 	@API
 	static <T extends JsonConfig> T parse(String json, Class<T> tClass)
-			throws InvalidConfigurationException
+			throws InvalidConfigException
 	{
 		T jsonConfig = GsonUtil.get().fromJson(json, tClass);
 		
@@ -32,9 +32,9 @@ public interface JsonConfig
 		{
 			jsonConfig.validate();
 		}
-		catch(InvalidConfigurationException|RuntimeException e)
+		catch(InvalidConfigException|RuntimeException e)
 		{
-			throw new InvalidConfigurationException("Invalid settings in "+tClass.getSimpleName(), e);
+			throw new InvalidConfigException("Invalid settings in "+tClass.getSimpleName(), e);
 		}
 		
 		return jsonConfig;
@@ -44,6 +44,6 @@ public interface JsonConfig
 	// VALIDATE
 	@InitByDeserialization
 	void validate()
-			throws InvalidConfigurationException;
+			throws InvalidConfigException;
 	
 }

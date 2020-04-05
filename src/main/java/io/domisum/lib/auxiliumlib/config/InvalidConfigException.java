@@ -1,4 +1,4 @@
-package io.domisum.lib.auxiliumlib.exceptions;
+package io.domisum.lib.auxiliumlib.config;
 
 import io.domisum.lib.auxiliumlib.annotations.API;
 
@@ -6,19 +6,19 @@ import java.util.Collection;
 import java.util.Map;
 
 @API
-public class InvalidConfigurationException
+public class InvalidConfigException
 		extends Exception
 {
 	
 	// INIT
 	@API
-	public InvalidConfigurationException(String message)
+	public InvalidConfigException(String message)
 	{
 		super(message);
 	}
 	
 	@API
-	public InvalidConfigurationException(String message, Throwable cause)
+	public InvalidConfigException(String message, Throwable cause)
 	{
 		super(message, cause);
 	}
@@ -28,57 +28,58 @@ public class InvalidConfigurationException
 	@API
 	@SuppressWarnings("BooleanParameter")
 	public static void validateIsTrue(boolean expression, String failMessage)
-			throws InvalidConfigurationException
+			throws InvalidConfigException
 	{
 		if(!expression)
-			throw new InvalidConfigurationException(failMessage);
+			throw new InvalidConfigException(failMessage);
 	}
 	
 	@API
 	public static void validateIsSet(Object object, String objectName)
-			throws InvalidConfigurationException
+			throws InvalidConfigException
 	{
 		if(object == null)
-			throw new InvalidConfigurationException(objectName+" has to be set (was null)");
+			throw new InvalidConfigException(objectName+" has to be set (was null)");
 	}
 	
 	@API
 	public static void validateNotBlank(String value, String stringName)
-			throws InvalidConfigurationException
+			throws InvalidConfigException
 	{
 		validateIsSet(value, stringName);
 		if(value.isBlank())
-			throw new InvalidConfigurationException(stringName+" can't be blank");
+			throw new InvalidConfigException(stringName+" can't be blank");
 	}
 	
 	@API
 	public static void validateNotEmpty(Collection<?> collection, String collectionName)
-			throws InvalidConfigurationException
+			throws InvalidConfigException
 	{
 		validateIsSet(collection, collectionName);
 		if(collection.isEmpty())
-			throw new InvalidConfigurationException(collectionName+" can't be empty");
+			throw new InvalidConfigException(collectionName+" can't be empty");
 	}
 	
 	@API
 	public static <T> void validateContainsKey(Map<T,?> map, T key, String mapName)
-			throws InvalidConfigurationException
+			throws InvalidConfigException
 	{
 		validateIsSet(map, mapName);
 		if(!map.containsKey(key))
-			throw new InvalidConfigurationException(mapName+" has to contain key "+key+", but didn't");
+			throw new InvalidConfigException(mapName+" has to contain key "+key+", but didn't");
 	}
 	
 	
 	// SPECIFIC VALIDATION
 	@API
-	public static void validatePort(int port, String portName)
-			throws InvalidConfigurationException
+	public static void validatePort(Integer port, String portName)
+			throws InvalidConfigException
 	{
 		final int MAX_PORT_VALUE = 65535;
 		
+		validateIsSet(port, portName);
 		if(port < 1 || port > MAX_PORT_VALUE)
-			throw new InvalidConfigurationException("port "+portName+" out of range [1-"+MAX_PORT_VALUE+"]: "+port);
+			throw new InvalidConfigException("port "+portName+" out of range [1-"+MAX_PORT_VALUE+"]: "+port);
 	}
 	
 }
