@@ -80,7 +80,7 @@ public final class ThreadWatchdog
 	private void startWatchdogThread()
 	{
 		logger.info("Starting thread watchdog");
-		watchdogThread = ThreadUtil.createAndStartThread(this::run, "threadWatchdog");
+		watchdogThread = ThreadUtil.createAndStartDaemonThread(this::run, "threadWatchdog");
 	}
 	
 	private void stopWatchdogThread()
