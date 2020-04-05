@@ -26,7 +26,8 @@ public abstract class ConfigObjectLoader<T extends ConfigObject>
 	
 	protected abstract String FILE_EXTENSION();
 	
-	private String OBJECT_NAME_PLURAL()
+	@API
+	protected String OBJECT_NAME_PLURAL()
 	{
 		return OBJECT_NAME()+"s";
 	}
@@ -54,8 +55,9 @@ public abstract class ConfigObjectLoader<T extends ConfigObject>
 				configObjectsById.put(configObject.getId(), configObject);
 			}
 			else
-				logger.warn("Config directory of {} contains file with wrong extension: '{}' (expected extension: '{}')",
-						OBJECT_NAME_PLURAL(), file.getName(), fileExtension);
+				throw new InvalidConfigException(PHR.r(
+						"Config directory of {} contains file with wrong extension: '{}' (expected extension: '{}')",
+						OBJECT_NAME_PLURAL(), file.getName(), fileExtension));
 		
 		if(configObjectsById.isEmpty())
 			logger.info("(There are no {})", OBJECT_NAME_PLURAL());
