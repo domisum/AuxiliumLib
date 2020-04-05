@@ -142,7 +142,7 @@ public final class StringUtil
 			return Collections.emptyList();
 		
 		String[] split = toSplit.split(delimiter, -1); // -1 to include trailing empty strings
-		return Arrays.asList(split);
+		return new ArrayList<>(Arrays.asList(split));
 	}
 	
 	
