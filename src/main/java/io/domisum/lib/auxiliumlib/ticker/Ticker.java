@@ -221,8 +221,8 @@ public abstract class Ticker
 			}
 			catch(Throwable t)
 			{
-				logger.error("Uncaught exception in ticker {}, exiting", name, t);
-				System.exit(-1);
+				logger.error("Uncaught exception in ticker {}", name, t);
+				throw t;
 			}
 		}
 		
