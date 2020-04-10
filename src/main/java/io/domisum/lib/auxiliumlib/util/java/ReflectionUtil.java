@@ -1,13 +1,11 @@
 package io.domisum.lib.auxiliumlib.util.java;
 
-import com.google.common.reflect.TypeToken;
 import io.domisum.lib.auxiliumlib.annotations.API;
 import io.domisum.lib.auxiliumlib.exceptions.ShouldNeverHappenError;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.Type;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
@@ -61,6 +59,29 @@ public final class ReflectionUtil
 		for(var field : getAllFields(object))
 			if(field.getType().isAssignableFrom(valueClass))
 				field.set(object, value);
+	}
+	
+	
+	// COPY
+	@API
+	public static void copyValue(Field field, Object from, Object to)
+	{
+		try
+		{
+			copyValueUncaught(field, from, to);
+		}
+		catch(IllegalAccessException e)
+		{
+			throw new ShouldNeverHappenError(e);
+		}
+	}
+	
+	@API
+	public static void copyValueUncaught(Field field, Object from, Object to)
+			throws IllegalAccessException
+	{
+		Object value = field.get(from);
+		field.set(to, value);
 	}
 	
 	
