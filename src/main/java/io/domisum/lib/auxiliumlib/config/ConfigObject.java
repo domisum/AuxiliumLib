@@ -10,7 +10,7 @@ public abstract class ConfigObject
 	
 	// INIT
 	protected abstract void validate()
-			throws InvalidConfigException;
+			throws ConfigException;
 	
 	
 	// OBJECT

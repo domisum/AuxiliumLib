@@ -35,7 +35,7 @@ public abstract class ConfigObjectLoader<T extends ConfigObject>
 	
 	// LOADING
 	public ConfigObjectRegistry<T> load(File configDirectory)
-			throws InvalidConfigException
+			throws ConfigException
 	{
 		logger.info("Loading {}...", OBJECT_NAME_PLURAL());
 		
@@ -50,12 +50,12 @@ public abstract class ConfigObjectLoader<T extends ConfigObject>
 				T configObject = loadConfigObjectFromFile(file);
 				
 				if(configObjectsById.containsKey(configObject.getId()))
-					throw new InvalidConfigException(PHR.r("Duplicate config object id '{}'. Duplicate file: {}",
+					throw new ConfigException(PHR.r("Duplicate config object id '{}'. Duplicate file: {}",
 							configObject.getId(), file));
 				configObjectsById.put(configObject.getId(), configObject);
 			}
 			else
-				throw new InvalidConfigException(PHR.r(
+				throw new ConfigException(PHR.r(
 						"Config directory of {} contains file with wrong extension: '{}' (expected extension: '{}')",
 						OBJECT_NAME_PLURAL(), file.getName(), fileExtension));
 		
@@ -70,22 +70,22 @@ public abstract class ConfigObjectLoader<T extends ConfigObject>
 	}
 	
 	private T loadConfigObjectFromFile(File file)
-			throws InvalidConfigException
+			throws ConfigException
 	{
 		String fileContent = FileUtil.readString(file);
 		try
 		{
 			return createConfigObject(file, fileContent);
 		}
-		catch(JsonParseException|InvalidConfigException e)
+		catch(JsonParseException|ConfigException e)
 		{
 			String message = PHR.r("Invalid configuration of {} from file '{}'", OBJECT_NAME(), file.getName());
-			throw new InvalidConfigException(message, e);
+			throw new ConfigException(message, e);
 		}
 	}
 	
 	private T createConfigObject(File file, String fileContent)
-			throws InvalidConfigException
+			throws ConfigException
 	{
 		var configObject = deserialize(fileContent);
 		
@@ -103,7 +103,7 @@ public abstract class ConfigObjectLoader<T extends ConfigObject>
 	
 	// CREATE
 	protected abstract T deserialize(String configContent)
-			throws InvalidConfigException;
+			throws ConfigException;
 	
 	protected abstract Map<Class<?>,Object> getDependenciesToInject();
 	
