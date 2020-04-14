@@ -284,10 +284,10 @@ public final class FileUtil
 			return;
 		validateIsNotFile(directory);
 		
-		for(File file : listFilesFlat(directory, FileType.FILE))
+		for(var file : listFilesFlat(directory, FileType.FILE))
 			deleteFile(file);
 		
-		for(File dir : listFilesFlat(directory, FileType.DIRECTORY))
+		for(var dir : listFilesFlat(directory, FileType.DIRECTORY))
 			deleteDirectory(dir);
 	}
 	
@@ -479,14 +479,9 @@ public final class FileUtil
 		if(!file.exists())
 			return;
 		
-		try
-		{
-			Files.delete(file.toPath());
-		}
-		catch(IOException e)
-		{
-			throw new UncheckedIOException(e);
-		}
+		boolean deleteSuccessful = file.delete();
+		if(!deleteSuccessful)
+			throw new UncheckedIOException(new IOException("Failed to delete file: "+file));
 	}
 	
 	
