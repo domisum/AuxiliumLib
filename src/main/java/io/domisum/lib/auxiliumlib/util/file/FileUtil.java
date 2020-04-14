@@ -337,6 +337,19 @@ public final class FileUtil
 		return directoryContents;
 	}
 	
+	@API
+	public static boolean isDirectoryEmpty(File directory)
+	{
+		try(var dirContents = Files.list(directory.toPath()))
+		{
+			return dirContents.findAny().isEmpty();
+		}
+		catch(IOException e)
+		{
+			throw new UncheckedIOException("Failed to check if directory is empty: '"+directory+"'", e);
+		}
+	}
+	
 	
 	// TEMP
 	@API
