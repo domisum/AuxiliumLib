@@ -35,6 +35,14 @@ public class ConfigException
 	}
 	
 	@API
+	@SuppressWarnings("BooleanParameter")
+	public static void validateIsFalse(boolean expression, String failMessage)
+			throws ConfigException
+	{
+		validateIsTrue(!expression, failMessage);
+	}
+	
+	@API
 	public static void validateIsSet(Object object, String objectName)
 			throws ConfigException
 	{
