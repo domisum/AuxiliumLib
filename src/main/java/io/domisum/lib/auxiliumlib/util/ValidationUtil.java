@@ -50,6 +50,14 @@ public final class ValidationUtil
 			throw new IllegalArgumentException("Collection '"+collectionName+"' has to contain element '"+element+"', but didn't");
 	}
 	
+	@API
+	public static void noNullElements(Collection<?> collection, String collectionName)
+	{
+		notNull(collection, collectionName);
+		if(collection.contains(null))
+			throw new IllegalArgumentException("Collection '" + collectionName + "' can't contain null, but did");
+	}
+	
 	
 	// COMPARISON
 	@API
