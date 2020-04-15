@@ -42,6 +42,14 @@ public final class ValidationUtil
 			throw new IllegalArgumentException("Collection '"+collectionName+"' can't be empty");
 	}
 	
+	@API
+	public static <T> void contains(Collection<T> collection, T element, String collectionName)
+	{
+		notNull(collection, collectionName);
+		if(!collection.contains(element))
+			throw new IllegalArgumentException("Collection '"+collectionName+"' has to contain element '"+element+"', but didn't");
+	}
+	
 	
 	// COMPARISON
 	@API
