@@ -102,6 +102,13 @@ public final class DurationUtil
 	}
 	
 	@API
+	public static boolean isYoungerThan(Instant instant, Duration duration)
+	{
+		var age = toNow(instant);
+		return age.compareTo(duration) < 0;
+	}
+	
+	@API
 	public static boolean hasPassed(Instant instant)
 	{
 		return instant.isBefore(Instant.now());
