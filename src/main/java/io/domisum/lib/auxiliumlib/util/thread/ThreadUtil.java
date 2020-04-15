@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 
 import java.time.Duration;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class ThreadUtil
@@ -137,6 +138,7 @@ public final class ThreadUtil
 			sleep(delay);
 			
 			LOGGER.error("Shutdown did not complete after {}, forcing exit", DurationDisplay.of(delay));
+			LOGGER.error("Thread dump: {}", getThreadDump());
 			System.exit(-1);
 		}, "emergencyDelayedExit");
 	}
@@ -157,6 +159,16 @@ public final class ThreadUtil
 	
 	
 	// DEBUGGING
+	@API
+	public static String getThreadDump()
+	{
+		var threadsAsString = new HashSet<String>();
+		for(var thread : Thread.getAllStackTraces().keySet())
+			threadsAsString.add(convertThreadToString(thread));
+		
+		return StringUtil.collectionToString(threadsAsString, "\n\n");
+	}
+	
 	@API
 	public static String convertThreadToString(Thread thread)
 	{
