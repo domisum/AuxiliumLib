@@ -1,4 +1,4 @@
-package io.domisum.lib.auxiliumlib.util.java;
+package io.domisum.lib.auxiliumlib.util;
 
 import io.domisum.lib.auxiliumlib.annotations.API;
 import io.domisum.lib.auxiliumlib.exceptions.ShouldNeverHappenError;

@@ -1,4 +1,4 @@
-package io.domisum.lib.auxiliumlib.util.java.thread;
+package io.domisum.lib.auxiliumlib.util.thread;
 
 import io.domisum.lib.auxiliumlib.annotations.API;
 import lombok.AccessLevel;

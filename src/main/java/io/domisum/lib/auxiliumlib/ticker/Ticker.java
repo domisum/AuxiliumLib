@@ -3,7 +3,7 @@ package io.domisum.lib.auxiliumlib.ticker;
 import io.domisum.lib.auxiliumlib.annotations.API;
 import io.domisum.lib.auxiliumlib.display.DurationDisplay;
 import io.domisum.lib.auxiliumlib.util.DurationUtil;
-import io.domisum.lib.auxiliumlib.util.java.thread.ThreadUtil;
+import io.domisum.lib.auxiliumlib.util.thread.ThreadUtil;
 import lombok.Getter;
 import org.apache.commons.lang3.Validate;
 import org.slf4j.Logger;

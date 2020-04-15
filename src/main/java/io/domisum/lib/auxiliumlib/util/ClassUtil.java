@@ -1,4 +1,4 @@
-package io.domisum.lib.auxiliumlib.util.java;
+package io.domisum.lib.auxiliumlib.util;
 
 import com.google.common.reflect.ClassPath;
 import io.domisum.lib.auxiliumlib.annotations.API;

@@ -2,7 +2,6 @@ package io.domisum.lib.auxiliumlib.util;
 
 import io.domisum.lib.auxiliumlib.annotations.API;
 import io.domisum.lib.auxiliumlib.display.DurationDisplay;
-import io.domisum.lib.auxiliumlib.util.java.Compare;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 
