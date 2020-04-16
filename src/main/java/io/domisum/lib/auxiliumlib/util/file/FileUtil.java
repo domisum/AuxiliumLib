@@ -465,11 +465,11 @@ public final class FileUtil
 	
 	// GENERAL FILE
 	@API
-	public static boolean createEmptyFile(File file)
+	public static void createEmptyFile(File file)
 	{
 		try
 		{
-			return file.createNewFile();
+			file.createNewFile();
 		}
 		catch(IOException e)
 		{
