@@ -12,6 +12,8 @@ import org.slf4j.LoggerFactory;
 import javax.annotation.Nullable;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.Objects;
+import java.util.UUID;
 import java.util.function.Supplier;
 
 @API
@@ -105,9 +107,9 @@ public abstract class Ticker
 	{
 		var alreadyActiveTicking = getTicking();
 		if(alreadyActiveTicking != null)
-			throw new IllegalStateException("Can't start ticker with status "+alreadyActiveTicking.status);
+			throw new IllegalStateException("Can't start ticker '"+name+"' with status "+alreadyActiveTicking.status);
 		
-		logger.info("Starting ticker {}...", name);
+		logger.info("Starting ticker '{}'", name);
 		ticking = new Ticking();
 	}
 	
@@ -130,7 +132,7 @@ public abstract class Ticker
 		if(ticking == null)
 			return;
 		
-		logger.info("Stopping ticker {} (hard: {})...", name, hard);
+		logger.info("Stopping ticker '{}'", name);
 		ticking.stop(hard);
 	}
 	
@@ -158,6 +160,7 @@ public abstract class Ticker
 	class Ticking
 	{
 		
+		private final String id = UUID.randomUUID().toString();
 		private final Thread tickThread;
 		@Getter
 		private TickingStatus status = TickingStatus.RUNNING;
@@ -170,6 +173,8 @@ public abstract class Ticker
 			tickThread = ThreadUtil.createAndStartThread(this::run, name);
 			if(timeout != null)
 				TickerWatchdog.watch(this);
+			
+			logger.info("Started ticking '{}' in ticker '{}'", id, name);
 		}
 		
 		
@@ -179,14 +184,14 @@ public abstract class Ticker
 			if(status != TickingStatus.RUNNING)
 				return;
 			
+			boolean self = Objects.equals(Thread.currentThread(), tickThread);
+			logger.info("Stopping ticking '{}' in ticker '{}' (hard: {}, self: {})", id, name, hard, self);
+			
 			status = TickingStatus.STOPPING;
 			if(hard)
 				tickThread.interrupt();
-			if(Thread.currentThread() != tickThread)
+			if(!self)
 				ThreadUtil.join(tickThread);
-			
-			logger.info("Ticker {} stopped", name);
-			status = TickingStatus.DEAD;
 		}
 		
 		
@@ -202,6 +207,9 @@ public abstract class Ticker
 				if(status == TickingStatus.RUNNING)
 					ThreadUtil.sleep(interval);
 			}
+			
+			status = TickingStatus.DEAD;
+			logger.info("Ticking '{}' in ticker '{}' ended", id, name);
 		}
 		
 		private void tickCaught()
@@ -216,12 +224,12 @@ public abstract class Ticker
 			}
 			catch(ThreadDeath e)
 			{
-				logger.info("Detected ThreadDeath", e);
+				logger.info("Detected ThreadDeath in ticking '{}'", id, e);
 				throw e;
 			}
 			catch(Throwable t)
 			{
-				logger.error("Uncaught exception in ticker {}", name, t);
+				logger.error("Uncaught exception in ticker '{}'", name, t);
 				throw t;
 			}
 		}
@@ -231,7 +239,7 @@ public abstract class Ticker
 		void watchdogTick()
 		{
 			// get local reference to avoid impact of changes in variable during run of method
-			Instant lastTickStart = this.lastTickStart;
+			var lastTickStart = this.lastTickStart;
 			if(lastTickStart == null)
 				return;
 			
@@ -241,12 +249,11 @@ public abstract class Ticker
 		
 		private void timeout()
 		{
-			logger.error(
-					"Ticker {} timed out (after {}). Current stacktrace:\n{}",
+			logger.error("Ticking '{}' in ticker '{}' timed out (after {}). Current stacktrace:\n{}",
+					id,
 					name,
 					DurationDisplay.of(timeout),
-					ThreadUtil.convertThreadToString(tickThread)
-			);
+					ThreadUtil.convertThreadToString(tickThread));
 			
 			boolean restart = status == TickingStatus.RUNNING;
 			
