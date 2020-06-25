@@ -102,6 +102,9 @@ public final class LazyCache<KeyT, T>
 	
 	private synchronized boolean isExpireDue()
 	{
+		if(expirationDuration == null)
+			return false;
+		
 		boolean isExpirationDue = DurationUtil.isOlderThan(lastExpirationCheck, expirationDuration);
 		if(isExpirationDue)
 			lastExpirationCheck = Instant.now();
