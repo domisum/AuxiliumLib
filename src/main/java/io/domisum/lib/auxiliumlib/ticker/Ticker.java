@@ -2,7 +2,7 @@ package io.domisum.lib.auxiliumlib.ticker;
 
 import io.domisum.lib.auxiliumlib.annotations.API;
 import io.domisum.lib.auxiliumlib.display.DurationDisplay;
-import io.domisum.lib.auxiliumlib.util.DurationUtil;
+import io.domisum.lib.auxiliumlib.util.TimeUtil;
 import io.domisum.lib.auxiliumlib.util.thread.ThreadUtil;
 import lombok.Getter;
 import org.apache.commons.lang3.Validate;
@@ -243,7 +243,7 @@ public abstract class Ticker
 			if(lastTickStart == null)
 				return;
 			
-			if(DurationUtil.isOlderThan(lastTickStart, timeout))
+			if(TimeUtil.isOlderThan(lastTickStart, timeout))
 				timeout();
 		}
 		

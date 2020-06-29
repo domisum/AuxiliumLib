@@ -1,7 +1,7 @@
 package io.domisum.lib.auxiliumlib.ticker;
 
 import io.domisum.lib.auxiliumlib.annotations.API;
-import io.domisum.lib.auxiliumlib.util.DurationUtil;
+import io.domisum.lib.auxiliumlib.util.TimeUtil;
 import lombok.RequiredArgsConstructor;
 
 import java.time.Duration;
@@ -84,7 +84,7 @@ public class IntervalTaskTicker
 		// GETTERS
 		protected boolean shouldRunNow()
 		{
-			return DurationUtil.hasPassed(nextExecution);
+			return TimeUtil.hasPassed(nextExecution);
 		}
 		
 		

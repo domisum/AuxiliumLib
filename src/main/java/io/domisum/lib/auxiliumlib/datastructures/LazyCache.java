@@ -1,7 +1,7 @@
 package io.domisum.lib.auxiliumlib.datastructures;
 
 import io.domisum.lib.auxiliumlib.annotations.API;
-import io.domisum.lib.auxiliumlib.util.DurationUtil;
+import io.domisum.lib.auxiliumlib.util.TimeUtil;
 import io.domisum.lib.auxiliumlib.util.math.RandomUtil;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -105,7 +105,7 @@ public final class LazyCache<KeyT, T>
 		if(expirationDuration == null)
 			return false;
 		
-		boolean isExpirationDue = DurationUtil.isOlderThan(lastExpirationCheck, expirationDuration);
+		boolean isExpirationDue = TimeUtil.isOlderThan(lastExpirationCheck, expirationDuration);
 		if(isExpirationDue)
 			lastExpirationCheck = Instant.now();
 		return isExpirationDue;
@@ -158,9 +158,9 @@ public final class LazyCache<KeyT, T>
 				return false;
 			
 			if(onlyExpireUnused)
-				return DurationUtil.isOlderThan(lastUsed, expirationDuration);
+				return TimeUtil.isOlderThan(lastUsed, expirationDuration);
 			
-			return DurationUtil.isOlderThan(created, expirationDuration);
+			return TimeUtil.isOlderThan(created, expirationDuration);
 		}
 		
 	}
