@@ -12,7 +12,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @RequiredArgsConstructor
-public class TimedLock<T>
+public class TimedMultiLock<T>
 {
 	
 	// SETTINGS
