@@ -23,6 +23,13 @@ public class TimedMultiLock<T>
 	private final Map<T,Instant> lockedUntilMap = new HashMap<>();
 	
 	
+	// INIT
+	public TimedMultiLock()
+	{
+		defaultDuration = null;
+	}
+	
+	
 	// LOCK
 	@API
 	public synchronized void lock(T key, Duration duration)
