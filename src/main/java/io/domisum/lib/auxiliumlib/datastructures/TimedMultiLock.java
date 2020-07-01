@@ -2,11 +2,13 @@ package io.domisum.lib.auxiliumlib.datastructures;
 
 import io.domisum.lib.auxiliumlib.annotations.API;
 import io.domisum.lib.auxiliumlib.util.TimeUtil;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 import javax.annotation.Nullable;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -16,6 +18,7 @@ public class TimedMultiLock<T>
 {
 	
 	// SETTINGS
+	@Getter
 	@Nullable
 	private final Duration defaultDuration;
 	
@@ -85,6 +88,13 @@ public class TimedMultiLock<T>
 		}
 		
 		return Optional.of(remainingLockDuration);
+	}
+	
+	@API
+	public synchronized Optional<Instant> getNextLockReleaseInstant()
+	{
+		lockedUntilMap.entrySet().removeIf(e->TimeUtil.hasPassed(e.getValue()));
+		return lockedUntilMap.values().stream().min(Comparator.naturalOrder());
 	}
 	
 }
