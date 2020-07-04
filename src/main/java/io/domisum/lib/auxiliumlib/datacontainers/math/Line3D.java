@@ -31,7 +31,7 @@ public class Line3D
 	public boolean containsPoint(Vector3D point)
 	{
 		var crossProduct = direction.deriveCrossProduct(point.deriveSubtract(base));
-		return crossProduct.lengthSquared()<=THRESHOLD;
+		return crossProduct.lengthSquared() <= THRESHOLD;
 	}
 	
 	@API

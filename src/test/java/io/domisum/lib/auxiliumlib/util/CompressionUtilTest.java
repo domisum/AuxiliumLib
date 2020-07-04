@@ -52,7 +52,7 @@ public class CompressionUtilTest
 	public void testRandomData()
 	{
 		var random = new Random(381);
-		for(int i = 0; i<200; i++)
+		for(int i = 0; i < 200; i++)
 			compressDecompressAndAssertEquals(getPseudorandomData(random.nextInt(128*1024), random));
 	}
 	

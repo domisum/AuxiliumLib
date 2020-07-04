@@ -46,10 +46,10 @@ public class Quaternion
 		double w = norm+vector1.dotProduct(vector2);
 		
 		Vector3D axis;
-		if(w<(1.e-5d*norm))
+		if(w < (1.e-5d*norm))
 		{
 			w = 0;
-			axis = (vector1.getX()>vector1.getZ()) ?
+			axis = (vector1.getX() > vector1.getZ()) ?
 					new Vector3D(-vector1.getY(), vector1.getX(), 0) :
 					new Vector3D(0, -vector1.getZ(), vector1.getY());
 		}

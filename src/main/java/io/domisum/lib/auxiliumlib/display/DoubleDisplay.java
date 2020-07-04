@@ -61,7 +61,7 @@ public final class DoubleDisplay
 	{
 		if(number == null)
 			return "/";
-		if(number<0)
+		if(number < 0)
 			return "-"+generateDisplay(Math.abs(number));
 		if(Objects.equals(number, 0.0))
 			return "0.0";

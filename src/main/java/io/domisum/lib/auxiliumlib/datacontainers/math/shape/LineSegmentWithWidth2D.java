@@ -20,7 +20,7 @@ public class LineSegmentWithWidth2D
 	@Override
 	public boolean contains(Vector2D point)
 	{
-		return lineSegment.getDistanceTo(point)<maxDistance;
+		return lineSegment.getDistanceTo(point) < maxDistance;
 	}
 	
 }

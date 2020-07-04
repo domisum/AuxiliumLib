@@ -33,7 +33,7 @@ public class Polygon2D
 	@API
 	public Polygon2D(List<Vector2D> points)
 	{
-		if(points.size()<=2)
+		if(points.size() <= 2)
 			throw new IllegalArgumentException("A polygon has to have at least 3 points");
 		this.points = Collections.unmodifiableList(points);
 	}
@@ -88,7 +88,7 @@ public class Polygon2D
 			{
 				double angleDeg = before.getDirection().getAngleToDeg(lineSegment2D.getDirection());
 				
-				boolean convex = (angleDeg<0)^isClockwise();
+				boolean convex = (angleDeg < 0)^isClockwise();
 				var orientation = convex ?
 						PolygonCornerOrientation.CONVEX :
 						PolygonCornerOrientation.CONCAVE;
@@ -116,14 +116,14 @@ public class Polygon2D
 		
 		for(var point : points)
 		{
-			if(point.getX()<minX)
+			if(point.getX() < minX)
 				minX = point.getX();
-			if(point.getX()>maxX)
+			if(point.getX() > maxX)
 				maxX = point.getX();
 			
-			if(point.getY()<minY)
+			if(point.getY() < minY)
 				minY = point.getY();
-			if(point.getY()>maxY)
+			if(point.getY() > maxY)
 				maxY = point.getY();
 		}
 		
@@ -214,7 +214,7 @@ public class Polygon2D
 		for(var lineSegment2D : getLines())
 			sum += (lineSegment2D.getPointB().getX()-lineSegment2D.getPointA().getX())*(lineSegment2D.getPointA().getY()+lineSegment2D.getPointB().getY());
 		
-		clockwise = sum>0;
+		clockwise = sum > 0;
 		return clockwise;
 	}
 	
@@ -245,7 +245,7 @@ public class Polygon2D
 		for(var lineSegment2D : getLines())
 		{
 			double distance = lineSegment2D.getDistanceTo(point);
-			if(distance<minDistance)
+			if(distance < minDistance)
 				minDistance = distance;
 		}
 		

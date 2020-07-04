@@ -51,9 +51,9 @@ public class LineSegment2D
 		var w = point.deriveSubtract(pointA);
 		double wvProduct = w.dotProduct(v);
 		double vvProduct = v.dotProduct(v);
-		if(wvProduct<=0)
+		if(wvProduct <= 0)
 			return point.distanceTo(pointA);
-		if(v.dotProduct(v)<=wvProduct)
+		if(v.dotProduct(v) <= wvProduct)
 			return point.distanceTo(pointB);
 		double productQuot = wvProduct/vvProduct;
 		var pointOnSegment = pointA.deriveAdd(v.deriveMultiply(productQuot));
@@ -115,7 +115,7 @@ public class LineSegment2D
 	public boolean contains(Vector2D point)
 	{
 		double distance = getDistanceTo(point);
-		return distance<Line3D.THRESHOLD;
+		return distance < Line3D.THRESHOLD;
 	}
 	
 	
@@ -127,9 +127,9 @@ public class LineSegment2D
 		var oneToTwo = p2.deriveSubtract(p1);
 		var twoToThree = p3.deriveSubtract(p2);
 		double rot = (oneToTwo.getY()*twoToThree.getX())-(twoToThree.getY()*oneToTwo.getX());
-		if(Math.abs(rot)<Line3D.THRESHOLD)
+		if(Math.abs(rot) < Line3D.THRESHOLD)
 			return PointArrangement.COLINEAR;
-		var pointArrangement = (rot<0) ?
+		var pointArrangement = (rot < 0) ?
 				PointArrangement.COUNTERCLOCKWISE :
 				PointArrangement.CLOCKWISE;
 		

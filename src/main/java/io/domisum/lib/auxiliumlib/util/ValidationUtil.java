@@ -54,7 +54,7 @@ public final class ValidationUtil
 	{
 		notNull(collection, collectionName);
 		if(collection.contains(null))
-			throw new IllegalArgumentException("Collection '" + collectionName + "' can't contain null, but did");
+			throw new IllegalArgumentException("Collection '"+collectionName+"' can't contain null, but did");
 	}
 	
 	

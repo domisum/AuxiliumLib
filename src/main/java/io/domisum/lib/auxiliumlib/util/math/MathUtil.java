@@ -38,7 +38,7 @@ public final class MathUtil
 	@API
 	public static double clampAbs(double number, double maximumAbs)
 	{
-		return ((number<0) ?
+		return ((number < 0) ?
 				-1 :
 				1)*Math.min(Math.abs(number), maximumAbs);
 	}
@@ -46,13 +46,13 @@ public final class MathUtil
 	@API
 	public static double clamp(double min, double max, double value)
 	{
-		if(min>max)
+		if(min > max)
 			throw new IllegalArgumentException(PHR.r("min ({}) was bigger than max ({})", min, max));
 		
-		if(value<min)
+		if(value < min)
 			return min;
 		
-		if(value>max)
+		if(value > max)
 			return max;
 		
 		return value;
@@ -61,13 +61,13 @@ public final class MathUtil
 	@API
 	public static int clamp(int min, int max, int value)
 	{
-		if(min>max)
+		if(min > max)
 			throw new IllegalArgumentException(PHR.r("min ({}) was bigger than max ({})", min, max));
 		
-		if(value<min)
+		if(value < min)
 			return min;
 		
-		if(value>max)
+		if(value > max)
 			return max;
 		
 		return value;
@@ -108,14 +108,14 @@ public final class MathUtil
 	@API
 	public static boolean isAngleNearDeg(double a, double b, double maxD)
 	{
-		return getAngleDistanceDeg(a, b)<maxD;
+		return getAngleDistanceDeg(a, b) < maxD;
 	}
 	
 	@API
 	public static double getAngleDistanceDeg(double a, double b)
 	{
 		double delta = Math.abs(a-b)%360;
-		if(delta>180)
+		if(delta > 180)
 			delta = 360-delta;
 		
 		return delta;
@@ -139,7 +139,7 @@ public final class MathUtil
 			throw new IllegalArgumentException("can't round NaN");
 		
 		int factor = 1;
-		for(int i = 0; i<decimalPlaces; i++)
+		for(int i = 0; i < decimalPlaces; i++)
 			factor *= 10;
 		
 		return (double) Math.round(numberToRound*factor)/factor;
@@ -152,7 +152,7 @@ public final class MathUtil
 	{
 		// https://en.wikipedia.org/wiki/Smoothstep
 		
-		if(input<=0)
+		if(input <= 0)
 			return 0;
 		
 		if(input >= 1)
@@ -167,7 +167,7 @@ public final class MathUtil
 	{
 		// https://en.wikipedia.org/wiki/Smoothstep#Variations
 		
-		if(input<=0)
+		if(input <= 0)
 			return 0;
 		
 		if(input >= 1)

@@ -6,18 +6,18 @@ import io.domisum.lib.auxiliumlib.annotations.API;
 public class NotApplicableException
 		extends RuntimeException
 {
-
+	
 	// INIT
 	@API
 	public NotApplicableException()
 	{
-
+		
 	}
-
+	
 	@API
 	public NotApplicableException(String message)
 	{
 		super(message);
 	}
-
+	
 }

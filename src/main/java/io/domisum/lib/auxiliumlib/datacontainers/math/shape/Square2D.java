@@ -37,10 +37,10 @@ public class Square2D
 	@Override
 	public boolean contains(Vector2D point)
 	{
-		if((point.getX()<minX) || (point.getX()>maxX))
+		if((point.getX() < minX) || (point.getX() > maxX))
 			return false;
 		
-		if((point.getY()<minY) || (point.getY()>maxY))
+		if((point.getY() < minY) || (point.getY() > maxY))
 			return false;
 		
 		return true;

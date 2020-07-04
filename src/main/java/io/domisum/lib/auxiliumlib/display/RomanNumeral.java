@@ -55,7 +55,7 @@ public final class RomanNumeral
 		int remaining = number;
 		var roman = new StringBuilder();
 		
-		while(remaining>0)
+		while(remaining > 0)
 			for(var romanToken : RomanToken.values())
 				if(remaining >= romanToken.getValue())
 				{
@@ -80,7 +80,7 @@ public final class RomanNumeral
 			if(romanToken == null)
 				throw new IllegalArgumentException("invalid characters in roman numeral: "+roman);
 			
-			if(previousToken != null && romanToken.getValue()>previousToken.getValue())
+			if(previousToken != null && romanToken.getValue() > previousToken.getValue())
 				throw new IllegalArgumentException(PHR.r("invalid order of tokens: {} ({} before {})", roman, previousToken, romanToken));
 			
 			value += romanToken.getValue();
@@ -90,7 +90,7 @@ public final class RomanNumeral
 				previousTokenCount = 0;
 			previousToken = romanToken;
 			previousTokenCount++;
-			if(previousTokenCount>previousToken.getMaxRepeatNumber())
+			if(previousTokenCount > previousToken.getMaxRepeatNumber())
 				throw new IllegalArgumentException(PHR.r("token {} repeated too often (max repeats: {})", previousToken, previousToken.getMaxRepeatNumber()));
 		}
 		

@@ -89,7 +89,7 @@ public final class DurationDisplay
 	
 	private static boolean isLessThan(Duration a, Duration b)
 	{
-		return a.compareTo(b)<0;
+		return a.compareTo(b) < 0;
 	}
 	
 	
