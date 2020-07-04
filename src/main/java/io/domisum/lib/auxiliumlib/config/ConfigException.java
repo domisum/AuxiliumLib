@@ -101,7 +101,7 @@ public class ConfigException
 		
 		validateIsSet(port, portName);
 		if(port < 1 || port > MAX_PORT_VALUE)
-			throw new ConfigException("port "+portName+" out of range [1-"+MAX_PORT_VALUE+"]: "+port);
+			throw new ConfigException("Port "+portName+" out of range [1-"+MAX_PORT_VALUE+"]: "+port);
 	}
 	
 }
