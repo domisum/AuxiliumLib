@@ -47,7 +47,7 @@ public final class MultiTickerStopper
 		for(var waitThread : waitThreads)
 			ThreadUtil.join(waitThread);
 		
-		LOGGER.info("All tickers were stopped and completed");
+		LOGGER.info("...All tickers were stopped and completed");
 	}
 	
 }
