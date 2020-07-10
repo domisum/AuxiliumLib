@@ -1,7 +1,7 @@
 package io.domisum.lib.auxiliumlib.util;
 
 import io.domisum.lib.auxiliumlib.annotations.API;
-import io.domisum.lib.auxiliumlib.exceptions.ShouldNeverHappenError;
+import io.domisum.lib.auxiliumlib.exceptions.ProgrammingError;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.Validate;
@@ -49,7 +49,7 @@ public final class CompressionUtil
 		}
 		catch(IOException e)
 		{
-			throw new ShouldNeverHappenError(e);
+			throw new ProgrammingError(e);
 		}
 	}
 	
@@ -75,7 +75,7 @@ public final class CompressionUtil
 		}
 		catch(IOException e)
 		{
-			throw new ShouldNeverHappenError(e);
+			throw new ProgrammingError(e);
 		}
 	}
 	

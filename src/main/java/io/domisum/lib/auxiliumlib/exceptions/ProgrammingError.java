@@ -3,30 +3,30 @@ package io.domisum.lib.auxiliumlib.exceptions;
 import io.domisum.lib.auxiliumlib.annotations.API;
 
 @API
-public class ShouldNeverHappenError
+public class ProgrammingError
 		extends AssertionError
 {
 	
 	@API
-	public ShouldNeverHappenError()
+	public ProgrammingError()
 	{
 	
 	}
 	
 	@API
-	public ShouldNeverHappenError(String message)
+	public ProgrammingError(String message)
 	{
 		super(message);
 	}
 	
 	@API
-	public ShouldNeverHappenError(String message, Throwable cause)
+	public ProgrammingError(String message, Throwable cause)
 	{
 		super(message, cause);
 	}
 	
 	@API
-	public ShouldNeverHappenError(Throwable cause)
+	public ProgrammingError(Throwable cause)
 	{
 		super(cause);
 	}
