@@ -15,7 +15,7 @@ public final class TimeUtil
 	
 	// MATH
 	@API
-	public static Duration getDelta(Duration duration1, Duration duration2)
+	public static Duration getDeltaAbs(Duration duration1, Duration duration2)
 	{
 		return duration1.minus(duration2).abs();
 	}
