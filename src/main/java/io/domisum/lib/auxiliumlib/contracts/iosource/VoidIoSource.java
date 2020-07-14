@@ -7,21 +7,20 @@ import java.io.IOException;
 public interface VoidIoSource<T>
 {
 	
-	// SOURCE
 	@API
-	T fetch()
+	T get()
 			throws IOException;
 	
 	@API
-	default IoOptional<T> fetchOptional()
+	default IoOptional<T> getOptional()
 	{
-		return IoOptional.ofAction(this::fetch);
+		return IoOptional.ofAction(this::get);
 	}
 	
 	@API
-	default T fetchOrThrowUncheckedException()
+	default T getOrThrowUncheckedException()
 	{
-		return fetchOptional().getOrThrowUnchecked();
+		return getOptional().getOrThrowUnchecked();
 	}
 	
 }

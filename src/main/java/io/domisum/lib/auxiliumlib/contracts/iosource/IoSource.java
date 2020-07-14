@@ -8,21 +8,20 @@ import java.io.IOException;
 public interface IoSource<KeyT, T>
 {
 	
-	// SOURCE
 	@API
-	T fetch(KeyT key)
+	T get(KeyT key)
 			throws IOException;
 	
 	@API
-	default IoOptional<T> fetchOptional(KeyT key)
+	default IoOptional<T> getOptional(KeyT key)
 	{
-		return IoOptional.ofAction(()->fetch(key));
+		return IoOptional.ofAction(()->get(key));
 	}
 	
 	@API
-	default T fetchOrThrowUncheckedException(KeyT key)
+	default T getOrThrowUncheckedException(KeyT key)
 	{
-		return fetchOptional(key).getOrThrowUnchecked();
+		return getOptional(key).getOrThrowUnchecked();
 	}
 	
 }
