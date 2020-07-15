@@ -250,20 +250,18 @@ public abstract class Ticker
 		private void timeout()
 		{
 			logger.error("Ticking '{}' in ticker '{}' timed out (after {}). Current stacktrace:\n{}",
-					id,
-					name,
-					DurationDisplay.of(timeout),
-					ThreadUtil.convertThreadToString(tickThread));
+					id, name, DurationDisplay.of(timeout), ThreadUtil.convertThreadToString(tickThread));
 			
-			boolean restart = status == TickingStatus.RUNNING;
+			boolean shouldRestart = status == TickingStatus.RUNNING;
 			
 			tickThread.setName(tickThread.getName()+"#timedOut");
+			tickThread.setDaemon(true);
 			tickThread.interrupt();
 			ThreadUtil.tryKill(tickThread);
 			lastTickStart = null;
 			status = TickingStatus.DEAD;
 			
-			if(restart)
+			if(shouldRestart)
 				start();
 		}
 		
