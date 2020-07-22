@@ -66,6 +66,13 @@ public final class ValidationUtil
 			throw new IllegalArgumentException("double '"+variableName+"' has to be greater than zero, but was "+number);
 	}
 	
+	@API
+	public static void greaterZero(int number, String variableName)
+	{
+		if(number <= 0)
+			throw new IllegalArgumentException("int '"+variableName+"' has to be greater than zero, but was "+number);
+	}
+	
 	
 	// INTERVAL INT
 	@API
