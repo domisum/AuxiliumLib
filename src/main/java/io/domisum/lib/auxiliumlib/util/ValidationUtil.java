@@ -73,6 +73,20 @@ public final class ValidationUtil
 			throw new IllegalArgumentException("int '"+variableName+"' has to be greater than zero, but was "+number);
 	}
 	
+	@API
+	public static void notNegative(double number, String variableName)
+	{
+		if(number < 0)
+			throw new IllegalArgumentException("double '"+variableName+"' can't be negative, but was "+number);
+	}
+	
+	@API
+	public static void notNegative(int number, String variableName)
+	{
+		if(number < 0)
+			throw new IllegalArgumentException("int '"+variableName+"' can't be negative, but was "+number);
+	}
+	
 	
 	// INTERVAL INT
 	@API
