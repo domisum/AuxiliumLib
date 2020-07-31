@@ -92,6 +92,12 @@ public final class LazyCache<KeyT, T>
 		return Optional.of(entry.getValue());
 	}
 	
+	@API
+	public void clear()
+	{
+		entries.clear();
+	}
+	
 	
 	// EXPIRATION
 	private void ifDueExpire()
