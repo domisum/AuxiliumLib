@@ -43,8 +43,20 @@ public abstract class ConfigObjectLoader<T extends ConfigObject>
 		if(fileExtension.startsWith("."))
 			fileExtension = fileExtension.substring(1);
 		
+		String configDirPath = configDirectory.getAbsoluteFile().getPath();
+		
 		var configObjectsById = new HashMap<String,T>();
 		for(var file : FileUtil.listFilesRecursively(configDirectory, FileType.FILE))
+		{
+			String path = file.getAbsoluteFile().getPath();
+			String pathInDir = path.substring(configDirPath.length());
+			pathInDir = FileUtil.replaceDelimitersWithForwardSlash(pathInDir);
+			if(pathInDir.startsWith("/"))
+				pathInDir = pathInDir.substring(1);
+			
+			if(pathInDir.startsWith(".git"))
+				continue;
+			
 			if(fileExtension.equalsIgnoreCase(FileUtil.getCompositeExtension(file)))
 			{
 				T configObject = loadConfigObjectFromFile(file);
@@ -58,6 +70,7 @@ public abstract class ConfigObjectLoader<T extends ConfigObject>
 				throw new ConfigException(PHR.r(
 						"Config directory of {} contains file with wrong extension: '{}' (expected extension: '{}')",
 						OBJECT_NAME_PLURAL(), file.getName(), fileExtension));
+		}
 		
 		if(configObjectsById.isEmpty())
 			logger.info("(There are no {})", OBJECT_NAME_PLURAL());
