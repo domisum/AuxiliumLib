@@ -2,7 +2,6 @@ package io.domisum.lib.auxiliumlib.config;
 
 import io.domisum.lib.auxiliumlib.annotations.API;
 
-import java.io.File;
 import java.util.Collection;
 import java.util.Map;
 
@@ -77,18 +76,6 @@ public class ConfigException
 		validateIsSet(map, mapName);
 		if(!map.containsKey(key))
 			throw new ConfigException(mapName+" has to contain key "+key+", but didn't");
-	}
-	
-	
-	@API
-	public static void validateFileExists(String path, String fileDescription)
-			throws ConfigException
-	{
-		validateIsSet(path, fileDescription);
-		
-		var file = new File(path);
-		if(!file.exists())
-			throw new ConfigException(fileDescription+" does not exist ('"+path+"', abs: '"+file.getAbsolutePath()+"')");
 	}
 	
 	
