@@ -3,9 +3,9 @@ package io.domisum.lib.auxiliumlib.ticker;
 import io.domisum.lib.auxiliumlib.annotations.API;
 import io.domisum.lib.auxiliumlib.display.DurationDisplay;
 import io.domisum.lib.auxiliumlib.util.TimeUtil;
+import io.domisum.lib.auxiliumlib.util.ValidationUtil;
 import io.domisum.lib.auxiliumlib.util.thread.ThreadUtil;
 import lombok.Getter;
-import org.apache.commons.lang3.Validate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,22 +32,17 @@ public abstract class Ticker
 	private final Duration interval;
 	@Nullable
 	private final Duration timeout;
+	private final boolean isDaemon;
 	
 	// STATUS
 	private Ticking ticking;
 	
 	
-	// INIT HELPER
-	@API
-	public static Ticker create(String name, Duration interval, Tickable tickable)
-	{
-		return create(name, interval, TIMEOUT_DEFAULT, tickable);
-	}
-	
+	// INIT TICKABLE
 	@API
 	public static Ticker create(String name, Duration interval, @Nullable Duration timeout, Tickable tickable)
 	{
-		return new Ticker(name, interval, timeout)
+		return new Ticker(name, interval, timeout, false)
 		{
 			
 			@Override
@@ -59,6 +54,8 @@ public abstract class Ticker
 		};
 	}
 	
+	
+	// INIT RUNNABLE
 	@API
 	public static Ticker create(String name, Duration interval, Runnable tick)
 	{
@@ -68,7 +65,24 @@ public abstract class Ticker
 	@API
 	public static Ticker create(String name, Duration interval, @Nullable Duration timeout, Runnable tick)
 	{
-		return new Ticker(name, interval, timeout)
+		return create(name, interval, timeout, false, tick);
+	}
+	
+	@API
+	public static Ticker createDaemon(String name, Duration interval, @Nullable Duration timeout, Runnable tick)
+	{
+		return create(name, interval, timeout, true, tick);
+	}
+	
+	@API
+	public static Ticker createDaemon(String name, Duration interval, Runnable tick)
+	{
+		return create(name, interval, TIMEOUT_DEFAULT, true, tick);
+	}
+	
+	private static Ticker create(String name, Duration interval, @Nullable Duration timeout, boolean isDaemon, Runnable tick)
+	{
+		return new Ticker(name, interval, timeout, isDaemon)
 		{
 			
 			@Override
@@ -83,21 +97,17 @@ public abstract class Ticker
 	
 	// INIT
 	@API
-	protected Ticker(String name, Duration interval, @Nullable Duration timeout)
+	protected Ticker(String name, Duration interval, @Nullable Duration timeout, boolean isDaemon)
 	{
-		Validate.notNull(name, "name can't be null");
-		Validate.notNull(interval, "interval can't be null");
-		Validate.isTrue(interval.compareTo(Duration.ZERO) > 0, "interval has to be greater than zero");
+		ValidationUtil.notNull(name, "name");
+		ValidationUtil.greaterZero(interval, "interval");
+		if(timeout != null)
+			ValidationUtil.greaterZero(timeout, "timeout");
 		
 		this.name = name;
 		this.interval = interval;
 		this.timeout = timeout;
-	}
-	
-	@API
-	protected Ticker(String name, Duration interval)
-	{
-		this(name, interval, TIMEOUT_DEFAULT);
+		this.isDaemon = isDaemon;
 	}
 	
 	
@@ -170,7 +180,10 @@ public abstract class Ticker
 		// INIT
 		public Ticking()
 		{
-			tickThread = ThreadUtil.createAndStartThread(this::run, name);
+			if(isDaemon)
+				tickThread = ThreadUtil.createAndStartDaemonThread(this::run, name);
+			else
+				tickThread = ThreadUtil.createAndStartThread(this::run, name);
 			if(timeout != null)
 				TickerWatchdog.watch(this);
 			
@@ -250,7 +263,7 @@ public abstract class Ticker
 		private void timeout()
 		{
 			logger.error("Ticking '{}' in ticker '{}' timed out (after {}). Current stacktrace:\n{}",
-					id, name, DurationDisplay.of(timeout), ThreadUtil.convertThreadToString(tickThread));
+				id, name, DurationDisplay.of(timeout), ThreadUtil.convertThreadToString(tickThread));
 			
 			boolean shouldRestart = status == TickingStatus.RUNNING;
 			

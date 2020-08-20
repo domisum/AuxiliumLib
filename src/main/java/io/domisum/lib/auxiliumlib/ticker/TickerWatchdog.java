@@ -23,6 +23,7 @@ final class TickerWatchdog
 	
 	
 	// CONTROL
+	// package visible for ticker
 	static void watch(Ticking ticking)
 	{
 		watchedTickings.add(ticking);
