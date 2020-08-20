@@ -114,15 +114,15 @@ public final class ValidationUtil
 		
 		if((value < start) || (value > end))
 			throw new IllegalArgumentException("int '"+variableName+"' has to be in interval "+
-					displayInterval(start, startInclusive, end, endInclusive)+", but was "+value);
+				displayInterval(start, startInclusive, end, endInclusive)+", but was "+value);
 		
 		if((value == start) && !startInclusive)
 			throw new IllegalArgumentException("int '"+variableName+"' has to be in interval "+
-					displayInterval(start, startInclusive, end, endInclusive)+", but was "+value+" (is equal to start and therefore excluded)");
+				displayInterval(start, startInclusive, end, endInclusive)+", but was "+value+" (is equal to start and therefore excluded)");
 		
 		if((value == end) && !endInclusive)
 			throw new IllegalArgumentException("int '"+variableName+"+ has to be in interval "+
-					displayInterval(start, startInclusive, end, endInclusive)+", but was "+value+" (is equal to end and therefore excluded)");
+				displayInterval(start, startInclusive, end, endInclusive)+", but was "+value+" (is equal to end and therefore excluded)");
 	}
 	
 	private static String displayInterval(int start, boolean startInclusive, int end, boolean endInclusive)
@@ -159,15 +159,15 @@ public final class ValidationUtil
 		
 		if((value < start) || (value > end))
 			throw new IllegalArgumentException("double '"+variableName+"' has to be in interval "+
-					displayInterval(start, startInclusive, end, endInclusive)+", but was "+value);
+				displayInterval(start, startInclusive, end, endInclusive)+", but was "+value);
 		
 		if((value == start) && !startInclusive)
 			throw new IllegalArgumentException("double '"+variableName+"' has to be in interval "+
-					displayInterval(start, startInclusive, end, endInclusive)+", but was "+value+" (is equal to start and therefore excluded)");
+				displayInterval(start, startInclusive, end, endInclusive)+", but was "+value+" (is equal to start and therefore excluded)");
 		
 		if((value == end) && !endInclusive)
 			throw new IllegalArgumentException("double '"+variableName+"' has to be in interval "+
-					displayInterval(start, startInclusive, end, endInclusive)+", but was "+value+" (is equal to end and therefore excluded)");
+				displayInterval(start, startInclusive, end, endInclusive)+", but was "+value+" (is equal to end and therefore excluded)");
 	}
 	
 	private static String displayInterval(double start, boolean startInclusive, double end, boolean endInclusive)
@@ -184,7 +184,14 @@ public final class ValidationUtil
 	{
 		if(Compare.greaterThanOrEqual(b, a))
 			throw new IllegalArgumentException("Duration '"+aName+"' ("+DurationDisplay.display(a)+") has to be greater than '"+
-					bName+"' ("+DurationDisplay.display(b)+"), but wasn't");
+				bName+"' ("+DurationDisplay.display(b)+"), but wasn't");
+	}
+	
+	public static void greaterZero(Duration duration, String variableName)
+	{
+		notNull(duration, variableName);
+		if(Compare.lessThanOrEqual(duration, Duration.ZERO))
+			throw new IllegalArgumentException("Duration '"+variableName+"' has to be greater than zero, but was "+duration);
 	}
 	
 	
