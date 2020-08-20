@@ -115,10 +115,25 @@ public abstract class Ticker
 	@API
 	public synchronized void start()
 	{
-		var alreadyActiveTicking = getTicking();
-		if(alreadyActiveTicking != null)
-			throw new IllegalStateException("Can't start ticker '"+name+"' with status "+alreadyActiveTicking.status);
+		var ticking = getTicking();
+		if(ticking != null)
+			throw new IllegalStateException("Can't start ticker '"+name+"' with status "+ticking.status);
 		
+		startWithoutChecks();
+	}
+	
+	@API
+	public synchronized void startIfNotAlreadyRunning()
+	{
+		var ticking = getTicking();
+		if(ticking != null)
+			return;
+		
+		startWithoutChecks();
+	}
+	
+	private void startWithoutChecks()
+	{
 		logger.info("Starting ticker '{}'", name);
 		ticking = new Ticking();
 	}
