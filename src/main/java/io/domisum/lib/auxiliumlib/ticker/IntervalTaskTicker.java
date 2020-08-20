@@ -35,7 +35,7 @@ public class IntervalTaskTicker
 	public synchronized void addTask(String taskName, Runnable task, Duration interval)
 	{
 		if(tasksLocked)
-			throw new IllegalStateException("can't add tasks after first start");
+			throw new IllegalStateException("Can't add tasks after first start");
 		
 		var intervalTask = new IntervalTask(taskName, task, interval);
 		tasks.add(intervalTask);
