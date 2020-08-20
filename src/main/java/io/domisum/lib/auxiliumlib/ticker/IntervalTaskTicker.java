@@ -12,7 +12,7 @@ import java.util.function.Supplier;
 
 @API
 public class IntervalTaskTicker
-		extends Ticker
+	extends Ticker
 {
 	
 	// CONSTANTS
@@ -28,7 +28,7 @@ public class IntervalTaskTicker
 	@API
 	public IntervalTaskTicker(String threadName, Duration timeout)
 	{
-		super(threadName, TICK_INTERVAL, timeout);
+		super(threadName, TICK_INTERVAL, timeout, false);
 	}
 	
 	@API
