@@ -29,8 +29,8 @@ public final class StringUtil
 		{
 			combined.append(list.get(i));
 			combined.append(((i+1) == list.size()) ?
-					"" :
-					delimiter);
+				"" :
+				delimiter);
 		}
 		return combined.toString();
 	}
@@ -61,14 +61,25 @@ public final class StringUtil
 		for(String string : strings)
 		{
 			String delimiterBeforeCurrent = lastPassing.isEmpty() ?
-					"" :
-					delimiter;
+				"" :
+				delimiter;
 			
 			String withCurrent = lastPassing+delimiterBeforeCurrent+string;
 			if(withCurrent.length() <= maxLength)
 				lastPassing = withCurrent;
 		}
 		return lastPassing;
+	}
+	
+	@API
+	public static String itemListDisplay(Collection<?> items)
+	{
+		var itemDisplays = new ArrayList<String>();
+		for(var item : items)
+			itemDisplays.add(" - "+item.toString());
+		
+		String listMultilineDisplay = listToString(itemDisplays, "\n");
+		return listMultilineDisplay;
 	}
 	
 	
@@ -104,6 +115,7 @@ public final class StringUtil
 			if(charactersToEscape.contains(charAt))
 			{
 				escaped = escaped.substring(0, i)+("\\"+charAt)+escaped.substring(i+1);
+				// noinspection AssignmentToForLoopParameter
 				i++;
 			}
 		}
