@@ -70,6 +70,15 @@ public class ConfigException
 	}
 	
 	@API
+	public static void validateNotEmpty(Map<?,?> map, String mapName)
+		throws ConfigException
+	{
+		validateIsSet(map, mapName);
+		if(map.isEmpty())
+			throw new ConfigException(mapName+" can't be empty");
+	}
+	
+	@API
 	public static <T> void validateContainsKey(Map<T,?> map, T key, String mapName)
 			throws ConfigException
 	{
