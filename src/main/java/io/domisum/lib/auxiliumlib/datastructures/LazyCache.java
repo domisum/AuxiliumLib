@@ -64,7 +64,7 @@ public final class LazyCache<KeyT, T>
 	
 	// CACHE
 	@API
-	public void set(KeyT key, T value)
+	public void put(KeyT key, T value)
 	{
 		ifDueExpire();
 		entries.put(key, new CacheEntry(value));
