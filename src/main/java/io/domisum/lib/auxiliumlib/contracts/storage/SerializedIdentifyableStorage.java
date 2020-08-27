@@ -2,7 +2,7 @@ package io.domisum.lib.auxiliumlib.contracts.storage;
 
 import io.domisum.lib.auxiliumlib.annotations.API;
 import io.domisum.lib.auxiliumlib.contracts.Identifyable;
-import io.domisum.lib.auxiliumlib.contracts.serialization.ToStringSerializer;
+import io.domisum.lib.auxiliumlib.contracts.serdes.StringSerdes;
 import io.domisum.lib.auxiliumlib.util.file.FileUtil;
 import io.domisum.lib.auxiliumlib.util.file.FileUtil.FileType;
 import org.slf4j.Logger;
@@ -26,12 +26,12 @@ public class SerializedIdentifyableStorage<T extends Identifyable>
 	// SETTINGS
 	private final File directory;
 	private final String fileExension; // without dot
-	private final ToStringSerializer<T> serializer;
+	private final StringSerdes<T> serializer;
 	
 	
 	// INIT
 	public SerializedIdentifyableStorage(
-			File directory, String fileExtension, ToStringSerializer<T> serializer)
+			File directory, String fileExtension, StringSerdes<T> serializer)
 	{
 		if(fileExtension.startsWith("."))
 			fileExtension = fileExtension.substring(1);

@@ -1,4 +1,4 @@
-package io.domisum.lib.auxiliumlib.contracts.serialization;
+package io.domisum.lib.auxiliumlib.contracts.serdes;
 
 import io.domisum.lib.auxiliumlib.annotations.API;
 
@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 @API
-public interface ToFromInputStreamSerializer<T>
+public interface InputStreamSerdes<T>
 {
 	
 	@API

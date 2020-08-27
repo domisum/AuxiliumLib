@@ -1,4 +1,4 @@
-package io.domisum.lib.auxiliumlib.contracts.serialization.json;
+package io.domisum.lib.auxiliumlib.contracts.serdes.json;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
@@ -8,8 +8,8 @@ import lombok.RequiredArgsConstructor;
 
 @API
 @RequiredArgsConstructor
-public class GsonSerializer<T>
-		implements JsonSerializer<T>
+public class GsonSerdes<T>
+		implements JsonSerdes<T>
 {
 	
 	// ATTRIBUTES
@@ -19,7 +19,7 @@ public class GsonSerializer<T>
 	
 	// INIT
 	@API
-	public GsonSerializer(Class<T> clazz)
+	public GsonSerdes(Class<T> clazz)
 	{
 		this(GsonUtil.get(), clazz);
 	}
