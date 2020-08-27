@@ -60,6 +60,22 @@ public final class ValidationUtil
 	
 	// COMPARISON
 	@API
+	public static void greaterThanOrEqual(double value, double minimumIncl, String valueName, String minimumInclName)
+	{
+		if(value < minimumIncl)
+			throw new IllegalArgumentException("double '"+valueName+"' ("+value+") has to be greater than or equal to '"+
+				minimumInclName+"' ("+minimumIncl+"), but wasn't");
+	}
+	
+	@API
+	public static void lessThanOrEqual(double value, double maximumIncl, String valueName, String maximumInclName)
+	{
+		if(value > maximumIncl)
+			throw new IllegalArgumentException("double '"+valueName+"' ("+value+") has to be less than or equal to '"+
+				maximumInclName+"' ("+maximumIncl+"), but wasn't");
+	}
+	
+	@API
 	public static void greaterZero(double number, String variableName)
 	{
 		if(number <= 0)
@@ -180,13 +196,22 @@ public final class ValidationUtil
 	
 	// DURATION
 	@API
-	public static void greaterThan(Duration a, Duration b, String aName, String bName)
+	public static void greaterThanOrEqual(Duration value, Duration minimumIncl, String valueName, String minimumInclName)
 	{
-		if(Compare.greaterThanOrEqual(b, a))
-			throw new IllegalArgumentException("Duration '"+aName+"' ("+DurationDisplay.display(a)+") has to be greater than '"+
-				bName+"' ("+DurationDisplay.display(b)+"), but wasn't");
+		if(Compare.greaterThanOrEqual(minimumIncl, value))
+			throw new IllegalArgumentException("Duration '"+valueName+"' ("+DurationDisplay.display(value)+
+				") has to be greater than or equal to '"+minimumInclName+"' ("+DurationDisplay.display(minimumIncl)+"), but wasn't");
 	}
 	
+	@API
+	public static void lessThanOrEqual(Duration value, Duration maximumIncl, String valueName, String maximumInclName)
+	{
+		if(Compare.lessThanOrEqual(maximumIncl, value))
+			throw new IllegalArgumentException("Duration '"+valueName+"' ("+DurationDisplay.display(value)+
+				") has to be less than or equal to '"+maximumInclName+"' ("+DurationDisplay.display(maximumIncl)+"), but wasn't");
+	}
+	
+	@API
 	public static void greaterZero(Duration duration, String variableName)
 	{
 		notNull(duration, variableName);
