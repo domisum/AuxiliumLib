@@ -11,25 +11,25 @@ import java.util.Set;
 public class StringUtilTest
 {
 	
-	// TEST COMMON PREFIX
+	// TEST LONGEST COMMON PREFIX
 	@Test
 	public void testPrefixNoCommon()
 	{
-		Assertions.assertEquals("", StringUtil.getCommonPrefix("", ""));
-		Assertions.assertEquals("", StringUtil.getCommonPrefix("b", "a"));
-		Assertions.assertEquals("", StringUtil.getCommonPrefix("bfischerd", "afischerd"));
+		Assertions.assertEquals("", StringUtil.getLongestCommonPrefix("", ""));
+		Assertions.assertEquals("", StringUtil.getLongestCommonPrefix("b", "a"));
+		Assertions.assertEquals("", StringUtil.getLongestCommonPrefix("bfischerd", "afischerd"));
 	}
 	
 	@Test
 	public void testPrefixCommon()
 	{
-		Assertions.assertEquals("common", StringUtil.getCommonPrefix("commonMeme", "commonXd"));
+		Assertions.assertEquals("common", StringUtil.getLongestCommonPrefix("commonMeme", "commonXd"));
 		
-		Assertions.assertEquals("a", StringUtil.getCommonPrefix("abcd", "asdf"));
-		Assertions.assertEquals("a", StringUtil.getCommonPrefix("a", "asdf"));
-		Assertions.assertEquals("a", StringUtil.getCommonPrefix("abcd", "a"));
+		Assertions.assertEquals("a", StringUtil.getLongestCommonPrefix("abcd", "asdf"));
+		Assertions.assertEquals("a", StringUtil.getLongestCommonPrefix("a", "asdf"));
+		Assertions.assertEquals("a", StringUtil.getLongestCommonPrefix("abcd", "a"));
 		
-		Assertions.assertEquals("+-*/", StringUtil.getCommonPrefix("+-*/", "+-*/59"));
+		Assertions.assertEquals("+-*/", StringUtil.getLongestCommonPrefix("+-*/", "+-*/59"));
 	}
 	
 	

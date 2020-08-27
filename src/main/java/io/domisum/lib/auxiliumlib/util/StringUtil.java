@@ -85,7 +85,7 @@ public final class StringUtil
 	
 	// ANALYSIS
 	@API
-	public static String getCommonPrefix(String s1, String s2)
+	public static String getLongestCommonPrefix(String s1, String s2)
 	{
 		var commonPrefix = new StringBuilder();
 		for(int ci = 0; ci < Math.min(s1.length(), s2.length()); ci++)
@@ -98,7 +98,18 @@ public final class StringUtil
 			
 			commonPrefix.append(c1);
 		}
+		
 		return commonPrefix.toString();
+	}
+	
+	@API
+	public static boolean containsAny(String toCheck, String... any)
+	{
+		for(String s : any)
+			if(toCheck.contains(s))
+				return true;
+		
+		return false;
 	}
 	
 	
