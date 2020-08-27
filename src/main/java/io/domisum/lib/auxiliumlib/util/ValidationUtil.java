@@ -76,6 +76,14 @@ public final class ValidationUtil
 	}
 	
 	@API
+	public static void lessThanOrEqual(int value, int maximumIncl, String valueName, String maximumInclName)
+	{
+		if(value > maximumIncl)
+			throw new IllegalArgumentException("double '"+valueName+"' ("+value+") has to be less than or equal to '"+
+				maximumInclName+"' ("+maximumIncl+"), but wasn't");
+	}
+	
+	@API
 	public static void greaterZero(double number, String variableName)
 	{
 		if(number <= 0)
