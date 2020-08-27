@@ -102,16 +102,6 @@ public final class StringUtil
 		return commonPrefix.toString();
 	}
 	
-	@API
-	public static boolean containsAny(String toCheck, String... any)
-	{
-		for(String s : any)
-			if(toCheck.contains(s))
-				return true;
-		
-		return false;
-	}
-	
 	
 	// ESCAPING
 	@API
