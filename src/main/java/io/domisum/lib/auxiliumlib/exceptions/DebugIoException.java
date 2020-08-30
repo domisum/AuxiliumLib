@@ -11,20 +11,25 @@ public class DebugIoException
 {
 	
 	@Getter
+	private final String debugTextName;
+	
+	@Getter
 	private final String debugText;
 	
 	
 	@API
-	public DebugIoException(String message, String debugText)
+	public DebugIoException(String message, String debugTextName, String debugText)
 	{
 		super(message);
+		this.debugTextName = debugTextName;
 		this.debugText = debugText;
 	}
 	
 	@API
-	public DebugIoException(String message, Throwable cause, String debugText)
+	public DebugIoException(String message, Throwable cause, String debugTextName, String debugText)
 	{
 		super(message, cause);
+		this.debugTextName = debugTextName;
 		this.debugText = debugText;
 	}
 	
