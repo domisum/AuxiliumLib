@@ -82,6 +82,24 @@ public final class StringUtil
 		return listMultilineDisplay;
 	}
 	
+	@API
+	public static String repeat(String toRepeat, int count, String delimiter)
+	{
+		ValidationUtil.notNull(toRepeat, "toRepeat");
+		ValidationUtil.notNegative(count, "count");
+		ValidationUtil.notNull(delimiter, "delimiter");
+		
+		var builder = new StringBuilder();
+		for(int i = 0; i < count; i++)
+		{
+			builder.append(toRepeat);
+			if(i < count-1)
+				builder.append(delimiter);
+		}
+		
+		return builder.toString();
+	}
+	
 	
 	// ANALYSIS
 	@API
