@@ -13,6 +13,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 @API
@@ -72,7 +73,7 @@ public final class StringUtil
 	}
 	
 	@API
-	public static String itemListDisplay(Collection<?> items)
+	public static String displayCollectionListed(Collection<?> items)
 	{
 		var itemDisplays = new ArrayList<String>();
 		for(var item : items)
@@ -81,6 +82,22 @@ public final class StringUtil
 		String listMultilineDisplay = listToString(itemDisplays, "\n");
 		return listMultilineDisplay;
 	}
+	
+	@API
+	public static String displayMapListed(Map<?, ?> map)
+	{
+		var entryStrings = new ArrayList<String>();
+		for(var entry : map.entrySet())
+		{
+			String entryString = "'"+entry.getKey()+"' -> '"+entry.getValue()+"'";
+			entryStrings.add(entryString);
+		}
+		
+		Collections.sort(entryStrings);
+		String mapListed = displayCollectionListed(entryStrings);
+		return mapListed;
+	}
+	
 	
 	@API
 	public static String repeat(String toRepeat, int count, String delimiter)
