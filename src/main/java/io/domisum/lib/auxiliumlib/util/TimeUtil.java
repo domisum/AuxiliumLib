@@ -24,20 +24,26 @@ public final class TimeUtil
 	public static Duration min(Duration a, Duration b)
 	{
 		return (a.compareTo(b) < 0) ?
-				a :
-				b;
+			a :
+			b;
 	}
 	
 	@API
 	public static Duration max(Duration a, Duration b)
 	{
 		return (a.compareTo(b) > 0) ?
-				a :
-				b;
+			a :
+			b;
 	}
 	
 	
 	// FLOATING COMMA CONVERSION
+	@API
+	public static double getHoursDecimal(Duration duration)
+	{
+		return duration.getSeconds()/(double) Duration.ofHours(1).getSeconds();
+	}
+	
 	@API
 	public static double getMinutesDecimal(Duration duration)
 	{
