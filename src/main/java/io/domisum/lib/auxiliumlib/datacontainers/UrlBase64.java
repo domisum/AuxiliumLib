@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 
 @API
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public final class Base64Key
+public final class UrlBase64
 {
 	
 	// CONSTANTS
