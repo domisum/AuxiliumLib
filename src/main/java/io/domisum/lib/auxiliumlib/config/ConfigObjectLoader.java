@@ -32,6 +32,11 @@ public abstract class ConfigObjectLoader<T extends ConfigObject>
 		return OBJECT_NAME()+"s";
 	}
 	
+	protected boolean LOG_INDIVIDUAL_OBJECT_LOADS()
+	{
+		return true;
+	}
+	
 	
 	// LOADING
 	public ConfigObjectRegistry<T> load(File configDirectory)
@@ -109,7 +114,8 @@ public abstract class ConfigObjectLoader<T extends ConfigObject>
 		
 		configObject.validate();
 		
-		logger.info("Loaded {} {}", OBJECT_NAME(), configObject);
+		if(LOG_INDIVIDUAL_OBJECT_LOADS())
+			logger.info("Loaded {} {}", OBJECT_NAME(), configObject);
 		return configObject;
 	}
 	
