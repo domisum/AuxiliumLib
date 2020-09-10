@@ -14,13 +14,14 @@ public abstract class MultithreaderQueue_Populate<T>
 	implements MultithreaderQueue<T>
 {
 	
-	// CONSTANTS
-	private static final int LENGTH_THRESHOLD_TO_POPULATE = 100;
-	
 	// STATE
 	private final Queue<T> queue = new ConcurrentLinkedQueue<>();
 	private final Lock populateLock = new ReentrantLock();
 	private boolean populateComplete = false;
+	
+	
+	// CONSTANT METHODS
+	public abstract int POPULATE_THRESHOLD();
 	
 	
 	// QUEUE
@@ -36,7 +37,7 @@ public abstract class MultithreaderQueue_Populate<T>
 	@Override
 	public Optional<T> poll()
 	{
-		if(!populateComplete && queue.size() < LENGTH_THRESHOLD_TO_POPULATE)
+		if(!populateComplete && queue.size() < POPULATE_THRESHOLD())
 			tryPopulate();
 		
 		var calcNullable = queue.poll();
