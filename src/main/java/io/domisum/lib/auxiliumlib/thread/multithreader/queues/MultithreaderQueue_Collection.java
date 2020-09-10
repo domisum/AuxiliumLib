@@ -46,9 +46,10 @@ public class MultithreaderQueue_Collection<T>
 	@API
 	public static <T> MultithreaderQueue_Collection<T> createWithLogProgress(Collection<T> collection)
 	{
-		return new MultithreaderQueue_Collection<>(false, collection);
+		return new MultithreaderQueue_Collection<>(true, collection);
 	}
 	
+	@API
 	protected MultithreaderQueue_Collection(boolean logProgress, Collection<T> collection)
 	{
 		this.logProgress = logProgress;
