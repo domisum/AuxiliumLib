@@ -1,8 +1,7 @@
-package io.domisum.lib.auxiliumlib.util.thread;
+package io.domisum.lib.auxiliumlib.util;
 
 import io.domisum.lib.auxiliumlib.annotations.API;
 import io.domisum.lib.auxiliumlib.display.DurationDisplay;
-import io.domisum.lib.auxiliumlib.util.StringUtil;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.slf4j.Logger;

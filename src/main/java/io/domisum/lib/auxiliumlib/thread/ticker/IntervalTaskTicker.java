@@ -1,4 +1,4 @@
-package io.domisum.lib.auxiliumlib.ticker;
+package io.domisum.lib.auxiliumlib.thread.ticker;
 
 import io.domisum.lib.auxiliumlib.annotations.API;
 import io.domisum.lib.auxiliumlib.util.TimeUtil;

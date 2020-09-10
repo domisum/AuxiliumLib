@@ -4,7 +4,7 @@ import io.domisum.lib.auxiliumlib.annotations.API;
 import io.domisum.lib.auxiliumlib.exceptions.IncompleteCodeError;
 import io.domisum.lib.auxiliumlib.util.StringUtil;
 import io.domisum.lib.auxiliumlib.util.file.filter.FileFilter;
-import io.domisum.lib.auxiliumlib.util.thread.ThreadUtil;
+import io.domisum.lib.auxiliumlib.util.ThreadUtil;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.apache.commons.io.FileUtils;

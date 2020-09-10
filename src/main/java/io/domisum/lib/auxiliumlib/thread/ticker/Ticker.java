@@ -1,10 +1,10 @@
-package io.domisum.lib.auxiliumlib.ticker;
+package io.domisum.lib.auxiliumlib.thread.ticker;
 
 import io.domisum.lib.auxiliumlib.annotations.API;
 import io.domisum.lib.auxiliumlib.display.DurationDisplay;
 import io.domisum.lib.auxiliumlib.util.TimeUtil;
 import io.domisum.lib.auxiliumlib.util.ValidationUtil;
-import io.domisum.lib.auxiliumlib.util.thread.ThreadUtil;
+import io.domisum.lib.auxiliumlib.util.ThreadUtil;
 import lombok.Getter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

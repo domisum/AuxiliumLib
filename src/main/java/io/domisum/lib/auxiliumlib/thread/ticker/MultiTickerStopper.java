@@ -1,7 +1,7 @@
-package io.domisum.lib.auxiliumlib.ticker;
+package io.domisum.lib.auxiliumlib.thread.ticker;
 
 import io.domisum.lib.auxiliumlib.annotations.API;
-import io.domisum.lib.auxiliumlib.util.thread.ThreadUtil;
+import io.domisum.lib.auxiliumlib.util.ThreadUtil;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.slf4j.Logger;

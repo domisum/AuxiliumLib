@@ -1,9 +1,9 @@
-package io.domisum.lib.auxiliumlib.ticker;
+package io.domisum.lib.auxiliumlib.thread.ticker;
 
 import com.google.common.collect.Sets;
-import io.domisum.lib.auxiliumlib.ticker.Ticker.Ticking;
-import io.domisum.lib.auxiliumlib.ticker.Ticker.TickingStatus;
-import io.domisum.lib.auxiliumlib.util.thread.ThreadUtil;
+import io.domisum.lib.auxiliumlib.thread.ticker.Ticker.Ticking;
+import io.domisum.lib.auxiliumlib.thread.ticker.Ticker.TickingStatus;
+import io.domisum.lib.auxiliumlib.util.ThreadUtil;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
