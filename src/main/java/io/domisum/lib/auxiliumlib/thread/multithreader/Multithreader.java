@@ -40,6 +40,13 @@ public class Multithreader<I, O>
 	}
 	
 	@API
+	public static <I, O> Multithreader<I, O> overcreate(Function<I, O> action, String name, double overcreateFactor)
+	{
+		int numberOfThreads = (int) Math.ceil(overcreateFactor*defaultNumerOfThreads());
+		return new Multithreader<>(action, name, numberOfThreads);
+	}
+	
+	@API
 	public static <I, O> Multithreader<I, O> create(Function<I, O> action, String name, int numberOfThreads)
 	{
 		return new Multithreader<>(action, name, numberOfThreads);
