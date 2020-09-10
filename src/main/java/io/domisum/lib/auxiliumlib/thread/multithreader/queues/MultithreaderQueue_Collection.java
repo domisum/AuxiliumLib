@@ -68,6 +68,14 @@ public class MultithreaderQueue_Collection<T>
 	@Override
 	public Optional<T> poll()
 	{
+		logProgressIfAppropriate();
+		
+		var calcNullable = queue.poll();
+		return Optional.ofNullable(calcNullable);
+	}
+	
+	private synchronized void logProgressIfAppropriate()
+	{
 		if(logProgress && TimeUtil.isOlderThan(lastProgressLogInstant, LOG_PROGRESS_INTERVAL))
 		{
 			int completedItems = totalElementsCount-queue.size();
@@ -78,9 +86,6 @@ public class MultithreaderQueue_Collection<T>
 			logger.info("Multithreader progress: {}", progressDisplay);
 			lastProgressLogInstant = Instant.now();
 		}
-		
-		var calcNullable = queue.poll();
-		return Optional.ofNullable(calcNullable);
 	}
 	
 }
