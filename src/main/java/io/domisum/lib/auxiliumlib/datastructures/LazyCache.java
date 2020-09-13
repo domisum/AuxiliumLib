@@ -26,37 +26,37 @@ public final class LazyCache<KeyT, T>
 	private final boolean onlyExpireUnused;
 	
 	// STATE
-	private final transient Map<KeyT,CacheEntry> entries = new ConcurrentHashMap<>();
+	private final transient Map<KeyT, CacheEntry> entries = new ConcurrentHashMap<>();
 	private transient Instant lastExpirationCheck = Instant.now();
 	
 	
 	// INIT
 	@API
-	public static <KeyT, T> LazyCache<KeyT,T> neverExpire()
+	public static <KeyT, T> LazyCache<KeyT, T> neverExpire()
 	{
 		return new LazyCache<>(null, false, false);
 	}
 	
 	@API
-	public static <KeyT, T> LazyCache<KeyT,T> expireAfter(Duration expirationDuration)
+	public static <KeyT, T> LazyCache<KeyT, T> expireAfter(Duration expirationDuration)
 	{
 		return new LazyCache<>(expirationDuration, false, false);
 	}
 	
 	@API
-	public static <KeyT, T> LazyCache<KeyT,T> expireAfterRandomized(Duration expirationDuration)
+	public static <KeyT, T> LazyCache<KeyT, T> expireAfterRandomized(Duration expirationDuration)
 	{
 		return new LazyCache<>(expirationDuration, true, false);
 	}
 	
 	@API
-	public static <KeyT, T> LazyCache<KeyT,T> expireUnusedAfter(Duration expirationDuration)
+	public static <KeyT, T> LazyCache<KeyT, T> expireUnusedAfter(Duration expirationDuration)
 	{
 		return new LazyCache<>(expirationDuration, false, true);
 	}
 	
 	@API
-	public static <KeyT, T> LazyCache<KeyT,T> expireUnusedAfterRandomized(Duration expirationDuration)
+	public static <KeyT, T> LazyCache<KeyT, T> expireUnusedAfterRandomized(Duration expirationDuration)
 	{
 		return new LazyCache<>(expirationDuration, true, true);
 	}
@@ -78,6 +78,13 @@ public final class LazyCache<KeyT, T>
 	}
 	
 	@API
+	public void clear()
+	{
+		entries.clear();
+	}
+	
+	
+	@API
 	public Optional<T> get(KeyT key)
 	{
 		ifDueExpire();
@@ -93,9 +100,12 @@ public final class LazyCache<KeyT, T>
 	}
 	
 	@API
-	public void clear()
+	public boolean containsKey(KeyT key)
 	{
-		entries.clear();
+		ifDueExpire();
+		
+		var entry = entries.get(key);
+		return entry != null;
 	}
 	
 	
