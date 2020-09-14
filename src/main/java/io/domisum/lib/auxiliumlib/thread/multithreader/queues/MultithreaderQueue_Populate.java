@@ -40,8 +40,8 @@ public abstract class MultithreaderQueue_Populate<T>
 		if(!populateComplete && queue.size() < POPULATE_THRESHOLD())
 			tryPopulate();
 		
-		var calcNullable = queue.poll();
-		return Optional.ofNullable(calcNullable);
+		var elementNullable = queue.poll();
+		return Optional.ofNullable(elementNullable);
 	}
 	
 	private void tryPopulate()
