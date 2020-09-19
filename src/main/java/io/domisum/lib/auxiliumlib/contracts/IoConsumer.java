@@ -9,6 +9,6 @@ public interface IoConsumer<T>
 	
 	@API
 	void accept(T input)
-			throws IOException;
+		throws IOException;
 	
 }

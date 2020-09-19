@@ -5,7 +5,7 @@ import io.domisum.lib.auxiliumlib.annotations.API;
 import java.util.Collection;
 
 public interface SmartComparable<T>
-		extends Comparable<T>
+	extends Comparable<T>
 {
 	
 	@API
