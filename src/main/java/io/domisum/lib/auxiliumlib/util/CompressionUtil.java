@@ -71,7 +71,7 @@ public final class CompressionUtil
 		}
 		catch(DataFormatException e)
 		{
-			throw new IllegalArgumentException("Invalid data provided:", e);
+			throw new IllegalArgumentException("Invalid data provided", e);
 		}
 		catch(IOException e)
 		{
