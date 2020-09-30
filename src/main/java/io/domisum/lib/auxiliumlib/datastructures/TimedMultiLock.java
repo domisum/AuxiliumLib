@@ -14,7 +14,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @RequiredArgsConstructor
-public class TimedMultiLock<T>
+public class TimedMultiLock<KeyT>
 {
 	
 	// SETTINGS
@@ -23,7 +23,7 @@ public class TimedMultiLock<T>
 	private final Duration defaultDuration;
 	
 	// STATUS
-	private final Map<T,Instant> lockedUntilMap = new HashMap<>();
+	private final Map<KeyT, Instant> lockedUntilMap = new HashMap<>();
 	
 	
 	// INIT
@@ -35,13 +35,13 @@ public class TimedMultiLock<T>
 	
 	// LOCK
 	@API
-	public synchronized void lock(T key, Duration duration)
+	public synchronized void lock(KeyT key, Duration duration)
 	{
 		lockedUntilMap.put(key, Instant.now().plus(duration));
 	}
 	
 	@API
-	public synchronized void lock(T key)
+	public synchronized void lock(KeyT key)
 	{
 		if(defaultDuration == null)
 			throw new IllegalStateException("Can't use this method when no defaultDuration was given in constructor");
@@ -50,7 +50,7 @@ public class TimedMultiLock<T>
 	}
 	
 	@API
-	public synchronized void unlock(T key)
+	public synchronized void unlock(KeyT key)
 	{
 		lockedUntilMap.remove(key);
 	}
@@ -58,7 +58,7 @@ public class TimedMultiLock<T>
 	
 	// STATUS
 	@API
-	public synchronized boolean isLocked(T key)
+	public synchronized boolean isLocked(KeyT key)
 	{
 		var lockedUntil = lockedUntilMap.get(key);
 		if(lockedUntil == null)
@@ -74,7 +74,7 @@ public class TimedMultiLock<T>
 	}
 	
 	@API
-	public synchronized Optional<Duration> getRemainingLockDuration(T key)
+	public synchronized Optional<Duration> getRemainingLockDuration(KeyT key)
 	{
 		var lockedUntil = lockedUntilMap.get(key);
 		if(lockedUntil == null)
