@@ -11,10 +11,10 @@ public interface FileSerdes<T>
 	
 	@API
 	File serializeToFile(T object)
-			throws IOException;
+		throws IOException;
 	
 	@API
 	T deserializeFromFile(File file)
-			throws IOException;
+		throws IOException;
 	
 }

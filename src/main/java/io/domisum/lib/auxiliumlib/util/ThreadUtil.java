@@ -114,7 +114,7 @@ public final class ThreadUtil
 		}
 		catch(NoSuchMethodError ignored)
 		{
-		
+			
 		}
 	}
 	
@@ -173,12 +173,12 @@ public final class ThreadUtil
 	{
 		var threadToString = new StringBuilder();
 		threadToString
-				.append(thread)
-				.append(", id: ")
-				.append(thread.getId())
-				.append(", daemon: ")
-				.append(thread.isDaemon())
-				.append("\n");
+			.append(thread)
+			.append(", id: ")
+			.append(thread.getId())
+			.append(", daemon: ")
+			.append(thread.isDaemon())
+			.append("\n");
 		
 		var stackTraceLines = new ArrayList<String>();
 		for(var stackTraceElement : thread.getStackTrace())

@@ -12,7 +12,7 @@ import java.util.ArrayList;
 @API
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public final class DurationDisplay
-		implements CharSequence
+	implements CharSequence
 {
 	
 	// ATTRIBUTES

@@ -9,7 +9,7 @@ import lombok.RequiredArgsConstructor;
 @API
 @RequiredArgsConstructor
 public class GsonSerdes<T>
-		implements JsonSerdes<T>
+	implements JsonSerdes<T>
 {
 	
 	// ATTRIBUTES

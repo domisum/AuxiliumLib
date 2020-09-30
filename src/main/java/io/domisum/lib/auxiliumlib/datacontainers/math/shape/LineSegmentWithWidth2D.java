@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 @API
 @RequiredArgsConstructor
 public class LineSegmentWithWidth2D
-		implements GeometricShape2D
+	implements GeometricShape2D
 {
 	
 	private final LineSegment2D lineSegment;

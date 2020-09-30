@@ -6,7 +6,7 @@ import java.sql.SQLException;
 
 @API
 public class UncheckedSqlException
-		extends RuntimeException
+	extends RuntimeException
 {
 	
 	@API

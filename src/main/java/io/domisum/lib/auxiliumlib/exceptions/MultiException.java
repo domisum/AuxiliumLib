@@ -10,7 +10,7 @@ import java.util.Set;
 
 @API
 public class MultiException
-		extends Exception
+	extends Exception
 {
 	
 	@Getter

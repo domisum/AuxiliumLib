@@ -10,7 +10,7 @@ public interface SingleItemIoSource<T>
 	
 	@API
 	T fetch()
-			throws IOException;
+		throws IOException;
 	
 	@API
 	default IoOptional<T> fetchOptional()

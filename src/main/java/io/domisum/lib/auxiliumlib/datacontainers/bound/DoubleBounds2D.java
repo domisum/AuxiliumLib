@@ -7,7 +7,7 @@ import io.domisum.lib.auxiliumlib.util.math.MathUtil;
 
 @API
 public class DoubleBounds2D
-		extends Square2D
+	extends Square2D
 {
 	
 	// INIT

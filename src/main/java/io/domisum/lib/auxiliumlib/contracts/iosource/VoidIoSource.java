@@ -9,7 +9,7 @@ public interface VoidIoSource<T>
 	
 	@API
 	T get()
-			throws IOException;
+		throws IOException;
 	
 	@API
 	default IoOptional<T> getOptional()

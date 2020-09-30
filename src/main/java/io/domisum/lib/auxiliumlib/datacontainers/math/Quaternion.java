@@ -50,8 +50,8 @@ public class Quaternion
 		{
 			w = 0;
 			axis = (vector1.getX() > vector1.getZ()) ?
-					new Vector3D(-vector1.getY(), vector1.getX(), 0) :
-					new Vector3D(0, -vector1.getZ(), vector1.getY());
+				new Vector3D(-vector1.getY(), vector1.getX(), 0) :
+				new Vector3D(0, -vector1.getZ(), vector1.getY());
 		}
 		else
 			axis = vector1.deriveCrossProduct(vector2);

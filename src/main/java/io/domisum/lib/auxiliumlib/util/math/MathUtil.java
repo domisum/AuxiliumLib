@@ -39,8 +39,8 @@ public final class MathUtil
 	public static double clampAbs(double number, double maximumAbs)
 	{
 		return ((number < 0) ?
-				-1 :
-				1)*Math.min(Math.abs(number), maximumAbs);
+			-1 :
+			1)*Math.min(Math.abs(number), maximumAbs);
 	}
 	
 	@API

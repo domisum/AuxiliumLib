@@ -7,7 +7,7 @@ import java.util.Map;
 
 @API
 public class ConfigException
-		extends Exception
+	extends Exception
 {
 	
 	// INIT
@@ -28,7 +28,7 @@ public class ConfigException
 	@API
 	@SuppressWarnings("BooleanParameter")
 	public static void validateIsTrue(boolean expression, String failMessage)
-			throws ConfigException
+		throws ConfigException
 	{
 		if(!expression)
 			throw new ConfigException(failMessage);
@@ -37,14 +37,14 @@ public class ConfigException
 	@API
 	@SuppressWarnings("BooleanParameter")
 	public static void validateIsFalse(boolean expression, String failMessage)
-			throws ConfigException
+		throws ConfigException
 	{
 		validateIsTrue(!expression, failMessage);
 	}
 	
 	@API
 	public static void validateIsSet(Object object, String objectName)
-			throws ConfigException
+		throws ConfigException
 	{
 		if(object == null)
 			throw new ConfigException(objectName+" has to be set (was null)");
@@ -53,7 +53,7 @@ public class ConfigException
 	
 	@API
 	public static void validateNotBlank(String value, String stringName)
-			throws ConfigException
+		throws ConfigException
 	{
 		validateIsSet(value, stringName);
 		if(value.isBlank())
@@ -62,7 +62,7 @@ public class ConfigException
 	
 	@API
 	public static void validateNotEmpty(Collection<?> collection, String collectionName)
-			throws ConfigException
+		throws ConfigException
 	{
 		validateIsSet(collection, collectionName);
 		if(collection.isEmpty())
@@ -70,7 +70,7 @@ public class ConfigException
 	}
 	
 	@API
-	public static void validateNotEmpty(Map<?,?> map, String mapName)
+	public static void validateNotEmpty(Map<?, ?> map, String mapName)
 		throws ConfigException
 	{
 		validateIsSet(map, mapName);
@@ -79,8 +79,8 @@ public class ConfigException
 	}
 	
 	@API
-	public static <T> void validateContainsKey(Map<T,?> map, T key, String mapName)
-			throws ConfigException
+	public static <T> void validateContainsKey(Map<T, ?> map, T key, String mapName)
+		throws ConfigException
 	{
 		validateIsSet(map, mapName);
 		if(!map.containsKey(key))
@@ -91,7 +91,7 @@ public class ConfigException
 	// SPECIFIC VALIDATION
 	@API
 	public static void validatePort(Integer port, String portName)
-			throws ConfigException
+		throws ConfigException
 	{
 		final int MAX_PORT_VALUE = 65535;
 		

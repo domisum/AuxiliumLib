@@ -186,13 +186,13 @@ public final class RandomUtil
 	}
 	
 	@API
-	public static <E> E getElement(Map<E,Double> elementsWithChance)
+	public static <E> E getElement(Map<E, Double> elementsWithChance)
 	{
 		return getElement(elementsWithChance, getRandom());
 	}
 	
 	@API
-	public static <E> E getElement(Map<E,Double> elementsWithChance, Random random)
+	public static <E> E getElement(Map<E, Double> elementsWithChance, Random random)
 	{
 		if(elementsWithChance.isEmpty())
 			throw new IllegalArgumentException("The map has to have at least 1 element");
@@ -201,7 +201,7 @@ public final class RandomUtil
 		double randomSumThreshold = random.nextDouble()*chanceSum;
 		
 		double chanceRunningSum = 0;
-		for(Entry<E,Double> entry : elementsWithChance.entrySet())
+		for(Entry<E, Double> entry : elementsWithChance.entrySet())
 		{
 			chanceRunningSum += entry.getValue();
 			if(chanceRunningSum > randomSumThreshold)

@@ -129,9 +129,9 @@ public final class IntBounds2D
 	public IntBounds2D limit(IntBounds2D limit)
 	{
 		return new IntBounds2D(Math.max(minX, limit.minX),
-				Math.min(maxX, limit.maxX),
-				Math.max(minY, limit.minY),
-				Math.min(maxY, limit.maxY)
+			Math.min(maxX, limit.maxX),
+			Math.max(minY, limit.minY),
+			Math.min(maxY, limit.maxY)
 		);
 	}
 	

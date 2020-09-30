@@ -10,7 +10,7 @@ public interface IoSource<KeyT, T>
 	
 	@API
 	T get(KeyT key)
-			throws IOException;
+		throws IOException;
 	
 	@API
 	default IoOptional<T> getOptional(KeyT key)

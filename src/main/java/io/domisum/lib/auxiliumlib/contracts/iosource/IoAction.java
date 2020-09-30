@@ -10,6 +10,6 @@ public interface IoAction<O>
 	
 	@API
 	O execute()
-			throws IOException;
+		throws IOException;
 	
 }

@@ -10,7 +10,7 @@ import lombok.RequiredArgsConstructor;
 @API
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public final class RomanNumeral
-		implements CharSequence
+	implements CharSequence
 {
 	
 	// CONSTANTS

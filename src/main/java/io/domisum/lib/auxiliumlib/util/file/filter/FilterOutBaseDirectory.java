@@ -5,7 +5,7 @@ import io.domisum.lib.auxiliumlib.util.file.FileUtil;
 import java.io.File;
 
 public class FilterOutBaseDirectory
-		implements FileFilter
+	implements FileFilter
 {
 	
 	// ATTRIBUTES

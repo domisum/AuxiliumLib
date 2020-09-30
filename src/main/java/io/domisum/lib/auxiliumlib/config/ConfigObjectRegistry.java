@@ -11,11 +11,11 @@ public class ConfigObjectRegistry<T extends ConfigObject>
 {
 	
 	// REGISTRY
-	private final Map<String,T> configObjects;
+	private final Map<String, T> configObjects;
 	
 	
 	// INIT
-	ConfigObjectRegistry(Map<String,T> configObjectsById)
+	ConfigObjectRegistry(Map<String, T> configObjectsById)
 	{
 		configObjects = Map.copyOf(configObjectsById);
 	}

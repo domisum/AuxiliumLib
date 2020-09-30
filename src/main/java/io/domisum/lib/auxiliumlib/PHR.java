@@ -21,7 +21,7 @@ import java.util.Objects;
 @API
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public final class PHR
-		implements CharSequence
+	implements CharSequence
 {
 	
 	// CONSTANTS

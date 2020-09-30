@@ -40,7 +40,7 @@ public abstract class ConfigObjectLoader<T extends ConfigObject>
 	
 	// LOADING
 	public ConfigObjectRegistry<T> load(File configDirectory)
-			throws ConfigException
+		throws ConfigException
 	{
 		logger.info("Loading {}...", OBJECT_NAME_PLURAL());
 		
@@ -50,7 +50,7 @@ public abstract class ConfigObjectLoader<T extends ConfigObject>
 		
 		String configDirPath = configDirectory.getAbsoluteFile().getPath();
 		
-		var configObjectsById = new HashMap<String,T>();
+		var configObjectsById = new HashMap<String, T>();
 		for(var file : FileUtil.listFilesRecursively(configDirectory, FileType.FILE))
 		{
 			String path = file.getAbsoluteFile().getPath();
@@ -68,13 +68,13 @@ public abstract class ConfigObjectLoader<T extends ConfigObject>
 				
 				if(configObjectsById.containsKey(configObject.getId()))
 					throw new ConfigException(PHR.r("Duplicate config object id '{}'. Duplicate file: {}",
-							configObject.getId(), file));
+						configObject.getId(), file));
 				configObjectsById.put(configObject.getId(), configObject);
 			}
 			else
 				throw new ConfigException(PHR.r(
-						"Config directory of {} contains file with wrong extension: '{}' (expected extension: '{}')",
-						OBJECT_NAME_PLURAL(), file.getName(), fileExtension));
+					"Config directory of {} contains file with wrong extension: '{}' (expected extension: '{}')",
+					OBJECT_NAME_PLURAL(), file.getName(), fileExtension));
 		}
 		
 		if(configObjectsById.isEmpty())
@@ -82,13 +82,13 @@ public abstract class ConfigObjectLoader<T extends ConfigObject>
 		
 		var configObjectIds = configObjectsById.keySet();
 		logger.info("...Loading {} done, loaded {}: [{}]",
-				OBJECT_NAME_PLURAL(), configObjectsById.size(), StringUtil.collectionToString(configObjectIds, ", "));
+			OBJECT_NAME_PLURAL(), configObjectsById.size(), StringUtil.collectionToString(configObjectIds, ", "));
 		
 		return new ConfigObjectRegistry<>(configObjectsById);
 	}
 	
 	private T loadConfigObjectFromFile(File file)
-			throws ConfigException
+		throws ConfigException
 	{
 		String fileContent = FileUtil.readString(file);
 		try
@@ -103,7 +103,7 @@ public abstract class ConfigObjectLoader<T extends ConfigObject>
 	}
 	
 	private T createConfigObject(File file, String fileContent)
-			throws ConfigException
+		throws ConfigException
 	{
 		var configObject = deserialize(fileContent);
 		
@@ -122,8 +122,8 @@ public abstract class ConfigObjectLoader<T extends ConfigObject>
 	
 	// CREATE
 	protected abstract T deserialize(String configContent)
-			throws ConfigException;
+		throws ConfigException;
 	
-	protected abstract Map<Class<?>,Object> getDependenciesToInject();
+	protected abstract Map<Class<?>, Object> getDependenciesToInject();
 	
 }

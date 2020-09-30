@@ -11,10 +11,10 @@ public interface InputStreamSerdes<T>
 	
 	@API
 	InputStream serializeToInputStream(T object)
-			throws IOException;
+		throws IOException;
 	
 	@API
 	T deserializeFromInputStream(InputStream stream)
-			throws IOException;
+		throws IOException;
 	
 }

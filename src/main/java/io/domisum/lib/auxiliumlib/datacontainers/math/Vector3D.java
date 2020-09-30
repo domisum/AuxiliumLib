@@ -153,8 +153,8 @@ public class Vector3D
 	public Vector3D deriveOrthogonal()
 	{
 		var independent = ((x == 0) && (y == 0)) ?
-				new Vector3D(1, 1, z) :
-				new Vector3D(x, y, z+1);
+			new Vector3D(1, 1, z) :
+			new Vector3D(x, y, z+1);
 		return deriveCrossProduct(independent);
 	}
 	

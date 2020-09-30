@@ -22,7 +22,7 @@ public class Pair<T, U>
 	
 	// GETTERS
 	@API
-	public Pair<U,T> getInverted()
+	public Pair<U, T> getInverted()
 	{
 		return new Pair<>(b, a);
 	}

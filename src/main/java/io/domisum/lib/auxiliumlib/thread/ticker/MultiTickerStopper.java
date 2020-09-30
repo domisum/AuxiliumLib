@@ -38,8 +38,8 @@ public final class MultiTickerStopper
 		for(var ticker : tickers)
 		{
 			Runnable run = hard ?
-					ticker::stopHard :
-					ticker::stopSoft;
+				ticker::stopHard :
+				ticker::stopSoft;
 			var thread = ThreadUtil.createAndStartThread(run, ticker.getName()+"-stop");
 			waitThreads.add(thread);
 		}

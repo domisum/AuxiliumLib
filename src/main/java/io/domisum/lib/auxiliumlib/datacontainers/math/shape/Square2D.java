@@ -8,7 +8,7 @@ import lombok.ToString;
 @API
 @ToString
 public class Square2D
-		implements GeometricShape2D
+	implements GeometricShape2D
 {
 	
 	@Getter

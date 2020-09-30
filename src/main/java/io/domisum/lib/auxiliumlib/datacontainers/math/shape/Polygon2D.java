@@ -14,7 +14,7 @@ import java.util.List;
 
 @API
 public class Polygon2D
-		implements GeometricShape2D
+	implements GeometricShape2D
 {
 	
 	// ATTRIBUTES
@@ -90,8 +90,8 @@ public class Polygon2D
 				
 				boolean convex = (angleDeg < 0)^isClockwise();
 				var orientation = convex ?
-						PolygonCornerOrientation.CONVEX :
-						PolygonCornerOrientation.CONCAVE;
+					PolygonCornerOrientation.CONVEX :
+					PolygonCornerOrientation.CONCAVE;
 				corners.add(new PolygonCorner(angleDeg, orientation));
 				
 				before = lineSegment2D;
@@ -286,8 +286,8 @@ public class Polygon2D
 	{
 		
 		// ATTRIBUTES
-		public final double angleDegAbs;
-		public final PolygonCornerOrientation orientation;
+		private final double angleDegAbs;
+		private final PolygonCornerOrientation orientation;
 		
 		
 		// INIT

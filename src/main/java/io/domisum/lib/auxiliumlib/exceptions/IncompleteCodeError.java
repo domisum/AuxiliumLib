@@ -4,13 +4,13 @@ import io.domisum.lib.auxiliumlib.annotations.API;
 
 @API
 public class IncompleteCodeError
-		extends AssertionError
+	extends AssertionError
 {
 	
 	@API
 	public IncompleteCodeError()
 	{
-	
+		
 	}
 	
 	@API

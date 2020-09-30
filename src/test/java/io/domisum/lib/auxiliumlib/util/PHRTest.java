@@ -41,12 +41,12 @@ public class PHRTest
 	{
 		assertReplaceEquals("some text goes here", "some {} goes {}", "text", "here");
 		assertReplaceEquals(
-				"multi replacements are very fun indeed, I'll have to admit",
-				"multi replacements {} {} fun {}, {} have to admit",
-				"are",
-				"very",
-				"indeed",
-				"I'll"
+			"multi replacements are very fun indeed, I'll have to admit",
+			"multi replacements {} {} fun {}, {} have to admit",
+			"are",
+			"very",
+			"indeed",
+			"I'll"
 		);
 	}
 	

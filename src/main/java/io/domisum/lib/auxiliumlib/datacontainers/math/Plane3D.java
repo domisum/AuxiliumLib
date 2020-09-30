@@ -38,9 +38,9 @@ public class Plane3D
 		
 		if(normal.length() == 0)
 			throw new IllegalArgumentException(PHR.r("can't create plane from points which are on the same line ({}, {}, {})",
-					pointA,
-					pointB,
-					pointC
+				pointA,
+				pointB,
+				pointC
 			));
 		
 		return fromPointAndNormal(pointA, normal);

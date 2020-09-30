@@ -5,4 +5,4 @@ import io.domisum.lib.auxiliumlib.contracts.serdes.StringSerdes;
 
 @API
 public interface JsonSerdes<T>
-		extends StringSerdes<T> {}
+	extends StringSerdes<T> {}

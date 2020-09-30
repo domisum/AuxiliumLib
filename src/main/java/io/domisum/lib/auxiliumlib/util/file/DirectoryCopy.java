@@ -63,11 +63,11 @@ public final class DirectoryCopy
 	{
 		if(sourceRootDirectory.isFile())
 			throw new UncheckedIOException(new IOException(
-					"can't copy directory '"+sourceRootDirectory+"', it is actually a file"));
+				"can't copy directory '"+sourceRootDirectory+"', it is actually a file"));
 		
 		if(targetRootDirectory.isFile())
 			throw new UncheckedIOException(new IOException(
-					"can't copy into directory '"+targetRootDirectory+"', it is actually a file"));
+				"can't copy into directory '"+targetRootDirectory+"', it is actually a file"));
 	}
 	
 	private boolean shouldCopyFile(File file)

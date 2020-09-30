@@ -31,7 +31,7 @@ public final class ReflectionUtil
 	
 	@API
 	public static void injectValueUncaught(Object object, String fieldName, Object value)
-			throws IllegalAccessException
+		throws IllegalAccessException
 	{
 		for(var field : getAllFields(object))
 			if(field.getName().equals(fieldName))
@@ -54,7 +54,7 @@ public final class ReflectionUtil
 	
 	@API
 	public static void injectValueUncaught(Object object, Class<?> valueClass, Object value)
-			throws IllegalAccessException
+		throws IllegalAccessException
 	{
 		for(var field : getAllFields(object))
 			if(field.getType().isAssignableFrom(valueClass))
@@ -78,7 +78,7 @@ public final class ReflectionUtil
 	
 	@API
 	public static void copyValueUncaught(Field field, Object from, Object to)
-			throws IllegalAccessException
+		throws IllegalAccessException
 	{
 		Object value = field.get(from);
 		field.set(to, value);

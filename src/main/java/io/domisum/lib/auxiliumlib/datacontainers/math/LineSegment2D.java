@@ -108,7 +108,7 @@ public class LineSegment2D
 	public boolean isColinear(LineSegment2D other)
 	{
 		return (getPointArrangement(pointA, pointB, other.pointA) == PointArrangement.COLINEAR) &&
-				(getPointArrangement(pointA, pointB, other.pointB) == PointArrangement.COLINEAR);
+			(getPointArrangement(pointA, pointB, other.pointB) == PointArrangement.COLINEAR);
 	}
 	
 	@API
@@ -130,8 +130,8 @@ public class LineSegment2D
 		if(Math.abs(rot) < Line3D.THRESHOLD)
 			return PointArrangement.COLINEAR;
 		var pointArrangement = (rot < 0) ?
-				PointArrangement.COUNTERCLOCKWISE :
-				PointArrangement.CLOCKWISE;
+			PointArrangement.COUNTERCLOCKWISE :
+			PointArrangement.CLOCKWISE;
 		
 		return pointArrangement;
 	}

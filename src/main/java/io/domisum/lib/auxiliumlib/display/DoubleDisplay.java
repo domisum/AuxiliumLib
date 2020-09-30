@@ -11,7 +11,7 @@ import java.util.Objects;
 @API
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public final class DoubleDisplay
-		implements CharSequence
+	implements CharSequence
 {
 	
 	// CONSTANTS
@@ -69,8 +69,8 @@ public final class DoubleDisplay
 		var bestFittingSiPrefix = getBestFittingSiPrefix(number);
 		double dividedNumber = number/bestFittingSiPrefix.getValue();
 		String displaySuffix = (bestFittingSiPrefix == SiPrefix.NONE) ?
-				"" :
-				(SEPARATOR+bestFittingSiPrefix.name().toLowerCase());
+			"" :
+			(SEPARATOR+bestFittingSiPrefix.name().toLowerCase());
 		
 		double dividedRoundedNumber = MathUtil.round(dividedNumber, ROUNDING_DECIMAL_PLACES);
 		if(dividedRoundedNumber == 0)

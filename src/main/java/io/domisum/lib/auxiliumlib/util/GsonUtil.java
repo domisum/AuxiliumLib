@@ -20,10 +20,10 @@ public final class GsonUtil
 	{
 		if(gson == null)
 			gson = new GsonBuilder()
-					.enableComplexMapKeySerialization()
-					.setPrettyPrinting()
-					.serializeNulls()
-					.create();
+				.enableComplexMapKeySerialization()
+				.setPrettyPrinting()
+				.serializeNulls()
+				.create();
 		
 		return gson;
 	}

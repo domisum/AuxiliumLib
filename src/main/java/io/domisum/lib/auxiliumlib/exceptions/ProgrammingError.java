@@ -4,7 +4,7 @@ import io.domisum.lib.auxiliumlib.annotations.API;
 
 @API
 public class ProgrammingError
-		extends AssertionError
+	extends AssertionError
 {
 	
 	@API

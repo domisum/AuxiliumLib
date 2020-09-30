@@ -91,7 +91,7 @@ public class IoOptional<T>
 	
 	@API
 	public T getOrThrow()
-			throws IOException
+		throws IOException
 	{
 		if(isPresent())
 			return value;
@@ -100,14 +100,14 @@ public class IoOptional<T>
 	
 	@API
 	public T getOrThrowWrapped(String message)
-			throws IOException
+		throws IOException
 	{
 		return getOrThrowWrapped(e->new IOException(message, e));
 	}
 	
 	@API
-	public <E extends Throwable> T getOrThrowWrapped(Function<IOException,E> wrap)
-			throws E
+	public <E extends Throwable> T getOrThrowWrapped(Function<IOException, E> wrap)
+		throws E
 	{
 		try
 		{

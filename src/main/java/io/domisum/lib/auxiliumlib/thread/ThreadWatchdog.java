@@ -29,7 +29,7 @@ public final class ThreadWatchdog
 	private static ThreadWatchdog instance = null;
 	
 	// WATCHDOG
-	private final Map<Thread,List<Runnable>> watchedThreadsOnTerminationActions = new HashMap<>();
+	private final Map<Thread, List<Runnable>> watchedThreadsOnTerminationActions = new HashMap<>();
 	private Thread watchdogThread;
 	
 	
