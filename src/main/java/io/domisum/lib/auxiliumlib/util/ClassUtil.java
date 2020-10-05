@@ -16,9 +16,21 @@ import java.util.Optional;
 public final class ClassUtil
 {
 	
-	// CLASS
 	@API
-	public static Optional<Class<?>> getClass(String path)
+	public static Class<?> getClass(String className, String errorMessage)
+	{
+		try
+		{
+			return Class.forName(className);
+		}
+		catch(ClassNotFoundException e)
+		{
+			throw new IllegalArgumentException(errorMessage, e);
+		}
+	}
+	
+	@API
+	public static Optional<Class<?>> getClassOptional(String path)
 	{
 		try
 		{
@@ -41,7 +53,7 @@ public final class ClassUtil
 			
 			var classes = new ArrayList<Class<?>>();
 			for(var classInfo : classInfos)
-				getClass(classInfo.getName()).ifPresent(classes::add);
+				getClassOptional(classInfo.getName()).ifPresent(classes::add);
 			
 			return classes;
 		}
