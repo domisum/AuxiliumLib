@@ -6,6 +6,7 @@ import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 
 import java.time.Duration;
+import java.util.Arrays;
 import java.util.Collection;
 
 @API
@@ -47,6 +48,20 @@ public final class ValidationUtil
 		notNull(collection, collectionName);
 		if(!collection.contains(element))
 			throw new IllegalArgumentException("Collection '"+collectionName+"' has to contain element '"+element+"', but didn't");
+	}
+	
+	@API
+	public static <T> void containsAll(Collection<T> collection, Collection<? extends T> elements, String collectionName)
+	{
+		notNull(collection, collectionName);
+		for(T element : elements)
+			contains(collection, element, collectionName);
+	}
+	
+	@API
+	public static <T, E extends T> void containsAll(Collection<T> collection, E[] elements, String collectionName)
+	{
+		containsAll(collection, Arrays.asList(elements), collectionName);
 	}
 	
 	@API
