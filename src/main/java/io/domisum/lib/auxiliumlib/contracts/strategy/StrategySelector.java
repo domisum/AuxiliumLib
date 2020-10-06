@@ -3,7 +3,6 @@ package io.domisum.lib.auxiliumlib.contracts.strategy;
 import io.domisum.lib.auxiliumlib.annotations.API;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,14 +19,14 @@ public class StrategySelector<T, StrategyT extends Strategy<T>>
 	@API
 	public StrategySelector(List<StrategyT> strategies)
 	{
-		this.strategies = Collections.unmodifiableList(strategies);
+		this.strategies = List.copyOf(strategies);
 		fallbackStrategy = null;
 	}
 	
 	@API
 	public StrategySelector(List<StrategyT> strategies, StrategyT fallbackStrategy)
 	{
-		this.strategies = Collections.unmodifiableList(strategies);
+		this.strategies = List.copyOf(strategies);
 		this.fallbackStrategy = fallbackStrategy;
 	}
 	

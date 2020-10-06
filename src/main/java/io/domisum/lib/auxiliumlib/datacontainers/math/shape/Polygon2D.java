@@ -35,7 +35,7 @@ public class Polygon2D
 	{
 		if(points.size() <= 2)
 			throw new IllegalArgumentException("A polygon has to have at least 3 points");
-		this.points = Collections.unmodifiableList(points);
+		this.points = List.copyOf(points);
 	}
 	
 	@API
@@ -69,7 +69,7 @@ public class Polygon2D
 				last = vector2D;
 			}
 			lines.add(new LineSegment2D(last, points.get(0)));
-			lines = Collections.unmodifiableList(lines);
+			lines = List.copyOf(lines);
 		}
 		
 		return Collections.unmodifiableList(lines);
@@ -97,7 +97,7 @@ public class Polygon2D
 				before = lineSegment2D;
 			}
 			
-			corners = Collections.unmodifiableList(corners);
+			corners = List.copyOf(corners);
 		}
 		
 		return Collections.unmodifiableList(corners);
