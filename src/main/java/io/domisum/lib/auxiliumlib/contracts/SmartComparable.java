@@ -8,6 +8,7 @@ public interface SmartComparable<T>
 	extends Comparable<T>
 {
 	
+	// COMPARISON
 	@API
 	default boolean isLessThan(T other)
 	{
@@ -39,6 +40,59 @@ public interface SmartComparable<T>
 	}
 	
 	
+	// ALL COMPARISON
+	@API
+	default boolean isLessThanAll(Collection<? extends T> collection)
+	{
+		for(T t : collection)
+			if(!isLessThan(t))
+				return false;
+		
+		return true;
+	}
+	
+	@API
+	default boolean isLessThanOrEqualAll(Collection<? extends T> collection)
+	{
+		for(T t : collection)
+			if(!isLessThanOrEqual(t))
+				return false;
+		
+		return true;
+	}
+	
+	@API
+	default boolean isEqualAll(Collection<? extends T> collection)
+	{
+		for(T t : collection)
+			if(!isEqual(t))
+				return false;
+		
+		return true;
+	}
+	
+	@API
+	default boolean isGreaterThanOrEqualAll(Collection<? extends T> collection)
+	{
+		for(T t : collection)
+			if(!isGreaterThanOrEqual(t))
+				return false;
+		
+		return true;
+	}
+	
+	@API
+	default boolean isGreaterThanAll(Collection<? extends T> collection)
+	{
+		for(T t : collection)
+			if(!isGreaterThan(t))
+				return false;
+		
+		return true;
+	}
+	
+	
+	// MIN MAX
 	@API
 	static <T extends SmartComparable<T>> T max(T a, T b)
 	{
