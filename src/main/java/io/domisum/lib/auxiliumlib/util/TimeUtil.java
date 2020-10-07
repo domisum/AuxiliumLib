@@ -89,6 +89,12 @@ public final class TimeUtil
 	
 	// NOW
 	@API
+	public static Instant ago(Duration duration)
+	{
+		return Instant.now().minus(duration);
+	}
+	
+	@API
 	public static Duration toNow(Temporal from)
 	{
 		return Duration.between(from, Instant.now());
