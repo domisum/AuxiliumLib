@@ -55,7 +55,7 @@ public abstract class ConfigObjectLoader<T extends ConfigObject>
 		var configObjectsById = new HashMap<String, T>();
 		var files = FileUtil.listFilesRecursively(configDirectory, FileType.FILE);
 		var filesOrdered = files.stream()
-			.sorted(Comparator.comparing(File::getAbsolutePath))
+			.sorted(Comparator.comparing(File::getPath))
 			.collect(Collectors.toList());
 		
 		for(var file : filesOrdered)
