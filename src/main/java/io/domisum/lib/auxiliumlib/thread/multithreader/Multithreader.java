@@ -3,6 +3,8 @@ package io.domisum.lib.auxiliumlib.thread.multithreader;
 import io.domisum.lib.auxiliumlib.annotations.API;
 import io.domisum.lib.auxiliumlib.util.ThreadUtil;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.time.Duration;
 import java.util.ArrayList;
@@ -21,6 +23,9 @@ import java.util.function.Function;
 @RequiredArgsConstructor
 public class Multithreader<I, O>
 {
+	
+	private final Logger logger = LoggerFactory.getLogger(getClass());
+	
 	
 	// SETTINGS
 	private final Function<I, O> action;
@@ -154,6 +159,18 @@ public class Multithreader<I, O>
 		}
 		
 		private void processElement(I element)
+		{
+			try
+			{
+				processElementUncaught(element);
+			}
+			catch(Exception e)
+			{
+				logger.error("Exception while multithreading", e);
+			}
+		}
+		
+		private void processElementUncaught(I element)
 		{
 			var output = action.apply(element);
 			if(output != null)
