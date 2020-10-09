@@ -11,8 +11,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @API
 public abstract class ConfigObjectLoader<T extends ConfigObject>
@@ -51,7 +53,12 @@ public abstract class ConfigObjectLoader<T extends ConfigObject>
 		String configDirPath = configDirectory.getAbsoluteFile().getPath();
 		
 		var configObjectsById = new HashMap<String, T>();
-		for(var file : FileUtil.listFilesRecursively(configDirectory, FileType.FILE))
+		var files = FileUtil.listFilesRecursively(configDirectory, FileType.FILE);
+		var filesOrdered = files.stream()
+			.sorted(Comparator.comparing(File::getAbsolutePath))
+			.collect(Collectors.toList());
+		
+		for(var file : filesOrdered)
 		{
 			String path = file.getAbsoluteFile().getPath();
 			String pathInDir = path.substring(configDirPath.length());
