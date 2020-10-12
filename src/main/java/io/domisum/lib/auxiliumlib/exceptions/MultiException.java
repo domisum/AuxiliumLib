@@ -1,7 +1,7 @@
 package io.domisum.lib.auxiliumlib.exceptions;
 
 import io.domisum.lib.auxiliumlib.annotations.API;
-import io.domisum.lib.auxiliumlib.util.StringUtil;
+import io.domisum.lib.auxiliumlib.util.StringListUtil;
 import lombok.Getter;
 
 import java.util.ArrayList;
@@ -40,7 +40,7 @@ public class MultiException
 		for(var cause : causes)
 			messageParts.add(cause.toString());
 		
-		String message = StringUtil.listToString(messageParts, "\n\n");
+		String message = StringListUtil.listHorizontally(messageParts, "\n\n");
 		
 		return message;
 	}

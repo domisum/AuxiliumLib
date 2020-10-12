@@ -42,15 +42,6 @@ public class StringUtilTest
 	}
 	
 	
-	// TEST TO STRING
-	@Test
-	public void testListToString()
-	{
-		Assertions.assertEquals("meme, asdf", StringUtil.listToString(Arrays.asList("meme", "asdf"), ", "));
-		Assertions.assertEquals("wow\nnice\nmeme\nxd", StringUtil.listToString(Arrays.asList("wow", "nice", "meme", "xd"), "\n"));
-	}
-	
-	
 	// COMBINATORICS
 	@Test
 	public void testGenerateAllPermutations()

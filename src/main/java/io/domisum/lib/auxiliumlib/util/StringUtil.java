@@ -13,7 +13,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 @API
@@ -23,26 +22,6 @@ public final class StringUtil
 	
 	// CONCAT
 	@API
-	public static String listToString(List<?> list, String delimiter)
-	{
-		var combined = new StringBuilder();
-		for(int i = 0; i < list.size(); i++)
-		{
-			combined.append(list.get(i));
-			combined.append(((i+1) == list.size()) ?
-				"" :
-				delimiter);
-		}
-		return combined.toString();
-	}
-	
-	@API
-	public static String collectionToString(Collection<?> collection, String delimiter)
-	{
-		return listToString(new ArrayList<>(collection), delimiter);
-	}
-	
-	@API
 	public static String concatWithSpace(String... toConcat)
 	{
 		return concat(" ", toConcat);
@@ -51,7 +30,7 @@ public final class StringUtil
 	@API
 	public static String concat(String delimiter, String... toConcat)
 	{
-		return listToString(Arrays.asList(toConcat), delimiter);
+		return StringListUtil.listHorizontally(Arrays.asList(toConcat), delimiter);
 	}
 	
 	@API
@@ -71,33 +50,6 @@ public final class StringUtil
 		}
 		return lastPassing;
 	}
-	
-	@API
-	public static String displayCollectionListed(Collection<?> items)
-	{
-		var itemDisplays = new ArrayList<String>();
-		for(var item : items)
-			itemDisplays.add(" - "+item.toString());
-		
-		String listMultilineDisplay = listToString(itemDisplays, "\n");
-		return listMultilineDisplay;
-	}
-	
-	@API
-	public static String displayMapListed(Map<?, ?> map)
-	{
-		var entryStrings = new ArrayList<String>();
-		for(var entry : map.entrySet())
-		{
-			String entryString = "'"+entry.getKey()+"' -> '"+entry.getValue()+"'";
-			entryStrings.add(entryString);
-		}
-		
-		Collections.sort(entryStrings);
-		String mapListed = displayCollectionListed(entryStrings);
-		return mapListed;
-	}
-	
 	
 	@API
 	public static String repeat(String toRepeat, int count, String delimiter)

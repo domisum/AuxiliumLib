@@ -114,7 +114,7 @@ public final class ThreadUtil
 		}
 		catch(NoSuchMethodError ignored)
 		{
-			
+		
 		}
 	}
 	
@@ -165,7 +165,7 @@ public final class ThreadUtil
 		for(var thread : Thread.getAllStackTraces().keySet())
 			threadsAsString.add(convertThreadToString(thread));
 		
-		return StringUtil.collectionToString(threadsAsString, "\n\n");
+		return StringListUtil.listHorizontally(threadsAsString, "\n\n");
 	}
 	
 	@API
@@ -187,7 +187,7 @@ public final class ThreadUtil
 		if(stackTraceLines.isEmpty())
 			threadToString.append("(no stack trace)");
 		else
-			threadToString.append(StringUtil.listToString(stackTraceLines, "\n"));
+			threadToString.append(StringListUtil.listHorizontally(stackTraceLines, "\n"));
 		
 		return threadToString.toString();
 	}

@@ -4,7 +4,7 @@ import com.google.gson.JsonParseException;
 import io.domisum.lib.auxiliumlib.PHR;
 import io.domisum.lib.auxiliumlib.annotations.API;
 import io.domisum.lib.auxiliumlib.util.ReflectionUtil;
-import io.domisum.lib.auxiliumlib.util.StringUtil;
+import io.domisum.lib.auxiliumlib.util.StringListUtil;
 import io.domisum.lib.auxiliumlib.util.file.FileUtil;
 import io.domisum.lib.auxiliumlib.util.file.FileUtil.FileType;
 import org.slf4j.Logger;
@@ -89,7 +89,7 @@ public abstract class ConfigObjectLoader<T extends ConfigObject>
 		
 		var configObjectIds = configObjectsById.keySet();
 		logger.info("...Loading {} done, loaded {}: [{}]",
-			OBJECT_NAME_PLURAL(), configObjectsById.size(), StringUtil.collectionToString(configObjectIds, ", "));
+			OBJECT_NAME_PLURAL(), configObjectsById.size(), StringListUtil.listHorizontally(configObjectIds));
 		
 		return new ConfigObjectRegistry<>(configObjectsById);
 	}

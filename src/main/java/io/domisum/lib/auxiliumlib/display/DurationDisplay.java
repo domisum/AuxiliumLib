@@ -1,7 +1,7 @@
 package io.domisum.lib.auxiliumlib.display;
 
 import io.domisum.lib.auxiliumlib.annotations.API;
-import io.domisum.lib.auxiliumlib.util.StringUtil;
+import io.domisum.lib.auxiliumlib.util.StringListUtil;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -73,7 +73,7 @@ public final class DurationDisplay
 			durationRemaining = durationRemaining.minus(ofUnitDuration);
 		}
 		
-		return StringUtil.listToString(displayComponents, ":");
+		return StringListUtil.listHorizontally(displayComponents, ":");
 	}
 	
 	private static boolean isUnitTooBigForDuration(Duration durationRemaining, TemporalUnit unit)
