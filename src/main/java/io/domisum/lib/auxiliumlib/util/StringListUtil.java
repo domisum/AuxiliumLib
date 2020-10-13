@@ -11,6 +11,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 
 @API
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
@@ -55,17 +56,30 @@ public final class StringListUtil
 	
 	
 	@API
-	public static String listHorizontally(Map<?, ?> map, String delimiter)
+	public static <T> String listHorizontally(Map<?, T> map, String delimiter, Function<T, Object> valueFunction)
 	{
 		var mappings = new ArrayList<String>();
 		for(var entry : map.entrySet())
 		{
-			String mapping = PHR.r("'{}'->'{}'", entry.getKey(), entry.getValue());
+			String mapping = PHR.r("'{}'->'{}'", entry.getKey(), valueFunction.apply(entry.getValue()));
 			mappings.add(mapping);
 		}
 		mappings.sort(Comparator.naturalOrder());
 		
 		return listHorizontally(mappings, delimiter);
+	}
+	
+	@API
+	public static <T> String listHorizontally(Map<?, T> map, Function<T, Object> valueFunction)
+	{
+		return listHorizontally(map, ", ", valueFunction);
+	}
+	
+	
+	@API
+	public static String listHorizontally(Map<?, ?> map, String delimiter)
+	{
+		return listHorizontally(map, delimiter, v->v);
 	}
 	
 	@API
