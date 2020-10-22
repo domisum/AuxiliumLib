@@ -251,7 +251,7 @@ public final class ValidationUtil
 	public static void greaterThanOrEqual(
 		Duration value, Duration minimumIncl, String valueName, String minimumInclName)
 	{
-		if(Compare.greaterThanOrEqual(value, minimumIncl))
+		if(!Compare.greaterThanOrEqual(value, minimumIncl))
 			throwIae("Duration '{}' ({}) has to be greater than or equal to '{}' ({})",
 				valueName, DurationDisplay.of(value), minimumInclName, DurationDisplay.of(minimumIncl));
 	}
@@ -260,7 +260,7 @@ public final class ValidationUtil
 	public static void lessThanOrEqual(
 		Duration value, Duration maximumIncl, String valueName, String maximumInclName)
 	{
-		if(Compare.lessThanOrEqual(value, maximumIncl))
+		if(!Compare.lessThanOrEqual(value, maximumIncl))
 			throwIae("Duration '{}' ({}) has to be less than or equal to '{}' ({})",
 				valueName, DurationDisplay.of(value), maximumInclName, DurationDisplay.of(maximumIncl));
 	}
@@ -269,7 +269,7 @@ public final class ValidationUtil
 	public static void greaterZero(Duration duration, String variableName)
 	{
 		notNull(duration, variableName);
-		if(Compare.lessThanOrEqual(duration, Duration.ZERO))
+		if(!Compare.greaterThan(duration, Duration.ZERO))
 			throwIae("Duration '{}' has to be greater than zero, but was {}",
 				variableName, DurationDisplay.of(duration));
 	}
