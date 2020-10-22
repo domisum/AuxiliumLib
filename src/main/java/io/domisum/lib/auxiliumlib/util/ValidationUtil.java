@@ -1,5 +1,6 @@
 package io.domisum.lib.auxiliumlib.util;
 
+import io.domisum.lib.auxiliumlib.PHR;
 import io.domisum.lib.auxiliumlib.annotations.API;
 import io.domisum.lib.auxiliumlib.display.DurationDisplay;
 import lombok.AccessLevel;
@@ -14,12 +15,19 @@ import java.util.Collection;
 public final class ValidationUtil
 {
 	
+	// SHARED
+	private static void throwIae(String message, Object... placeholderValues)
+	{
+		throw new IllegalArgumentException(PHR.r(message, placeholderValues));
+	}
+	
+	
 	// COMMON
 	@API
 	public static void notNull(Object object, String variableName)
 	{
 		if(object == null)
-			throw new IllegalArgumentException("'"+variableName+"' can't be null");
+			throwIae("'{}' can't be null", variableName);
 	}
 	
 	
@@ -29,7 +37,7 @@ public final class ValidationUtil
 	{
 		notNull(string, variableName);
 		if(string.isBlank())
-			throw new IllegalArgumentException("String '"+variableName+"' can't be blank");
+			throwIae("String '{}' can't be blank", variableName);
 	}
 	
 	
@@ -39,7 +47,7 @@ public final class ValidationUtil
 	{
 		notNull(collection, collectionName);
 		if(collection.isEmpty())
-			throw new IllegalArgumentException("Collection '"+collectionName+"' can't be empty");
+			throwIae("Collection '{}' can't be empty", collectionName);
 	}
 	
 	@API
@@ -47,7 +55,7 @@ public final class ValidationUtil
 	{
 		notNull(collection, collectionName);
 		if(!collection.contains(element))
-			throw new IllegalArgumentException("Collection '"+collectionName+"' has to contain element '"+element+"', but didn't");
+			throwIae("Collection '{}' has to contain element '{}', but didn't", collection, element);
 	}
 	
 	@API
@@ -69,7 +77,7 @@ public final class ValidationUtil
 	{
 		notNull(collection, collectionName);
 		if(collection.contains(null))
-			throw new IllegalArgumentException("Collection '"+collectionName+"' can't contain null, but did");
+			throwIae("Collection '{}' can't contain null, but did", collectionName);
 	}
 	
 	
@@ -78,52 +86,56 @@ public final class ValidationUtil
 	public static void greaterThanOrEqual(double value, double minimumIncl, String valueName, String minimumInclName)
 	{
 		if(value < minimumIncl)
-			throw new IllegalArgumentException("double '"+valueName+"' ("+value+") has to be greater than or equal to '"+
-				minimumInclName+"' ("+minimumIncl+"), but wasn't");
+			throwIae("double '{}' ({}) has to be greater than or equal to '{}' ({})", valueName, value, minimumInclName, minimumIncl);
 	}
 	
 	@API
 	public static void lessThanOrEqual(double value, double maximumIncl, String valueName, String maximumInclName)
 	{
 		if(value > maximumIncl)
-			throw new IllegalArgumentException("double '"+valueName+"' ("+value+") has to be less than or equal to '"+
-				maximumInclName+"' ("+maximumIncl+"), but wasn't");
+			throwIae("double '{}' ({}) has to be less than or equal to '{}' ({})", valueName, value, maximumInclName, maximumIncl);
 	}
 	
 	@API
 	public static void lessThanOrEqual(int value, int maximumIncl, String valueName, String maximumInclName)
 	{
 		if(value > maximumIncl)
-			throw new IllegalArgumentException("double '"+valueName+"' ("+value+") has to be less than or equal to '"+
-				maximumInclName+"' ("+maximumIncl+"), but wasn't");
+			throwIae("int '{}' ({}) has to be less than or equal to '{}' ({})", valueName, value, maximumInclName, maximumIncl);
+	}
+	
+	@API
+	public static void lessThanOrEqual(int value, int maximumIncl, String valueName)
+	{
+		if(value > maximumIncl)
+			throwIae("int '{}' ({}) has to be less than or equal to {}", valueName, value, maximumIncl);
 	}
 	
 	@API
 	public static void greaterZero(double number, String variableName)
 	{
 		if(number <= 0)
-			throw new IllegalArgumentException("double '"+variableName+"' has to be greater than zero, but was "+number);
+			throwIae("double '{}' has to be greater than zero, but was {}", variableName, number);
 	}
 	
 	@API
 	public static void greaterZero(int number, String variableName)
 	{
 		if(number <= 0)
-			throw new IllegalArgumentException("int '"+variableName+"' has to be greater than zero, but was "+number);
+			throwIae("int '{}' has to be greater than zero, but was {}", variableName, number);
 	}
 	
 	@API
 	public static void notNegative(double number, String variableName)
 	{
 		if(number < 0)
-			throw new IllegalArgumentException("double '"+variableName+"' can't be negative, but was "+number);
+			throwIae("double '{}' can't be negative, but was {}", variableName, number);
 	}
 	
 	@API
 	public static void notNegative(int number, String variableName)
 	{
 		if(number < 0)
-			throw new IllegalArgumentException("int '"+variableName+"' can't be negative, but was "+number);
+			throwIae("int '{}' can't be negative, but was {}", variableName, number);
 	}
 	
 	
@@ -152,16 +164,24 @@ public final class ValidationUtil
 			throw new IllegalArgumentException("Start and end are the wrong way around");
 		
 		if((value < start) || (value > end))
-			throw new IllegalArgumentException("int '"+variableName+"' has to be in interval "+
-				displayInterval(start, startInclusive, end, endInclusive)+", but was "+value);
+		{
+			String intervalDisplay = displayInterval(start, startInclusive, end, endInclusive);
+			throwIae("int '{}' has to be in interval {}, but was {}", variableName, intervalDisplay, value);
+		}
 		
 		if((value == start) && !startInclusive)
-			throw new IllegalArgumentException("int '"+variableName+"' has to be in interval "+
-				displayInterval(start, startInclusive, end, endInclusive)+", but was "+value+" (is equal to start and therefore excluded)");
+		{
+			String intervalDisplay = displayInterval(start, startInclusive, end, endInclusive);
+			throwIae("int '{}' has to be in interval {}, but was {} (is equal to start and therefore excluded)",
+				variableName, intervalDisplay, value);
+		}
 		
 		if((value == end) && !endInclusive)
-			throw new IllegalArgumentException("int '"+variableName+"+ has to be in interval "+
-				displayInterval(start, startInclusive, end, endInclusive)+", but was "+value+" (is equal to end and therefore excluded)");
+		{
+			String intervalDisplay = displayInterval(start, startInclusive, end, endInclusive);
+			throwIae("int '{}' has to be in interval {}, but was {} (is equal to end and therefore excluded)",
+				variableName, intervalDisplay, value);
+		}
 	}
 	
 	private static String displayInterval(int start, boolean startInclusive, int end, boolean endInclusive)
@@ -191,22 +211,31 @@ public final class ValidationUtil
 		inInterval(start, false, end, false, value, variableName);
 	}
 	
-	private static void inInterval(double start, boolean startInclusive, double end, boolean endInclusive, double value, String variableName)
+	private static void inInterval(
+		double start, boolean startInclusive, double end, boolean endInclusive, double value, String variableName)
 	{
 		if(end < start)
 			throw new IllegalArgumentException("Start and end are the wrong way around");
 		
 		if((value < start) || (value > end))
-			throw new IllegalArgumentException("double '"+variableName+"' has to be in interval "+
-				displayInterval(start, startInclusive, end, endInclusive)+", but was "+value);
+		{
+			String intervalDisplay = displayInterval(start, startInclusive, end, endInclusive);
+			throwIae("double '{}' has to be in interval {}, but was {}", variableName, intervalDisplay, value);
+		}
 		
 		if((value == start) && !startInclusive)
-			throw new IllegalArgumentException("double '"+variableName+"' has to be in interval "+
-				displayInterval(start, startInclusive, end, endInclusive)+", but was "+value+" (is equal to start and therefore excluded)");
+		{
+			String intervalDisplay = displayInterval(start, startInclusive, end, endInclusive);
+			throwIae("double '{}' has to be in interval {}, but was {} (is equal to start and therefore excluded)",
+				variableName, intervalDisplay, value);
+		}
 		
 		if((value == end) && !endInclusive)
-			throw new IllegalArgumentException("double '"+variableName+"' has to be in interval "+
-				displayInterval(start, startInclusive, end, endInclusive)+", but was "+value+" (is equal to end and therefore excluded)");
+		{
+			String intervalDisplay = displayInterval(start, startInclusive, end, endInclusive);
+			throwIae("double '{}' has to be in interval {}, but was {} (is equal to end and therefore excluded)",
+				variableName, intervalDisplay, value);
+		}
 	}
 	
 	private static String displayInterval(double start, boolean startInclusive, double end, boolean endInclusive)
@@ -219,19 +248,21 @@ public final class ValidationUtil
 	
 	// DURATION
 	@API
-	public static void greaterThanOrEqual(Duration value, Duration minimumIncl, String valueName, String minimumInclName)
+	public static void greaterThanOrEqual(
+		Duration value, Duration minimumIncl, String valueName, String minimumInclName)
 	{
-		if(Compare.greaterThanOrEqual(minimumIncl, value))
-			throw new IllegalArgumentException("Duration '"+valueName+"' ("+DurationDisplay.display(value)+
-				") has to be greater than or equal to '"+minimumInclName+"' ("+DurationDisplay.display(minimumIncl)+"), but wasn't");
+		if(Compare.greaterThanOrEqual(value, minimumIncl))
+			throwIae("Duration '{}' ({}) has to be greater than or equal to '{}' ({})",
+				valueName, DurationDisplay.of(value), minimumInclName, DurationDisplay.of(minimumIncl));
 	}
 	
 	@API
-	public static void lessThanOrEqual(Duration value, Duration maximumIncl, String valueName, String maximumInclName)
+	public static void lessThanOrEqual(
+		Duration value, Duration maximumIncl, String valueName, String maximumInclName)
 	{
-		if(Compare.lessThanOrEqual(maximumIncl, value))
-			throw new IllegalArgumentException("Duration '"+valueName+"' ("+DurationDisplay.display(value)+
-				") has to be less than or equal to '"+maximumInclName+"' ("+DurationDisplay.display(maximumIncl)+"), but wasn't");
+		if(Compare.lessThanOrEqual(value, maximumIncl))
+			throwIae("Duration '{}' ({}) has to be less than or equal to '{}' ({})",
+				valueName, DurationDisplay.of(value), maximumInclName, DurationDisplay.of(maximumIncl));
 	}
 	
 	@API
@@ -239,7 +270,8 @@ public final class ValidationUtil
 	{
 		notNull(duration, variableName);
 		if(Compare.lessThanOrEqual(duration, Duration.ZERO))
-			throw new IllegalArgumentException("Duration '"+variableName+"' has to be greater than zero, but was "+duration);
+			throwIae("Duration '{}' has to be greater than zero, but was {}",
+				variableName, DurationDisplay.of(duration));
 	}
 	
 	
