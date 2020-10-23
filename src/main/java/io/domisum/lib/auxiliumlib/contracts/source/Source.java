@@ -15,7 +15,7 @@ public interface Source<KeyT, T>
 	 * @return the Optional.of(T) associated with the key or Optional.empty() if there is no T associated with key
 	 */
 	@API
-	Optional<T> fetch(KeyT key);
+	Optional<T> get(KeyT key);
 	
 	/**
 	 * Checks if this source contains a {@code T} with the key equal to the supplied key.
@@ -26,13 +26,13 @@ public interface Source<KeyT, T>
 	@API
 	default boolean contains(KeyT key)
 	{
-		return fetch(key).isPresent();
+		return get(key).isPresent();
 	}
 	
 	@API
-	default T fetchOrError(KeyT key)
+	default T getOrError(KeyT key)
 	{
-		return fetch(key).orElseThrow(()->new NoSuchElementException("source does not contain element with key: "+key));
+		return get(key).orElseThrow(()->new NoSuchElementException("source does not contain element with key: "+key));
 	}
 	
 }
