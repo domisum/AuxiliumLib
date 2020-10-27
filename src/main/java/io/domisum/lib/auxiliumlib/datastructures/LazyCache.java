@@ -74,7 +74,8 @@ public final class LazyCache<KeyT, T>
 	public void remove(KeyT key)
 	{
 		ifDueExpire();
-		entries.remove(key);
+		if(key != null)
+			entries.remove(key);
 	}
 	
 	@API
