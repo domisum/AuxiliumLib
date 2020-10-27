@@ -110,14 +110,14 @@ public final class TimeUtil
 	public static boolean isOlderThan(Instant instant, Duration duration)
 	{
 		var age = toNow(instant);
-		return age.compareTo(duration) > 0;
+		return Compare.greaterThan(age, duration);
 	}
 	
 	@API
 	public static boolean isYoungerThan(Instant instant, Duration duration)
 	{
 		var age = toNow(instant);
-		return age.compareTo(duration) < 0;
+		return Compare.lessThan(age, duration);
 	}
 	
 	@API
