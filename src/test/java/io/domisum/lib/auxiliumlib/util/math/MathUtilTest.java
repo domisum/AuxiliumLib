@@ -54,6 +54,10 @@ public class MathUtilTest
 		Assertions.assertEquals(-7.4d, MathUtil.round(-7.44d, 1));
 		Assertions.assertEquals(-7.4d, MathUtil.round(-7.45d, 1));
 		Assertions.assertEquals(-7.5d, MathUtil.round(-7.46d, 1));
+		
+		// test negative decimal places
+		Assertions.assertEquals(8000, MathUtil.round(8123, -3));
+		Assertions.assertEquals(1570, MathUtil.round(1568d, -1));
 	}
 	
 	

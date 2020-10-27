@@ -136,11 +136,14 @@ public final class MathUtil
 	public static double round(double numberToRound, int decimalPlaces)
 	{
 		if(Double.isNaN(numberToRound))
-			throw new IllegalArgumentException("can't round NaN");
+			throw new IllegalArgumentException("Can't round NaN");
 		
-		int factor = 1;
-		for(int i = 0; i < decimalPlaces; i++)
-			factor *= 10;
+		double factor = 1;
+		for(int i = 0; i < Math.abs(decimalPlaces); i++)
+			if(decimalPlaces > 0)
+				factor *= 10;
+			else
+				factor /= 10;
 		
 		return (double) Math.round(numberToRound*factor)/factor;
 	}
