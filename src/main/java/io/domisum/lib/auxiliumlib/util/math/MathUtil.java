@@ -148,6 +148,12 @@ public final class MathUtil
 		return (double) Math.round(numberToRound*factor)/factor;
 	}
 	
+	@API
+	public static String percentage(double fraction, int decimalPlaces)
+	{
+		return round(fraction*100, decimalPlaces)+"%";
+	}
+	
 	
 	// FUNCTION
 	@API
