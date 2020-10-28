@@ -42,7 +42,24 @@ public abstract class Ticker
 	@API
 	public static Ticker create(String name, Duration interval, @Nullable Duration timeout, Tickable tickable)
 	{
-		return new Ticker(name, interval, timeout, false)
+		return create(name, interval, timeout, false, tickable);
+	}
+	
+	@API
+	public static Ticker createDaemon(String name, Duration interval, @Nullable Duration timeout, Tickable tickable)
+	{
+		return create(name, interval, timeout, true, tickable);
+	}
+	
+	@API
+	public static Ticker createDaemon(String name, Duration interval, Tickable tickable)
+	{
+		return create(name, interval, TIMEOUT_DEFAULT, true, tickable);
+	}
+	
+	private static Ticker create(String name, Duration interval, @Nullable Duration timeout, boolean isDaemon, Tickable tickable)
+	{
+		return new Ticker(name, interval, timeout, isDaemon)
 		{
 			
 			@Override
