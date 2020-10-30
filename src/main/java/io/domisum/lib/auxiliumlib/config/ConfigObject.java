@@ -35,6 +35,11 @@ public abstract class ConfigObject
 	
 	// GETTERS
 	@Nonnull
-	public abstract String getId();
+	public abstract Object getId();
+	
+	public String getStringId()
+	{
+		return getId().toString();
+	}
 	
 }

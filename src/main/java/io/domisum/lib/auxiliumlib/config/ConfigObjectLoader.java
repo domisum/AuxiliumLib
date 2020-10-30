@@ -73,10 +73,10 @@ public abstract class ConfigObjectLoader<T extends ConfigObject>
 			{
 				T configObject = loadConfigObjectFromFile(file);
 				
-				if(configObjectsById.containsKey(configObject.getId()))
+				if(configObjectsById.containsKey(configObject.getStringId()))
 					throw new ConfigException(PHR.r("Duplicate config object id '{}'. Duplicate file: {}",
 						configObject.getId(), file));
-				configObjectsById.put(configObject.getId(), configObject);
+				configObjectsById.put(configObject.getStringId(), configObject);
 			}
 			else
 				throw new ConfigException(PHR.r(
