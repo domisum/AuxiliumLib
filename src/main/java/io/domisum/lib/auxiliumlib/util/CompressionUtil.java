@@ -34,22 +34,26 @@ public final class CompressionUtil
 		Validate.notNull(input);
 		Validate.notNull(compressionSpeed);
 		
-		var compressor = new Deflater();
-		compressor.setLevel(compressionSpeed.deflaterLevel);
-		compressor.setInput(input);
-		compressor.finish();
+		var deflater = new Deflater();
+		deflater.setLevel(compressionSpeed.deflaterLevel);
+		deflater.setInput(input);
+		deflater.finish();
 		try(var outputStream = new ByteArrayOutputStream(input.length))
 		{
 			byte[] buffer = new byte[BUFFER_SIZE];
 			
-			while(!compressor.finished())
-				outputStream.write(buffer, 0, compressor.deflate(buffer));
+			while(!deflater.finished())
+				outputStream.write(buffer, 0, deflater.deflate(buffer));
 			
 			return outputStream.toByteArray();
 		}
 		catch(IOException e)
 		{
 			throw new ProgrammingError(e);
+		}
+		finally
+		{
+			deflater.end();
 		}
 	}
 	
@@ -58,15 +62,14 @@ public final class CompressionUtil
 	{
 		Validate.notNull(input);
 		
-		var decompressor = new Inflater();
-		decompressor.setInput(input);
+		var inflater = new Inflater();
+		inflater.setInput(input);
 		try(var outputStream = new ByteArrayOutputStream(input.length))
 		{
 			byte[] buffer = new byte[BUFFER_SIZE];
-			while(!decompressor.finished())
-				outputStream.write(buffer, 0, decompressor.inflate(buffer));
+			while(!inflater.finished())
+				outputStream.write(buffer, 0, inflater.inflate(buffer));
 			
-			outputStream.close();
 			return outputStream.toByteArray();
 		}
 		catch(DataFormatException e)
@@ -76,6 +79,10 @@ public final class CompressionUtil
 		catch(IOException e)
 		{
 			throw new ProgrammingError(e);
+		}
+		finally
+		{
+			inflater.end();
 		}
 	}
 	
