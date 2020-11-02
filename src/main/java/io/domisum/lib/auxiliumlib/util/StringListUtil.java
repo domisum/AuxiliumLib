@@ -23,51 +23,40 @@ public final class StringListUtil
 	
 	// HORIZONTALLY
 	@API
-	public static <T> String listHorizontally(List<T> list, Function<T, Object> function, String delimiter)
+	public static <T> String listHorizontally(Iterable<T> iterable, Function<T, Object> function, String delimiter)
 	{
-		var combined = new StringBuilder();
-		for(int i = 0; i < list.size(); i++)
+		var display = new StringBuilder();
+		boolean removeDelimiter = false;
+		for(T element : iterable)
 		{
-			var element = list.get(i);
 			var elementDisplay = function == null ? element : function.apply(element);
-			combined.append(elementDisplay);
-			
-			boolean isLastElement = (i+1) == list.size();
-			combined.append(isLastElement ? "" : delimiter);
+			display.append(elementDisplay);
+			display.append(delimiter);
+			removeDelimiter = true;
 		}
 		
-		return combined.toString();
+		if(removeDelimiter)
+			display.delete(display.length()-delimiter.length(), display.length());
+		
+		return display.toString();
 	}
 	
 	@API
-	public static <T> String listHorizontally(List<T> list, Function<T, Object> function)
+	public static <T> String listHorizontally(Iterable<T> iterable, Function<T, Object> function)
 	{
-		return listHorizontally(list, function, DEFAULT_DELIMITER);
+		return listHorizontally(iterable, function, DEFAULT_DELIMITER);
 	}
 	
 	@API
-	public static String listHorizontally(List<?> list)
+	public static String listHorizontally(Iterable<?> iterable, String delimiter)
 	{
-		return listHorizontally(list, DEFAULT_DELIMITER);
+		return listHorizontally(iterable, null,  delimiter);
 	}
 	
 	@API
-	public static String listHorizontally(List<?> list, String delimiter)
+	public static String listHorizontally(Iterable<?> iterable)
 	{
-		return listHorizontally(list, null, delimiter);
-	}
-	
-	
-	@API
-	public static String listHorizontally(Collection<?> collection, String delimiter)
-	{
-		return listHorizontally(new ArrayList<>(collection), delimiter);
-	}
-	
-	@API
-	public static String listHorizontally(Collection<?> collection)
-	{
-		return listHorizontally(collection, DEFAULT_DELIMITER);
+		return listHorizontally(iterable, DEFAULT_DELIMITER);
 	}
 	
 	
