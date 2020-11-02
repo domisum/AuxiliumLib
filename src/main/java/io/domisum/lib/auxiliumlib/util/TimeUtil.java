@@ -39,6 +39,12 @@ public final class TimeUtil
 	
 	// FLOATING COMMA CONVERSION
 	@API
+	public static double getDaysDecimal(Duration duration)
+	{
+		return duration.getSeconds()/(double) Duration.ofDays(1).getSeconds();
+	}
+	
+	@API
 	public static double getHoursDecimal(Duration duration)
 	{
 		return duration.getSeconds()/(double) Duration.ofHours(1).getSeconds();
