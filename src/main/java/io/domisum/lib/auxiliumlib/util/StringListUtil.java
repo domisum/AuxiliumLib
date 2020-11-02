@@ -18,17 +18,21 @@ import java.util.function.Function;
 public final class StringListUtil
 {
 	
+	private static final String DEFAULT_DELIMITER = ", ";
+	
+	
 	// HORIZONTALLY
 	@API
-	public static String listHorizontally(List<?> list, String delimiter)
+	public static <T> String listHorizontally(List<T> list, Function<T, Object> function, String delimiter)
 	{
 		var combined = new StringBuilder();
 		for(int i = 0; i < list.size(); i++)
 		{
 			var element = list.get(i);
-			boolean isLastElement = (i+1) == list.size();
+			var elementDisplay = function == null ? element : function.apply(element);
+			combined.append(elementDisplay);
 			
-			combined.append(element);
+			boolean isLastElement = (i+1) == list.size();
 			combined.append(isLastElement ? "" : delimiter);
 		}
 		
@@ -36,9 +40,21 @@ public final class StringListUtil
 	}
 	
 	@API
+	public static <T> String listHorizontally(List<T> list, Function<T, Object> function)
+	{
+		return listHorizontally(list, function, DEFAULT_DELIMITER);
+	}
+	
+	@API
 	public static String listHorizontally(List<?> list)
 	{
-		return listHorizontally(list, ", ");
+		return listHorizontally(list, DEFAULT_DELIMITER);
+	}
+	
+	@API
+	public static String listHorizontally(List<?> list, String delimiter)
+	{
+		return listHorizontally(list, null, delimiter);
 	}
 	
 	
@@ -51,7 +67,7 @@ public final class StringListUtil
 	@API
 	public static String listHorizontally(Collection<?> collection)
 	{
-		return listHorizontally(collection, ", ");
+		return listHorizontally(collection, DEFAULT_DELIMITER);
 	}
 	
 	
@@ -72,7 +88,7 @@ public final class StringListUtil
 	@API
 	public static <T> String listHorizontally(Map<?, T> map, Function<T, Object> valueFunction)
 	{
-		return listHorizontally(map, ", ", valueFunction);
+		return listHorizontally(map, DEFAULT_DELIMITER, valueFunction);
 	}
 	
 	
@@ -85,7 +101,7 @@ public final class StringListUtil
 	@API
 	public static String listHorizontally(Map<?, ?> map)
 	{
-		return listHorizontally(map, ", ");
+		return listHorizontally(map, DEFAULT_DELIMITER);
 	}
 	
 	
