@@ -300,7 +300,6 @@ public abstract class Ticker
 			boolean shouldRestart = status == TickingStatus.RUNNING;
 			
 			tickThread.setName(tickThread.getName()+"#timedOut");
-			tickThread.setDaemon(true);
 			tickThread.interrupt();
 			ThreadUtil.tryKill(tickThread);
 			lastTickStart = null;
