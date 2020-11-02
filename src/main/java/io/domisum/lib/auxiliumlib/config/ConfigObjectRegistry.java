@@ -5,6 +5,7 @@ import io.domisum.lib.auxiliumlib.annotations.API;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
+import java.util.Optional;
 
 @API
 public class ConfigObjectRegistry<T extends ConfigObject>
@@ -29,6 +30,13 @@ public class ConfigObjectRegistry<T extends ConfigObject>
 		if(configObject == null)
 			throw new IllegalArgumentException("this registry doesn't contain an entry for id '"+id+"'");
 		return configObject;
+	}
+	
+	@API
+	public Optional<T> getOptional(String id)
+	{
+		T configObject = configObjects.get(id);
+		return Optional.ofNullable(configObject);
 	}
 	
 	@API
