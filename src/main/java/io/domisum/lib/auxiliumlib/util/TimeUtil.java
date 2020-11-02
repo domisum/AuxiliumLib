@@ -23,17 +23,13 @@ public final class TimeUtil
 	@API
 	public static Duration min(Duration a, Duration b)
 	{
-		return (a.compareTo(b) < 0) ?
-			a :
-			b;
+		return (a.compareTo(b) < 0) ? a : b;
 	}
 	
 	@API
 	public static Duration max(Duration a, Duration b)
 	{
-		return (a.compareTo(b) > 0) ?
-			a :
-			b;
+		return (a.compareTo(b) > 0) ? a : b;
 	}
 	
 	
