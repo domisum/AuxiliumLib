@@ -136,7 +136,7 @@ public final class MathUtil
 	public static double round(double numberToRound, int decimalPlaces)
 	{
 		if(Double.isNaN(numberToRound))
-			throw new IllegalArgumentException("Can't round NaN");
+			return Double.NaN;
 		
 		double factor = 1;
 		for(int i = 0; i < Math.abs(decimalPlaces); i++)
