@@ -61,7 +61,7 @@ public abstract class WorkDistributor<T>
 	// REFILL
 	protected abstract boolean shouldRefill();
 	
-	private void refill()
+	protected void refill()
 	{
 		var moreWork = getMoreWork();
 		for(T w : moreWork)
