@@ -105,7 +105,7 @@ public abstract class WorkDistributor<T>
 			if(work != null)
 				set.remove(work);
 			
-			return Optional.of(work);
+			return Optional.ofNullable(work);
 		}
 		
 		
