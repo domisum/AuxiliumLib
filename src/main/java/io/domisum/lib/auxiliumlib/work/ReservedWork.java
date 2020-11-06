@@ -13,7 +13,7 @@ public final class ReservedWork<T>
 {
 	
 	@Getter
-	private final T work;
+	private final T subject;
 	
 	// STATUS
 	@Getter
@@ -47,7 +47,7 @@ public final class ReservedWork<T>
 		successful = true;
 		
 		if(onSuccessful != null)
-			onSuccessful.accept(work);
+			onSuccessful.accept(subject);
 	}
 	
 	@Override
@@ -56,7 +56,7 @@ public final class ReservedWork<T>
 		closed = true;
 		
 		if(onClose != null)
-			onClose.accept(work);
+			onClose.accept(subject);
 	}
 	
 }

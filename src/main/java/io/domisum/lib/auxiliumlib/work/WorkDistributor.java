@@ -22,7 +22,7 @@ public abstract class WorkDistributor<T>
 	
 	
 	// GET
-	public Optional<ReservedWork<T>> getWork()
+	public Optional<ReservedWork<T>> getWorkOptional()
 	{
 		if(shouldRefill())
 			if(refillLock.tryLock())
