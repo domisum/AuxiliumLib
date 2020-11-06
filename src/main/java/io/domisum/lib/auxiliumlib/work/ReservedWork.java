@@ -29,15 +29,21 @@ public final class ReservedWork<T>
 	
 	// INIT
 	@API
-	public static <T> ReservedWork<T> of(T work)
+	public static <T> ReservedWork<T> of(T subject)
 	{
-		return new ReservedWork<>(work, null, null);
+		return new ReservedWork<>(subject, null, null);
 	}
 	
 	@API
-	public static <T> ReservedWork<T> ofOnSuccessfulOnClose(T work, Consumer<T> onSuccessful, Consumer<T> onClose)
+	public static <T> ReservedWork<T> ofOnClose(T subject, Consumer<T> onClose)
 	{
-		return new ReservedWork<>(work, onSuccessful, onClose);
+		return new ReservedWork<>(subject, null, onClose);
+	}
+	
+	@API
+	public static <T> ReservedWork<T> ofOnSuccessfulOnClose(T subject, Consumer<T> onSuccessful, Consumer<T> onClose)
+	{
+		return new ReservedWork<>(subject, onSuccessful, onClose);
 	}
 	
 	
