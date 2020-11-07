@@ -6,6 +6,7 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
@@ -50,13 +51,19 @@ public final class StringListUtil
 	@API
 	public static String listHorizontally(Iterable<?> iterable, String delimiter)
 	{
-		return listHorizontally(iterable, null,  delimiter);
+		return listHorizontally(iterable, null, delimiter);
 	}
 	
 	@API
 	public static String listHorizontally(Iterable<?> iterable)
 	{
 		return listHorizontally(iterable, DEFAULT_DELIMITER);
+	}
+	
+	@API
+	public static String listHorizontally(String delimiter, Object... items)
+	{
+		return listHorizontally(Arrays.asList(items), delimiter);
 	}
 	
 	
