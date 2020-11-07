@@ -19,12 +19,12 @@ public final class ReservedWork<T>
 	@Getter
 	private boolean successful = false;
 	@Nullable
-	private final Consumer<T> onSuccessful;
+	private final Consumer<ReservedWork<T>> onSuccessful;
 	
 	@Getter
 	private boolean closed = false;
 	@Nullable
-	private final Consumer<T> onClose;
+	private final Consumer<ReservedWork<T>> onClose;
 	
 	
 	// INIT
@@ -35,13 +35,13 @@ public final class ReservedWork<T>
 	}
 	
 	@API
-	public static <T> ReservedWork<T> ofOnClose(T subject, Consumer<T> onClose)
+	public static <T> ReservedWork<T> ofOnClose(T subject, Consumer<ReservedWork<T>> onClose)
 	{
 		return new ReservedWork<>(subject, null, onClose);
 	}
 	
 	@API
-	public static <T> ReservedWork<T> ofOnSuccessfulOnClose(T subject, Consumer<T> onSuccessful, Consumer<T> onClose)
+	public static <T> ReservedWork<T> ofOnSuccessfulOnClose(T subject, Consumer<ReservedWork<T>> onSuccessful, Consumer<ReservedWork<T>> onClose)
 	{
 		return new ReservedWork<>(subject, onSuccessful, onClose);
 	}
@@ -53,7 +53,7 @@ public final class ReservedWork<T>
 		successful = true;
 		
 		if(onSuccessful != null)
-			onSuccessful.accept(subject);
+			onSuccessful.accept(this);
 	}
 	
 	@Override
@@ -62,7 +62,7 @@ public final class ReservedWork<T>
 		closed = true;
 		
 		if(onClose != null)
-			onClose.accept(subject);
+			onClose.accept(this);
 	}
 	
 }

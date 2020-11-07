@@ -18,7 +18,7 @@ public abstract class WorkDistributor<T>
 	// STATUS
 	private final WorkQueue workQueue = new WorkQueue();
 	private final Lock refillLock = new ReentrantLock();
-	private final Set<T> reservedWorks = new HashSet<>();
+	private final Set<T> reservedWorkSubjects = new HashSet<>();
 	
 	
 	// GET
@@ -35,26 +35,26 @@ public abstract class WorkDistributor<T>
 					refillLock.unlock();
 				}
 		
-		var workOptional = workQueue.poll();
-		if(workOptional.isEmpty())
+		var workSubjectOptional = workQueue.poll();
+		if(workSubjectOptional.isEmpty())
 			return Optional.empty();
-		var work = workOptional.get();
+		var workSubject = workSubjectOptional.get();
 		
-		reservedWorks.add(work);
-		var reservedWork = ReservedWork.ofOnSuccessfulOnClose(work, this::onSuccess, this::onClose);
+		reservedWorkSubjects.add(workSubject);
+		var reservedWork = ReservedWork.ofOnSuccessfulOnClose(workSubject, this::onSuccess, this::onClose);
 		return Optional.of(reservedWork);
 	}
 	
 	
 	// RESERVED WORK
-	protected void onSuccess(T work)
+	protected void onSuccess(ReservedWork<T> work)
 	{
 		// nothing in base impl
 	}
 	
-	protected void onClose(T work)
+	protected void onClose(ReservedWork<T> work)
 	{
-		reservedWorks.remove(work);
+		reservedWorkSubjects.remove(work.getSubject());
 	}
 	
 	
@@ -66,10 +66,10 @@ public abstract class WorkDistributor<T>
 		var moreWork = getMoreWork();
 		for(T w : moreWork)
 		{
-			if(reservedWorks.contains(w))
+			if(reservedWorkSubjects.contains(w))
 				continue;
 			
-			workQueue.insert(w);
+			workQueue.insertIfNotContained(w);
 		}
 	}
 	
@@ -90,7 +90,7 @@ public abstract class WorkDistributor<T>
 		
 		
 		// QUEUE
-		public synchronized void insert(T work)
+		public synchronized void insertIfNotContained(T work)
 		{
 			if(set.contains(work))
 				return;
