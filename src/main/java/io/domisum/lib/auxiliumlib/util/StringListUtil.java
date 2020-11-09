@@ -13,6 +13,8 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @API
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
@@ -98,6 +100,20 @@ public final class StringListUtil
 	public static String listHorizontally(Map<?, ?> map)
 	{
 		return listHorizontally(map, DEFAULT_DELIMITER);
+	}
+	
+	
+	@API
+	public static String listHorizontally(Stream<?> stream, String delimiter)
+	{
+		var elementsCollection = stream.collect(Collectors.toList());
+		return listHorizontally(elementsCollection, delimiter);
+	}
+	
+	@API
+	public static String listHorizontally(Stream<?> stream)
+	{
+		return listHorizontally(stream, DEFAULT_DELIMITER);
 	}
 	
 	
