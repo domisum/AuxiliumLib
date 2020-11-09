@@ -5,6 +5,4 @@ public interface ApplicationStopper
 	
 	void stop();
 	
-	boolean isStopping();
-	
 }
