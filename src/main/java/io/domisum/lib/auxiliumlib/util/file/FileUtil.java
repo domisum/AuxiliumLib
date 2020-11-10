@@ -1,5 +1,6 @@
 package io.domisum.lib.auxiliumlib.util.file;
 
+import io.domisum.lib.auxiliumlib.PHR;
 import io.domisum.lib.auxiliumlib.annotations.API;
 import io.domisum.lib.auxiliumlib.exceptions.IncompleteCodeError;
 import io.domisum.lib.auxiliumlib.util.StringUtil;
@@ -175,7 +176,11 @@ public final class FileUtil
 		try
 		{
 			createParentDirectory(file);
-			ImageIO.write(image, getExtension(file), file);
+			String extension = getExtension(file);
+			if(extension == null || extension.isBlank())
+				throw new IllegalArgumentException(PHR.r("Unsupported file extension in file name '{}'", file.getName()));
+			
+			ImageIO.write(image, extension, file);
 		}
 		catch(IOException e)
 		{
