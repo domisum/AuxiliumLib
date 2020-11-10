@@ -12,6 +12,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -140,7 +141,12 @@ public final class StringListUtil
 		var entryStrings = new ArrayList<String>();
 		for(var entry : map.entrySet())
 		{
-			String entryString = "'"+entry.getKey()+"' -> '"+entry.getValue()+"'";
+			String keyString = (entry.getKey() instanceof String) ? "'"+entry.getKey()+"'" :
+				Objects.toString(entry.getKey());
+			String valueString = (entry.getValue() instanceof String) ? "'"+entry.getValue()+"'" :
+				Objects.toString(entry.getValue());
+			
+			String entryString = keyString+" -> "+valueString;
 			entryStrings.add(entryString);
 		}
 		
