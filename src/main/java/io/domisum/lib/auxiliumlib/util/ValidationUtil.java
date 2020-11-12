@@ -90,6 +90,20 @@ public final class ValidationUtil
 	}
 	
 	@API
+	public static void greaterThanOrEqual(int value, int minimumIncl, String valueName, String minimumInclName)
+	{
+		if(value < minimumIncl)
+			throwIae("int '{}' ({}) has to be greater than or equal to '{}' ({})", valueName, value, minimumInclName, minimumIncl);
+	}
+	
+	@API
+	public static void greaterThanOrEqual(int value, int minimumIncl, String valueName)
+	{
+		if(value < minimumIncl)
+			throwIae("int '{}' ({}) has to be greater than or equal to {}", valueName, value, minimumIncl);
+	}
+	
+	@API
 	public static void lessThanOrEqual(double value, double maximumIncl, String valueName, String maximumInclName)
 	{
 		if(value > maximumIncl)
