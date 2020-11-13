@@ -5,7 +5,9 @@ import io.domisum.lib.auxiliumlib.exceptions.ProgrammingError;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
@@ -82,6 +84,31 @@ public final class ReflectionUtil
 	{
 		Object value = field.get(from);
 		field.set(to, value);
+	}
+	
+	
+	// INIT
+	@SuppressWarnings("unchecked")
+	@API
+	public static <T> T instantiateNoArgs(Class<T> clazz)
+	{
+		var constructor = clazz.getConstructors()[0];
+		var o = instantiateObject(constructor);
+		
+		return (T) o;
+	}
+	
+	private static Object instantiateObject(Constructor<?> constructor)
+	{
+		try
+		{
+			int parameterCount = constructor.getParameterCount();
+			return constructor.newInstance(new Object[parameterCount]);
+		}
+		catch(InstantiationException|IllegalAccessException|InvocationTargetException e)
+		{
+			throw new ProgrammingError(e);
+		}
 	}
 	
 	
