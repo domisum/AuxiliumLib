@@ -89,6 +89,16 @@ public final class StringUtil
 		return commonPrefix.toString();
 	}
 	
+	@API
+	public static boolean containsAny(String containerString, Iterable<? extends CharSequence> snippets)
+	{
+		for(CharSequence s : snippets)
+			if(containerString.contains(s))
+				return true;
+		
+		return false;
+	}
+	
 	
 	// ESCAPING
 	@API
