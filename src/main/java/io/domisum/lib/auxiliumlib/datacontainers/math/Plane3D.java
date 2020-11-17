@@ -36,7 +36,7 @@ public class Plane3D
 		var aToC = pointC.deriveSubtract(pointA);
 		var normal = aToB.deriveCrossProduct(aToC);
 		
-		if(normal.length() == 0)
+		if(normal.getLength() == 0)
 			throw new IllegalArgumentException(PHR.r("can't create plane from points which are on the same line ({}, {}, {})",
 				pointA,
 				pointB,

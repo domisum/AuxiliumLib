@@ -25,7 +25,7 @@ public class Vector3D
 	private final double z;
 	
 	
-	// INIT
+	// HOUSEKEEPING
 	@API
 	public Vector3D(double x, double y, double z)
 	{
@@ -38,25 +38,6 @@ public class Vector3D
 		this.z = z;
 	}
 	
-	/**
-	 * Constructs a null-Vector3D, where, x, y and z are set to 0.
-	 */
-	@API
-	public Vector3D()
-	{
-		this(0, 0, 0);
-	}
-	
-	
-	// OBJECT
-	
-	/**
-	 * Combines the coordinates of this object into a string.
-	 * <p>
-	 * The coordinates are rounded to 3 decimal places to keep the String short and easily readable.
-	 *
-	 * @return This Vector3D, represented in String form
-	 */
 	@Override
 	public String toString()
 	{
@@ -65,87 +46,50 @@ public class Vector3D
 	
 	
 	// SELF
-	
-	/**
-	 * Returns the length of the vector.
-	 *
-	 * @return the length of the vector
-	 */
 	@API
-	public double length()
+	public double getLength()
 	{
-		return Math.sqrt(lengthSquared());
+		return Math.sqrt(getLengthSquared());
 	}
 	
-	/**
-	 * Returns the length of the vector squared.
-	 * <p>
-	 * This should be used to compare the lengths of two vectors, because it doesn't use the square-root
-	 * and is therefore much faster.
-	 *
-	 * @return the length of the vector squared.
-	 */
 	@API
-	public double lengthSquared()
+	public double getLengthSquared()
 	{
 		return (x*x)+(y*y)+(z*z);
 	}
 	
-	/**
-	 * Returns the length of the vector, ignoring the y-component.
-	 *
-	 * @return length of the x-z-component of the vector
-	 */
 	@API
 	public double xzLength()
 	{
 		return Math.sqrt(xzLengthSquared());
 	}
 	
-	/**
-	 * Returns the length of the vector, ignoring the y-component, squared.
-	 * <p>
-	 * This should be used to compare the length of the x-z-component of two vector, because it doesn't use the square-root
-	 * and is therefore much faster.
-	 *
-	 * @return length of the x-z-component of the vector, squared
-	 */
 	@API
 	public double xzLengthSquared()
 	{
 		return (x*x)+(z*z);
 	}
 	
-	/**
-	 * Returns a normalized copy of this vector, leaving the vector upon this method was called unchanged.
-	 *
-	 * @return normalized copy of this vector
-	 */
 	@API
 	public Vector3D deriveNormalized()
 	{
-		double length = length();
+		double length = getLength();
 		if(length == 0)
 			throw new UnsupportedOperationException("can't normalize a vector of length 0");
 		return new Vector3D(x/length, y/length, z/length);
 	}
 	
-	/**
-	 * Returns an inverted copy of this vector, this means every component is negated (multiplied by -1)
-	 *
-	 * @return inverted copy of this vector
-	 */
 	@API
 	public Vector3D deriveInverted()
 	{
-		return deriveMultiply(-1);
+		return deriveMultiplyLength(-1);
 	}
 	
 	/**
 	 * Returns a new vector that is orthogonal to this one.
 	 * <p>
-	 * Since there are infinitely many vectors that fulfill this condition, the solution can vary.
-	 * The returned vector is not normalized by default.
+	 * Since there are infinitely many vectors that fulfill this condition,
+	 * the solution could be any one of them. The returned vector is not normalized by default.
 	 *
 	 * @return vector orthogonal to this vector
 	 */
@@ -159,45 +103,18 @@ public class Vector3D
 	}
 	
 	// INTERACTION
-	
-	/**
-	 * Returns a new vector that adds the coordinates of this vector to the coordinates of the vector supplied
-	 * through the argument.
-	 *
-	 * @param other the vector to add to this one
-	 * @return new vector that is the sum of both vectors
-	 */
 	@API
 	public Vector3D deriveAdd(Vector3D other)
 	{
 		return new Vector3D(x+other.x, y+other.y, z+other.z);
 	}
 	
-	/**
-	 * Returns a new vector that adds the coordinates of this vector to
-	 * the coordinates supplied through the argument.
-	 *
-	 * @param dX the x-value to add to this vector
-	 * @param dY the y-value to add to this vector
-	 * @param dZ the z-value to add to this vector
-	 * @return new vector that is the sum of both vectors
-	 */
 	@API
 	public Vector3D deriveAdd(double dX, double dY, double dZ)
 	{
 		return new Vector3D(x+dX, y+dY, z+dZ);
 	}
 	
-	/**
-	 * Returns a new vector that subtracts the coordinates of the vector supplied
-	 * through the argument from the coordinates of this vector.
-	 * <p>
-	 * This method is the inverse of {@code #add(Vector3D)}
-	 *
-	 * @param other the vector to subtract from this one
-	 * @return new vector that is the difference of both vectors
-	 * @see #deriveAdd(Vector3D)
-	 */
 	@API
 	public Vector3D deriveSubtract(Vector3D other)
 	{
@@ -213,69 +130,33 @@ public class Vector3D
 	 * b = new Vector3D(5, 2, 3);
 	 * c = a.moveTowards(b, 3);
 	 * Then c is (4, 2, 3).
-	 *
-	 * @param other    the vector to move towards to
-	 * @param distance the distance moved towards the vector
-	 * @return the moved copy of this vector
 	 */
 	@API
 	public Vector3D deriveMovedTowards(Vector3D other, double distance)
 	{
 		var dir = other.deriveSubtract(this).deriveNormalized();
-		return deriveAdd(dir.deriveMultiply(distance));
+		return deriveAdd(dir.deriveMultiplyLength(distance));
 	}
 	
-	
-	/**
-	 * Returns a copy of this vector multiplied by a scalar value supplied through the argument.
-	 * <p>
-	 * This method is the opposite of {@code #divide(double)}
-	 *
-	 * @param factor the factor to multiply the copy by
-	 * @return the multiplied copy of this vector
-	 */
 	@API
-	public Vector3D deriveMultiply(double factor)
+	public Vector3D deriveMultiplyLength(double factor)
 	{
 		return new Vector3D(x*factor, y*factor, z*factor);
 	}
 	
-	/**
-	 * Returns a copy of this vector divided by a scalar value supplied through the argument.
-	 * <p>
-	 * This method is the opposite of {@code #multiply(double)}
-	 * <p>
-	 *
-	 * @param divisor the value to divide the copy by
-	 * @return the divided vector
-	 */
 	@API
-	public Vector3D deriveDivide(double divisor)
+	public Vector3D deriveDivideLength(double divisor)
 	{
-		return deriveMultiply(1/divisor);
+		return deriveMultiplyLength(1/divisor);
 	}
 	
-	/**
-	 * This method calculates the dot product of this vector and the vector supplied through the argument.
-	 * The dot product is also known as the scalar product.
-	 *
-	 * @param other the other vector
-	 * @return the dot product
-	 */
+	
 	@API
 	public double dotProduct(Vector3D other)
 	{
 		return (x*other.x)+(y*other.y)+(z*other.z);
 	}
 	
-	/**
-	 * This method calculates the cross product of this vector and the vector supplied through the argument,
-	 * returning a new Vector3D.
-	 * The cross product is also known as vector product.
-	 *
-	 * @param other the other vector
-	 * @return the crossProduct of the vectors in a new Vector3D
-	 */
 	@API
 	public Vector3D deriveCrossProduct(Vector3D other)
 	{
@@ -286,12 +167,6 @@ public class Vector3D
 		return new Vector3D(nX, nY, nZ);
 	}
 	
-	/**
-	 * Calculates the distance from this vector to the vector supplied through the argument.
-	 *
-	 * @param other the other vector
-	 * @return the distance
-	 */
 	@API
 	public double distanceTo(Vector3D other)
 	{
@@ -299,42 +174,23 @@ public class Vector3D
 	}
 	
 	/**
-	 * Calculates the distance from this vector to the vector supplied through the argument, squared.
-	 * <p>
 	 * This should be used to compare distances because it doesn't use the square-root
 	 * and is therefore much faster.
-	 *
-	 * @param other the other vector
-	 * @return the distance
 	 */
 	@API
 	public double distanceToSquared(Vector3D other)
 	{
-		return deriveSubtract(other).lengthSquared();
+		return deriveSubtract(other).getLengthSquared();
 	}
 	
 	
 	// LINE
-	
-	/**
-	 * Creates a line through this point and the point from the argument.
-	 *
-	 * @param other the other point
-	 * @return the line
-	 */
 	@API
 	public Line3D getLineTowards(Vector3D other)
 	{
 		return new Line3D(this, other.deriveSubtract(this));
 	}
 	
-	/**
-	 * Creates a line segment which uses this point as one endpoint and
-	 * the point from the argument as the other endpoint.
-	 *
-	 * @param other the other endpoint
-	 * @return the line segment
-	 */
 	@API
 	public LineSegment3D getLineSegmentBetween(Vector3D other)
 	{
@@ -343,27 +199,14 @@ public class Vector3D
 	
 	
 	// QUATERNION
-	
-	/**
-	 * Creates a pure quaternion from this vector.
-	 * The quaterion will have set {@code w} to zero, the x-, y- and z-values will be copied from this vector.
-	 *
-	 * @return the pure quaternion
-	 */
 	@API
 	public Quaternion getPureQuaternion()
 	{
 		return new Quaternion(0, x, y, z);
 	}
 	
-	/**
-	 * Returns a copy of this vector rotated by the quaternion from the argument.
-	 *
-	 * @param rotation the rotation quaternion
-	 * @return the rotated copy of this vector
-	 */
 	@API
-	public Vector3D rotate(Quaternion rotation)
+	public Vector3D deriveRotate(Quaternion rotation)
 	{
 		var thisAsQuaternion = getPureQuaternion();
 		var resultQuaternion = rotation.deriveConjugated().deriveMultiply(thisAsQuaternion).deriveMultiply(rotation);

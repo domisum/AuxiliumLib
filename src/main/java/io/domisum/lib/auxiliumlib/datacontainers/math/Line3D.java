@@ -31,7 +31,7 @@ public class Line3D
 	public boolean containsPoint(Vector3D point)
 	{
 		var crossProduct = direction.deriveCrossProduct(point.deriveSubtract(base));
-		return crossProduct.lengthSquared() <= THRESHOLD;
+		return crossProduct.getLengthSquared() <= THRESHOLD;
 	}
 	
 	@API
@@ -43,7 +43,7 @@ public class Line3D
 		double vvProduct = direction.dotProduct(direction);
 		
 		double productQuot = wvProduct/vvProduct;
-		return base.deriveAdd(direction.deriveMultiply(productQuot));
+		return base.deriveAdd(direction.deriveMultiplyLength(productQuot));
 	}
 	
 	@API
@@ -68,8 +68,8 @@ public class Line3D
 		double xp = xpNominator/denominator;
 		double xq = xqNominator/denominator;
 		
-		var point1 = base.deriveAdd(direction.deriveMultiply(xp));
-		var point2 = other.base.deriveAdd(other.direction.deriveMultiply(xq));
+		var point1 = base.deriveAdd(direction.deriveMultiplyLength(xp));
+		var point2 = other.base.deriveAdd(other.direction.deriveMultiplyLength(xq));
 		return new LineSegment3D(point1, point2);
 	}
 	
@@ -82,7 +82,7 @@ public class Line3D
 		
 		var pToOne = base.deriveSubtract(point);
 		var crossProduct = direction.deriveCrossProduct(pToOne);
-		return crossProduct.length()/direction.length();
+		return crossProduct.getLength()/direction.getLength();
 	}
 	
 	@API

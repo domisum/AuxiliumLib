@@ -42,7 +42,7 @@ public class Quaternion
 	@API
 	public static Quaternion getRotationFromTo(Vector3D vector1, Vector3D vector2)
 	{
-		double norm = Math.sqrt(vector1.lengthSquared()*vector2.lengthSquared());
+		double norm = Math.sqrt(vector1.getLengthSquared()*vector2.getLengthSquared());
 		double w = norm+vector1.dotProduct(vector2);
 		
 		Vector3D axis;

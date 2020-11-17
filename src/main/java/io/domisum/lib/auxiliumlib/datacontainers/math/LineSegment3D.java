@@ -94,7 +94,7 @@ public final class LineSegment3D
 		if(v.dotProduct(v) <= wvProduct)
 			return point.distanceTo(pointB);
 		double productQuot = wvProduct/vvProduct;
-		var pointOnSegment = pointA.deriveAdd(v.deriveMultiply(productQuot));
+		var pointOnSegment = pointA.deriveAdd(v.deriveMultiplyLength(productQuot));
 		double distance = point.distanceTo(pointOnSegment);
 		
 		return distance;
