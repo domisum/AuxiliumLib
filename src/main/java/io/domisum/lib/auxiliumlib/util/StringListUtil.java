@@ -138,13 +138,31 @@ public final class StringListUtil
 	@API
 	public static String listVertically(Map<?, ?> map)
 	{
+		return listVertically(map,
+			o->(o instanceof String) ?
+				"'"+o+"'" :
+				Objects.toString(o));
+	}
+	
+	@API
+	public static <T> String listVertically(Map<?, T> map, Function<T, String> valueFunction)
+	{
+		return listVertically(map,
+			o->(o instanceof String) ?
+				"'"+o+"'" :
+				Objects.toString(o),
+			valueFunction);
+	}
+	
+	@API
+	public static <K, V> String listVertically(Map<K, V> map,
+		Function<K, String> keyFunction, Function<V, String> valueFunction)
+	{
 		var entryStrings = new ArrayList<String>();
 		for(var entry : map.entrySet())
 		{
-			String keyString = (entry.getKey() instanceof String) ? "'"+entry.getKey()+"'" :
-				Objects.toString(entry.getKey());
-			String valueString = (entry.getValue() instanceof String) ? "'"+entry.getValue()+"'" :
-				Objects.toString(entry.getValue());
+			String keyString = keyFunction.apply(entry.getKey());
+			String valueString = valueFunction.apply(entry.getValue());
 			
 			String entryString = keyString+" -> "+valueString;
 			entryStrings.add(entryString);
