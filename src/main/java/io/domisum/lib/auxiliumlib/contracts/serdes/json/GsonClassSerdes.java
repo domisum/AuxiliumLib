@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 
 @API
 @RequiredArgsConstructor
-public class GsonSerdes<T>
+public class GsonClassSerdes<T>
 	implements JsonSerdes<T>
 {
 	
@@ -19,7 +19,7 @@ public class GsonSerdes<T>
 	
 	// INIT
 	@API
-	public GsonSerdes(Class<T> clazz)
+	public GsonClassSerdes(Class<T> clazz)
 	{
 		this(GsonUtil.get(), clazz);
 	}
@@ -43,7 +43,7 @@ public class GsonSerdes<T>
 		}
 		catch(JsonSyntaxException e)
 		{
-			throw new JsonSyntaxException("failed to deserialize:\n"+objectString, e);
+			throw new JsonSyntaxException("Failed to deserialize:\n"+objectString, e);
 		}
 	}
 	
