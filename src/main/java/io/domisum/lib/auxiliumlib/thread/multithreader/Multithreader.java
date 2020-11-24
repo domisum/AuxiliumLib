@@ -102,8 +102,7 @@ public class Multithreader<I, O>
 		
 		private ExecutorService createExecutorService()
 		{
-			var executorService = Executors.newFixedThreadPool(numberOfThreads, getThreadFactory());
-			return executorService;
+			return Executors.newFixedThreadPool(numberOfThreads, getThreadFactory());
 		}
 		
 		private ThreadFactory getThreadFactory()

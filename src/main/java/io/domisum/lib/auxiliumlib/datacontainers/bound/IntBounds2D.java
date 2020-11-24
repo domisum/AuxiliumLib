@@ -128,11 +128,11 @@ public final class IntBounds2D
 	@API
 	public IntBounds2D limit(IntBounds2D limit)
 	{
-		return new IntBounds2D(Math.max(minX, limit.minX),
+		return new IntBounds2D(
+			Math.max(minX, limit.minX),
 			Math.min(maxX, limit.maxX),
 			Math.max(minY, limit.minY),
-			Math.min(maxY, limit.maxY)
-		);
+			Math.min(maxY, limit.maxY));
 	}
 	
 }
