@@ -37,29 +37,31 @@ public class Multithreader<I, O>
 	private final AtomicInteger runCounter = new AtomicInteger(0);
 	
 	
+	// CONSTANT METHODS
+	private static int DEFAULT_NUMBER_OF_THREADS()
+	{
+		return Runtime.getRuntime().availableProcessors();
+	}
+	
+	
 	// INIT
-	@API
-	public static <I, O> Multithreader<I, O> create(Function<I, O> action, String name)
-	{
-		return create(action, name, defaultNumerOfThreads());
-	}
-	
-	@API
-	public static <I, O> Multithreader<I, O> overcreate(Function<I, O> action, String name, double overcreateFactor)
-	{
-		int numberOfThreads = (int) Math.ceil(overcreateFactor*defaultNumerOfThreads());
-		return new Multithreader<>(action, name, numberOfThreads);
-	}
-	
 	@API
 	public static <I, O> Multithreader<I, O> create(Function<I, O> action, String name, int numberOfThreads)
 	{
 		return new Multithreader<>(action, name, numberOfThreads);
 	}
 	
-	private static int defaultNumerOfThreads()
+	@API
+	public static <I, O> Multithreader<I, O> create(Function<I, O> action, String name)
 	{
-		return Runtime.getRuntime().availableProcessors();
+		return create(action, name, DEFAULT_NUMBER_OF_THREADS());
+	}
+	
+	@API
+	public static <I, O> Multithreader<I, O> overcreate(Function<I, O> action, String name, double overcreateFactor)
+	{
+		int numberOfThreads = (int) Math.ceil(overcreateFactor*DEFAULT_NUMBER_OF_THREADS());
+		return new Multithreader<>(action, name, numberOfThreads);
 	}
 	
 	
