@@ -39,7 +39,7 @@ public final class RomanNumeral
 	private static void validateNumberInRange(int number)
 	{
 		if(!RANGE.contains(number))
-			throw new IllegalArgumentException("number "+number+" out of range: "+RANGE);
+			throw new IllegalArgumentException("Number "+number+" out of range: "+RANGE);
 	}
 	
 	
@@ -77,11 +77,8 @@ public final class RomanNumeral
 		while(!remaining.isEmpty())
 		{
 			var romanToken = getTokenAtStart(remaining);
-			if(romanToken == null)
-				throw new IllegalArgumentException("invalid characters in roman numeral: "+roman);
-			
 			if(previousToken != null && romanToken.getValue() > previousToken.getValue())
-				throw new IllegalArgumentException(PHR.r("invalid order of tokens: {} ({} before {})", roman, previousToken, romanToken));
+				throw new IllegalArgumentException(PHR.r("Invalid order of tokens: {} ({} before {})", roman, previousToken, romanToken));
 			
 			value += romanToken.getValue();
 			remaining = remaining.substring(romanToken.name().length());
@@ -91,7 +88,7 @@ public final class RomanNumeral
 			previousToken = romanToken;
 			previousTokenCount++;
 			if(previousTokenCount > previousToken.getMaxRepeatNumber())
-				throw new IllegalArgumentException(PHR.r("token {} repeated too often (max repeats: {})", previousToken, previousToken.getMaxRepeatNumber()));
+				throw new IllegalArgumentException(PHR.r("Token {} repeated too often (max repeats: {})", previousToken, previousToken.getMaxRepeatNumber()));
 		}
 		
 		return value;
@@ -103,7 +100,7 @@ public final class RomanNumeral
 			if(remaining.startsWith(romanToken.name()))
 				return romanToken;
 		
-		return null;
+		throw new IllegalArgumentException("Invalid characters in remaining roman numeral: "+remaining);
 	}
 	
 	
