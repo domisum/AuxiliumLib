@@ -28,7 +28,7 @@ public class ConfigObjectRegistry<T extends ConfigObject>
 	{
 		T configObject = configObjects.get(id);
 		if(configObject == null)
-			throw new IllegalArgumentException("this registry doesn't contain an entry for id '"+id+"'");
+			throw new IllegalArgumentException("This registry doesn't contain an entry for id '"+id+"'");
 		return configObject;
 	}
 	
