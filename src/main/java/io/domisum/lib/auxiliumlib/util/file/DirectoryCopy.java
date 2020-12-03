@@ -1,5 +1,6 @@
 package io.domisum.lib.auxiliumlib.util.file;
 
+import io.domisum.lib.auxiliumlib.PHR;
 import io.domisum.lib.auxiliumlib.annotations.API;
 import io.domisum.lib.auxiliumlib.util.file.FileUtil.FileType;
 import io.domisum.lib.auxiliumlib.util.file.filter.FileFilter;
@@ -62,12 +63,12 @@ public final class DirectoryCopy
 	private static void validateInputDirectories(File sourceRootDirectory, File targetRootDirectory)
 	{
 		if(sourceRootDirectory.isFile())
-			throw new UncheckedIOException(new IOException(
-				"can't copy directory '"+sourceRootDirectory+"', it is actually a file"));
+			throw new UncheckedIOException(new IOException(PHR.r(
+				"Can't copy directory '{}', it is actually a file", sourceRootDirectory)));
 		
 		if(targetRootDirectory.isFile())
-			throw new UncheckedIOException(new IOException(
-				"can't copy into directory '"+targetRootDirectory+"', it is actually a file"));
+			throw new UncheckedIOException(new IOException(PHR.r(
+				"Can't copy into directory '{}', it is actually a file", targetRootDirectory)));
 	}
 	
 	private boolean shouldCopyFile(File file)
