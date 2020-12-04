@@ -18,7 +18,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.function.Supplier;
 
 @API
 public abstract class Ticker
@@ -74,41 +73,7 @@ public abstract class Ticker
 	private Ticking ticking;
 	
 	
-	// INIT TICKABLE
-	@API
-	public static Ticker create(String name, Duration interval, @Nullable Duration timeout, Tickable tickable)
-	{
-		return create(name, interval, timeout, false, tickable);
-	}
-	
-	@API
-	public static Ticker createDaemon(String name, Duration interval, @Nullable Duration timeout, Tickable tickable)
-	{
-		return create(name, interval, timeout, true, tickable);
-	}
-	
-	@API
-	public static Ticker createDaemon(String name, Duration interval, Tickable tickable)
-	{
-		return create(name, interval, TIMEOUT_DEFAULT, true, tickable);
-	}
-	
-	private static Ticker create(String name, Duration interval, @Nullable Duration timeout, boolean isDaemon, Tickable tickable)
-	{
-		return new Ticker(name, interval, timeout, isDaemon)
-		{
-			
-			@Override
-			protected void tick(Supplier<Boolean> shouldStop)
-			{
-				tickable.tick(shouldStop);
-			}
-			
-		};
-	}
-	
-	
-	// INIT RUNNABLE
+	// INIT
 	@API
 	public static Ticker create(String name, Duration interval, Runnable tick)
 	{
@@ -139,26 +104,26 @@ public abstract class Ticker
 		{
 			
 			@Override
-			protected void tick(Supplier<Boolean> shouldStop)
+			protected void tick()
 			{
 				tick.run();
 			}
-			
 		};
 	}
 	
 	
 	// INIT
 	@API
-	protected Ticker(String name, Duration interval, @Nullable Duration timeout, boolean isDaemon)
+	protected Ticker(String name, Duration interval,
+		@Nullable Duration timeout, boolean isDaemon)
 	{
 		ValidationUtil.notNull(name, "name");
 		ValidationUtil.greaterZero(interval, "interval");
-		if(timeout != null)
-			ValidationUtil.greaterZero(timeout, "timeout");
-		
 		this.name = name;
 		this.interval = interval;
+		
+		if(timeout != null)
+			ValidationUtil.greaterZero(timeout, "timeout");
 		this.timeout = timeout;
 		this.isDaemon = isDaemon;
 	}
@@ -223,7 +188,7 @@ public abstract class Ticker
 	
 	
 	// TICK
-	protected abstract void tick(Supplier<Boolean> shouldStop);
+	protected abstract void tick();
 	
 	
 	// TICKING
@@ -301,7 +266,7 @@ public abstract class Ticker
 		{
 			try
 			{
-				tick(()->status != TickingStatus.RUNNING);
+				tick();
 			}
 			catch(RuntimeException e)
 			{
@@ -357,15 +322,6 @@ public abstract class Ticker
 		RUNNING,
 		STOPPING,
 		DEAD
-		
-	}
-	
-	
-	// TICKABLE
-	public interface Tickable
-	{
-		
-		void tick(Supplier<Boolean> shouldStop);
 		
 	}
 	

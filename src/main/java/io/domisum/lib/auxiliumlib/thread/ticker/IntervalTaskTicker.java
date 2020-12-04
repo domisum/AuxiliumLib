@@ -8,7 +8,6 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.function.Supplier;
 
 @API
 public class IntervalTaskTicker
@@ -52,13 +51,13 @@ public class IntervalTaskTicker
 	
 	// TICK
 	@Override
-	protected void tick(Supplier<Boolean> shouldStop)
+	protected void tick()
 	{
 		for(var task : tasks)
 		{
 			if(Thread.currentThread().isInterrupted())
 				return;
-			if(shouldStop.get())
+			if(Ticker.shouldStop())
 				return;
 			
 			if(task.shouldRunNow())
@@ -98,7 +97,7 @@ public class IntervalTaskTicker
 			}
 			catch(RuntimeException e)
 			{
-				logger.error("error occured during execution of task {}", name, e);
+				logger.error("An exception occured during execution of task {}", name, e);
 				nextExecution = Instant.now().plus(TASK_ERROR_COOLDOWN);
 			}
 		}
