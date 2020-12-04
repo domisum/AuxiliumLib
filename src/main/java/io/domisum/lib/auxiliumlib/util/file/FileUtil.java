@@ -5,7 +5,6 @@ import io.domisum.lib.auxiliumlib.annotations.API;
 import io.domisum.lib.auxiliumlib.exceptions.IncompleteCodeError;
 import io.domisum.lib.auxiliumlib.util.StringUtil;
 import io.domisum.lib.auxiliumlib.util.ThreadUtil;
-import io.domisum.lib.auxiliumlib.util.file.filter.FileFilter;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.apache.commons.io.FileUtils;
@@ -15,6 +14,7 @@ import org.apache.commons.lang3.Validate;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileFilter;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -29,6 +29,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Objects;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 @API
@@ -210,7 +211,22 @@ public final class FileUtil
 	@API
 	public static void copyDirectory(File sourceRootDirectory, File targetRootDirectory, FileFilter... filters)
 	{
-		DirectoryCopy.fromTo(sourceRootDirectory, targetRootDirectory, filters).copy();
+		FileFilter combinedFilter = f->
+		{
+			for(var filter : filters)
+				if(!filter.accept(f))
+					return false;
+			return true;
+		};
+		
+		try
+		{
+			FileUtils.copyDirectory(sourceRootDirectory, targetRootDirectory, combinedFilter);
+		}
+		catch(IOException e)
+		{
+			throw new UncheckedIOException(e);
+		}
 	}
 	
 	
@@ -300,6 +316,30 @@ public final class FileUtil
 	{
 		if(directory.isFile())
 			throw new IllegalArgumentException("given directory is file, not directory");
+	}
+	
+	@API
+	public static boolean isInDirectory(File directory, File file)
+	{
+		if(Objects.equals(directory, file))
+			return true;
+		
+		try
+		{
+			String dirPath = directory.getCanonicalPath();
+			if(!dirPath.endsWith(File.pathSeparator))
+				dirPath += File.pathSeparator;
+			
+			String filePath = file.getCanonicalPath();
+			if(!filePath.endsWith(File.pathSeparator))
+				filePath += File.pathSeparator;
+			
+			return filePath.startsWith(dirPath);
+		}
+		catch(IOException e)
+		{
+			throw new UncheckedIOException(e);
+		}
 	}
 	
 	
