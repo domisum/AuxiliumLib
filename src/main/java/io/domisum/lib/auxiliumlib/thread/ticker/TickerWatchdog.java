@@ -27,10 +27,10 @@ final class TickerWatchdog
 	static void watch(Ticking ticking)
 	{
 		watchedTickings.add(ticking);
-		ensureThreadRunning();
+		ensureWatchdogThreadRunning();
 	}
 	
-	private static void ensureThreadRunning()
+	private static void ensureWatchdogThreadRunning()
 	{
 		if(thread != null)
 			return;

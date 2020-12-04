@@ -2,18 +2,22 @@ package io.domisum.lib.auxiliumlib.thread.ticker;
 
 import io.domisum.lib.auxiliumlib.annotations.API;
 import io.domisum.lib.auxiliumlib.display.DurationDisplay;
+import io.domisum.lib.auxiliumlib.util.Compare;
 import io.domisum.lib.auxiliumlib.util.ThreadUtil;
 import io.domisum.lib.auxiliumlib.util.TimeUtil;
 import io.domisum.lib.auxiliumlib.util.ValidationUtil;
 import lombok.Getter;
+import org.apache.commons.lang3.ObjectUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.annotation.Nullable;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Supplier;
 
 @API
@@ -21,6 +25,38 @@ public abstract class Ticker
 {
 	
 	protected final Logger logger = LoggerFactory.getLogger(getClass());
+	
+	
+	// SHOULD STOP
+	private static final Map<Thread, Ticking> tickingsByThread = new ConcurrentHashMap<>();
+	
+	@API
+	public static boolean shouldStop()
+	{
+		var thread = Thread.currentThread();
+		var ticking = tickingsByThread.get(thread);
+		if(ticking == null)
+			throw new IllegalAccessError("Only call this method from inside a ticker!");
+		
+		return ticking.getStatus() == TickingStatus.STOPPING;
+	}
+	
+	@API
+	public static void sleepButReactToShouldStop(Duration sleepDuration)
+	{
+		var start = Instant.now();
+		
+		while(!shouldStop())
+		{
+			var slept = TimeUtil.toNow(start);
+			if(Compare.greaterThan(slept, sleepDuration))
+				break;
+			
+			var remaining = sleepDuration.minus(slept);
+			var sleep = ObjectUtils.min(remaining, Duration.ofMillis(100));
+			ThreadUtil.sleep(sleep);
+		}
+	}
 	
 	
 	// CONSTANTS
@@ -213,12 +249,15 @@ public abstract class Ticker
 		public Ticking()
 		{
 			if(isDaemon)
-				tickThread = ThreadUtil.createAndStartDaemonThread(this::run, name);
+				tickThread = ThreadUtil.createDaemonThread(this::run, name);
 			else
-				tickThread = ThreadUtil.createAndStartThread(this::run, name);
+				tickThread = ThreadUtil.createThread(this::run, name);
+			
 			if(timeout != null)
 				TickerWatchdog.watch(this);
+			tickingsByThread.put(tickThread, this);
 			
+			tickThread.start();
 			logger.info("Started ticking '{}' in ticker '{}'", id, name);
 		}
 		
@@ -254,6 +293,7 @@ public abstract class Ticker
 			}
 			
 			status = TickingStatus.DEAD;
+			tickingsByThread.remove(tickThread);
 			logger.info("Ticking '{}' in ticker '{}' ended", id, name);
 		}
 		

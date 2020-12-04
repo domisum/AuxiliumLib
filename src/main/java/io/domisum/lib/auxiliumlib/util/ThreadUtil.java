@@ -96,9 +96,8 @@ public final class ThreadUtil
 	
 	private static Thread createAndStartThread(Runnable runnable, String threadName, boolean daemon)
 	{
-		Thread thread = createThread(runnable, threadName, daemon);
+		var thread = createThread(runnable, threadName, daemon);
 		thread.start();
-		
 		return thread;
 	}
 	
