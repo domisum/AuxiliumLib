@@ -106,6 +106,9 @@ public class IntervalTaskTicker
 		// GETTERS
 		public boolean shouldRunNow()
 		{
+			if(runEnd == null)
+				return true;
+			
 			return TimeUtil.hasPassed(runEnd.plus(nextRunDelay));
 		}
 		
