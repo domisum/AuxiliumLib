@@ -72,7 +72,7 @@ public abstract class Ticker
 	private final boolean isDaemon;
 	
 	// STATUS
-	private Ticking ticking;
+	private volatile Ticking ticking;
 	
 	
 	// INIT
@@ -219,8 +219,8 @@ public abstract class Ticker
 		private final String id = UUID.randomUUID().toString();
 		private final Thread tickThread;
 		@Getter
-		private TickingStatus status = TickingStatus.RUNNING;
-		private Instant lastTickStart;
+		private volatile TickingStatus status = TickingStatus.RUNNING;
+		private volatile Instant lastTickStart;
 		
 		
 		// INIT
@@ -306,7 +306,7 @@ public abstract class Ticker
 			if(lastTickStart == null)
 				return;
 			
-			if(TimeUtil.isOlderThan(lastTickStart, timeout))
+			if(timeout != null && TimeUtil.isOlderThan(lastTickStart, timeout))
 			{
 				tickTimeout();
 				return;
