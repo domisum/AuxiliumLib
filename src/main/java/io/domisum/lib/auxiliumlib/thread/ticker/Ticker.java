@@ -16,8 +16,10 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Consumer;
 
 @API
 public abstract class Ticker
@@ -180,6 +182,13 @@ public abstract class Ticker
 	}
 	
 	
+	// GETTERS
+	@API
+	public Optional<Duration> getTimeout()
+	{
+		return Optional.ofNullable(timeout);
+	}
+	
 	@API
 	public synchronized boolean isRunning()
 	{
@@ -189,6 +198,9 @@ public abstract class Ticker
 	
 	// TICK
 	protected abstract void tick();
+	
+	@API
+	protected void watchdogTick(Consumer<String> timeoutWithReason) {}
 	
 	
 	// TICKING
@@ -200,6 +212,7 @@ public abstract class Ticker
 		return ticking;
 	}
 	
+	// package visible for TickerWatchdog
 	class Ticking
 	{
 		
@@ -218,8 +231,8 @@ public abstract class Ticker
 			else
 				tickThread = ThreadUtil.createThread(this::run, name);
 			
-			if(timeout != null)
-				TickerWatchdog.watch(this);
+			// watch regardless of whether timeout is null so watchdogTick method is run
+			TickerWatchdog.watch(this);
 			tickingsByThread.put(tickThread, this);
 			
 			tickThread.start();
@@ -286,7 +299,7 @@ public abstract class Ticker
 		
 		
 		// WATCHDOG
-		void watchdogTick()
+		public void watchdogTick()
 		{
 			// get local reference to avoid impact of changes in variable during run of method
 			var lastTickStart = this.lastTickStart;
@@ -294,13 +307,23 @@ public abstract class Ticker
 				return;
 			
 			if(TimeUtil.isOlderThan(lastTickStart, timeout))
-				timeout();
+			{
+				tickTimeout();
+				return;
+			}
+			
+			Ticker.this.watchdogTick(this::timeout);
 		}
 		
-		private void timeout()
+		private void tickTimeout()
 		{
-			logger.error("Ticking '{}' in ticker '{}' timed out (after {}). Current stacktrace:\n{}",
-				id, name, DurationDisplay.of(timeout), ThreadUtil.convertThreadToString(tickThread));
+			timeout("tick timeout: "+DurationDisplay.of(timeout));
+		}
+		
+		private void timeout(String reason)
+		{
+			logger.error("Ticking '{}' in ticker '{}' timed out ({}). Current stacktrace:\n{}",
+				id, name, reason, ThreadUtil.displayThread(tickThread));
 			
 			boolean shouldRestart = status == TickingStatus.RUNNING;
 			

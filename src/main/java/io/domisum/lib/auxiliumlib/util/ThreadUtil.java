@@ -162,13 +162,13 @@ public final class ThreadUtil
 	{
 		var threadsAsString = new HashSet<String>();
 		for(var thread : Thread.getAllStackTraces().keySet())
-			threadsAsString.add(convertThreadToString(thread));
+			threadsAsString.add(displayThread(thread));
 		
 		return StringListUtil.listHorizontally(threadsAsString, "\n\n");
 	}
 	
 	@API
-	public static String convertThreadToString(Thread thread)
+	public static String displayThread(Thread thread)
 	{
 		var threadToString = new StringBuilder();
 		threadToString
