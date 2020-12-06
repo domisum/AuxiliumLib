@@ -446,7 +446,7 @@ public final class FileUtil
 	{
 		try
 		{
-			File directory = Files.createTempDirectory("tempDirectory").toFile();
+			var directory = Files.createTempDirectory("tempDirectory").toFile();
 			deleteDirectoryOnShutdown(directory);
 			return directory;
 		}
