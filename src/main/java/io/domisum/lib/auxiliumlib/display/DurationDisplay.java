@@ -73,7 +73,7 @@ public final class DurationDisplay
 			durationRemaining = durationRemaining.minus(ofUnitDuration);
 		}
 		
-		return StringListUtil.listHorizontally(displayComponents, ":");
+		return StringListUtil.list(displayComponents, ":");
 	}
 	
 	private static boolean isUnitTooBigForDuration(Duration durationRemaining, TemporalUnit unit)

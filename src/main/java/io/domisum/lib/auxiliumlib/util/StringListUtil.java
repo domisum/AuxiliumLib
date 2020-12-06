@@ -7,12 +7,8 @@ import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.Comparator;
-import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -25,9 +21,8 @@ public final class StringListUtil
 	private static final String DEFAULT_DELIMITER = ", ";
 	
 	
-	// HORIZONTALLY
 	@API
-	public static <T> String listHorizontally(Iterable<T> iterable, Function<T, Object> function, String delimiter)
+	public static <T> String list(Iterable<T> iterable, Function<T, Object> function, String delimiter)
 	{
 		var display = new StringBuilder();
 		boolean removeDelimiter = false;
@@ -46,32 +41,32 @@ public final class StringListUtil
 	}
 	
 	@API
-	public static <T> String listHorizontally(Iterable<T> iterable, Function<T, Object> function)
+	public static <T> String list(Iterable<T> iterable, Function<T, Object> function)
 	{
-		return listHorizontally(iterable, function, DEFAULT_DELIMITER);
+		return list(iterable, function, DEFAULT_DELIMITER);
 	}
 	
 	@API
-	public static String listHorizontally(Iterable<?> iterable, String delimiter)
+	public static String list(Iterable<?> iterable, String delimiter)
 	{
-		return listHorizontally(iterable, null, delimiter);
+		return list(iterable, null, delimiter);
 	}
 	
 	@API
-	public static String listHorizontally(Iterable<?> iterable)
+	public static String list(Iterable<?> iterable)
 	{
-		return listHorizontally(iterable, DEFAULT_DELIMITER);
+		return list(iterable, DEFAULT_DELIMITER);
 	}
 	
 	@API
-	public static String listHorizontally(String delimiter, Object... items)
+	public static String list(String delimiter, Object... items)
 	{
-		return listHorizontally(Arrays.asList(items), delimiter);
+		return list(Arrays.asList(items), delimiter);
 	}
 	
 	
 	@API
-	public static <T> String listHorizontally(Map<?, T> map, String delimiter, Function<T, Object> valueFunction)
+	public static <T> String list(Map<?, T> map, String delimiter, Function<T, Object> valueFunction)
 	{
 		var mappings = new ArrayList<String>();
 		for(var entry : map.entrySet())
@@ -81,95 +76,40 @@ public final class StringListUtil
 		}
 		mappings.sort(Comparator.naturalOrder());
 		
-		return listHorizontally(mappings, delimiter);
+		return list(mappings, delimiter);
 	}
 	
 	@API
-	public static <T> String listHorizontally(Map<?, T> map, Function<T, Object> valueFunction)
+	public static <T> String list(Map<?, T> map, Function<T, Object> valueFunction)
 	{
-		return listHorizontally(map, DEFAULT_DELIMITER, valueFunction);
+		return list(map, DEFAULT_DELIMITER, valueFunction);
 	}
 	
 	
 	@API
-	public static String listHorizontally(Map<?, ?> map, String delimiter)
+	public static String list(Map<?, ?> map, String delimiter)
 	{
-		return listHorizontally(map, delimiter, v->v);
+		return list(map, delimiter, v->v);
 	}
 	
 	@API
-	public static String listHorizontally(Map<?, ?> map)
+	public static String list(Map<?, ?> map)
 	{
-		return listHorizontally(map, DEFAULT_DELIMITER);
+		return list(map, DEFAULT_DELIMITER);
 	}
 	
 	
 	@API
-	public static String listHorizontally(Stream<?> stream, String delimiter)
+	public static String list(Stream<?> stream, String delimiter)
 	{
 		var elementsCollection = stream.collect(Collectors.toList());
-		return listHorizontally(elementsCollection, delimiter);
+		return list(elementsCollection, delimiter);
 	}
 	
 	@API
-	public static String listHorizontally(Stream<?> stream)
+	public static String list(Stream<?> stream)
 	{
-		return listHorizontally(stream, DEFAULT_DELIMITER);
-	}
-	
-	
-	// VERTICALLY
-	@API
-	public static String listVertically(List<?> list)
-	{
-		var itemDisplays = new ArrayList<String>();
-		for(var item : list)
-			itemDisplays.add(PHR.r(" - {}", item.toString()));
-		
-		return listHorizontally(itemDisplays, "\n");
-	}
-	
-	@API
-	public static String listVertically(Collection<?> collection)
-	{
-		return listVertically(new ArrayList<>(collection));
-	}
-	
-	@API
-	public static String listVertically(Map<?, ?> map)
-	{
-		return listVertically(map,
-			o->(o instanceof String) ?
-				"'"+o+"'" :
-				Objects.toString(o));
-	}
-	
-	@API
-	public static <T> String listVertically(Map<?, T> map, Function<T, String> valueFunction)
-	{
-		return listVertically(map,
-			o->(o instanceof String) ?
-				"'"+o+"'" :
-				Objects.toString(o),
-			valueFunction);
-	}
-	
-	@API
-	public static <K, V> String listVertically(Map<K, V> map,
-		Function<K, String> keyFunction, Function<V, String> valueFunction)
-	{
-		var entryStrings = new ArrayList<String>();
-		for(var entry : map.entrySet())
-		{
-			String keyString = keyFunction.apply(entry.getKey());
-			String valueString = valueFunction.apply(entry.getValue());
-			
-			String entryString = keyString+" -> "+valueString;
-			entryStrings.add(entryString);
-		}
-		
-		Collections.sort(entryStrings);
-		return listVertically(entryStrings);
+		return list(stream, DEFAULT_DELIMITER);
 	}
 	
 }

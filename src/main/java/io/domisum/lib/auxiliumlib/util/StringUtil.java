@@ -30,7 +30,7 @@ public final class StringUtil
 	@API
 	public static String concat(String delimiter, String... toConcat)
 	{
-		return StringListUtil.listHorizontally(Arrays.asList(toConcat), delimiter);
+		return StringListUtil.list(Arrays.asList(toConcat), delimiter);
 	}
 	
 	@API
@@ -112,7 +112,7 @@ public final class StringUtil
 			char charAt = escaped.charAt(i);
 			if(charactersToEscape.contains(charAt))
 			{
-				escaped = escaped.substring(0, i)+("\\"+charAt)+escaped.substring(i+1);
+				escaped = escaped.substring(0, i)+"\\"+charAt+escaped.substring(i+1);
 				// noinspection AssignmentToForLoopParameter
 				i++;
 			}

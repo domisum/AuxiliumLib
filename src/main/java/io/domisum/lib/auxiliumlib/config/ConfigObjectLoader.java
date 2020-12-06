@@ -89,7 +89,7 @@ public abstract class ConfigObjectLoader<T extends ConfigObject>
 		
 		var configObjectIds = configObjectsById.keySet();
 		logger.info("...Loading {} done, loaded {}: [{}]",
-			OBJECT_NAME_PLURAL(), configObjectsById.size(), StringListUtil.listHorizontally(configObjectIds));
+			OBJECT_NAME_PLURAL(), configObjectsById.size(), StringListUtil.list(configObjectIds));
 		
 		return new ConfigObjectRegistry<>(configObjectsById);
 	}
