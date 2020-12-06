@@ -535,9 +535,14 @@ public final class FileUtil
 		if(!file.exists())
 			return;
 		
-		boolean deleteSuccessful = file.delete();
-		if(!deleteSuccessful)
-			throw new UncheckedIOException(new IOException("Failed to delete file: "+file));
+		try
+		{
+			Files.delete(file.toPath());
+		}
+		catch(IOException e)
+		{
+			throw new UncheckedIOException(e);
+		}
 	}
 	
 	
