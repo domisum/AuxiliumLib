@@ -4,7 +4,8 @@ import io.domisum.lib.auxiliumlib.annotations.API;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
+import java.util.LinkedList;
+import java.util.Queue;
 
 @API
 public class InsertWorkDistributor<T>
@@ -12,7 +13,7 @@ public class InsertWorkDistributor<T>
 {
 	
 	// STATE
-	private final List<T> insertWorkQueue = new ArrayList<>();
+	protected final Queue<T> insertWorkQueue = new LinkedList<>();
 	
 	
 	// INSERT
