@@ -5,6 +5,8 @@ import io.domisum.lib.auxiliumlib.util.math.RandomUtil;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
+import java.util.Base64;
+
 @API
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class UrlBase64
@@ -29,6 +31,15 @@ public final class UrlBase64
 	private static char getRandomCharacter()
 	{
 		return CHARACTERS.charAt(RandomUtil.nextInt(CHARACTERS.length()));
+	}
+	
+	
+	// CODING
+	@API
+	public static byte[] decode(String urlBase64)
+	{
+		String base64 = urlBase64.replace('-', '+').replace('_', '/');
+		return Base64.getDecoder().decode(base64);
 	}
 	
 }
