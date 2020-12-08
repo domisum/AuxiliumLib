@@ -112,4 +112,17 @@ public final class StringListUtil
 		return list(stream, DEFAULT_DELIMITER);
 	}
 	
+	
+	@API
+	public static <T> String listInSingleQuotes(Iterable<T> iterable)
+	{
+		return list(iterable, s->"'"+s+"'");
+	}
+	
+	@API
+	public static <T> String listInDoubleQuotes(Iterable<T> iterable)
+	{
+		return list(iterable, s->"\""+s+"\"");
+	}
+	
 }
