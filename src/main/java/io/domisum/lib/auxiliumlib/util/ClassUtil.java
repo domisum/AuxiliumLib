@@ -8,7 +8,9 @@ import lombok.NoArgsConstructor;
 import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Objects;
 import java.util.Optional;
 
 @API
@@ -30,11 +32,11 @@ public final class ClassUtil
 	}
 	
 	@API
-	public static Optional<Class<?>> getClassOptional(String path)
+	public static Optional<Class<?>> getClassOptional(String className)
 	{
 		try
 		{
-			return Optional.ofNullable(Class.forName(path));
+			return Optional.ofNullable(Class.forName(className));
 		}
 		catch(ClassNotFoundException ignored)
 		{
@@ -43,13 +45,26 @@ public final class ClassUtil
 	}
 	
 	@API
+	public static Collection<Class<?>> getClassesWithSimpleName(String simpleName, String... searchPackages)
+	{
+		var classes = new HashSet<Class<?>>();
+		for(String searchPackage : searchPackages)
+			for(var clazz : getClasses(searchPackage))
+				if(Objects.equals(simpleName, clazz.getSimpleName()))
+					classes.add(clazz);
+		
+		return classes;
+	}
+	
+	
+	@API
 	@SuppressWarnings("UnstableApiUsage")
-	public static List<Class<?>> getClasses(String path)
+	public static Collection<Class<?>> getClasses(String _package)
 	{
 		try
 		{
 			var classPath = ClassPath.from(ClassUtil.class.getClassLoader());
-			var classInfos = classPath.getTopLevelClassesRecursive(path);
+			var classInfos = classPath.getTopLevelClassesRecursive(_package);
 			
 			var classes = new ArrayList<Class<?>>();
 			for(var classInfo : classInfos)
