@@ -1,7 +1,11 @@
 package io.domisum.lib.auxiliumlib.work;
 
 import io.domisum.lib.auxiliumlib.annotations.API;
+import io.domisum.lib.auxiliumlib.contracts.IoConsumer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -10,10 +14,14 @@ import java.util.Queue;
 import java.util.Set;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
+import java.util.function.BiConsumer;
 
 @API
 public abstract class WorkDistributor<T>
 {
+	
+	private final Logger logger = LoggerFactory.getLogger(getClass());
+	
 	
 	// STATUS
 	private final WorkQueue workQueue = new WorkQueue();
@@ -22,6 +30,7 @@ public abstract class WorkDistributor<T>
 	
 	
 	// GET
+	@API
 	public Optional<ReservedWork<T>> getWorkOptional()
 	{
 		if(shouldRefill())
@@ -43,6 +52,34 @@ public abstract class WorkDistributor<T>
 		reservedWorkSubjects.add(workSubject);
 		var reservedWork = ReservedWork.ofOnSuccessfulOnClose(workSubject, this::onSuccess, this::onClose);
 		return Optional.of(reservedWork);
+	}
+	
+	@API
+	public boolean workIo(IoConsumer<T> workAction, BiConsumer<T, IOException> onIoException)
+	{
+		var workOptional = getWorkOptional();
+		if(workOptional.isEmpty())
+			return false;
+		
+		var work = workOptional.get();
+		var subject = work.getSubject();
+		try(work)
+		{
+			workAction.accept(subject);
+			work.successful();
+		}
+		catch(IOException e)
+		{
+			onIoException.accept(subject, e);
+		}
+		
+		return true;
+	}
+	
+	@API
+	public boolean workIoWarn(IoConsumer<T> workAction, String errorMessage)
+	{
+		return workIo(workAction, (s, e)->logger.warn(errorMessage, s, e));
 	}
 	
 	
