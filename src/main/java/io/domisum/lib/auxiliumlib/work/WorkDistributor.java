@@ -60,11 +60,11 @@ public abstract class WorkDistributor<T>
 	
 	// WORK
 	@API
-	public boolean workIo(IOFunction<T, Boolean> workAction, BiConsumer<T, IOException> onIoException)
+	public Effort workIo(IOFunction<T, Boolean> workAction, BiConsumer<T, IOException> onIoException)
 	{
 		var workOptional = getWorkOptional();
 		if(workOptional.isEmpty())
-			return false;
+			return Effort.NONE;
 		var work = workOptional.get();
 		var subject = work.getSubject();
 		
@@ -79,17 +79,17 @@ public abstract class WorkDistributor<T>
 			onIoException.accept(subject, e);
 		}
 		
-		return true;
+		return Effort.SOME;
 	}
 	
 	@API
-	public boolean workIoWarn(IOFunction<T, Boolean> workAction, String errorMessage)
+	public Effort workIoWarn(IOFunction<T, Boolean> workAction, String errorMessage)
 	{
 		return workIo(workAction, (s, e)->logger.warn(errorMessage, s, e));
 	}
 	
 	@API
-	public boolean workIoWarn(IoConsumer<T> workAction, String errorMessage)
+	public Effort workIoWarn(IoConsumer<T> workAction, String errorMessage)
 	{
 		return workIo(s->
 		{
@@ -100,13 +100,13 @@ public abstract class WorkDistributor<T>
 	
 	
 	@API
-	public boolean work(Function<T, Boolean> workAction)
+	public Effort work(Function<T, Boolean> workAction)
 	{
 		return workIo(s->workAction.apply(s), null);
 	}
 	
 	@API
-	public boolean work(Consumer<T> workAction)
+	public Effort work(Consumer<T> workAction)
 	{
 		return work(s->
 		{
