@@ -16,6 +16,8 @@ import java.util.Set;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.function.BiConsumer;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 @API
 public abstract class WorkDistributor<T>
@@ -55,6 +57,8 @@ public abstract class WorkDistributor<T>
 		return Optional.of(reservedWork);
 	}
 	
+	
+	// WORK
 	@API
 	public boolean workIo(IOFunction<T, Boolean> workAction, BiConsumer<T, IOException> onIoException)
 	{
@@ -92,6 +96,23 @@ public abstract class WorkDistributor<T>
 			workAction.accept(s);
 			return true;
 		}, (s, e)->logger.warn(errorMessage, s, e));
+	}
+	
+	
+	@API
+	public boolean work(Function<T, Boolean> workAction)
+	{
+		return workIo(s->workAction.apply(s), null);
+	}
+	
+	@API
+	public boolean work(Consumer<T> workAction)
+	{
+		return work(s->
+		{
+			workAction.accept(s);
+			return true;
+		});
 	}
 	
 	
