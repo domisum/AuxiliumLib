@@ -2,6 +2,7 @@ package io.domisum.lib.auxiliumlib.work;
 
 import io.domisum.lib.auxiliumlib.annotations.API;
 import io.domisum.lib.auxiliumlib.contracts.IoConsumer;
+import org.apache.commons.io.function.IOFunction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -55,18 +56,19 @@ public abstract class WorkDistributor<T>
 	}
 	
 	@API
-	public boolean workIo(IoConsumer<T> workAction, BiConsumer<T, IOException> onIoException)
+	public boolean workIo(IOFunction<T, Boolean> workAction, BiConsumer<T, IOException> onIoException)
 	{
 		var workOptional = getWorkOptional();
 		if(workOptional.isEmpty())
 			return false;
-		
 		var work = workOptional.get();
 		var subject = work.getSubject();
+		
 		try(work)
 		{
-			workAction.accept(subject);
-			work.successful();
+			boolean successful = workAction.apply(subject);
+			if(successful)
+				work.successful();
 		}
 		catch(IOException e)
 		{
@@ -77,9 +79,19 @@ public abstract class WorkDistributor<T>
 	}
 	
 	@API
-	public boolean workIoWarn(IoConsumer<T> workAction, String errorMessage)
+	public boolean workIoWarn(IOFunction<T, Boolean> workAction, String errorMessage)
 	{
 		return workIo(workAction, (s, e)->logger.warn(errorMessage, s, e));
+	}
+	
+	@API
+	public boolean workIoWarn(IoConsumer<T> workAction, String errorMessage)
+	{
+		return workIo(s->
+		{
+			workAction.accept(s);
+			return true;
+		}, (s, e)->logger.warn(errorMessage, s, e));
 	}
 	
 	
