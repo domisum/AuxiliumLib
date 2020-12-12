@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -66,12 +67,13 @@ public final class StringListUtil
 	
 	
 	@API
-	public static <T> String list(Map<?, T> map, String delimiter, Function<T, Object> valueFunction)
+	public static <K, V> String list(Map<K, V> map, String delimiter,
+		Function<K, ?> keyFunction, Function<V, ?> valueFunction)
 	{
 		var mappings = new ArrayList<String>();
 		for(var entry : map.entrySet())
 		{
-			String mapping = PHR.r("'{}'->'{}'", entry.getKey(), valueFunction.apply(entry.getValue()));
+			String mapping = PHR.r("{}->{}", keyFunction.apply(entry.getKey()), valueFunction.apply(entry.getValue()));
 			mappings.add(mapping);
 		}
 		mappings.sort(Comparator.naturalOrder());
@@ -80,22 +82,15 @@ public final class StringListUtil
 	}
 	
 	@API
-	public static <T> String list(Map<?, T> map, Function<T, Object> valueFunction)
+	public static <T> String list(Map<?, T> map, Function<T, ?> valueFunction)
 	{
-		return list(map, DEFAULT_DELIMITER, valueFunction);
-	}
-	
-	
-	@API
-	public static String list(Map<?, ?> map, String delimiter)
-	{
-		return list(map, delimiter, v->v);
+		return list(map, DEFAULT_DELIMITER, StringListUtil::defaultMapEntryFunction, valueFunction);
 	}
 	
 	@API
 	public static String list(Map<?, ?> map)
 	{
-		return list(map, DEFAULT_DELIMITER);
+		return list(map, DEFAULT_DELIMITER, StringListUtil::defaultMapEntryFunction, StringListUtil::defaultMapEntryFunction);
 	}
 	
 	
@@ -123,6 +118,16 @@ public final class StringListUtil
 	public static <T> String listInDoubleQuotes(Iterable<T> iterable)
 	{
 		return list(iterable, s->"\""+s+"\"");
+	}
+	
+	
+	// UTIL
+	private static <T> Object defaultMapEntryFunction(T t)
+	{
+		if(t instanceof String)
+			return "'"+t+"'";
+		
+		return Objects.toString(t);
 	}
 	
 }
