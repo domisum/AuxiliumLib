@@ -5,6 +5,7 @@ import io.domisum.lib.auxiliumlib.util.math.RandomUtil;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
 @API
@@ -38,8 +39,42 @@ public final class UrlBase64
 	@API
 	public static byte[] decode(String urlBase64)
 	{
-		String base64 = urlBase64.replace('-', '+').replace('_', '/');
-		return Base64.getDecoder().decode(base64);
+		String regularB64 = urlB64ToRegularB64(urlBase64);
+		return Base64.getDecoder().decode(regularB64);
+	}
+	
+	@API
+	public static String decodeToString(String urlBase64)
+	{
+		byte[] decoded = decode(urlBase64);
+		return new String(decoded, StandardCharsets.UTF_8);
+	}
+	
+	@API
+	public static String encode(byte[] data)
+	{
+		String regularBase64 = Base64.getEncoder().encodeToString(data);
+		return regularB64UrlB64To(regularBase64);
+	}
+	
+	@API
+	public static String encode(String data)
+	{
+		byte[] dataBytes = data.getBytes(StandardCharsets.UTF_8);
+		return encode(dataBytes);
+	}
+	
+	
+	@API
+	public static String urlB64ToRegularB64(String urlBase64)
+	{
+		return urlBase64.replace('-', '+').replace('_', '/');
+	}
+	
+	@API
+	public static String regularB64UrlB64To(String urlBase64)
+	{
+		return urlBase64.replace('+', '-').replace('/', '_');
 	}
 	
 }
