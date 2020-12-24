@@ -46,42 +46,23 @@ public abstract class ConfigObjectLoader<T extends ConfigObject>
 	{
 		logger.info("Loading {}...", OBJECT_NAME_PLURAL());
 		
-		String fileExtension = FILE_EXTENSION();
-		if(fileExtension.startsWith("."))
-			fileExtension = fileExtension.substring(1);
-		
-		String configDirPath = configDirectory.getAbsoluteFile().getPath();
-		
-		var configObjectsById = new HashMap<String, T>();
 		var files = FileUtil.listFilesRecursively(configDirectory, FileType.FILE);
 		var filesOrdered = files.stream()
 			.sorted(Comparator.comparing(File::getPath))
 			.collect(Collectors.toList());
 		
+		var configObjectsById = new HashMap<String, T>();
 		for(var file : filesOrdered)
 		{
-			String path = file.getAbsoluteFile().getPath();
-			String pathInDir = path.substring(configDirPath.length());
-			pathInDir = FileUtil.replaceDelimitersWithForwardSlash(pathInDir);
-			if(pathInDir.startsWith("/"))
-				pathInDir = pathInDir.substring(1);
-			
-			if(pathInDir.startsWith(".git"))
+			if(getPathInDir(configDirectory, file).startsWith(".git"))
 				continue;
 			
-			if(fileExtension.equalsIgnoreCase(FileUtil.getCompositeExtension(file)))
-			{
-				T configObject = loadConfigObjectFromFile(file);
-				
-				if(configObjectsById.containsKey(configObject.getStringId()))
-					throw new ConfigException(PHR.r("Duplicate config object id '{}'. Duplicate file: {}",
-						configObject.getId(), file));
-				configObjectsById.put(configObject.getStringId(), configObject);
-			}
-			else
-				throw new ConfigException(PHR.r(
-					"Config directory of {} contains file with wrong extension: '{}' (expected extension: '{}')",
-					OBJECT_NAME_PLURAL(), file.getName(), fileExtension));
+			T configObject = readConfigObject(file);
+			
+			if(configObjectsById.containsKey(configObject.getStringId()))
+				throw new ConfigException(PHR.r("Duplicate config object id '{}'. Duplicate file: {}",
+					configObject.getId(), file));
+			configObjectsById.put(configObject.getStringId(), configObject);
 		}
 		
 		if(configObjectsById.isEmpty())
@@ -94,13 +75,32 @@ public abstract class ConfigObjectLoader<T extends ConfigObject>
 		return new ConfigObjectRegistry<>(configObjectsById);
 	}
 	
-	private T loadConfigObjectFromFile(File file)
+	private String getPathInDir(File directory, File file)
+	{
+		String configDirPath = directory.getAbsoluteFile().getPath();
+		String filePath = file.getAbsoluteFile().getPath();
+		
+		String pathInDir = filePath.substring(configDirPath.length());
+		pathInDir = FileUtil.replaceDelimitersWithForwardSlash(pathInDir);
+		if(pathInDir.startsWith("/"))
+			pathInDir = pathInDir.substring(1);
+		
+		return pathInDir;
+	}
+	
+	private T readConfigObject(File file)
 		throws ConfigException
 	{
-		String fileContent = FileUtil.readString(file);
+		String fileExtension = FileUtil.getCompositeExtension(file);
+		if(!getPureFileExtension().equalsIgnoreCase(fileExtension))
+			throw new ConfigException(PHR.r(
+				"Config directory of {} contains file with wrong extension: '{}' (expected extension: '{}')",
+				OBJECT_NAME_PLURAL(), file.getName(), getPureFileExtension()));
 		try
 		{
-			return createConfigObject(file, fileContent);
+			String id = FileUtil.getNameWithoutCompositeExtension(file);
+			String fileContent = FileUtil.readString(file);
+			return createConfigObject(id, fileContent);
 		}
 		catch(JsonParseException|ConfigException e)
 		{
@@ -109,12 +109,20 @@ public abstract class ConfigObjectLoader<T extends ConfigObject>
 		}
 	}
 	
-	private T createConfigObject(File file, String fileContent)
+	private String getPureFileExtension()
+	{
+		String fileExtension = FILE_EXTENSION();
+		if(fileExtension.startsWith("."))
+			fileExtension = fileExtension.substring(1);
+		
+		return fileExtension;
+	}
+	
+	private T createConfigObject(String id, String fileContent)
 		throws ConfigException
 	{
 		var configObject = deserialize(fileContent);
 		
-		String id = FileUtil.getNameWithoutCompositeExtension(file);
 		ReflectionUtil.injectValue(configObject, "id", id);
 		for(var dependency : getDependenciesToInject().entrySet())
 			ReflectionUtil.injectValue(configObject, dependency.getKey(), dependency.getValue());
