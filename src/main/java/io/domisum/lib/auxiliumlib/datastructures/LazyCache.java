@@ -156,8 +156,11 @@ public final class LazyCache<KeyT, T>
 		// INIT
 		private Duration determineExpirationDuration()
 		{
+			if(expirationSettings == null)
+				return null;
+			
 			var expirationDuration = expirationSettings.getExpirationDuration();
-			if(expirationDuration != null && expirationSettings.shouldRandomizeExpirationDuration())
+			if(expirationSettings.shouldRandomizeExpirationDuration())
 			{
 				final double maxOffsetRel = 0.2;
 				expirationDuration = RandomUtil.distributeRel(expirationDuration, maxOffsetRel);
