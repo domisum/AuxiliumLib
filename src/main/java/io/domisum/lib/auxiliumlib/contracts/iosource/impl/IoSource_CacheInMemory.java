@@ -5,6 +5,7 @@ import io.domisum.lib.auxiliumlib.datastructures.ExpirationSettings;
 import io.domisum.lib.auxiliumlib.datastructures.LazyCache;
 import lombok.RequiredArgsConstructor;
 
+import javax.annotation.Nullable;
 import java.io.IOException;
 
 @RequiredArgsConstructor
@@ -20,6 +21,7 @@ public abstract class IoSource_CacheInMemory<KeyT, T>
 	
 	
 	// CONSTANT METHODS
+	@Nullable
 	protected abstract ExpirationSettings EXPIRATION_SETTINGS();
 	
 	

@@ -1,69 +1,45 @@
 package io.domisum.lib.auxiliumlib.contracts.iosource.impl;
 
 import io.domisum.lib.auxiliumlib.contracts.iosource.SingleItemIoSource;
-import io.domisum.lib.auxiliumlib.util.TimeUtil;
-import lombok.Getter;
+import io.domisum.lib.auxiliumlib.datastructures.ExpirationSettings;
+import io.domisum.lib.auxiliumlib.datastructures.LazyCache;
 import lombok.RequiredArgsConstructor;
 
 import javax.annotation.Nullable;
 import java.io.IOException;
-import java.time.Duration;
-import java.time.Instant;
 
 @RequiredArgsConstructor
 public abstract class SingleItemIoSource_CacheInMemory<T>
 	implements SingleItemIoSource<T>
 {
 	
+	// CONSTANTS
+	private static final String KEY = "item";
+	
 	// DEPENDENCIES
 	private final SingleItemIoSource<T> backingSource;
 	
-	// STATE
-	private CachedValue cachedValue;
+	// CACHE
+	private final LazyCache<String, T> cache = LazyCache.of(EXPIRATION_SETTINGS());
 	
 	
 	// CONSTANT METHODS
 	@Nullable
-	protected abstract Duration TTL();
+	protected abstract ExpirationSettings EXPIRATION_SETTINGS();
 	
 	
 	// SOURCE
 	@Override
-	public synchronized T get()
+	public T get()
 		throws IOException
 	{
-		if(cachedValue != null && cachedValue.isExpired())
-			cachedValue = null;
+		var itemFromCacheOptional = cache.get(KEY);
+		if(itemFromCacheOptional.isPresent())
+			return itemFromCacheOptional.get();
 		
-		if(cachedValue == null)
-		{
-			var value = backingSource.get();
-			cachedValue = new CachedValue(value);
-		}
-		
-		return cachedValue.getValue();
-	}
-	
-	
-	// CACHED
-	@RequiredArgsConstructor
-	private class CachedValue
-	{
-		
-		@Getter
-		private final T value;
-		private final Instant createdInstant = Instant.now();
-		
-		
-		// GETTERS
-		public boolean isExpired()
-		{
-			if(TTL() == null)
-				return false;
-			
-			return TimeUtil.isOlderThan(createdInstant, TTL());
-		}
-		
+		var itemFromBackingSource = backingSource.get();
+		cache.put(KEY, itemFromBackingSource);
+		return itemFromBackingSource;
 	}
 	
 }
