@@ -21,9 +21,7 @@ public final class LazyCache<KeyT, T>
 	
 	// SETTINGS
 	@Nullable
-	private final Duration expirationDuration;
-	private final boolean randomizeExpirationDuration;
-	private final boolean onlyExpireUnused;
+	private final ExpirationSettings expirationSettings;
 	
 	// STATE
 	private final transient Map<KeyT, CacheEntry> entries = new ConcurrentHashMap<>();
@@ -32,33 +30,39 @@ public final class LazyCache<KeyT, T>
 	
 	// INIT
 	@API
+	public static <KeyT, T> LazyCache<KeyT, T> of(@Nullable ExpirationSettings expirationSettings)
+	{
+		return new LazyCache<>(expirationSettings);
+	}
+	
+	@API
 	public static <KeyT, T> LazyCache<KeyT, T> neverExpire()
 	{
-		return new LazyCache<>(null, false, false);
+		return of(null);
 	}
 	
 	@API
 	public static <KeyT, T> LazyCache<KeyT, T> expireAfter(Duration expirationDuration)
 	{
-		return new LazyCache<>(expirationDuration, false, false);
+		return of(ExpirationSettings.after(expirationDuration));
 	}
 	
 	@API
 	public static <KeyT, T> LazyCache<KeyT, T> expireAfterRandomized(Duration expirationDuration)
 	{
-		return new LazyCache<>(expirationDuration, true, false);
+		return of(ExpirationSettings.afterRandomized(expirationDuration));
 	}
 	
 	@API
 	public static <KeyT, T> LazyCache<KeyT, T> expireUnusedAfter(Duration expirationDuration)
 	{
-		return new LazyCache<>(expirationDuration, false, true);
+		return of(ExpirationSettings.unusedAfter(expirationDuration));
 	}
 	
 	@API
 	public static <KeyT, T> LazyCache<KeyT, T> expireUnusedAfterRandomized(Duration expirationDuration)
 	{
-		return new LazyCache<>(expirationDuration, true, true);
+		return of(ExpirationSettings.unusedAfterRandomized(expirationDuration));
 	}
 	
 	
@@ -119,18 +123,68 @@ public final class LazyCache<KeyT, T>
 	
 	private synchronized boolean isExpireDue()
 	{
-		if(expirationDuration == null)
+		if(expirationSettings == null)
 			return false;
 		
-		boolean isExpirationDue = TimeUtil.isOlderThan(lastExpirationCheck, expirationDuration);
-		if(isExpirationDue)
+		boolean isExpireDue = TimeUtil.isOlderThan(lastExpirationCheck, expirationSettings.getExpirationDuration());
+		if(isExpireDue)
 			lastExpirationCheck = Instant.now();
-		return isExpirationDue;
+		return isExpireDue;
 	}
 	
 	private void expire()
 	{
 		entries.entrySet().removeIf(e->e.getValue().isExpired());
+	}
+	
+	@API
+	@RequiredArgsConstructor
+	public static class ExpirationSettings
+	{
+		
+		@Getter
+		private final Duration expirationDuration;
+		private final boolean randomizeExpirationDuration;
+		private final boolean onlyExpireUnused;
+		
+		
+		// INIT
+		@API
+		public static ExpirationSettings after(Duration expirationDuration)
+		{
+			return new ExpirationSettings(expirationDuration, false, false);
+		}
+		
+		@API
+		public static ExpirationSettings afterRandomized(Duration expirationDuration)
+		{
+			return new ExpirationSettings(expirationDuration, true, false);
+		}
+		
+		@API
+		public static ExpirationSettings unusedAfter(Duration expirationDuration)
+		{
+			return new ExpirationSettings(expirationDuration, false, true);
+		}
+		
+		@API
+		public static ExpirationSettings unusedAfterRandomized(Duration expirationDuration)
+		{
+			return new ExpirationSettings(expirationDuration, true, true);
+		}
+		
+		
+		// GETTERS
+		public boolean shouldRandomizeExpirationDuration()
+		{
+			return randomizeExpirationDuration;
+		}
+		
+		public boolean shouldOnlyExpireUnused()
+		{
+			return onlyExpireUnused;
+		}
+		
 	}
 	
 	
@@ -152,8 +206,8 @@ public final class LazyCache<KeyT, T>
 		// INIT
 		private Duration determineExpirationDuration()
 		{
-			var expirationDuration = LazyCache.this.expirationDuration;
-			if(expirationDuration != null && randomizeExpirationDuration)
+			var expirationDuration = expirationSettings.getExpirationDuration();
+			if(expirationDuration != null && expirationSettings.shouldRandomizeExpirationDuration())
 			{
 				final double maxOffsetRel = 0.2;
 				expirationDuration = RandomUtil.distributeRel(expirationDuration, maxOffsetRel);
@@ -174,7 +228,7 @@ public final class LazyCache<KeyT, T>
 			if(expirationDuration == null)
 				return false;
 			
-			if(onlyExpireUnused)
+			if(expirationSettings.shouldOnlyExpireUnused())
 				return TimeUtil.isOlderThan(lastUsed, expirationDuration);
 			
 			return TimeUtil.isOlderThan(created, expirationDuration);
