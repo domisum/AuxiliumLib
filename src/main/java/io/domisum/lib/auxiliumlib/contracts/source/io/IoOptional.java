@@ -1,4 +1,4 @@
-package io.domisum.lib.auxiliumlib.contracts.iosource;
+package io.domisum.lib.auxiliumlib.contracts.source.io;
 
 import io.domisum.lib.auxiliumlib.annotations.API;
 import org.apache.commons.lang3.Validate;
@@ -11,17 +11,17 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 @API
-public class IoOptional<T>
+public class IoOptional<V>
 {
 	
 	// ATTRIBUTES
-	private final T value;
+	private final V value;
 	private final IOException exception;
 	
 	
 	// INIT
 	@API
-	public IoOptional(T value, IOException exception)
+	public IoOptional(V value, IOException exception)
 	{
 		this.value = value;
 		this.exception = exception;
@@ -74,7 +74,7 @@ public class IoOptional<T>
 	}
 	
 	@API
-	public T get()
+	public V get()
 	{
 		if(!isPresent())
 			throw new NoSuchElementException("no value present");
@@ -90,7 +90,7 @@ public class IoOptional<T>
 	}
 	
 	@API
-	public T getOrThrow()
+	public V getOrThrow()
 		throws IOException
 	{
 		if(isPresent())
@@ -99,14 +99,14 @@ public class IoOptional<T>
 	}
 	
 	@API
-	public T getOrThrowWrapped(String message)
+	public V getOrThrowWrapped(String message)
 		throws IOException
 	{
 		return getOrThrowWrapped(e->new IOException(message, e));
 	}
 	
 	@API
-	public <E extends Throwable> T getOrThrowWrapped(Function<IOException, E> wrap)
+	public <E extends Throwable> V getOrThrowWrapped(Function<IOException, E> wrap)
 		throws E
 	{
 		try
@@ -120,7 +120,7 @@ public class IoOptional<T>
 	}
 	
 	@API
-	public T getOrThrowUnchecked()
+	public V getOrThrowUnchecked()
 	{
 		if(isPresent())
 			return value;
@@ -130,7 +130,7 @@ public class IoOptional<T>
 	
 	// FUNCTIONAL
 	@API
-	public void ifPresent(Consumer<T> consumer)
+	public void ifPresent(Consumer<V> consumer)
 	{
 		if(isPresent())
 			consumer.accept(value);
@@ -139,7 +139,7 @@ public class IoOptional<T>
 	
 	// CONVERSION
 	@API
-	public Optional<T> toOptional()
+	public Optional<V> toOptional()
 	{
 		return Optional.ofNullable(value);
 	}

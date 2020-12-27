@@ -1,4 +1,4 @@
-package io.domisum.lib.auxiliumlib.contracts.safesource;
+package io.domisum.lib.auxiliumlib.contracts.source.safe;
 
 public interface SafeSource<K, V>
 {

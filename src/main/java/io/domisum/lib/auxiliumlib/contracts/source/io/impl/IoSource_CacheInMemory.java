@@ -1,19 +1,20 @@
-package io.domisum.lib.auxiliumlib.contracts.safesource.impl;
+package io.domisum.lib.auxiliumlib.contracts.source.io.impl;
 
-import io.domisum.lib.auxiliumlib.contracts.safesource.SafeSource;
+import io.domisum.lib.auxiliumlib.contracts.source.io.IoSource;
 import io.domisum.lib.auxiliumlib.datastructures.ExpirationSettings;
 import io.domisum.lib.auxiliumlib.datastructures.LazyCache;
 import lombok.RequiredArgsConstructor;
 
 import javax.annotation.Nullable;
+import java.io.IOException;
 
 @RequiredArgsConstructor
-public abstract class SafeSource_CacheInMemory<K, V>
-	implements SafeSource<K, V>
+public abstract class IoSource_CacheInMemory<K, V>
+	implements IoSource<K, V>
 {
 	
 	// DEPENDENCIES
-	private final SafeSource<K, V> backingSource;
+	private final IoSource<K, V> backingSource;
 	
 	// CACHE
 	private final LazyCache<K, V> cache = LazyCache.of(EXPIRATION_SETTINGS());
@@ -27,6 +28,7 @@ public abstract class SafeSource_CacheInMemory<K, V>
 	// SOURCE
 	@Override
 	public V get(K key)
+		throws IOException
 	{
 		var itemFromCacheOptional = cache.get(key);
 		if(itemFromCacheOptional.isPresent())

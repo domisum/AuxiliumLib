@@ -1,25 +1,25 @@
-package io.domisum.lib.auxiliumlib.contracts.iosource;
+package io.domisum.lib.auxiliumlib.contracts.source.io;
 
 import io.domisum.lib.auxiliumlib.annotations.API;
 
 import java.io.IOException;
 
 @API
-public interface IoSource<KeyT, T>
+public interface IoSource<K, V>
 {
 	
 	@API
-	T get(KeyT key)
+	V get(K key)
 		throws IOException;
 	
 	@API
-	default IoOptional<T> getOptional(KeyT key)
+	default IoOptional<V> getOptional(K key)
 	{
 		return IoOptional.ofAction(()->get(key));
 	}
 	
 	@API
-	default T getOrThrowUncheckedException(KeyT key)
+	default V getOrThrowUncheckedException(K key)
 	{
 		return getOptional(key).getOrThrowUnchecked();
 	}

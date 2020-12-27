@@ -1,4 +1,4 @@
-package io.domisum.lib.auxiliumlib.contracts.iosource;
+package io.domisum.lib.auxiliumlib.contracts.source.io;
 
 import io.domisum.lib.auxiliumlib.annotations.API;
 
