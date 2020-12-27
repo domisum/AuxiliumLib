@@ -4,24 +4,23 @@ import io.domisum.lib.auxiliumlib.annotations.API;
 
 import java.io.IOException;
 
-@API
 public interface SingleItemIoSource<T>
 {
 	
 	@API
-	T fetch()
+	T get()
 		throws IOException;
 	
 	@API
-	default IoOptional<T> fetchOptional()
+	default IoOptional<T> getOptional()
 	{
-		return IoOptional.ofAction(this::fetch);
+		return IoOptional.ofAction(this::get);
 	}
 	
 	@API
-	default T fetchOrThrowUncheckedException()
+	default T getOrThrowUncheckedException()
 	{
-		return fetchOptional().getOrThrowUnchecked();
+		return getOptional().getOrThrowUnchecked();
 	}
 	
 }
