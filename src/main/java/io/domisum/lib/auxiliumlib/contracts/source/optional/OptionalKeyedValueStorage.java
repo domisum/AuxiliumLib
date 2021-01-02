@@ -1,9 +1,9 @@
 package io.domisum.lib.auxiliumlib.contracts.source.optional;
 
-public interface OptionalStorage<K, V>
+public interface OptionalKeyedValueStorage<K, V>
 	extends OptionalSource<K, V>
 {
 	
-	void store(K key, V element);
+	void store(V element);
 	
 }
