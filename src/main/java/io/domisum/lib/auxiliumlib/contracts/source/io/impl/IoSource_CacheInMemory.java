@@ -27,7 +27,7 @@ public abstract class IoSource_CacheInMemory<K, V>
 	
 	// SOURCE
 	@Override
-	public V get(K key)
+	public synchronized V get(K key)
 		throws IOException
 	{
 		var itemFromCacheOptional = cache.get(key);
