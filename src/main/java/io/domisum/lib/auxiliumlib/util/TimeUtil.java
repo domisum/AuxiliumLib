@@ -71,6 +71,15 @@ public final class TimeUtil
 	}
 	
 	
+	@API
+	public static Duration multiply(Duration duration, double factor)
+	{
+		long seconds = Math.round(factor*duration.getSeconds());
+		long nanos = Math.round(factor*duration.getNano());
+		return Duration.ofSeconds(seconds, nanos);
+	}
+	
+	
 	// DISPLAY
 	@API
 	public static String displayMinutesSeconds(Duration duration)
@@ -124,6 +133,12 @@ public final class TimeUtil
 	
 	@API
 	public static boolean hasPassed(Instant instant)
+	{
+		return instant.isBefore(Instant.now());
+	}
+	
+	@API
+	public static boolean isInPast(Instant instant)
 	{
 		return instant.isBefore(Instant.now());
 	}
