@@ -4,7 +4,9 @@ import io.domisum.lib.auxiliumlib.annotations.API;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 @API
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
@@ -14,7 +16,24 @@ public final class ExceptionUtil
 	// CONTAINS
 	@API
 	@SuppressWarnings("unchecked")
-	public static <T extends Throwable> Optional<T> getContained(Throwable throwable, Class<T> type)
+	public static <T extends Throwable> Set<T> getContained(Throwable throwable, Class<T> type)
+	{
+		ValidationUtil.notNull(throwable, "throwable");
+		
+		var contained = new HashSet<T>();
+		if(type.equals(throwable.getClass()))
+			contained.add((T) throwable);
+		
+		var cause = throwable.getCause();
+		if(cause != null)
+			contained.addAll(getContained(cause, type));
+		
+		return contained;
+	}
+	
+	@API
+	@SuppressWarnings("unchecked")
+	public static <T extends Throwable> Optional<T> getSingleContained(Throwable throwable, Class<T> type)
 	{
 		ValidationUtil.notNull(throwable, "throwable");
 		
@@ -25,13 +44,13 @@ public final class ExceptionUtil
 		if(cause == null)
 			return Optional.empty();
 		
-		return getContained(cause, type);
+		return getSingleContained(cause, type);
 	}
 	
 	@API
 	public static boolean doesContain(Throwable throwable, Class<? extends Throwable> type)
 	{
-		return getContained(throwable, type).isPresent();
+		return getSingleContained(throwable, type).isPresent();
 	}
 	
 	
