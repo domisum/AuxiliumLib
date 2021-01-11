@@ -202,6 +202,4 @@ public final class ThreadUtil
 		return threadToString.toString();
 	}
 	
-	private static void run() {}
-	
 }
