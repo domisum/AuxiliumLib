@@ -129,6 +129,16 @@ public final class ThreadUtil
 	@API
 	public static void scheduleEmergencyExit(Duration delay)
 	{
+		scheduleEmergencyExit(delay, ()->
+		{
+			// nothing
+		});
+	}
+	
+	
+	@API
+	public static void scheduleEmergencyExit(Duration delay, Runnable run)
+	{
 		LOGGER.info("Scheduling emergency exit to run in {}", DurationDisplay.of(delay));
 		
 		createAndStartDaemonThread(()->
@@ -136,6 +146,7 @@ public final class ThreadUtil
 			sleep(delay);
 			
 			LOGGER.error("Shutdown did not complete after {}, forcing exit", DurationDisplay.of(delay));
+			run.run();
 			LOGGER.error("Thread dump: {}", getThreadDump());
 			System.exit(-1);
 		}, "emergencyDelayedExit");
@@ -190,5 +201,7 @@ public final class ThreadUtil
 		
 		return threadToString.toString();
 	}
+	
+	private static void run() {}
 	
 }
