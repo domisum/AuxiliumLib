@@ -30,7 +30,7 @@ public abstract class SingleItemIoSource_CacheInMemory<V>
 	
 	// SOURCE
 	@Override
-	public V get()
+	public synchronized V get()
 		throws IOException
 	{
 		var itemFromCacheOptional = cache.get(KEY);
