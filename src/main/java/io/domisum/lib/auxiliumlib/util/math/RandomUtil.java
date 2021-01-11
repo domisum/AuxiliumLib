@@ -310,7 +310,7 @@ public final class RandomUtil
 	@API
 	public static Duration distributeRel(Duration base, double maxOffsetRel, Random random)
 	{
-		Validate.isTrue(maxOffsetRel > 0, "maxRelOffset has to be greater than zero, but was "+maxOffsetRel);
+		Validate.isTrue(maxOffsetRel > 0, "maxOffsetRel has to be greater than zero, but was "+maxOffsetRel);
 		
 		long baseMillis = base.toMillis();
 		double factor = getFromRange(1-maxOffsetRel, 1+maxOffsetRel, random);
