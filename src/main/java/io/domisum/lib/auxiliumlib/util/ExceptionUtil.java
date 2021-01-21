@@ -36,14 +36,14 @@ public final class ExceptionUtil
 	public static <T extends Throwable> Optional<T> getSingleContained(Throwable throwable, Class<T> type)
 	{
 		ValidationUtil.notNull(throwable, "throwable");
+		ValidationUtil.notNull(type, "type");
 		
-		if(type.equals(throwable.getClass()))
+		if(type.isInstance(throwable))
 			return Optional.of((T) throwable);
 		
 		var cause = throwable.getCause();
 		if(cause == null)
 			return Optional.empty();
-		
 		return getSingleContained(cause, type);
 	}
 	
