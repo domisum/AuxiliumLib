@@ -107,7 +107,7 @@ public final class ReflectionUtil
 		}
 		catch(InstantiationException|IllegalAccessException|InvocationTargetException e)
 		{
-			throw new ProgrammingError(e);
+			throw new ProgrammingError("Failed to instantiate object with constructor "+constructor, e);
 		}
 	}
 	
