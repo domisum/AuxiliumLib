@@ -36,7 +36,7 @@ public final class StringListUtil
 		while(iterator.hasNext())
 		{
 			var element = iterator.next();
-			var elementDisplay = function == null ? element : function.apply(element);
+			var elementDisplay = function.apply(element);
 			display.append(elementDisplay);
 			
 			if(iterator.hasNext())
@@ -51,7 +51,7 @@ public final class StringListUtil
 	{
 		try
 		{
-			return ioMapList(iterable, function == null ? null : t->function.apply(t), delimiter);
+			return ioMapList(iterable, t->function.apply(t), delimiter);
 		}
 		catch(IOException e)
 		{
@@ -77,7 +77,7 @@ public final class StringListUtil
 	@API
 	public static String list(Iterable<?> iterable, String delimiter)
 	{
-		return list(iterable, null, delimiter);
+		return list(iterable, Objects::toString, delimiter);
 	}
 	
 	@API
