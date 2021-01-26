@@ -2,9 +2,12 @@ package io.domisum.lib.auxiliumlib.util;
 
 import io.domisum.lib.auxiliumlib.PHR;
 import io.domisum.lib.auxiliumlib.annotations.API;
+import io.domisum.lib.auxiliumlib.contracts.IoFunction;
+import io.domisum.lib.auxiliumlib.exceptions.ProgrammingError;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -22,30 +25,54 @@ public final class StringListUtil
 	private static final String DEFAULT_DELIMITER = ", ";
 	
 	
+	// BASE
 	@API
-	public static <T> String list(Iterable<T> iterable, Function<T, Object> function, String delimiter)
+	public static <T> String ioMapList(Iterable<T> iterable, IoFunction<T, Object> function, String delimiter)
+		throws IOException
 	{
 		var display = new StringBuilder();
-		boolean removeDelimiter = false;
-		for(T element : iterable)
+		
+		var iterator = iterable.iterator();
+		while(iterator.hasNext())
 		{
+			var element = iterator.next();
 			var elementDisplay = function == null ? element : function.apply(element);
 			display.append(elementDisplay);
-			display.append(delimiter);
-			removeDelimiter = true;
+			
+			if(iterator.hasNext())
+				display.append(delimiter);
 		}
-		
-		if(removeDelimiter)
-			display.delete(display.length()-delimiter.length(), display.length());
 		
 		return display.toString();
 	}
+	
+	@API
+	public static <T> String list(Iterable<T> iterable, Function<T, Object> function, String delimiter)
+	{
+		try
+		{
+			return ioMapList(iterable, function == null ? null : t->function.apply(t), delimiter);
+		}
+		catch(IOException e)
+		{
+			throw new ProgrammingError("Should never happen", e);
+		}
+	}
+	
 	
 	@API
 	public static <T> String list(Iterable<T> iterable, Function<T, Object> function)
 	{
 		return list(iterable, function, DEFAULT_DELIMITER);
 	}
+	
+	@API
+	public static <T> String ioMapList(Iterable<T> iterable, IoFunction<T, Object> ioFunction)
+		throws IOException
+	{
+		return ioMapList(iterable, ioFunction, DEFAULT_DELIMITER);
+	}
+	
 	
 	@API
 	public static String list(Iterable<?> iterable, String delimiter)
