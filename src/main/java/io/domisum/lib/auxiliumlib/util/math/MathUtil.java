@@ -167,8 +167,10 @@ public final class MathUtil
 		if(input >= 1)
 			return 1;
 		
-		// 3*x^2-2*x^3
-		return (3*(input*input))-(2*(input*input*input));
+		// 3*x^2 - 2*x^3
+		double a = 3*(input*input);
+		double b = 2*(input*input*input);
+		return a-b;
 	}
 	
 	@API
@@ -182,8 +184,11 @@ public final class MathUtil
 		if(input >= 1)
 			return 1;
 		
-		// 6*x^5-15*x^4+10*x^3
-		return ((6*(input*input*input*input*input))-(15*(input*input*input*input)))+(10*(input*input*input));
+		// 6*x^5 - 15*x^4 + 10*x^3
+		double a = 6*(input*input*input*input*input);
+		double b = 15*(input*input*input*input);
+		double c = 10*(input*input*input);
+		return a-b+c;
 	}
 	
 }
