@@ -152,7 +152,7 @@ public final class FileUtil
 		}
 		catch(IOException e)
 		{
-			throw new UncheckedIOException(e);
+			throw new UncheckedIOException("Failed to read image "+file, e);
 		}
 	}
 	
@@ -161,7 +161,7 @@ public final class FileUtil
 		throws IOException
 	{
 		if(!file.exists())
-			throw new FileNotFoundException("file doesn't exist: "+file);
+			throw new FileNotFoundException("File doesn't exist: "+file);
 		
 		return ImageIO.read(file);
 	}
