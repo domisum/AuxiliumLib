@@ -2,6 +2,7 @@ package io.domisum.lib.auxiliumlib;
 
 import io.domisum.lib.auxiliumlib.annotations.API;
 
+import java.io.Closeable;
 import java.io.File;
 import java.io.IOException;
 import java.io.UncheckedIOException;
@@ -9,9 +10,13 @@ import java.nio.file.Files;
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.Iterator;
+import java.util.stream.Stream;
 
 public class FileLineStream
+	implements Closeable
 {
+	
+	private final Stream<?> closeable;
 	
 	private final Deque<String> currentLines = new ArrayDeque<>();
 	private final Iterator<String> iterator;
@@ -22,12 +27,21 @@ public class FileLineStream
 	{
 		try
 		{
-			iterator = Files.lines(file.toPath()).iterator();
+			var linesStream = Files.lines(file.toPath());
+			closeable = linesStream;
+			iterator = linesStream.iterator();
 		}
 		catch(IOException e)
 		{
 			throw new UncheckedIOException(e);
 		}
+	}
+	
+	@Override
+	public void close()
+		throws IOException
+	{
+		closeable.close();
 	}
 	
 	
