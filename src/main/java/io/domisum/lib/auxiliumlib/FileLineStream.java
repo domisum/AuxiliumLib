@@ -1,25 +1,27 @@
 package io.domisum.lib.auxiliumlib;
 
 import io.domisum.lib.auxiliumlib.annotations.API;
+import lombok.SneakyThrows;
 
+import java.io.BufferedReader;
 import java.io.Closeable;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.UncheckedIOException;
-import java.nio.file.Files;
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.Iterator;
-import java.util.stream.Stream;
+import java.util.NoSuchElementException;
 
 public class FileLineStream
 	implements Closeable
 {
 	
-	private final Stream<?> closeable;
+	private final Deque<String> alreadyReadLines = new ArrayDeque<>();
 	
-	private final Deque<String> currentLines = new ArrayDeque<>();
-	private final Iterator<String> iterator;
+	private final BufferedReader reader;
+	private boolean reachedEndOfReader = false;
 	
 	
 	// INIT
@@ -27,9 +29,7 @@ public class FileLineStream
 	{
 		try
 		{
-			var linesStream = Files.lines(file.toPath());
-			closeable = linesStream;
-			iterator = linesStream.iterator();
+			reader = new BufferedReader(new FileReader(file));
 		}
 		catch(IOException e)
 		{
@@ -41,7 +41,7 @@ public class FileLineStream
 	public void close()
 		throws IOException
 	{
-		closeable.close();
+		reader.close();
 	}
 	
 	
@@ -50,36 +50,42 @@ public class FileLineStream
 	public String discardLinesUntil(String marker)
 		throws IOException
 	{
-		while(currentLines.size() > 0)
+		while(alreadyReadLines.size() > 0)
 		{
-			String cl = currentLines.removeFirst();
-			if(cl.contains(marker))
-				return cl;
+			String line = alreadyReadLines.removeFirst();
+			if(line.contains(marker))
+				return line;
 		}
 		
-		return findLineInIterator(marker, false);
+		return findLineInNextLines(marker, false);
 	}
 	
 	@API
 	public String findLine(String marker)
 		throws IOException
 	{
-		for(String cl : currentLines)
-			if(cl.contains(marker))
-				return cl;
+		for(String line : alreadyReadLines)
+			if(line.contains(marker))
+				return line;
 		
-		return findLineInIterator(marker, true);
+		return findLineInNextLines(marker, true);
 	}
 	
-	private String findLineInIterator(String marker, boolean addLinesToCurrent)
+	private String findLineInNextLines(String marker, boolean addLinesToAlreadyRead)
 		throws IOException
 	{
-		while(iterator.hasNext())
+		String line;
+		while(true)
 		{
-			String line = iterator.next();
+			line = reader.readLine();
+			if(line == null)
+			{
+				reachedEndOfReader = true;
+				break;
+			}
 			
-			if(addLinesToCurrent)
-				currentLines.add(line);
+			if(addLinesToAlreadyRead)
+				alreadyReadLines.add(line);
 			if(line.contains(marker))
 				return line;
 		}
@@ -90,29 +96,47 @@ public class FileLineStream
 	@API
 	public Iterator<String> iterateAndDiscard()
 	{
-		return new LineIterator();
+		return new DiscardingIterator();
 	}
 	
-	private class LineIterator
+	private class DiscardingIterator
 		implements Iterator<String>
 	{
 		
+		@SneakyThrows
 		@Override
 		public boolean hasNext()
 		{
-			if(currentLines.size() > 0)
+			if(alreadyReadLines.size() > 0)
 				return true;
 			
-			return iterator.hasNext();
+			if(reachedEndOfReader)
+				return false;
+			
+			String nextLine = reader.readLine();
+			boolean hasNext = nextLine != null;
+			if(hasNext)
+				alreadyReadLines.add(nextLine);
+			else
+				reachedEndOfReader = true;
+			
+			return hasNext;
 		}
 		
+		@SneakyThrows
 		@Override
 		public String next()
 		{
-			if(currentLines.size() > 0)
-				return currentLines.removeFirst();
+			if(alreadyReadLines.size() > 0)
+				return alreadyReadLines.removeFirst();
 			
-			return iterator.next();
+			String nextLine = reader.readLine();
+			if(nextLine == null)
+			{
+				reachedEndOfReader = true;
+				throw new NoSuchElementException("There is no next line");
+			}
+			return nextLine;
 		}
 		
 	}
