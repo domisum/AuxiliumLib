@@ -6,8 +6,9 @@ import lombok.SneakyThrows;
 import java.io.BufferedReader;
 import java.io.Closeable;
 import java.io.File;
-import java.io.FileReader;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.UncheckedIOException;
 import java.util.ArrayDeque;
 import java.util.Deque;
@@ -25,11 +26,21 @@ public class FileLineStream
 	
 	
 	// INIT
+	@API
 	public FileLineStream(File file)
+	{
+		this(file, 0);
+	}
+	
+	@API
+	public FileLineStream(File file, long offset)
 	{
 		try
 		{
-			reader = new BufferedReader(new FileReader(file));
+			var fis = new FileInputStream(file);
+			fis.getChannel().position(offset);
+			
+			reader = new BufferedReader(new InputStreamReader(fis));
 		}
 		catch(IOException e)
 		{
