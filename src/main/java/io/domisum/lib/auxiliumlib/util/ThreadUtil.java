@@ -162,7 +162,13 @@ public final class ThreadUtil
 			if(e instanceof ThreadDeath)
 				return;
 			
-			LOGGER.error("uncaught exception in thread {}", t, e);
+			LOGGER.error("Uncaught exception in thread {}", t, e);
+			
+			if(e instanceof Error)
+			{
+				LOGGER.error("Encountered error, shutting down...");
+				System.exit(-1);
+			}
 		});
 	}
 	
