@@ -17,6 +17,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.function.Consumer;
 import java.util.function.Function;
 
 @API
@@ -62,6 +63,33 @@ public class Multithreader<I, O>
 	{
 		int numberOfThreads = (int) Math.ceil(overcreateFactor*DEFAULT_NUMBER_OF_THREADS());
 		return new Multithreader<>(action, name, numberOfThreads);
+	}
+	
+	
+	@API
+	public static <I> Multithreader<I, Void> create(Consumer<I> voidAction, String name, int numberOfThreads)
+	{
+		return new Multithreader<>(actionFromVoidAction(voidAction), name, numberOfThreads);
+	}
+	
+	@API
+	public static <I> Multithreader<I, Void> overcreate(Consumer<I> voidAction, String name, double overcreateFactor)
+	{
+		return overcreate(actionFromVoidAction(voidAction), name, overcreateFactor);
+	}
+	
+	private static <I> Function<I, Void> actionFromVoidAction(Consumer<I> voidAction)
+	{
+		var action = new Function<I, Void>()
+		{
+			@Override
+			public Void apply(I i)
+			{
+				voidAction.accept(i);
+				return null;
+			}
+		};
+		return action;
 	}
 	
 	
