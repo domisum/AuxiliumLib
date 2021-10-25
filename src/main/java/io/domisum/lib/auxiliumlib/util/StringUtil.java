@@ -69,6 +69,18 @@ public final class StringUtil
 		return builder.toString();
 	}
 	
+	@API
+	public static String indent(String toIndent, String indentationString)
+	{
+		var lines = split(toIndent, "\n");
+		
+		var newLines = new ArrayList<String>();
+		for(String line : lines)
+			newLines.add(indentationString+line);
+		
+		return StringListUtil.list(newLines, "\n");
+	}
+	
 	
 	// ANALYSIS
 	@API
