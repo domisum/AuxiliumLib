@@ -1,6 +1,7 @@
 package io.domisum.lib.auxiliumlib.util;
 
 import com.google.common.reflect.ClassPath;
+import io.domisum.lib.auxiliumlib.PHR;
 import io.domisum.lib.auxiliumlib.annotations.API;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -19,11 +20,17 @@ public final class ClassUtil
 {
 	
 	@API
-	public static Class<?> getClass(String className, String errorMessage)
+	public static Class<?> getClass(String fullClassName)
+	{
+		return getClass(fullClassName, PHR.r("Class '{}' does not exist", fullClassName));
+	}
+	
+	@API
+	public static Class<?> getClass(String fullClassName, String errorMessage)
 	{
 		try
 		{
-			return Class.forName(className);
+			return Class.forName(fullClassName);
 		}
 		catch(ClassNotFoundException e)
 		{
@@ -43,6 +50,7 @@ public final class ClassUtil
 			return Optional.empty();
 		}
 	}
+	
 	
 	@API
 	public static Collection<Class<?>> getClassesWithSimpleName(String simpleName, String... searchPackages)
