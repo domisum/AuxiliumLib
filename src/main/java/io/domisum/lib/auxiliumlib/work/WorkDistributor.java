@@ -36,8 +36,8 @@ public abstract class WorkDistributor<T>
 	@API
 	public Optional<ReservedWork<T>> getWorkOptional()
 	{
-		if(shouldRefill())
-			if(refillLock.tryLock())
+		if(refillLock.tryLock())
+			if(shouldRefill())
 				try
 				{
 					refill();
