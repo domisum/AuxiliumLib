@@ -37,15 +37,15 @@ public abstract class WorkDistributor<T>
 	public Optional<ReservedWork<T>> getWorkOptional()
 	{
 		if(refillLock.tryLock())
-			if(shouldRefill())
-				try
-				{
+			try
+			{
+				if(shouldRefill())
 					refill();
-				}
-				finally
-				{
-					refillLock.unlock();
-				}
+			}
+			finally
+			{
+				refillLock.unlock();
+			}
 		
 		var workSubjectOptional = workQueue.poll();
 		if(workSubjectOptional.isEmpty())
