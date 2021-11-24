@@ -121,15 +121,27 @@ public final class RandomUtil
 	
 	// RANGE
 	@API
-	public static int getFromRange(int min, int max)
+	public static long getFromRange(long minIncl, long maxIncl)
 	{
-		return getFromRange(min, max, getRandom());
+		return getFromRange(minIncl, maxIncl, getRandom());
 	}
 	
 	@API
-	public static int getFromRange(int min, int max, Random r)
+	public static long getFromRange(long minIncl, long maxIncl, Random r)
 	{
-		return min+nextInt((max-min)+1, r);
+		return minIncl+nextLong((maxIncl-minIncl)+1, r);
+	}
+	
+	@API
+	public static int getFromRange(int minIncl, int maxIncl)
+	{
+		return getFromRange(minIncl, maxIncl, getRandom());
+	}
+	
+	@API
+	public static int getFromRange(int minIncl, int maxIncl, Random r)
+	{
+		return minIncl+nextInt((maxIncl-minIncl)+1, r);
 	}
 	
 	@API
@@ -142,6 +154,18 @@ public final class RandomUtil
 	public static double getFromRange(double min, double max, Random r)
 	{
 		return min+(nextDouble(r)*(max-min));
+	}
+	
+	@API
+	public static Duration getFromRange(Duration min, Duration max)
+	{
+		return getFromRange(min, max, getRandom());
+	}
+	
+	@API
+	public static Duration getFromRange(Duration min, Duration max, Random r)
+	{
+		return Duration.ofMillis(getFromRange(min.toMillis(), max.toMillis(), r));
 	}
 	
 	
