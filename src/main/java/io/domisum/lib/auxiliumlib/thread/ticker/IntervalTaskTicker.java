@@ -114,6 +114,7 @@ public class IntervalTaskTicker
 		public void randomizeRunDelay()
 		{
 			nextRunDelay = RandomUtil.getFromRange(Duration.ZERO, interval);
+			runEnd = Instant.now().minus(interval.minus(nextRunDelay));
 		}
 		
 		public boolean shouldRunNow()
