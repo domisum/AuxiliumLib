@@ -5,6 +5,7 @@ import io.domisum.lib.auxiliumlib.annotations.API;
 import io.domisum.lib.auxiliumlib.display.DurationDisplay;
 import io.domisum.lib.auxiliumlib.util.Compare;
 import io.domisum.lib.auxiliumlib.util.TimeUtil;
+import io.domisum.lib.auxiliumlib.util.math.RandomUtil;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.ObjectUtils;
 
@@ -50,6 +51,13 @@ public class IntervalTaskTicker
 	public synchronized void addTask(String taskName, Runnable task, Duration interval)
 	{
 		addTask(taskName, task, null, interval);
+	}
+	
+	@API
+	public synchronized void randomizeRunDelay()
+	{
+		for(var task : tasks)
+			task.randomizeRunDelay();
 	}
 	
 	@API
@@ -103,7 +111,11 @@ public class IntervalTaskTicker
 		private Duration nextRunDelay = Duration.ZERO;
 		
 		
-		// GETTERS
+		public void randomizeRunDelay()
+		{
+			nextRunDelay = RandomUtil.getFromRange(Duration.ZERO, interval);
+		}
+		
 		public boolean shouldRunNow()
 		{
 			if(runEnd == null)
@@ -130,7 +142,6 @@ public class IntervalTaskTicker
 		}
 		
 		
-		// RUN
 		public void run()
 		{
 			try
