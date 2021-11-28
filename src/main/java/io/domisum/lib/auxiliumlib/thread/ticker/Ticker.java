@@ -49,7 +49,7 @@ public abstract class Ticker
 		
 		while(!shouldStop())
 		{
-			var slept = TimeUtil.toNow(start);
+			var slept = TimeUtil.since(start);
 			if(Compare.greaterThan(slept, sleepDuration))
 				break;
 			

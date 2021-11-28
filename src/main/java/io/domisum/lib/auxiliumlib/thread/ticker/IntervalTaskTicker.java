@@ -137,7 +137,7 @@ public class IntervalTaskTicker
 			if(runEnd != null && Compare.greaterThan(runEnd, runStart))
 				return;
 			
-			var runDuration = TimeUtil.toNow(runStart);
+			var runDuration = TimeUtil.since(runStart);
 			if(Compare.greaterThan(runDuration, timeout))
 				timeoutWithReason.accept(PHR.r("Task '{}' timed out; task timeout: {}", name, DurationDisplay.of(timeout)));
 		}

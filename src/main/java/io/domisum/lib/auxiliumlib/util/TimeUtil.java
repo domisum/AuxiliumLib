@@ -106,7 +106,7 @@ public final class TimeUtil
 	}
 	
 	@API
-	public static Duration toNow(Temporal from)
+	public static Duration since(Temporal from)
 	{
 		return Duration.between(from, Instant.now());
 	}
@@ -120,14 +120,14 @@ public final class TimeUtil
 	@API
 	public static boolean isOlderThan(Instant instant, Duration duration)
 	{
-		var age = toNow(instant);
+		var age = since(instant);
 		return Compare.greaterThan(age, duration);
 	}
 	
 	@API
 	public static boolean isYoungerThan(Instant instant, Duration duration)
 	{
-		var age = toNow(instant);
+		var age = since(instant);
 		return Compare.lessThan(age, duration);
 	}
 	
