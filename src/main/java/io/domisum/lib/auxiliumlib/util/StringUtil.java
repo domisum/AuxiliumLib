@@ -158,12 +158,18 @@ public final class StringUtil
 	}
 	
 	@API
-	public static List<String> split(String toSplit, String delimiter)
+	public static List<String> splitLines(String toSplit)
+	{
+		return split(toSplit, "\\R");
+	}
+	
+	@API
+	public static List<String> split(String toSplit, String delimiterRegex)
 	{
 		if(toSplit.isEmpty())
 			return Collections.emptyList();
 		
-		String[] split = toSplit.split(delimiter, -1); // -1 to include trailing empty strings
+		String[] split = toSplit.split(delimiterRegex, -1); // -1 to include trailing empty strings
 		return new ArrayList<>(Arrays.asList(split));
 	}
 	
