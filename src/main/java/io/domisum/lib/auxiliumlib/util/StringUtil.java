@@ -22,36 +22,6 @@ public final class StringUtil
 	
 	// CONCAT
 	@API
-	public static String concatWithSpace(String... toConcat)
-	{
-		return concat(" ", toConcat);
-	}
-	
-	@API
-	public static String concat(String delimiter, String... toConcat)
-	{
-		return StringListUtil.list(Arrays.asList(toConcat), delimiter);
-	}
-	
-	@API
-	public static String concatAsManyAsPossible(List<String> stringsInput, String delimiter, int maxLength)
-	{
-		var strings = new ArrayList<>(stringsInput);
-		String lastPassing = "";
-		for(String string : strings)
-		{
-			String delimiterBeforeCurrent = lastPassing.isEmpty() ?
-				"" :
-				delimiter;
-			
-			String withCurrent = lastPassing+delimiterBeforeCurrent+string;
-			if(withCurrent.length() <= maxLength)
-				lastPassing = withCurrent;
-		}
-		return lastPassing;
-	}
-	
-	@API
 	public static String repeat(String toRepeat, int count, String delimiter)
 	{
 		ValidationUtil.notNull(toRepeat, "toRepeat");
@@ -72,7 +42,7 @@ public final class StringUtil
 	@API
 	public static String indent(String toIndent, String indentationString)
 	{
-		var lines = split(toIndent, "\n");
+		var lines = splitLines(toIndent);
 		
 		var newLines = new ArrayList<String>();
 		for(String line : lines)
