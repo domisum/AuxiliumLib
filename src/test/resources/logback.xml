@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-	<timestamp key="bySecond" datePattern="z_yyyy-MM-dd_HH-mm-ss,SSS"/>
-
 	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
 		<encoder>
-			<pattern>[%d{yyyy-MM-dd HH:mm:ss.SSS} %level] [%thread] %msg%n</pattern>
+			<pattern>[%d{Z yyyy-MM-dd HH:mm:ss.SSS} %level] [%thread] %msg%n</pattern>
 		</encoder>
 	</appender>
 
