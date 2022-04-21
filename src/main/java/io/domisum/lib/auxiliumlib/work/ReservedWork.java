@@ -50,6 +50,8 @@ public final class ReservedWork<T>
 	// STATUS
 	public void successful()
 	{
+		if(successful)
+			return;
 		successful = true;
 		
 		if(onSuccessful != null)
@@ -59,6 +61,8 @@ public final class ReservedWork<T>
 	@Override
 	public void close()
 	{
+		if(closed)
+			return;
 		closed = true;
 		
 		if(onClose != null)
