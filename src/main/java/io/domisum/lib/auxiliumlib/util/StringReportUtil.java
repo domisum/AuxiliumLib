@@ -40,7 +40,7 @@ public final class StringReportUtil
 	{
 		try
 		{
-			return ioMapReport(list, item->valueFunction.apply(item));
+			return ioMapReport(list, valueFunction::apply);
 		}
 		catch(IOException e)
 		{

@@ -51,7 +51,7 @@ public final class StringListUtil
 	{
 		try
 		{
-			return ioMapList(iterable, t->function.apply(t), delimiter);
+			return ioMapList(iterable, function::apply, delimiter);
 		}
 		catch(IOException e)
 		{
@@ -89,6 +89,9 @@ public final class StringListUtil
 	@API
 	public static String list(String delimiter, Object... items)
 	{
+		if(items.length == 1 && items[0] instanceof Iterable<?>)
+			throw new IllegalArgumentException("Wrong method signature (was about to add single iterable argument into Arrays.asList())");
+		
 		return list(Arrays.asList(items), delimiter);
 	}
 	
