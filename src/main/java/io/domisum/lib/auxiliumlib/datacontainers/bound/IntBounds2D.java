@@ -77,6 +77,30 @@ public final class IntBounds2D
 		return new IntBounds2D(minX-distance, maxX+distance, minY-distance, maxY+distance);
 	}
 	
+	@API
+	public IntBounds2D expandLeft(int distance)
+	{
+		return new IntBounds2D(minX-distance, maxX, minY, maxY);
+	}
+	
+	@API
+	public IntBounds2D expandRight(int distance)
+	{
+		return new IntBounds2D(minX, maxX+distance, minY, maxY);
+	}
+	
+	@API
+	public IntBounds2D expandTop(int distance)
+	{
+		return new IntBounds2D(minX, maxX, minY-distance, maxY);
+	}
+	
+	@API
+	public IntBounds2D expandBottom(int distance)
+	{
+		return new IntBounds2D(minX, maxX, minY, maxY+distance);
+	}
+	
 	
 	@API
 	public IntBounds2D contractLeft(int distance)
