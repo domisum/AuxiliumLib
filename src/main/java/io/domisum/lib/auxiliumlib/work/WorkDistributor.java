@@ -57,10 +57,21 @@ public abstract class WorkDistributor<T>
 		return Optional.of(reservedWork);
 	}
 	
+	@API
+	public boolean isEmpty()
+	{
+		if(reservedWorkSubjects.size() > 0)
+			return false;
+		if(workQueue.size() > 0)
+			return false;
+		
+		return true;
+	}
+	
 	
 	// WORK
 	@API
-	public Effort workIo(IOFunction<T, Boolean> workAction, BiConsumer<T, IOException> onIoException)
+	public Effort workIo(IOFunction<T, WorkResult> workAction, BiConsumer<T, IOException> onIoException)
 	{
 		var workOptional = getWorkOptional();
 		if(workOptional.isEmpty())
@@ -70,20 +81,20 @@ public abstract class WorkDistributor<T>
 		
 		try(work)
 		{
-			boolean successful = workAction.apply(subject);
-			if(successful)
+			var result = workAction.apply(subject);
+			if(result.isSuccessful())
 				work.successful();
+			return result.getEffort();
 		}
 		catch(IOException e)
 		{
 			onIoException.accept(subject, e);
+			return Effort.SOME;
 		}
-		
-		return Effort.SOME;
 	}
 	
 	@API
-	public Effort workIoWarn(IOFunction<T, Boolean> workAction, String errorMessage)
+	public Effort workIoWarn(IOFunction<T, WorkResult> workAction, String errorMessage)
 	{
 		return workIo(workAction, (s, e)->logger.warn(errorMessage, s, e));
 	}
@@ -94,15 +105,15 @@ public abstract class WorkDistributor<T>
 		return workIo(s->
 		{
 			workAction.accept(s);
-			return true;
+			return WorkResult.worked();
 		}, (s, e)->logger.warn(errorMessage, s, e));
 	}
 	
 	
 	@API
-	public Effort work(Function<T, Boolean> workAction)
+	public Effort work(Function<T, WorkResult> workAction)
 	{
-		return workIo(s->workAction.apply(s), null);
+		return workIo(workAction::apply, null);
 	}
 	
 	@API
@@ -111,7 +122,7 @@ public abstract class WorkDistributor<T>
 		return work(s->
 		{
 			workAction.accept(s);
-			return true;
+			return WorkResult.worked();
 		});
 	}
 	

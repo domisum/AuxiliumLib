@@ -17,9 +17,16 @@ public class InsertWorkDistributor<T>
 	
 	
 	// INSERT
+	@API
 	public synchronized void insert(T work)
 	{
 		insertWorkQueue.add(work);
+	}
+	
+	@API
+	public synchronized void insertAll(Collection<T> workCollection)
+	{
+		insertWorkQueue.addAll(workCollection);
 	}
 	
 	@Override
@@ -28,6 +35,14 @@ public class InsertWorkDistributor<T>
 		super.onClose(work);
 		if(!work.isSuccessful())
 			insert(work.getSubject());
+	}
+	
+	@Override
+	public synchronized boolean isEmpty()
+	{
+		if(!insertWorkQueue.isEmpty())
+			return false;
+		return super.isEmpty();
 	}
 	
 	
