@@ -57,7 +57,7 @@ public final class IntBounds2D
 	}
 	
 	@API
-	public boolean contain(int x, int y)
+	public boolean contains(int x, int y)
 	{
 		if((x < minX) || (x > maxX))
 			return false;
