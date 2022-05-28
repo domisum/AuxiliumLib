@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.concurrent.Semaphore;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class ThreadUtil
@@ -54,6 +55,19 @@ public final class ThreadUtil
 		{
 			Thread.currentThread().interrupt();
 			return false;
+		}
+	}
+	
+	@API
+	public static void acquire(Semaphore semaphore)
+	{
+		try
+		{
+			semaphore.acquire();
+		}
+		catch(InterruptedException e)
+		{
+			throw new RuntimeException(e);
 		}
 	}
 	
