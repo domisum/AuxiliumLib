@@ -149,4 +149,10 @@ public final class TimeUtil
 		return instant.isAfter(Instant.now());
 	}
 	
+	@API
+	public static boolean isLessThanXInFuture(Instant instant, Duration maxInFutureDuration)
+	{
+		return isInPast(instant.minus(maxInFutureDuration));
+	}
+	
 }
