@@ -122,7 +122,7 @@ public class IntervalTaskTicker
 			if(runEnd == null)
 				return true;
 			
-			return TimeUtil.hasPassed(runEnd.plus(nextRunDelay));
+			return TimeUtil.isInPast(runEnd.plus(nextRunDelay));
 		}
 		
 		public void watchdogTick(Consumer<String> timeoutWithReason)

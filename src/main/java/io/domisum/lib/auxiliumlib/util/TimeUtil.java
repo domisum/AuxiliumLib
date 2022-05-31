@@ -132,12 +132,6 @@ public final class TimeUtil
 	}
 	
 	@API
-	public static boolean hasPassed(Instant instant)
-	{
-		return instant.isBefore(Instant.now());
-	}
-	
-	@API
 	public static boolean isInPast(Instant instant)
 	{
 		return instant.isBefore(Instant.now());

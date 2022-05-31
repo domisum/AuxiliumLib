@@ -93,7 +93,7 @@ public class TimedMultiLock<KeyT>
 	@API
 	public synchronized Optional<Instant> getNextLockReleaseInstant()
 	{
-		lockedUntilMap.entrySet().removeIf(e->TimeUtil.hasPassed(e.getValue()));
+		lockedUntilMap.entrySet().removeIf(e->TimeUtil.isInPast(e.getValue()));
 		return lockedUntilMap.values().stream().min(Comparator.naturalOrder());
 	}
 	
