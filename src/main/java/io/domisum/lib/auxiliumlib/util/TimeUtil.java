@@ -150,6 +150,12 @@ public final class TimeUtil
 	}
 	
 	@API
+	public static boolean isMoreThanXInFuture(Instant instant, Duration minInFutureDuration)
+	{
+		return isInFuture(instant.minus(minInFutureDuration));
+	}
+	
+	@API
 	public static boolean isLessThanXInFuture(Instant instant, Duration maxInFutureDuration)
 	{
 		return isInPast(instant.minus(maxInFutureDuration));
