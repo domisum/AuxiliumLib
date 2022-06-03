@@ -127,6 +127,15 @@ public class IoOptional<V>
 		throw new UncheckedIOException(exception);
 	}
 	
+	@API
+	public V orElse(V defaultValue)
+	{
+		if(isPresent())
+			return get();
+		else
+			return defaultValue;
+	}
+	
 	
 	// FUNCTIONAL
 	@API
