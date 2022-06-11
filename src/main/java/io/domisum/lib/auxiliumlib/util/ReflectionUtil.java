@@ -87,6 +87,25 @@ public final class ReflectionUtil
 	}
 	
 	
+	// READ
+	@API
+	public static <T> T readDeclaredFieldValue(Object from, String fieldName, Class<T> type)
+	{
+		try
+		{
+			var field = from.getClass().getDeclaredField(fieldName);
+			Object value = field.get(from);
+			// noinspection unchecked
+			return (T) value;
+		}
+		catch(IllegalAccessException|NoSuchFieldException e)
+		{
+			throw new ProgrammingError(e);
+		}
+	}
+	
+	
+	
 	// INIT
 	@SuppressWarnings("unchecked")
 	@API
