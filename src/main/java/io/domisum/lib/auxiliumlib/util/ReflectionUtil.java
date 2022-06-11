@@ -4,6 +4,7 @@ import io.domisum.lib.auxiliumlib.annotations.API;
 import io.domisum.lib.auxiliumlib.exceptions.ProgrammingError;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import org.apache.commons.lang3.reflect.FieldUtils;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -89,16 +90,14 @@ public final class ReflectionUtil
 	
 	// READ
 	@API
-	public static <T> T readDeclaredFieldValue(Object from, String fieldName, Class<T> type)
+	public static <T> T readFieldValue(Object from, String fieldName, Class<T> type)
 	{
 		try
 		{
-			var field = from.getClass().getDeclaredField(fieldName);
-			Object value = field.get(from);
 			// noinspection unchecked
-			return (T) value;
+			return (T) FieldUtils.readField(from, fieldName, true);
 		}
-		catch(IllegalAccessException|NoSuchFieldException e)
+		catch(IllegalAccessException e)
 		{
 			throw new ProgrammingError(e);
 		}
