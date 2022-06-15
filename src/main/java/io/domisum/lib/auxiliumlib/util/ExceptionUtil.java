@@ -16,7 +16,7 @@ public final class ExceptionUtil
 	// CONTAINS
 	@API
 	@SuppressWarnings("unchecked")
-	public static <T extends Throwable> Set<T> getContained(Throwable throwable, Class<T> type)
+	public static <T extends Throwable> Set<T> getAllContained(Throwable throwable, Class<T> type)
 	{
 		ValidationUtil.notNull(throwable, "throwable");
 		
@@ -26,7 +26,7 @@ public final class ExceptionUtil
 		
 		var cause = throwable.getCause();
 		if(cause != null)
-			contained.addAll(getContained(cause, type));
+			contained.addAll(getAllContained(cause, type));
 		
 		return contained;
 	}
