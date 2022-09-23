@@ -58,7 +58,7 @@ public class FileLineStream
 	
 	// STREAM
 	@API
-	public String discardLinesUntil(String marker)
+	public String discardLinesUntilContains(String marker)
 		throws IOException
 	{
 		while(alreadyReadLines.size() > 0)
