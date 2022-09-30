@@ -70,7 +70,7 @@ public final class DoubleDisplay
 		double dividedNumber = number/bestFittingSiPrefix.getValue();
 		String displaySuffix = (bestFittingSiPrefix == SiPrefix.NONE) ?
 			"" :
-			(SEPARATOR+bestFittingSiPrefix.name().toLowerCase());
+			(SEPARATOR+bestFittingSiPrefix.getShortDisplay());
 		
 		double dividedRoundedNumber = MathUtil.round(dividedNumber, ROUNDING_DECIMAL_PLACES);
 		if(dividedRoundedNumber == 0)
@@ -100,38 +100,41 @@ public final class DoubleDisplay
 	private enum SiPrefix
 	{
 		
-		YOCTO(-24),
-		ZEPTO(-21),
-		ATTO(-18),
-		FEMTO(-15),
-		PICO(-12),
-		NANO(-9),
-		MICRO(-6),
-		MILLI(-3),
+		YOCTO(-24, "y"),
+		ZEPTO(-21, "z"),
+		ATTO(-18, "a"),
+		FEMTO(-15, "f"),
+		PICO(-12, "p"),
+		NANO(-9, "n"),
+		MICRO(-6,"mic"),
+		MILLI(-3, "mil"),
 		
-		NONE(0),
+		NONE(0, null),
 		
-		KILO(3),
-		MEGA(6),
-		GIGA(9),
-		TERA(12),
-		PETA(15),
-		EXA(18),
-		ZETTA(21),
-		YOTTA(24);
+		KILO(3, "K"),
+		MEGA(6, "M"),
+		GIGA(9, "G"),
+		TERA(12, "T"),
+		PETA(15, "P"),
+		EXA(18, "E"),
+		ZETTA(21, "Z"),
+		YOTTA(24, "Y");
 		
 		
 		@Getter
 		private final int baseTenExponent;
 		@Getter
 		private final double value;
+		@Getter
+		private final String shortDisplay;
 		
 		
 		// INIT
-		SiPrefix(int baseTenExponent)
+		SiPrefix(int baseTenExponent, String shortDisplay)
 		{
 			this.baseTenExponent = baseTenExponent;
 			value = Math.pow(10, baseTenExponent);
+			this.shortDisplay = shortDisplay;
 		}
 		
 		public static SiPrefix getSmallest()
