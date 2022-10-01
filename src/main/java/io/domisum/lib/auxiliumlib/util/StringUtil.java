@@ -41,6 +41,12 @@ public final class StringUtil
 	}
 	
 	@API
+	public static String indentWithSpaces(Object toIndent, int spaceCount)
+	{
+		return indent(toIndent, " ".repeat(spaceCount));
+	}
+	
+	@API
 	public static String indent(Object toIndent, String indentationString)
 	{
 		var lines = splitLines(Objects.toString(toIndent));
