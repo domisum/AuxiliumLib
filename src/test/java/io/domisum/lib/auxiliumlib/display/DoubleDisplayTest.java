@@ -19,32 +19,32 @@ public class DoubleDisplayTest
 	{
 		assertDisplays(10d, "10.0");
 		assertDisplays(999d, "999.0");
-		assertDisplays(1000d, "1.0~kilo");
-		assertDisplays(8.888*Math.pow(10, 15), "8.888~peta");
-		assertDisplays(3.8134*Math.pow(10, 24), "3.813~yotta");
+		assertDisplays(1000d, "1.0~K");
+		assertDisplays(8.888*Math.pow(10, 15), "8.888~P");
+		assertDisplays(3.8134*Math.pow(10, 24), "3.813~Y");
 		
-		assertDisplays(2.2*Math.pow(10, 24+4), "22000.0~yotta");
+		assertDisplays(2.2*Math.pow(10, 24+4), "22000.0~Y");
 	}
 	
 	@Test
 	public void testCloseToZeroValues()
 	{
-		assertDisplays(0.1, "100.0~milli");
-		assertDisplays(Math.pow(10, -3), "1.0~milli");
-		assertDisplays(7.9416*Math.pow(10, -24), "7.942~yocto");
+		assertDisplays(0.1, "100.0~mil");
+		assertDisplays(Math.pow(10, -3), "1.0~mil");
+		assertDisplays(7.9416*Math.pow(10, -24), "7.942~y");
 		
-		assertDisplays(3.5*Math.pow(10, -24-3), "0.004~yocto");
-		assertDisplays(3.5*Math.pow(10, -24-4), "below~0.001~yocto");
+		assertDisplays(3.5*Math.pow(10, -24-3), "0.004~y");
+		assertDisplays(3.5*Math.pow(10, -24-4), "below~0.001~y");
 	}
 	
 	@Test
 	public void testNegativeValues()
 	{
-		assertDisplays(-0.1, "-100.0~milli");
-		assertDisplays(-Math.pow(10, -3), "-1.0~milli");
-		assertDisplays(-7.9416*Math.pow(10, -24), "-7.942~yocto");
-		assertDisplays(-3.5*Math.pow(10, -24-3), "-0.004~yocto");
-		assertDisplays(-3.5*Math.pow(10, -24-4), "-below~0.001~yocto");
+		assertDisplays(-0.1, "-100.0~mil");
+		assertDisplays(-Math.pow(10, -3), "-1.0~mil");
+		assertDisplays(-7.9416*Math.pow(10, -24), "-7.942~y");
+		assertDisplays(-3.5*Math.pow(10, -24-3), "-0.004~y");
+		assertDisplays(-3.5*Math.pow(10, -24-4), "-below~0.001~y");
 	}
 	
 	
