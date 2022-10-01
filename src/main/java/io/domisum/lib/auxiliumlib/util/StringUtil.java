@@ -13,6 +13,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 @API
@@ -40,9 +41,9 @@ public final class StringUtil
 	}
 	
 	@API
-	public static String indent(String toIndent, String indentationString)
+	public static String indent(Object toIndent, String indentationString)
 	{
-		var lines = splitLines(toIndent);
+		var lines = splitLines(Objects.toString(toIndent));
 		
 		var newLines = new ArrayList<String>();
 		for(String line : lines)
