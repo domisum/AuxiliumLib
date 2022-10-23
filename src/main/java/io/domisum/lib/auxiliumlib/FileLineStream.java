@@ -1,6 +1,7 @@
 package io.domisum.lib.auxiliumlib;
 
 import io.domisum.lib.auxiliumlib.annotations.API;
+import io.domisum.lib.auxiliumlib.util.StringListUtil;
 import lombok.SneakyThrows;
 
 import java.io.BufferedReader;
@@ -11,6 +12,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UncheckedIOException;
 import java.util.ArrayDeque;
+import java.util.Arrays;
 import java.util.Deque;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
@@ -19,7 +21,7 @@ public class FileLineStream
 	implements Closeable
 {
 	
-	private final Deque<String> alreadyReadLines = new ArrayDeque<>();
+	private final Deque<String> bufferedLines = new ArrayDeque<>();
 	
 	private final BufferedReader reader;
 	private boolean reachedEndOfReader = false;
@@ -58,31 +60,32 @@ public class FileLineStream
 	
 	// STREAM
 	@API
-	public String discardLinesUntilContains(String marker)
+	public String discardLinesUntilContainsOneOf(String... markers)
 		throws IOException
 	{
-		while(alreadyReadLines.size() > 0)
+		while(bufferedLines.size() > 0)
 		{
-			String line = alreadyReadLines.removeFirst();
-			if(line.contains(marker))
-				return line;
+			String line = bufferedLines.removeFirst();
+			for(String m : markers)
+				if(line.contains(m))
+					return line;
 		}
 		
-		return findLineInNextLines(marker, false);
+		return findLineInNextLines(false, markers);
 	}
 	
 	@API
 	public String findLine(String marker)
 		throws IOException
 	{
-		for(String line : alreadyReadLines)
+		for(String line : bufferedLines)
 			if(line.contains(marker))
 				return line;
 		
-		return findLineInNextLines(marker, true);
+		return findLineInNextLines(true, marker);
 	}
 	
-	private String findLineInNextLines(String marker, boolean addLinesToAlreadyRead)
+	private String findLineInNextLines(boolean addLinesToBuffer, String... markers)
 		throws IOException
 	{
 		String line;
@@ -95,13 +98,15 @@ public class FileLineStream
 				break;
 			}
 			
-			if(addLinesToAlreadyRead)
-				alreadyReadLines.add(line);
-			if(line.contains(marker))
-				return line;
+			if(addLinesToBuffer)
+				bufferedLines.add(line);
+			for(String m : markers)
+				if(line.contains(m))
+					return line;
 		}
 		
-		throw new IOException(PHR.r("Could not find line containing '{}'", marker));
+		String markersDisplay = StringListUtil.listInSingleQuotes(Arrays.asList(markers));
+		throw new IOException(PHR.r("Could not find line containing {}", markersDisplay));
 	}
 	
 	@API
@@ -118,7 +123,7 @@ public class FileLineStream
 		@Override
 		public boolean hasNext()
 		{
-			if(alreadyReadLines.size() > 0)
+			if(bufferedLines.size() > 0)
 				return true;
 			
 			if(reachedEndOfReader)
@@ -127,7 +132,7 @@ public class FileLineStream
 			String nextLine = reader.readLine();
 			boolean hasNext = nextLine != null;
 			if(hasNext)
-				alreadyReadLines.add(nextLine);
+				bufferedLines.add(nextLine);
 			else
 				reachedEndOfReader = true;
 			
@@ -138,8 +143,8 @@ public class FileLineStream
 		@Override
 		public String next()
 		{
-			if(alreadyReadLines.size() > 0)
-				return alreadyReadLines.removeFirst();
+			if(bufferedLines.size() > 0)
+				return bufferedLines.removeFirst();
 			
 			String nextLine = reader.readLine();
 			if(nextLine == null)
