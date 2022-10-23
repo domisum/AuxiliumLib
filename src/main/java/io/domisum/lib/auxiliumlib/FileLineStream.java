@@ -86,17 +86,13 @@ public class FileLineStream
 	}
 	
 	@API
-	public void resetPointer()
+	public void resetPointerAndDiscardSingle()
+		throws IOException
 	{
 		linesBeforePointer.addAll(linesAfterPointer);
 		linesAfterPointer = linesBeforePointer;
 		linesBeforePointer = new ArrayDeque<>();
-	}
-	
-	@API
-	public void discardFirstLine()
-		throws IOException
-	{
+		
 		iterateAndMovePointer().next();
 		discardLinesBeforePointer();
 	}
