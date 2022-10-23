@@ -1,8 +1,8 @@
 package io.domisum.lib.auxiliumlib;
 
 import io.domisum.lib.auxiliumlib.annotations.API;
+import io.domisum.lib.auxiliumlib.contracts.IoIterator;
 import io.domisum.lib.auxiliumlib.util.StringListUtil;
-import lombok.SneakyThrows;
 
 import java.io.BufferedReader;
 import java.io.Closeable;
@@ -14,14 +14,13 @@ import java.io.UncheckedIOException;
 import java.util.ArrayDeque;
 import java.util.Arrays;
 import java.util.Deque;
-import java.util.Iterator;
-import java.util.NoSuchElementException;
 
 public class FileLineStream
 	implements Closeable
 {
 	
-	private final Deque<String> bufferedLines = new ArrayDeque<>();
+	private Deque<String> linesBeforePointer = new ArrayDeque<>();
+	private Deque<String> linesAfterPointer = new ArrayDeque<>();
 	
 	private final BufferedReader reader;
 	private boolean reachedEndOfReader = false;
@@ -54,105 +53,103 @@ public class FileLineStream
 	public void close()
 		throws IOException
 	{
+		reachedEndOfReader = true;
 		reader.close();
+		linesBeforePointer.clear();
 	}
 	
 	
 	// STREAM
 	@API
-	public String discardLinesUntilContainsOneOf(String... markers)
+	public String pointToLineContaining(String... markers)
 		throws IOException
 	{
-		while(bufferedLines.size() > 0)
-		{
-			String line = bufferedLines.removeFirst();
-			for(String m : markers)
-				if(line.contains(m))
-					return line;
-		}
-		
-		return findLineInNextLines(false, markers);
-	}
-	
-	@API
-	public String findLine(String marker)
-		throws IOException
-	{
-		for(String line : bufferedLines)
-			if(line.contains(marker))
-				return line;
-		
-		return findLineInNextLines(true, marker);
-	}
-	
-	private String findLineInNextLines(boolean addLinesToBuffer, String... markers)
-		throws IOException
-	{
-		String line;
+		var iterator = iterateAndMovePointer();
 		while(true)
-		{
-			line = reader.readLine();
-			if(line == null)
+			try
 			{
-				reachedEndOfReader = true;
-				break;
+				String line = iterator.next();
+				for(String m : markers)
+					if(line.contains(m))
+						return line;
 			}
-			
-			if(addLinesToBuffer)
-				bufferedLines.add(line);
-			for(String m : markers)
-				if(line.contains(m))
-					return line;
-		}
-		
-		String markersDisplay = StringListUtil.listInSingleQuotes(Arrays.asList(markers));
-		throw new IOException(PHR.r("Could not find line containing {}", markersDisplay));
+			catch(IOException e)
+			{
+				String markersDisplay = StringListUtil.listInSingleQuotes(Arrays.asList(markers));
+				throw new IOException(PHR.r("Could not find line containing {}", markersDisplay), e);
+			}
 	}
 	
 	@API
-	public Iterator<String> iterateAndDiscard()
+	public void discardLinesBeforePointer()
 	{
-		return new DiscardingIterator();
+		linesBeforePointer.clear();
 	}
 	
-	private class DiscardingIterator
-		implements Iterator<String>
+	@API
+	public void resetPointer()
+	{
+		linesBeforePointer.addAll(linesAfterPointer);
+		linesAfterPointer = linesBeforePointer;
+		linesBeforePointer = new ArrayDeque<>();
+	}
+	
+	@API
+	public void discardFirstLine()
+		throws IOException
+	{
+		iterateAndMovePointer().next();
+		discardLinesBeforePointer();
+	}
+	
+	
+	@API
+	public IoIterator<String> iterateAndMovePointer()
+	{
+		return new MovePointerIterator();
+	}
+	
+	
+	private class MovePointerIterator
+		implements IoIterator<String>
 	{
 		
-		@SneakyThrows
 		@Override
 		public boolean hasNext()
+			throws IOException
 		{
-			if(bufferedLines.size() > 0)
+			if(linesAfterPointer.size() > 0)
 				return true;
-			
 			if(reachedEndOfReader)
 				return false;
 			
-			String nextLine = reader.readLine();
-			boolean hasNext = nextLine != null;
-			if(hasNext)
-				bufferedLines.add(nextLine);
-			else
-				reachedEndOfReader = true;
-			
-			return hasNext;
+			readNextLine();
+			return linesAfterPointer.size() > 0;
 		}
 		
-		@SneakyThrows
 		@Override
 		public String next()
+			throws IOException
 		{
-			if(bufferedLines.size() > 0)
-				return bufferedLines.removeFirst();
+			if(linesAfterPointer.isEmpty())
+				readNextLine();
 			
+			String line = linesAfterPointer.removeFirst();
+			linesBeforePointer.add(line);
+			return line;
+		}
+		
+		private void readNextLine()
+			throws IOException
+		{
 			String nextLine = reader.readLine();
 			if(nextLine == null)
 			{
-				reachedEndOfReader = true;
-				throw new NoSuchElementException("There is no next line");
+				close();
+				throw new IOException("There is no next line");
 			}
-			return nextLine;
+			
+			linesAfterPointer.add(nextLine);
 		}
 		
 	}
