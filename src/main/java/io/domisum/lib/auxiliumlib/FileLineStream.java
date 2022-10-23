@@ -12,7 +12,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UncheckedIOException;
 import java.util.ArrayDeque;
-import java.util.Arrays;
 import java.util.Deque;
 
 public class FileLineStream
@@ -75,7 +74,7 @@ public class FileLineStream
 			}
 			catch(IOException e)
 			{
-				String markersDisplay = StringListUtil.listInSingleQuotes(Arrays.asList(markers));
+				String markersDisplay = StringListUtil.list(" or ", (Object[]) markers);
 				throw new IOException(PHR.r("Could not find line containing {}", markersDisplay), e);
 			}
 	}
