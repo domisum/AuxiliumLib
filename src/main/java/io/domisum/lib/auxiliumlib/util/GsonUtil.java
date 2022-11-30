@@ -26,6 +26,7 @@ public final class GsonUtil
 				.enableComplexMapKeySerialization()
 				.setPrettyPrinting()
 				.serializeNulls()
+				.disableHtmlEscaping()
 				.create();
 		
 		return gson;
