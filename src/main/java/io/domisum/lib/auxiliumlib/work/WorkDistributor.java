@@ -2,11 +2,14 @@ package io.domisum.lib.auxiliumlib.work;
 
 import io.domisum.lib.auxiliumlib.annotations.API;
 import io.domisum.lib.auxiliumlib.contracts.IoConsumer;
+import io.domisum.lib.auxiliumlib.util.TimeUtil;
 import org.apache.commons.io.function.IOFunction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -30,12 +33,23 @@ public abstract class WorkDistributor<T>
 	private final WorkQueue workQueue = new WorkQueue();
 	private final Lock refillLock = new ReentrantLock();
 	private final Set<T> reservedWorkSubjects = new HashSet<>();
+	private Instant blockedUntil = Instant.MIN;
+	
+	
+	// CONSTANT METHODS
+	protected Duration IO_EXCEPTION_BLOCK_DURATION()
+	{
+		return Duration.ofSeconds(30);
+	}
 	
 	
 	// GET
 	@API
 	public Optional<ReservedWork<T>> getWorkOptional()
 	{
+		if(TimeUtil.isInFuture(blockedUntil))
+			return Optional.empty();
+		
 		if(refillLock.tryLock())
 			try
 			{
@@ -89,6 +103,9 @@ public abstract class WorkDistributor<T>
 		catch(IOException e)
 		{
 			onIoException.accept(subject, e);
+			var blockDuration = IO_EXCEPTION_BLOCK_DURATION();
+			if(blockDuration != null)
+				blockedUntil = Instant.now().plus(IO_EXCEPTION_BLOCK_DURATION());
 			return Effort.SOME;
 		}
 	}
