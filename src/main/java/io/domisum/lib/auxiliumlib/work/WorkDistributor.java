@@ -103,8 +103,7 @@ public abstract class WorkDistributor<T>
 		catch(IOException e)
 		{
 			onIoException.accept(subject, e);
-			var blockDuration = IO_EXCEPTION_BLOCK_DURATION();
-			if(blockDuration != null)
+			if(IO_EXCEPTION_BLOCK_DURATION() != null)
 				blockedUntil = Instant.now().plus(IO_EXCEPTION_BLOCK_DURATION());
 			return Effort.SOME;
 		}
