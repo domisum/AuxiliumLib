@@ -86,11 +86,13 @@ public final class DoubleDisplay
 	{
 		double numberBaseTenExponent = Math.log10(number);
 		
+		if(numberBaseTenExponent >= -2 && numberBaseTenExponent < 3) // custom range
+			return SiPrefix.NONE;
+		
 		var bestFittingSiPrefix = SiPrefix.getSmallest();
 		for(var prefix : SiPrefix.values())
 			if(numberBaseTenExponent >= prefix.getBaseTenExponent())
 				bestFittingSiPrefix = prefix;
-		
 		return bestFittingSiPrefix;
 	}
 	
@@ -106,8 +108,8 @@ public final class DoubleDisplay
 		FEMTO(-15, "f"),
 		PICO(-12, "p"),
 		NANO(-9, "n"),
-		MICRO(-6,"mic"),
-		MILLI(-3, "mil"),
+		MICRO(-6, "mic"),
+		MILLI(-3, "milli"),
 		
 		NONE(0, null),
 		
