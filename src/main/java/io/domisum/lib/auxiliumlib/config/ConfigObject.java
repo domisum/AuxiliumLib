@@ -2,8 +2,6 @@ package io.domisum.lib.auxiliumlib.config;
 
 import io.domisum.lib.auxiliumlib.annotations.API;
 
-import javax.annotation.Nonnull;
-
 @API
 public abstract class ConfigObject
 {
@@ -34,7 +32,6 @@ public abstract class ConfigObject
 	
 	
 	// GETTERS
-	@Nonnull
 	public abstract Object getId();
 	
 	public String getStringId()
