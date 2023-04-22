@@ -168,6 +168,17 @@ public final class MathUtil
 	}
 	
 	@API
+	public static String roundString(double number, int precision)
+	{
+		String display = round(number, precision) + "";
+		if(display.contains("."))
+			while(display.length() - display.lastIndexOf(".") - 1 < precision)
+				display += "0";
+		
+		return display;
+	}
+	
+	@API
 	public static String percentage(double fraction, int decimalPlaces)
 	{
 		return round(fraction*100, decimalPlaces)+"%";
