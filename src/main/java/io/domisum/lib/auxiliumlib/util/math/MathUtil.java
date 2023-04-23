@@ -171,7 +171,7 @@ public final class MathUtil
 	public static String roundString(double number, int precision)
 	{
 		String display = round(number, precision) + "";
-		if(display.contains("."))
+		if(display.contains(".") && !display.contains("E"))
 			while(display.length() - display.lastIndexOf(".") - 1 < precision)
 				display += "0";
 		
