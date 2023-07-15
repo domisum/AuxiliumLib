@@ -70,6 +70,12 @@ public final class TimeUtil
 		return Duration.ofMillis(Math.round(seconds*1000));
 	}
 	
+	@API
+	public static Duration fromHoursDecimal(double hours)
+	{
+		return Duration.ofSeconds(Math.round(hours*60*60));
+	}
+	
 	
 	@API
 	public static Duration multiply(Duration duration, double factor)
