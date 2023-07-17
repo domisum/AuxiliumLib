@@ -7,6 +7,7 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.Validate;
 
 import javax.imageio.ImageIO;
@@ -152,7 +153,7 @@ public final class FileUtil
 		}
 		catch(IOException e)
 		{
-			throw new UncheckedIOException("Failed to read image "+file, e);
+			throw new UncheckedIOException("Failed to read image " + file, e);
 		}
 	}
 	
@@ -161,7 +162,7 @@ public final class FileUtil
 		throws IOException
 	{
 		if(!file.exists())
-			throw new FileNotFoundException("File doesn't exist: "+file);
+			throw new FileNotFoundException("File doesn't exist: " + file);
 		
 		return ImageIO.read(file);
 	}
@@ -193,7 +194,7 @@ public final class FileUtil
 	public static void copyFile(File from, File to)
 	{
 		if(to.exists() && to.isDirectory())
-			throw new UncheckedIOException(new IOException("can't copy to file '"+to+"', it is a directory and already exists"));
+			throw new UncheckedIOException(new IOException("can't copy to file '" + to + "', it is a directory and already exists"));
 		
 		try
 		{
@@ -209,7 +210,7 @@ public final class FileUtil
 	@API
 	public static void copyDirectory(File sourceRootDirectory, File targetRootDirectory, FileFilter... filters)
 	{
-		FileFilter combinedFilter = f->
+		FileFilter combinedFilter = f ->
 		{
 			for(var filter : filters)
 				if(!filter.accept(f))
@@ -270,7 +271,7 @@ public final class FileUtil
 		
 		dir.mkdirs();
 		if(!dir.exists())
-			throw new UncheckedIOException(new IOException("Failed to create directory '"+dir+"'"));
+			throw new UncheckedIOException(new IOException("Failed to create directory '" + dir + "'"));
 	}
 	
 	@API
@@ -363,7 +364,7 @@ public final class FileUtil
 		var directoryContents = new ConcurrentLinkedQueue<File>();
 		try(var stream = Files.list(directory.toPath()))
 		{
-			stream.parallel().map(Path::toFile).forEach(f->
+			stream.parallel().map(Path::toFile).forEach(f ->
 			{
 				if(fileType.isOfType(f))
 					directoryContents.add(f);
@@ -389,7 +390,7 @@ public final class FileUtil
 		}
 		catch(IOException e)
 		{
-			throw new UncheckedIOException("Failed to check if directory is empty: '"+directory+"'", e);
+			throw new UncheckedIOException("Failed to check if directory is empty: '" + directory + "'", e);
 		}
 	}
 	
@@ -426,7 +427,7 @@ public final class FileUtil
 			cleanedExtension = ".tmp";
 		
 		if(!cleanedExtension.startsWith("."))
-			cleanedExtension = "."+cleanedExtension;
+			cleanedExtension = "." + cleanedExtension;
 		
 		
 		try
@@ -459,7 +460,7 @@ public final class FileUtil
 	private static synchronized void deleteDirectoryOnShutdown(File directory)
 	{
 		if(temporaryDirectories.isEmpty())
-			ThreadUtil.registerShutdownHook(()->temporaryDirectories.forEach(FileUtil::deleteDirectory), "deleteTempDirs");
+			ThreadUtil.registerShutdownHook(() -> temporaryDirectories.forEach(FileUtil::deleteDirectory), "deleteTempDirs");
 		
 		temporaryDirectories.add(directory);
 	}
@@ -585,7 +586,7 @@ public final class FileUtil
 		if(!fileName.contains("."))
 			return "";
 		
-		return fileName.substring(fileName.indexOf('.')+1);
+		return fileName.substring(fileName.indexOf('.') + 1);
 	}
 	
 	@API
@@ -597,7 +598,7 @@ public final class FileUtil
 		if(compositeFileExtension.length() == 0)
 			return fileName;
 		
-		String fileNameWithout = fileName.substring(0, fileName.length()-compositeFileExtension.length()-1);
+		String fileNameWithout = fileName.substring(0, fileName.length() - compositeFileExtension.length() - 1);
 		return fileNameWithout;
 	}
 	
@@ -607,6 +608,29 @@ public final class FileUtil
 	public static String replaceDelimitersWithForwardSlash(String path)
 	{
 		return path.replaceAll(StringUtil.escapeStringForRegex("\\"), "/");
+	}
+	
+	
+	// RESOURCE
+	@API
+	public static String readStringResource(String resourcePath)
+	{
+		try
+		{
+			return readStringResourceRaw(resourcePath);
+		}
+		catch(IOException e)
+		{
+			throw new UncheckedIOException(e);
+		}
+	}
+	
+	@API
+	public static String readStringResourceRaw(String resourcePath)
+		throws IOException
+	{
+		var resourceStream = FileUtil.class.getClassLoader().getResourceAsStream(resourcePath);
+		return IOUtils.toString(resourceStream, StandardCharsets.UTF_8);
 	}
 	
 	
@@ -631,7 +655,7 @@ public final class FileUtil
 			else if(this == DIRECTORY)
 				return file.isDirectory();
 			
-			throw new IncompleteCodeError("unknown file type: "+this);
+			throw new IncompleteCodeError("unknown file type: " + this);
 		}
 		
 	}
