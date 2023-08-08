@@ -247,7 +247,7 @@ public abstract class Ticker
 				return;
 			
 			boolean self = Objects.equals(Thread.currentThread(), tickThread);
-			logger.info("Stopping ticking '{}' in ticker '{}' (hard: {}, self: {})", id, name, hard, self);
+			logger.info("Stopping ticking '{}' in ticker (hard: {}, self: {})", id, hard, self);
 			
 			status = TickingStatus.STOPPING;
 			if(hard)
