@@ -17,8 +17,8 @@ import java.time.Instant;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
 
 @API
@@ -72,6 +72,7 @@ public abstract class Ticker
 	private final boolean isDaemon;
 	
 	// STATUS
+	private final AtomicInteger tickingNumber = new AtomicInteger(0);
 	private volatile Ticking ticking;
 	
 	
@@ -117,7 +118,7 @@ public abstract class Ticker
 	// INIT
 	@API
 	protected Ticker(String name, Duration interval,
-		@Nullable Duration timeout, boolean isDaemon)
+					 @Nullable Duration timeout, boolean isDaemon)
 	{
 		ValidationUtil.notNull(name, "name");
 		ValidationUtil.greaterZero(interval, "interval");
@@ -137,7 +138,7 @@ public abstract class Ticker
 	{
 		var ticking = getTicking();
 		if(ticking != null)
-			throw new IllegalStateException("Can't start ticker '"+name+"' with status "+ticking.status);
+			throw new IllegalStateException("Can't start ticker '" + name + "' with status " + ticking.status);
 		
 		startWithoutChecks();
 	}
@@ -216,7 +217,7 @@ public abstract class Ticker
 	class Ticking
 	{
 		
-		private final String id = UUID.randomUUID().toString();
+		private final String id = name + "_" + tickingNumber.getAndIncrement();
 		private final Thread tickThread;
 		@Getter
 		private volatile TickingStatus status = TickingStatus.RUNNING;
@@ -317,7 +318,7 @@ public abstract class Ticker
 		
 		private void tickTimeout()
 		{
-			timeout("tick timeout: "+DurationDisplay.of(timeout));
+			timeout("tick timeout: " + DurationDisplay.of(timeout));
 		}
 		
 		private void timeout(String reason)
@@ -327,7 +328,7 @@ public abstract class Ticker
 			
 			boolean shouldRestart = status == TickingStatus.RUNNING;
 			
-			tickThread.setName(tickThread.getName()+"#timedOut");
+			tickThread.setName(tickThread.getName() + "#timedOut");
 			tickThread.interrupt();
 			ThreadUtil.tryKill(tickThread);
 			lastTickStart = null;
