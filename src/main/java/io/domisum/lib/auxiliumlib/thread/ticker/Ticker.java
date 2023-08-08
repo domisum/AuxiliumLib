@@ -155,7 +155,6 @@ public abstract class Ticker
 	
 	private void startWithoutChecks()
 	{
-		logger.info("Starting ticker '{}'", name);
 		ticking = new Ticking();
 	}
 	
@@ -237,7 +236,7 @@ public abstract class Ticker
 			tickingsByThread.put(tickThread, this);
 			
 			tickThread.start();
-			logger.info("Started ticking '{}' in ticker '{}'", id, name);
+			logger.info("Started ticking '{}'", id);
 		}
 		
 		
