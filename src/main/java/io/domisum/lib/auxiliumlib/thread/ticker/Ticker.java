@@ -272,7 +272,7 @@ public abstract class Ticker
 			
 			status = TickingStatus.DEAD;
 			tickingsByThread.remove(tickThread);
-			logger.info("Ticking '{}' in ticker '{}' ended", id, name);
+			logger.info("Ticking '{}' ended", id);
 		}
 		
 		private void tickCaught()
