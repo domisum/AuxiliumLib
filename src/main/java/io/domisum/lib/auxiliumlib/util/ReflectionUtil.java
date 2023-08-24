@@ -90,6 +90,19 @@ public final class ReflectionUtil
 	
 	// READ
 	@API
+	public static Object readFieldValue(Object from, Field field)
+	{
+		try
+		{
+			return FieldUtils.readField(field, from, true);
+		}
+		catch(IllegalAccessException e)
+		{
+			throw new ProgrammingError(e);
+		}
+	}
+	
+	@API
 	public static <T> T readFieldValue(Object from, String fieldName, Class<T> type)
 	{
 		try
