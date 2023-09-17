@@ -8,27 +8,22 @@ import lombok.NoArgsConstructor;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.io.filefilter.AgeFileFilter;
 import org.apache.commons.lang3.Validate;
+import org.apache.commons.lang3.time.DateUtils;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileFilter;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.UncheckedIOException;
+import java.io.*;
 import java.nio.channels.ClosedByInterruptException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
+import java.time.Duration;
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Objects;
+import java.util.*;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 @API
@@ -339,6 +334,21 @@ public final class FileUtil
 		{
 			throw new UncheckedIOException(e);
 		}
+	}
+	
+	@API
+	public static int deleteDirectoryContentsOlderThan(File directory, Duration maxAge)
+	{
+		var oldestAllowedFileDate = DateUtils.addMinutes(new Date(), -(int) TimeUtil.getMinutesDecimal(maxAge));
+		var filesToDelete = FileUtils.iterateFiles(directory, new AgeFileFilter(oldestAllowedFileDate), null);
+		
+		int deletedCount = 0;
+		while(filesToDelete.hasNext())
+		{
+			FileUtils.deleteQuietly(filesToDelete.next());
+			deletedCount++;
+		}
+		return deletedCount;
 	}
 	
 	
