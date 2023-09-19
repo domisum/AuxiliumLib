@@ -10,7 +10,7 @@ import java.util.Objects;
 import java.util.Random;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public final class StringSeededRandom
+public final class StringSeedRandom
 {
 	
 	@API
