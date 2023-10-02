@@ -60,10 +60,10 @@ public final class RandomUtil
 		long val;
 		do
 		{
-			bits = (r.nextLong()<<1) >>> 1;
-			val = bits%bound;
+			bits = (r.nextLong() << 1) >>> 1;
+			val = bits % bound;
 		}
-		while(((bits-val)+(bound-1)) < 0L);
+		while(((bits - val) + (bound - 1)) < 0L);
 		return val;
 	}
 	
@@ -76,7 +76,7 @@ public final class RandomUtil
 	@API
 	public static short nextShort(Random random)
 	{
-		return (short) (nextInt((Short.MAX_VALUE-Short.MIN_VALUE)+1)+Short.MIN_VALUE);
+		return (short) (nextInt((Short.MAX_VALUE - Short.MIN_VALUE) + 1) + Short.MIN_VALUE);
 	}
 	
 	@API
@@ -129,7 +129,7 @@ public final class RandomUtil
 	@API
 	public static long getFromRange(long minIncl, long maxIncl, Random r)
 	{
-		return minIncl+nextLong((maxIncl-minIncl)+1, r);
+		return minIncl + nextLong((maxIncl - minIncl) + 1, r);
 	}
 	
 	@API
@@ -141,7 +141,7 @@ public final class RandomUtil
 	@API
 	public static int getFromRange(int minIncl, int maxIncl, Random r)
 	{
-		return minIncl+nextInt((maxIncl-minIncl)+1, r);
+		return minIncl + nextInt((maxIncl - minIncl) + 1, r);
 	}
 	
 	@API
@@ -153,7 +153,7 @@ public final class RandomUtil
 	@API
 	public static double getFromRange(double min, double max, Random r)
 	{
-		return min+(nextDouble(r)*(max-min));
+		return min + (nextDouble(r) * (max - min));
 	}
 	
 	@API
@@ -166,6 +166,18 @@ public final class RandomUtil
 	public static Duration getFromRange(Duration min, Duration max, Random r)
 	{
 		return Duration.ofMillis(getFromRange(min.toMillis(), max.toMillis(), r));
+	}
+	
+	@API
+	public static Duration getFromRangeRel(Duration base, double minRel, double maxRel)
+	{
+		return getFromRangeRel(base, minRel, maxRel, getRandom());
+	}
+	
+	@API
+	public static Duration getFromRangeRel(Duration base, double minRel, double maxRel, Random r)
+	{
+		return Duration.ofMillis((long) getFromRange(base.toMillis() * minRel, base.toMillis() * maxRel, r));
 	}
 	
 	
@@ -182,7 +194,7 @@ public final class RandomUtil
 		if(list.isEmpty())
 			throw new IllegalArgumentException("The list has to have at least 1 element");
 		
-		int randomIndex = getFromRange(0, list.size()-1, r);
+		int randomIndex = getFromRange(0, list.size() - 1, r);
 		
 		return list.get(randomIndex);
 	}
@@ -199,7 +211,7 @@ public final class RandomUtil
 		if(coll.isEmpty())
 			throw new IllegalArgumentException("The collection has to have at least 1 element");
 		
-		int randomIndex = getFromRange(0, coll.size()-1, r);
+		int randomIndex = getFromRange(0, coll.size() - 1, r);
 		
 		Iterator<E> iterator = coll.iterator();
 		E latestElement = null;
@@ -222,7 +234,7 @@ public final class RandomUtil
 			throw new IllegalArgumentException("The map has to have at least 1 element");
 		
 		double chanceSum = elementsWithChance.values().stream().reduce(0d, Double::sum);
-		double randomSumThreshold = random.nextDouble()*chanceSum;
+		double randomSumThreshold = random.nextDouble() * chanceSum;
 		
 		double chanceRunningSum = 0;
 		for(Entry<E, Double> entry : elementsWithChance.entrySet())
@@ -248,7 +260,7 @@ public final class RandomUtil
 		if(array.length == 0)
 			throw new IllegalArgumentException("The array has to have at least 1 element");
 		
-		int randomIndex = getFromRange(0, array.length-1, r);
+		int randomIndex = getFromRange(0, array.length - 1, r);
 		return array[randomIndex];
 	}
 	
@@ -293,8 +305,8 @@ public final class RandomUtil
 	public static double distributeAbs(double base, double maxOffsetAbs, Random random)
 	{
 		int sign = get50PercentChance(random) ? 1 : -1;
-		double offsetUnsigned = random.nextDouble()*maxOffsetAbs;
-		return base+(sign*offsetUnsigned);
+		double offsetUnsigned = random.nextDouble() * maxOffsetAbs;
+		return base + (sign * offsetUnsigned);
 	}
 	
 	@API
@@ -307,8 +319,8 @@ public final class RandomUtil
 	public static int distributeAbs(int base, int maxOffsetAbs, Random random)
 	{
 		int sign = get50PercentChance(random) ? 1 : -1;
-		int offsetUnsigned = nextInt(maxOffsetAbs+1, random);
-		return base+sign*offsetUnsigned;
+		int offsetUnsigned = nextInt(maxOffsetAbs + 1, random);
+		return base + sign * offsetUnsigned;
 	}
 	
 	@API
@@ -321,8 +333,8 @@ public final class RandomUtil
 	public static long distributeAbs(long base, long maxOffsetAbs, Random random)
 	{
 		long sign = get50PercentChance(random) ? 1 : -1;
-		long offsetUnsigned = nextLong(maxOffsetAbs+1, random);
-		return base+sign*offsetUnsigned;
+		long offsetUnsigned = nextLong(maxOffsetAbs + 1, random);
+		return base + sign * offsetUnsigned;
 	}
 	
 	@API
@@ -334,12 +346,12 @@ public final class RandomUtil
 	@API
 	public static Duration distributeRel(Duration base, double maxOffsetRel, Random random)
 	{
-		Validate.isTrue(maxOffsetRel > 0, "maxOffsetRel has to be greater than zero, but was "+maxOffsetRel);
+		Validate.isTrue(maxOffsetRel > 0, "maxOffsetRel has to be greater than zero, but was " + maxOffsetRel);
 		
 		long baseMillis = base.toMillis();
-		double factor = getFromRange(1-maxOffsetRel, 1+maxOffsetRel, random);
+		double factor = getFromRange(1 - maxOffsetRel, 1 + maxOffsetRel, random);
 		
-		long derivedMillis = Math.round(baseMillis*factor);
+		long derivedMillis = Math.round(baseMillis * factor);
 		return Duration.ofMillis(derivedMillis);
 	}
 	
