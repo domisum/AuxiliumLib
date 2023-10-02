@@ -7,6 +7,7 @@ import io.domisum.lib.auxiliumlib.util.ThreadUtil;
 import io.domisum.lib.auxiliumlib.util.TimeUtil;
 import io.domisum.lib.auxiliumlib.util.ValidationUtil;
 import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.lang3.ObjectUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -64,12 +65,12 @@ public abstract class Ticker
 	private static final Duration TIMEOUT_DEFAULT = null;
 	
 	// SETTINGS
-	@Getter
-	private final String name;
+	@Getter private final String name;
 	private final Duration interval;
-	@Nullable
-	private final Duration timeout;
+	@Nullable private final Duration timeout;
 	private final boolean isDaemon;
+	@Setter private boolean verbose = true;
+	
 	
 	// STATUS
 	private final AtomicInteger tickingNumber = new AtomicInteger(0);
@@ -177,7 +178,8 @@ public abstract class Ticker
 		if(ticking == null)
 			return;
 		
-		logger.info("Stopping ticker '{}'", name);
+		if(verbose)
+			logger.info("Stopping ticker '{}'", name);
 		ticking.stop(hard);
 	}
 	
@@ -236,7 +238,8 @@ public abstract class Ticker
 			tickingsByThread.put(tickThread, this);
 			
 			tickThread.start();
-			logger.info("Started ticking '{}'", id);
+			if(verbose)
+				logger.info("Started ticking '{}'", id);
 		}
 		
 		
@@ -247,7 +250,8 @@ public abstract class Ticker
 				return;
 			
 			boolean self = Objects.equals(Thread.currentThread(), tickThread);
-			logger.info("Stopping ticking '{}' in ticker (hard: {}, self: {})", id, hard, self);
+			if(verbose)
+				logger.info("Stopping ticking '{}' in ticker (hard: {}, self: {})", id, hard, self);
 			
 			status = TickingStatus.STOPPING;
 			if(hard)
@@ -272,7 +276,8 @@ public abstract class Ticker
 			
 			status = TickingStatus.DEAD;
 			tickingsByThread.remove(tickThread);
-			logger.info("Ticking '{}' ended", id);
+			if(verbose)
+				logger.info("Ticking '{}' ended", id);
 		}
 		
 		private void tickCaught()
