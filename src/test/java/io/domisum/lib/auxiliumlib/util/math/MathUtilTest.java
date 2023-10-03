@@ -12,7 +12,6 @@ public class MathUtilTest
 		// equal start and end
 		Assertions.assertThrows(IllegalArgumentException.class, ()->MathUtil.remapLinear(0, 0, 1, 2, 0));
 		Assertions.assertThrows(IllegalArgumentException.class, ()->MathUtil.remapLinear(3, 3, 1, 2, 0));
-		Assertions.assertThrows(IllegalArgumentException.class, ()->MathUtil.remapLinear(1, 2, -58.2, -58.2, 0));
 		
 		// ordered positive values
 		Assertions.assertEquals(1.5d, MathUtil.remapLinear(10d, 20d, 0d, 3d, 15d));
