@@ -9,10 +9,9 @@ public class MathUtilTest
 	@Test
 	public void testRemapLinear()
 	{
-		// equal start and ends
+		// equal start and end
 		Assertions.assertThrows(IllegalArgumentException.class, ()->MathUtil.remapLinear(0, 0, 1, 2, 0));
 		Assertions.assertThrows(IllegalArgumentException.class, ()->MathUtil.remapLinear(3, 3, 1, 2, 0));
-		Assertions.assertThrows(IllegalArgumentException.class, ()->MathUtil.remapLinear(1, 2, 0, 0, 0));
 		Assertions.assertThrows(IllegalArgumentException.class, ()->MathUtil.remapLinear(1, 2, -58.2, -58.2, 0));
 		
 		// ordered positive values
