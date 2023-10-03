@@ -110,7 +110,6 @@ public final class MathUtil
 	public static double remapLinear(double baseStart, double baseEnd, double targetStart, double targetEnd, double valueToRemap)
 	{
 		Validate.isTrue(baseStart != baseEnd, "baseStart can't be equal to baseEnd ("+baseStart+")");
-		Validate.isTrue(targetStart != targetEnd, "targetStart can't be equal to targetEnd ("+targetStart+")");
 		
 		double proportionFrom1To2 = (valueToRemap-baseStart)/(baseEnd-baseStart);
 		return targetStart+((targetEnd-targetStart)*proportionFrom1To2);
