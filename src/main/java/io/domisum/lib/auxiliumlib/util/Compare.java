@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 public final class Compare
 {
 	
+	// COMPARE
 	@API
 	public static <T extends Comparable<T>> boolean greaterThan(T a, T b)
 	{
@@ -43,6 +44,20 @@ public final class Compare
 	public static <T extends Comparable<T>> boolean lessThan(T a, T b)
 	{
 		return a.compareTo(b) < 0;
+	}
+	
+	
+	// COMPARING
+	@API
+	public static <T extends Comparable<T>> T min(T a, T b)
+	{
+		return lessThan(a, b) ? a : b;
+	}
+	
+	@API
+	public static <T extends Comparable<T>> T max(T a, T b)
+	{
+		return greaterThan(a, b) ? a : b;
 	}
 	
 }
