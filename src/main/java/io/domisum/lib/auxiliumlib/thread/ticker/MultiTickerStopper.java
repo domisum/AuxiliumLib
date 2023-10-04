@@ -32,7 +32,7 @@ public final class MultiTickerStopper
 	
 	private static void stop(Collection<? extends Ticker> tickers, boolean hard)
 	{
-		LOGGER.info("Stopping and waiting for completion for {} tickers simultaneously...", tickers.size());
+		LOGGER.info("Stopping and waiting for completion of {} tickers simultaneously...", tickers.size());
 		
 		var waitThreads = new HashSet<Thread>();
 		for(var ticker : tickers)
