@@ -67,7 +67,7 @@ public abstract class Ticker
 	// SETTINGS
 	@Getter private final String name;
 	private final Duration interval;
-	@Nullable private final Duration timeout;
+	@Setter @Nullable private Duration timeout;
 	private final boolean isDaemon;
 	@Setter private boolean verbose = true;
 	
@@ -116,7 +116,6 @@ public abstract class Ticker
 	}
 	
 	
-	// INIT
 	@API
 	protected Ticker(String name, Duration interval,
 					 @Nullable Duration timeout, boolean isDaemon)
