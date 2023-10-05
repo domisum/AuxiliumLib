@@ -12,38 +12,35 @@ public final class ReservedWork<T>
 	implements AutoCloseable
 {
 	
-	@Getter
-	private final T subject;
+	@Getter private final T subject;
 	
 	// STATUS
-	@Getter
-	private boolean successful = false;
-	@Nullable
-	private final Consumer<ReservedWork<T>> onSuccessful;
+	@Getter private boolean closed = false;
+	@Nullable private final Consumer<ReservedWork<T>> onClose;
 	
-	@Getter
-	private boolean closed = false;
-	@Nullable
-	private final Consumer<ReservedWork<T>> onClose;
+	@Getter private boolean successful = false;
+	@Nullable private final Consumer<ReservedWork<T>> onSuccessful;
+	@Nullable private final Consumer<ReservedWork<T>> onFail;
 	
 	
 	// INIT
 	@API
 	public static <T> ReservedWork<T> of(T subject)
 	{
-		return new ReservedWork<>(subject, null, null);
+		return new ReservedWork<>(subject, null, null, null);
 	}
 	
 	@API
 	public static <T> ReservedWork<T> ofOnClose(T subject, Consumer<ReservedWork<T>> onClose)
 	{
-		return new ReservedWork<>(subject, null, onClose);
+		return new ReservedWork<>(subject, onClose, null, null);
 	}
 	
 	@API
-	public static <T> ReservedWork<T> ofOnSuccessfulOnClose(T subject, Consumer<ReservedWork<T>> onSuccessful, Consumer<ReservedWork<T>> onClose)
+	public static <T> ReservedWork<T> ofOnCloseOnSuccessfulOnFail(
+		T subject, Consumer<ReservedWork<T>> onClose, Consumer<ReservedWork<T>> onSuccessful, Consumer<ReservedWork<T>> onFail)
 	{
-		return new ReservedWork<>(subject, onSuccessful, onClose);
+		return new ReservedWork<>(subject, onClose, onSuccessful, onFail);
 	}
 	
 	
@@ -64,6 +61,10 @@ public final class ReservedWork<T>
 		if(closed)
 			return;
 		closed = true;
+		
+		if(!successful)
+			if(onFail != null)
+				onFail.accept(this);
 		
 		if(onClose != null)
 			onClose.accept(this);

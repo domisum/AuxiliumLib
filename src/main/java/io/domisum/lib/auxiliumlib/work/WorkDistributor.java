@@ -67,7 +67,8 @@ public abstract class WorkDistributor<T>
 		var workSubject = workSubjectOptional.get();
 		
 		reservedWorkSubjects.add(workSubject);
-		var reservedWork = ReservedWork.ofOnSuccessfulOnClose(workSubject, this::onSuccess, this::onClose);
+		var reservedWork = ReservedWork.ofOnCloseOnSuccessfulOnFail(
+			workSubject, this::onClose, this::onSuccess, null);
 		return Optional.of(reservedWork);
 	}
 	

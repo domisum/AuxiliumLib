@@ -109,7 +109,8 @@ public abstract class WorkReserver<T>
 		var workSubject = workSubjectOptional.get();
 		
 		reservedWorkSubjects.add(workSubject);
-		var reservedWork = ReservedWork.ofOnSuccessfulOnClose(workSubject, this::onSuccess, this::onClose);
+		var reservedWork = ReservedWork.ofOnCloseOnSuccessfulOnFail(
+			workSubject, this::onClose, this::onSuccess, this::onFail);
 		return Optional.of(reservedWork);
 	}
 	
@@ -117,14 +118,19 @@ public abstract class WorkReserver<T>
 	// IMPLEMENTATION
 	protected abstract Optional<T> getNextSubject(Collection<T> reservedSubjects);
 	
+	protected void onClose(ReservedWork<T> work)
+	{
+		reservedWorkSubjects.remove(work.getSubject());
+	}
+	
 	protected void onSuccess(ReservedWork<T> work)
 	{
 		// nothing in base impl
 	}
 	
-	protected void onClose(ReservedWork<T> work)
+	protected void onFail(ReservedWork<T> work)
 	{
-		reservedWorkSubjects.remove(work.getSubject());
+		// nothing in base impl
 	}
 	
 }
