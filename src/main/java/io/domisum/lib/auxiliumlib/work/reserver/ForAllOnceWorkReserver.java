@@ -47,10 +47,6 @@ public abstract class ForAllOnceWorkReserver<T>
 		return Optional.empty();
 	}
 	
-	protected abstract Collection<T> getAllSubjects();
-	
-	
-	// RESULT
 	@Override
 	protected synchronized void onSuccess(ReservedWork<T> work)
 	{
@@ -64,5 +60,17 @@ public abstract class ForAllOnceWorkReserver<T>
 	{
 		lockedUntilMap.put(work.getSubject(), Instant.now().plus(FAIL_LOCK_DURATION()));
 	}
+	
+	public boolean wasSuccessfulFor(T subject)
+	{
+		if(openSubjects == null)
+			return false;
+		
+		return !openSubjects.contains(subject);
+	}
+	
+	
+	// IMPL
+	protected abstract Collection<T> getAllSubjects();
 	
 }
