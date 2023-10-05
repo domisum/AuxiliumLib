@@ -3,6 +3,8 @@ package io.domisum.lib.auxiliumlib.work.reserver;
 import io.domisum.lib.auxiliumlib.util.TimeUtil;
 import io.domisum.lib.auxiliumlib.work.ReservedWork;
 import io.domisum.lib.auxiliumlib.work.WorkReserver;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -11,6 +13,9 @@ import java.util.*;
 public abstract class ForAllOnceWorkReserver<T>
 	extends WorkReserver<T>
 {
+	
+	private final Logger logger = LoggerFactory.getLogger(getClass());
+	
 	
 	// STATE
 	private Set<T> openSubjects;
@@ -42,7 +47,7 @@ public abstract class ForAllOnceWorkReserver<T>
 		return Optional.empty();
 	}
 	
-	protected abstract Set<T> getAllSubjects();
+	protected abstract Collection<T> getAllSubjects();
 	
 	
 	// RESULT
@@ -50,6 +55,8 @@ public abstract class ForAllOnceWorkReserver<T>
 	protected synchronized void onSuccess(ReservedWork<T> work)
 	{
 		openSubjects.remove(work.getSubject());
+		if(openSubjects.isEmpty())
+			logger.info("{} is completed for all subjects", getClass().getSimpleName());
 	}
 	
 	@Override
