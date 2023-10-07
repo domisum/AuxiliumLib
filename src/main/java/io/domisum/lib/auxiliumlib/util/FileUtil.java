@@ -284,26 +284,27 @@ public final class FileUtil
 	@API
 	public static void deleteDirectory(File directory)
 	{
-		if(!directory.exists())
-			return;
-		validateIsNotFile(directory);
-		
-		deleteDirectoryContents(directory);
-		deleteFile(directory);
+		try
+		{
+			FileUtils.deleteDirectory(directory);
+		}
+		catch(IOException e)
+		{
+			throw new UncheckedIOException(e);
+		}
 	}
 	
 	@API
 	public static void deleteDirectoryContents(File directory)
 	{
-		if(!directory.exists())
-			return;
-		validateIsNotFile(directory);
-		
-		for(var file : listFilesFlat(directory, FileType.FILE))
-			deleteFile(file);
-		
-		for(var dir : listFilesFlat(directory, FileType.DIRECTORY))
-			deleteDirectory(dir);
+		try
+		{
+			FileUtils.cleanDirectory(directory);
+		}
+		catch(IOException e)
+		{
+			throw new UncheckedIOException(e);
+		}
 	}
 	
 	private static void validateIsNotFile(File directory)
