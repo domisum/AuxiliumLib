@@ -34,7 +34,7 @@ public abstract class ForAllOnceWorkReserver<T>
 	}
 	
 	
-	// WORK
+	// IMPLEMENTATION
 	@Override
 	protected Set<T> getEligibleSubjects()
 	{

@@ -14,6 +14,7 @@ public abstract class SubjectInMemoryCooldownWorkReserver<T>
 	private final Map<T, Instant> onCooldownUntilMap = new HashMap<>();
 	
 	
+	// IMPLEMENTATION
 	@Override
 	protected boolean isOnCooldown(T subject)
 	{

@@ -26,7 +26,7 @@ public abstract class BatchCooldownWorkReserver<T>
 	}
 	
 	
-	// WORK
+	// IMPLEMENTATION
 	@Override
 	protected synchronized Optional<T> getNextSubject(Collection<T> reservedSubjects)
 	{
@@ -43,7 +43,7 @@ public abstract class BatchCooldownWorkReserver<T>
 	}
 	
 	
-	// IMPL
+	// OVERRIDE THIS
 	protected abstract Collection<T> getNextBatch();
 	
 }

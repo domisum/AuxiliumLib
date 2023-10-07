@@ -26,7 +26,7 @@ public abstract class SubjectCooldownWorkReserver<T>
 	}
 	
 	
-	// WORK
+	// IMPLEMENTATION
 	@Override
 	protected synchronized Optional<T> getNextSubject(Collection<T> reservedSubjects)
 	{
@@ -58,7 +58,7 @@ public abstract class SubjectCooldownWorkReserver<T>
 	}
 	
 	
-	// IMPL
+	// OVERRIDE THIS
 	protected abstract Collection<T> getAllSubjects();
 	
 	protected abstract boolean isOnCooldown(T subject);
