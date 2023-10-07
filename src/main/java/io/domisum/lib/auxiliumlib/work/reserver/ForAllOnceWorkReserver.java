@@ -1,76 +1,54 @@
 package io.domisum.lib.auxiliumlib.work.reserver;
 
-import io.domisum.lib.auxiliumlib.util.TimeUtil;
 import io.domisum.lib.auxiliumlib.work.ReservedWork;
-import io.domisum.lib.auxiliumlib.work.WorkReserver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.time.Duration;
-import java.time.Instant;
-import java.util.*;
+import java.util.HashSet;
+import java.util.Set;
 
 public abstract class ForAllOnceWorkReserver<T>
-	extends WorkReserver<T>
+	extends SubjectInMemoryCooldownWorkReserver<T>
 {
 	
 	private final Logger logger = LoggerFactory.getLogger(getClass());
 	
 	
 	// STATE
-	private Set<T> openSubjects;
-	private final Map<T, Instant> lockedUntilMap = new HashMap<>();
+	private final Set<T> completedForSubjects = new HashSet<>();
 	
 	
 	// CONSTANT METHODS
-	protected Duration FAIL_LOCK_DURATION()
+	@Override
+	protected Duration SUCCESS_COOLDOWN()
 	{
-		return Duration.ofMinutes(5);
+		throw new UnsupportedOperationException();
+	}
+	
+	
+	// INTERFACE
+	public boolean wasSuccessfulFor(T subject)
+	{
+		return completedForSubjects.contains(subject);
 	}
 	
 	
 	// WORK
 	@Override
-	protected synchronized Optional<T> getNextSubject(Collection<T> reservedSubjects)
+	protected Set<T> getEligibleSubjects()
 	{
-		if(openSubjects == null)
-			openSubjects = new HashSet<>(getAllSubjects());
-		
-		for(T s : openSubjects)
-			if(!reservedSubjects.contains(s))
-			{
-				var lockedUntil = lockedUntilMap.get(s);
-				if(lockedUntil == null || TimeUtil.isInPast(lockedUntil))
-					return Optional.of(s);
-			}
-		
-		return Optional.empty();
+		var subjects = super.getEligibleSubjects();
+		subjects.removeAll(completedForSubjects);
+		return subjects;
 	}
 	
 	@Override
 	protected synchronized void onSuccess(ReservedWork<T> work)
 	{
-		openSubjects.remove(work.getSubject());
-		if(openSubjects.isEmpty())
+		completedForSubjects.add(work.getSubject());
+		if(completedForSubjects.size() == super.getEligibleSubjects().size())
 			logger.info("{} is completed for all subjects", getClass().getSimpleName());
 	}
-	
-	@Override
-	protected synchronized void onFail(ReservedWork<T> work)
-	{
-		lockedUntilMap.put(work.getSubject(), Instant.now().plus(FAIL_LOCK_DURATION()));
-	}
-	
-	public boolean wasSuccessfulFor(T subject)
-	{
-		if(openSubjects == null)
-			return false;
-		
-		return !openSubjects.contains(subject);
-	}
-	
-	
-	// IMPL
-	protected abstract Collection<T> getAllSubjects();
 	
 }
