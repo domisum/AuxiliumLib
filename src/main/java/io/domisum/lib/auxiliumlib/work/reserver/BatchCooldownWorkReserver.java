@@ -10,7 +10,7 @@ import java.util.LinkedList;
 import java.util.Optional;
 import java.util.Queue;
 
-public abstract class CooldownBatchWorkReserver<T>
+public abstract class BatchCooldownWorkReserver<T>
 	extends WorkReserver<T>
 {
 	
@@ -20,7 +20,7 @@ public abstract class CooldownBatchWorkReserver<T>
 	
 	
 	// CONSTANT METHODS
-	protected Duration NEXT_BATCH_LOCK_DURATION()
+	protected Duration BATCH_COOLDOWN()
 	{
 		return Duration.ofMinutes(5);
 	}
@@ -33,7 +33,7 @@ public abstract class CooldownBatchWorkReserver<T>
 		if(queue.isEmpty())
 			if(TimeUtil.isInPast(nextBatchLockedUntil))
 			{
-				nextBatchLockedUntil = Instant.now().plus(NEXT_BATCH_LOCK_DURATION());
+				nextBatchLockedUntil = Instant.now().plus(BATCH_COOLDOWN());
 				for(T s : getNextBatch())
 					if(!reservedSubjects.contains(s))
 						queue.add(s);
