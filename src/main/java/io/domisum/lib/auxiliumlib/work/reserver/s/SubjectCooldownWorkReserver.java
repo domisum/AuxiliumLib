@@ -1,7 +1,7 @@
-package io.domisum.lib.auxiliumlib.work.reserver;
+package io.domisum.lib.auxiliumlib.work.reserver.s;
 
-import io.domisum.lib.auxiliumlib.work.ReservedWork;
-import io.domisum.lib.auxiliumlib.work.WorkReserver;
+import io.domisum.lib.auxiliumlib.work.reserver.ReservedWork;
+import io.domisum.lib.auxiliumlib.work.reserver.WorkReserver;
 
 import java.time.Duration;
 import java.util.Collection;

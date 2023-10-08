@@ -1,7 +1,9 @@
-package io.domisum.lib.auxiliumlib.work;
+package io.domisum.lib.auxiliumlib.work.reserver;
 
 import io.domisum.lib.auxiliumlib.annotations.API;
 import io.domisum.lib.auxiliumlib.contracts.IoConsumer;
+import io.domisum.lib.auxiliumlib.work.Effort;
+import io.domisum.lib.auxiliumlib.work.WorkResult;
 import org.apache.commons.io.function.IOFunction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

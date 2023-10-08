@@ -1,6 +1,6 @@
-package io.domisum.lib.auxiliumlib.work.reserver;
+package io.domisum.lib.auxiliumlib.work.reserver.s;
 
-import io.domisum.lib.auxiliumlib.work.WorkReserver;
+import io.domisum.lib.auxiliumlib.work.reserver.WorkReserver;
 
 import java.util.Collection;
 import java.util.LinkedList;

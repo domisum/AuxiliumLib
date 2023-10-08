@@ -1,6 +1,6 @@
-package io.domisum.lib.auxiliumlib.work.reserver;
+package io.domisum.lib.auxiliumlib.work.reserver.s;
 
-import io.domisum.lib.auxiliumlib.work.ReservedWork;
+import io.domisum.lib.auxiliumlib.work.reserver.ReservedWork;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
