@@ -19,7 +19,7 @@ public abstract class SubjectInMemoryCooldownWorkReserver<T>
 	protected boolean isOnCooldown(T subject)
 	{
 		var onCooldownUntil = onCooldownUntilMap.get(subject);
-		return onCooldownUntil != null && TimeUtil.isInPast(onCooldownUntil);
+		return onCooldownUntil != null && TimeUtil.isInFuture(onCooldownUntil);
 	}
 	
 	@Override
