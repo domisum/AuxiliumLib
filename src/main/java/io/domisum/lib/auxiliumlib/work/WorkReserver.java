@@ -23,7 +23,7 @@ public abstract class WorkReserver<T>
 	
 	
 	// STATUS
-	private final Set<T> reservedWorkSubjects = new HashSet<>();
+	protected final Set<T> reservedWorkSubjects = new HashSet<>();
 	
 	
 	// UTIL
