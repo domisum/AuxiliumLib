@@ -1,13 +1,14 @@
 package io.domisum.lib.auxiliumlib.work.reserver;
 
 import io.domisum.lib.auxiliumlib.util.TimeUtil;
-import lombok.RequiredArgsConstructor;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.util.*;
+import java.util.ArrayDeque;
+import java.util.Collection;
+import java.util.Deque;
+import java.util.Optional;
 
-@RequiredArgsConstructor
 public class ThrottlingWorkReserver<T>
 	extends WorkReserver<T>
 {
@@ -17,9 +18,20 @@ public class ThrottlingWorkReserver<T>
 	private final int perMinuteCount;
 	
 	// STATE
-	private final Deque<Instant> subjectInstants = new ArrayDeque<>(perMinuteCount + 5);
+	private final Deque<Instant> subjectInstants;
 	
 	
+	// INIT
+	public ThrottlingWorkReserver(WorkReserver<T> backingWorkReserver, int perMinuteCount)
+	{
+		this.backingWorkReserver = backingWorkReserver;
+		this.perMinuteCount = perMinuteCount;
+		
+		subjectInstants = new ArrayDeque<>(perMinuteCount + 5);
+	}
+	
+	
+	// IMPLEMENTATION
 	@Override
 	protected Optional<T> getNextSubject(Collection<T> reservedSubjects)
 	{
