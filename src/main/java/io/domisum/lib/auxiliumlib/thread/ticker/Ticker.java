@@ -183,6 +183,17 @@ public abstract class Ticker
 	}
 	
 	
+	@API
+	public void dumpStackTrace(String loggerMessage)
+	{
+		var ticking = this.ticking;
+		if(ticking == null)
+			return;
+		
+		logger.warn(loggerMessage, ThreadUtil.displayThread(ticking.tickThread));
+	}
+	
+	
 	// GETTERS
 	@API
 	public Optional<Duration> getTimeout()
