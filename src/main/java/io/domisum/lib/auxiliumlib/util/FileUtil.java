@@ -125,6 +125,7 @@ public final class FileUtil
 		}
 		catch(IOException e)
 		{
+			deleteFile(file);
 			throw new UncheckedIOException(e);
 		}
 	}
