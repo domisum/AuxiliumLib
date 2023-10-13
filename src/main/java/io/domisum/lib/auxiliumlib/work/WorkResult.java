@@ -4,12 +4,11 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
+@Getter
 public class WorkResult
 {
 	
-	@Getter
 	private final boolean successful;
-	@Getter
 	private final Effort effort;
 	
 	
