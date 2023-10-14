@@ -21,7 +21,7 @@ public abstract class ForAllOnceWorkReserver<T>
 	
 	// CONSTANT METHODS
 	@Override
-	protected Duration SUCCESS_COOLDOWN()
+	protected final Duration SUCCESS_COOLDOWN()
 	{
 		throw new UnsupportedOperationException();
 	}
