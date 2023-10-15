@@ -1,12 +1,12 @@
 package io.domisum.lib.auxiliumlib.work.reserver.s;
 
+import io.domisum.lib.auxiliumlib.util.TimeUtil;
 import io.domisum.lib.auxiliumlib.work.reserver.ReservedWork;
 import io.domisum.lib.auxiliumlib.work.reserver.WorkReserver;
 
-import java.util.Collection;
-import java.util.LinkedList;
-import java.util.Optional;
-import java.util.Queue;
+import java.time.Duration;
+import java.time.Instant;
+import java.util.*;
 
 public class InsertWorkReserver<T>
 	extends WorkReserver<T>
@@ -14,15 +14,23 @@ public class InsertWorkReserver<T>
 	
 	// STATE
 	private final Queue<T> queue = new LinkedList<>();
-	private final Queue<T> failedQueue = new LinkedList<>();
+	private final Map<T, Instant> failedSubjectCooldowns = new HashMap<>();
+	
+	
+	// CONSTANT METHODS
+	protected Duration FAIL_COOLDOWN()
+	{
+		return Duration.ofMinutes(5);
+	}
 	
 	
 	// INTERFACE
 	public synchronized void insert(T subject)
 	{
-		if(!reservedWorkSubjects.contains(subject))
+		if(!reservedSubjects.contains(subject))
 			if(!queue.contains(subject))
-				queue.add(subject);
+				if(!failedSubjectCooldowns.containsKey(subject))
+					queue.add(subject);
 	}
 	
 	public void insertAll(Iterable<T> subjects)
@@ -33,7 +41,7 @@ public class InsertWorkReserver<T>
 	
 	public boolean isEmpty()
 	{
-		return queue.isEmpty() && reservedWorkSubjects.isEmpty();
+		return queue.isEmpty() && reservedSubjects.isEmpty();
 	}
 	
 	
@@ -41,30 +49,29 @@ public class InsertWorkReserver<T>
 	@Override
 	protected synchronized Optional<T> getNextSubject(Collection<T> reservedSubjects)
 	{
-		reinsertFailedSubjects(reservedSubjects);
+		reinsertFailedSubjects();
 		return Optional.ofNullable(queue.poll());
 	}
 	
 	@Override
 	protected synchronized void onFail(ReservedWork<T> work)
 	{
-		failedQueue.add(work.getSubject());
+		failedSubjectCooldowns.put(work.getSubject(), Instant.now().plus(FAIL_COOLDOWN()));
 	}
 	
 	
 	// INTERNAL
-	private void reinsertFailedSubjects(Collection<T> reservedSubjects)
+	private void reinsertFailedSubjects()
 	{
-		while(true)
+		var iterator = failedSubjectCooldowns.entrySet().iterator();
+		while(iterator.hasNext())
 		{
-			var f = failedQueue.peek();
-			if(f != null && !reservedSubjects.contains(f))
+			var entry = iterator.next();
+			if(TimeUtil.isInPast(entry.getValue()))
 			{
-				failedQueue.remove();
-				queue.add(f);
+				iterator.remove();
+				queue.add(entry.getKey());
 			}
-			else
-				break;
 		}
 	}
 	

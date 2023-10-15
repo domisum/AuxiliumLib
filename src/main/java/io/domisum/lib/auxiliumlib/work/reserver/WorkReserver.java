@@ -25,7 +25,7 @@ public abstract class WorkReserver<T>
 	
 	
 	// STATUS
-	protected final Set<T> reservedWorkSubjects = new HashSet<>();
+	protected final Set<T> reservedSubjects = new HashSet<>();
 	
 	
 	// UTIL
@@ -90,12 +90,12 @@ public abstract class WorkReserver<T>
 	@API
 	public synchronized Optional<ReservedWork<T>> getWorkOptional()
 	{
-		var workSubjectOptional = getNextSubject(reservedWorkSubjects);
+		var workSubjectOptional = getNextSubject(reservedSubjects);
 		if(workSubjectOptional.isEmpty())
 			return Optional.empty();
 		var workSubject = workSubjectOptional.get();
 		
-		reservedWorkSubjects.add(workSubject);
+		reservedSubjects.add(workSubject);
 		var reservedWork = ReservedWork.ofOnCloseOnSuccessfulOnFail(
 			workSubject, this::onCloseInternal, this::onSuccess, this::onFail);
 		return Optional.of(reservedWork);
@@ -106,7 +106,7 @@ public abstract class WorkReserver<T>
 	private void onCloseInternal(ReservedWork<T> work)
 	{
 		this.onClose(work);
-		reservedWorkSubjects.remove(work.getSubject());
+		reservedSubjects.remove(work.getSubject());
 	}
 	
 	
