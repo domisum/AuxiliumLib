@@ -14,7 +14,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @RequiredArgsConstructor
-public class TimedMultiLock<KeyT>
+public class TimedMultiBlockade<KeyT>
 {
 	
 	// SETTINGS
@@ -23,11 +23,11 @@ public class TimedMultiLock<KeyT>
 	private final Duration defaultDuration;
 	
 	// STATUS
-	private final Map<KeyT, Instant> lockedUntilMap = new HashMap<>();
+	private final Map<KeyT, Instant> blockedUntilMap = new HashMap<>();
 	
 	
 	// INIT
-	public TimedMultiLock()
+	public TimedMultiBlockade()
 	{
 		defaultDuration = null;
 	}
@@ -35,32 +35,32 @@ public class TimedMultiLock<KeyT>
 	
 	// LOCK
 	@API
-	public synchronized void lock(KeyT key, Duration duration)
+	public synchronized void block(KeyT key, Duration duration)
 	{
-		lockedUntilMap.put(key, Instant.now().plus(duration));
+		blockedUntilMap.put(key, Instant.now().plus(duration));
 	}
 	
 	@API
-	public synchronized void lock(KeyT key)
+	public synchronized void block(KeyT key)
 	{
 		if(defaultDuration == null)
 			throw new IllegalStateException("Can't use this method when no defaultDuration was given in constructor");
 		
-		lock(key, defaultDuration);
+		block(key, defaultDuration);
 	}
 	
 	@API
-	public synchronized void unlock(KeyT key)
+	public synchronized void unblock(KeyT key)
 	{
-		lockedUntilMap.remove(key);
+		blockedUntilMap.remove(key);
 	}
 	
 	
 	// STATUS
 	@API
-	public synchronized boolean isLocked(KeyT key)
+	public synchronized boolean isBlocked(KeyT key)
 	{
-		var lockedUntil = lockedUntilMap.get(key);
+		var lockedUntil = blockedUntilMap.get(key);
 		if(lockedUntil == null)
 			return false;
 		
@@ -68,22 +68,22 @@ public class TimedMultiLock<KeyT>
 			return true;
 		else
 		{
-			lockedUntilMap.remove(key);
+			blockedUntilMap.remove(key);
 			return false;
 		}
 	}
 	
 	@API
-	public synchronized Optional<Duration> getRemainingLockDuration(KeyT key)
+	public synchronized Optional<Duration> getRemainingBlockDuration(KeyT key)
 	{
-		var lockedUntil = lockedUntilMap.get(key);
+		var lockedUntil = blockedUntilMap.get(key);
 		if(lockedUntil == null)
 			return Optional.empty();
 		
 		var remainingLockDuration = TimeUtil.until(lockedUntil);
 		if(remainingLockDuration.isZero() || remainingLockDuration.isNegative())
 		{
-			lockedUntilMap.remove(key);
+			blockedUntilMap.remove(key);
 			return Optional.empty();
 		}
 		
@@ -91,10 +91,10 @@ public class TimedMultiLock<KeyT>
 	}
 	
 	@API
-	public synchronized Optional<Instant> getNextLockReleaseInstant()
+	public synchronized Optional<Instant> getNextBlockReleaseInstant()
 	{
-		lockedUntilMap.entrySet().removeIf(e->TimeUtil.isInPast(e.getValue()));
-		return lockedUntilMap.values().stream().min(Comparator.naturalOrder());
+		blockedUntilMap.entrySet().removeIf(e->TimeUtil.isInPast(e.getValue()));
+		return blockedUntilMap.values().stream().min(Comparator.naturalOrder());
 	}
 	
 }
