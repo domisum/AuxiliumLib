@@ -2,6 +2,7 @@ package io.domisum.lib.auxiliumlib.work.reserver;
 
 import io.domisum.lib.auxiliumlib.annotations.API;
 import io.domisum.lib.auxiliumlib.contracts.IoConsumer;
+import io.domisum.lib.auxiliumlib.util.ExceptionUtil;
 import io.domisum.lib.auxiliumlib.work.Effort;
 import io.domisum.lib.auxiliumlib.work.WorkResult;
 import org.apache.commons.io.function.IOFunction;
@@ -55,7 +56,7 @@ public abstract class WorkReserver<T>
 	@API
 	public Effort workIoWarn(IOFunction<T, WorkResult> workAction, String errorMessage)
 	{
-		return workIo(workAction, (s, e) -> logger.warn(errorMessage, s, e));
+		return workIo(workAction, (s, e) -> logger.warn(errorMessage + ": {}", s, ExceptionUtil.getSynopsis(e)));
 	}
 	
 	@API
@@ -65,7 +66,7 @@ public abstract class WorkReserver<T>
 		{
 			workAction.accept(s);
 			return WorkResult.worked();
-		}, (s, e) -> logger.warn(errorMessage, s, e));
+		}, (s, e) -> logger.warn(errorMessage + ": {}", s, ExceptionUtil.getSynopsis(e)));
 	}
 	
 	
