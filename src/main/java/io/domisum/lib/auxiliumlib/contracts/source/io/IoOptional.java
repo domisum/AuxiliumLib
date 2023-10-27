@@ -57,6 +57,10 @@ public class IoOptional<V>
 		{
 			return ofException(e);
 		}
+		catch(UncheckedIOException e)
+		{
+			return ofException(e.getCause());
+		}
 	}
 	
 	
