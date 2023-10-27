@@ -121,6 +121,10 @@ public class IoOptional<V>
 		{
 			throw wrap.apply(e);
 		}
+		catch(UncheckedIOException e)
+		{
+			throw wrap.apply(e.getCause());
+		}
 	}
 	
 	@API
