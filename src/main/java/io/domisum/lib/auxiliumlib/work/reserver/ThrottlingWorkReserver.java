@@ -31,6 +31,13 @@ public class ThrottlingWorkReserver<T>
 	}
 	
 	
+	// INTERFACE
+	public void manuallyPutSubjectInstant()
+	{
+		subjectInstants.add(Instant.now());
+	}
+	
+	
 	// IMPLEMENTATION
 	@Override
 	protected Optional<T> getNextSubject(Collection<T> reservedSubjects)
