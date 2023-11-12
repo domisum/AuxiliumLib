@@ -91,7 +91,7 @@ public class ThrottlingWorkReserver<T>
 		// IMPLEMENTATION
 		private void removeOldInstants()
 		{
-			while(!subjectInstants.isEmpty() && TimeUtil.isOlderThan(subjectInstants.peek(), Duration.ofMinutes(1)))
+			while(!subjectInstants.isEmpty() && TimeUtil.isOlderThan(subjectInstants.element(), Duration.ofMinutes(1)))
 				subjectInstants.remove();
 		}
 		
