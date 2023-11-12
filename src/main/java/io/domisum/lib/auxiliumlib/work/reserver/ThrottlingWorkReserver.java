@@ -18,7 +18,7 @@ public class ThrottlingWorkReserver<T>
 	private final int perMinuteCount;
 	
 	// STATE
-	private final Deque<Instant> subjectInstants;
+	private final SubjectInstants subjectInstants;
 	
 	
 	// INIT
@@ -27,14 +27,14 @@ public class ThrottlingWorkReserver<T>
 		this.backingWorkReserver = backingWorkReserver;
 		this.perMinuteCount = perMinuteCount;
 		
-		subjectInstants = new ArrayDeque<>(perMinuteCount + 5);
+		subjectInstants = new SubjectInstants(perMinuteCount + 5);
 	}
 	
 	
 	// INTERFACE
 	public void manuallyPutSubjectInstant()
 	{
-		subjectInstants.add(Instant.now());
+		subjectInstants.addNow();
 	}
 	
 	
@@ -42,21 +42,59 @@ public class ThrottlingWorkReserver<T>
 	@Override
 	protected Optional<T> getNextSubject(Collection<T> reservedSubjects)
 	{
-		while(!subjectInstants.isEmpty() && TimeUtil.isOlderThan(subjectInstants.peek(), Duration.ofMinutes(1)))
-			subjectInstants.remove();
-		
-		if(subjectInstants.size() >= perMinuteCount)
+		if(subjectInstants.getCount() >= perMinuteCount)
 			return Optional.empty();
 		
 		var minimumDelayBetween = Duration.ofMinutes(1).dividedBy(perMinuteCount * 2L);
-		var last = subjectInstants.peekLast();
-		if(last != null && TimeUtil.isYoungerThan(last, minimumDelayBetween))
+		var mostRecentOptional = subjectInstants.getMostRecent();
+		if(mostRecentOptional.isPresent() && TimeUtil.isYoungerThan(mostRecentOptional.get(), minimumDelayBetween))
 			return Optional.empty();
 		
 		var subjectOptional = backingWorkReserver.getNextSubject(reservedSubjects);
 		if(subjectOptional.isPresent())
-			subjectInstants.add(Instant.now());
+			subjectInstants.addNow();
 		return subjectOptional;
+	}
+	
+	private static class SubjectInstants
+	{
+		
+		private final Deque<Instant> subjectInstants;
+		
+		
+		// INIT
+		public SubjectInstants(int capacity)
+		{
+			this.subjectInstants = new ArrayDeque<>(capacity);
+		}
+		
+		
+		// INTERFACE
+		public synchronized void addNow()
+		{
+			subjectInstants.add(Instant.now());
+		}
+		
+		public synchronized int getCount()
+		{
+			removeOldInstants();
+			return subjectInstants.size();
+		}
+		
+		public synchronized Optional<Instant> getMostRecent()
+		{
+			removeOldInstants();
+			return Optional.ofNullable(subjectInstants.peekLast());
+		}
+		
+		
+		// IMPLEMENTATION
+		private void removeOldInstants()
+		{
+			while(!subjectInstants.isEmpty() && TimeUtil.isOlderThan(subjectInstants.peek(), Duration.ofMinutes(1)))
+				subjectInstants.remove();
+		}
+		
 	}
 	
 }
