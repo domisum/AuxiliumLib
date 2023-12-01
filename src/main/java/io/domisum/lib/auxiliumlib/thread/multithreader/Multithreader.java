@@ -7,10 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.time.Duration;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -98,8 +95,7 @@ public class Multithreader<I, O>
 	{
 		int runCount = runCounter.incrementAndGet();
 		var run = new Run(runCount, queue, action);
-		
-		return run.run();
+		return new HashSet<>(run.run());
 	}
 	
 	@RequiredArgsConstructor
@@ -112,7 +108,7 @@ public class Multithreader<I, O>
 		private final Function<I, O> action;
 		
 		// OUTPUT
-		private final Set<O> outputs = new HashSet<>();
+		private final Set<O> outputs = Collections.synchronizedSet(new HashSet<>());
 		
 		
 		// RUN
