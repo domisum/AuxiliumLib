@@ -45,11 +45,18 @@ public final class MultiTickerStopper
 		var stopThreads = startStopThreads(tickers, hard);
 		
 		var waitStart = Instant.now();
+		var lastProgressDisplay = Instant.now();
 		boolean dumped = false;
 		while(stopThreads.size() > 0)
 		{
 			ThreadUtil.sleep(Duration.ofSeconds(1));
 			stopThreads.keySet().removeIf(t -> !t.isAlive());
+			
+			if(TimeUtil.isOlderThan(lastProgressDisplay, Duration.ofSeconds(10)))
+			{
+				lastProgressDisplay = Instant.now();
+				LOGGER.info("Tickers remaining: {}/{}", stopThreads.size(), tickers.size());
+			}
 			
 			if(!dumped && dumpAfter != null && TimeUtil.isOlderThan(waitStart, dumpAfter))
 			{
