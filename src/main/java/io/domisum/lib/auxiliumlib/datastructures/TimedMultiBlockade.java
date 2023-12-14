@@ -32,8 +32,31 @@ public class TimedMultiBlockade<KeyT>
 		defaultDuration = null;
 	}
 	
+	private Duration getDefaultDurationOrThrow()
+	{
+		if(defaultDuration == null)
+			throw new IllegalStateException("Can't use this method when no defaultDuration was given in constructor");
+		return defaultDuration;
+	}
+	
 	
 	// LOCK
+	@API
+	public synchronized boolean tryBlock(KeyT key, Duration duration)
+	{
+		if(isBlocked(key))
+			return false;
+		
+		block(key, duration);
+		return true;
+	}
+	
+	@API
+	public synchronized boolean tryBlock(KeyT key)
+	{
+		return tryBlock(key, getDefaultDurationOrThrow());
+	}
+	
 	@API
 	public synchronized void block(KeyT key, Duration duration)
 	{
@@ -43,10 +66,7 @@ public class TimedMultiBlockade<KeyT>
 	@API
 	public synchronized void block(KeyT key)
 	{
-		if(defaultDuration == null)
-			throw new IllegalStateException("Can't use this method when no defaultDuration was given in constructor");
-		
-		block(key, defaultDuration);
+		block(key, getDefaultDurationOrThrow());
 	}
 	
 	@API
@@ -93,7 +113,7 @@ public class TimedMultiBlockade<KeyT>
 	@API
 	public synchronized Optional<Instant> getNextBlockReleaseInstant()
 	{
-		blockedUntilMap.entrySet().removeIf(e->TimeUtil.isInPast(e.getValue()));
+		blockedUntilMap.entrySet().removeIf(e -> TimeUtil.isInPast(e.getValue()));
 		return blockedUntilMap.values().stream().min(Comparator.naturalOrder());
 	}
 	
