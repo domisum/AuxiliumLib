@@ -1,6 +1,7 @@
 package io.domisum.lib.auxiliumlib.thread.ticker;
 
 import io.domisum.lib.auxiliumlib.annotations.API;
+import io.domisum.lib.auxiliumlib.display.DurationDisplay;
 import io.domisum.lib.auxiliumlib.util.ThreadUtil;
 import io.domisum.lib.auxiliumlib.util.TimeUtil;
 import lombok.AccessLevel;
@@ -55,7 +56,8 @@ public final class MultiTickerStopper
 			if(TimeUtil.isOlderThan(lastProgressDisplay, Duration.ofSeconds(10)))
 			{
 				lastProgressDisplay = Instant.now();
-				LOGGER.info("Tickers remaining: {}/{}", stopThreads.size(), tickers.size());
+				var waitDurationDisplay = DurationDisplay.of(TimeUtil.since(waitStart));
+				LOGGER.info("Tickers remaining: {}/{} after {}", stopThreads.size(), tickers.size(), waitDurationDisplay);
 			}
 			
 			if(!dumped && dumpAfter != null && TimeUtil.isOlderThan(waitStart, dumpAfter))
