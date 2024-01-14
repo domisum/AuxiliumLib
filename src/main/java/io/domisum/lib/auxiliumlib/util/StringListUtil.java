@@ -8,11 +8,7 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -32,6 +28,8 @@ public final class StringListUtil
 	{
 		var display = new StringBuilder();
 		
+		if(iterable == null)
+			iterable = Collections.emptyList();
 		var iterator = iterable.iterator();
 		while(iterator.hasNext())
 		{
