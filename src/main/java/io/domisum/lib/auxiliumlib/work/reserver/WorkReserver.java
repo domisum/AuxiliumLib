@@ -53,12 +53,27 @@ public abstract class WorkReserver<T>
 		}
 	}
 	
+	
+	/**
+	 * Performs IO work using the provided workAction and logs a warning message if an IOException occurs.
+	 *
+	 * @param workAction The function that performs the IO work
+	 * @param errorMessage The error message to log if an IOException occurs, including one '{}' placeholder
+	 * @return Whether effort was made while performing the IO work
+	 */
 	@API
 	public Effort workIoWarn(IOFunction<T, WorkResult> workAction, String errorMessage)
 	{
 		return workIo(workAction, (s, e) -> logger.warn(errorMessage + ": {}", s, ExceptionUtil.getSynopsis(e)));
 	}
 	
+	/**
+	 * Performs IO work using the provided workAction and logs a warning message if an IOException occurs.
+	 *
+	 * @param workAction The function that performs the IO work
+	 * @param errorMessage The error message to log if an IOException occurs, including one '{}' placeholder
+	 * @return Whether effort was made while performing the IO work
+	 */
 	@API
 	public Effort workIoWarn(IoConsumer<T> workAction, String errorMessage)
 	{
