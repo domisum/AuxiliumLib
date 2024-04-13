@@ -249,13 +249,15 @@ public final class RandomUtil
 	
 	
 	@API
-	public static <E> E getElement(E[] array)
+	@SafeVarargs
+	public static <E> E getElement(E... array)
 	{
-		return getElement(array, getRandom());
+		return getElement(getRandom(), array);
 	}
 	
 	@API
-	public static <E> E getElement(E[] array, Random r)
+	@SafeVarargs
+	public static <E> E getElement(Random r, E... array)
 	{
 		if(array.length == 0)
 			throw new IllegalArgumentException("The array has to have at least 1 element");
