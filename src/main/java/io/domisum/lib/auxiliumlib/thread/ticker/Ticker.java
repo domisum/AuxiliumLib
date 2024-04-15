@@ -44,17 +44,17 @@ public abstract class Ticker
 	}
 	
 	@API
-	public static void sleepButReactToShouldStop(Duration sleepDuration)
+	public static void sleepButReactToShouldStop(Duration targetDuration)
 	{
 		var start = Instant.now();
 		
 		while(!shouldStop())
 		{
-			var slept = TimeUtil.since(start);
-			if(Compare.greaterThan(slept, sleepDuration))
+			var elapsedDuration = TimeUtil.since(start);
+			if(Compare.greaterThan(elapsedDuration, targetDuration))
 				break;
 			
-			var remaining = sleepDuration.minus(slept);
+			var remaining = targetDuration.minus(elapsedDuration);
 			var sleep = ObjectUtils.min(remaining, Duration.ofMillis(100));
 			ThreadUtil.sleep(sleep);
 		}
