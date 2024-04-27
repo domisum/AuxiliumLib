@@ -13,7 +13,7 @@ public interface IoSource<K, V>
 		throws IOException;
 	
 	@API
-	default IoOptional<V> getOptional(K key)
+	default IoOptional<V> getIoOptional(K key)
 	{
 		return IoOptional.ofAction(()->get(key));
 	}
@@ -21,7 +21,7 @@ public interface IoSource<K, V>
 	@API
 	default V getOrThrowUncheckedException(K key)
 	{
-		return getOptional(key).getOrThrowUnchecked();
+		return getIoOptional(key).getOrThrowUnchecked();
 	}
 	
 }
