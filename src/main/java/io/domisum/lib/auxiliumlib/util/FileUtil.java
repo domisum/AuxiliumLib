@@ -73,7 +73,7 @@ public final class FileUtil
 		try
 		{
 			createParentDirectory(file);
-			FileUtils.writeStringToFile(file, toWrite, encoding);
+			Files.writeString(file.toPath(), toWrite, encoding);
 		}
 		catch(IOException e)
 		{
