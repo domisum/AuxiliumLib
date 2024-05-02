@@ -49,15 +49,16 @@ public class RateLimiter
 		return available;
 	}
 	
-	public void blockUntilAcquire()
+	public Duration blockUntilAcquire()
 	{
 		try
 		{
+			var waitStart = Instant.now();
 			acquireLock.lock();
 			while(true)
 			{
 				if(tryAcquire())
-					return;
+					return TimeUtil.since(waitStart);
 				ThreadUtil.sleep(Duration.ofMillis(10));
 			}
 		}
