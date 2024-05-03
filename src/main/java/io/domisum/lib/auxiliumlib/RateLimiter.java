@@ -24,6 +24,16 @@ public class RateLimiter
 	// INIT
 	public RateLimiter(Duration timeframe, int maxCalls)
 	{
+		this(timeframe, maxCalls, false);
+	}
+	
+	public static RateLimiter spreadStart(Duration timeframe, int maxCalls)
+	{
+		return new RateLimiter(timeframe, maxCalls, true);
+	}
+	
+	private RateLimiter(Duration timeframe, int maxCalls, boolean spreadStart)
+	{
 		this.timeframe = timeframe;
 		this.maxCalls = maxCalls;
 		
@@ -31,6 +41,11 @@ public class RateLimiter
 		// so err on safe side and block at start
 		for(int i = 0; i < maxCalls; i++)
 			calls.add(Instant.now());
+		
+		var interval = timeframe.dividedBy(maxCalls);
+		if(spreadStart)
+			for(int i = 0; i < maxCalls; i++)
+				calls.add(Instant.now().plus(interval.multipliedBy(i)));
 	}
 	
 	
