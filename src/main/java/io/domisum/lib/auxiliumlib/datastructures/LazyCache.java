@@ -13,6 +13,8 @@ import java.time.Instant;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Function;
+import java.util.function.Supplier;
 
 @API
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
@@ -88,6 +90,24 @@ public final class LazyCache<KeyT, T>
 		entries.clear();
 	}
 	
+	@API
+	public T getOrPutAndGet(KeyT key, Supplier<T> valueSupplier)
+	{
+		return getOrPutAndGet(key, k->valueSupplier.get());
+	}
+	
+	@API
+	public T getOrPutAndGet(KeyT key, Function<KeyT, T> valueFunction)
+	{
+		var entry = get(key);
+		if(entry.isPresent())
+			return entry.get();
+		
+		var value = valueFunction.apply(key);
+		put(key, value);
+		return value;
+	}
+	
 	
 	@API
 	public Optional<T> get(KeyT key)
@@ -134,7 +154,7 @@ public final class LazyCache<KeyT, T>
 	
 	private void expire()
 	{
-		entries.entrySet().removeIf(e->e.getValue().isExpired());
+		entries.entrySet().removeIf(e -> e.getValue().isExpired());
 	}
 	
 	
