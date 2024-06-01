@@ -34,25 +34,25 @@ public final class RandomUtil
 	}
 	
 	@API
-	public static int nextInt(int bound)
+	public static int nextInt(int boundExcl)
 	{
-		return nextInt(bound, getRandom());
+		return nextInt(boundExcl, getRandom());
 	}
 	
 	@API
-	public static int nextInt(int bound, Random r)
+	public static int nextInt(int boundExcl, Random r)
 	{
-		return r.nextInt(bound);
+		return r.nextInt(boundExcl);
 	}
 	
 	@API
-	public static long nextLong(long bound)
+	public static long nextLong(long boundExcl)
 	{
-		return nextLong(bound, getRandom());
+		return nextLong(boundExcl, getRandom());
 	}
 	
 	@API
-	public static long nextLong(long bound, Random r)
+	public static long nextLong(long boundExcl, Random r)
 	{
 		// https://stackoverflow.com/a/2546186/4755690
 		
@@ -61,9 +61,9 @@ public final class RandomUtil
 		do
 		{
 			bits = (r.nextLong() << 1) >>> 1;
-			val = bits % bound;
+			val = bits % boundExcl;
 		}
-		while(((bits - val) + (bound - 1)) < 0L);
+		while(((bits - val) + (boundExcl - 1)) < 0L);
 		return val;
 	}
 	
