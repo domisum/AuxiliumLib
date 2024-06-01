@@ -2,17 +2,31 @@ package io.domisum.lib.auxiliumlib;
 
 import io.domisum.lib.auxiliumlib.contracts.IoSupplier;
 import io.domisum.lib.auxiliumlib.display.DurationDisplay;
+import io.domisum.lib.auxiliumlib.exceptions.ProgrammingError;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.function.Supplier;
 
 public class RunStopwatch
 {
 	
-	public static <T> Result<T> run(IoSupplier<T> run)
+	public static <T> Result<T> run(Supplier<T> run)
+	{
+		try
+		{
+			return runIo((IoSupplier<T>) run::get);
+		}
+		catch(IOException e)
+		{
+			throw new ProgrammingError("Should never be thrown");
+		}
+	}
+	
+	public static <T> Result<T> runIo(IoSupplier<T> run)
 		throws IOException
 	{
 		var start = Instant.now();
