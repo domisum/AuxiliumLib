@@ -1,36 +1,71 @@
 package io.domisum.lib.auxiliumlib.datacontainers.math;
 
+import io.domisum.lib.auxiliumlib.PHR;
 import io.domisum.lib.auxiliumlib.annotations.API;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import lombok.ToString;
 
 @API
 @RequiredArgsConstructor
 @EqualsAndHashCode
-@ToString
+@Getter
 public class Coordinate2DInt
 {
 	
 	// ATTRIBUTES
-	@Getter
 	private final int x;
-	@Getter
 	private final int y;
+	
+	
+	// HOUSEKEEPING
+	public static Coordinate2DInt zero()
+	{
+		return new Coordinate2DInt(0, 0);
+	}
+	
+	@Override
+	public String toString()
+	{
+		return PHR.r("[x={},y={}]", x, y);
+	}
 	
 	
 	// DERIVE
 	@API
 	public Coordinate2DInt deriveAdd(Coordinate2DInt other)
 	{
-		return new Coordinate2DInt(x+other.x, y+other.y);
+		return new Coordinate2DInt(x + other.x, y + other.y);
 	}
 	
 	@API
 	public Coordinate2DInt deriveAdd(int dX, int dY)
 	{
-		return new Coordinate2DInt(x+dX, y+dY);
+		return new Coordinate2DInt(x + dX, y + dY);
+	}
+	
+	@API
+	public Coordinate2DInt deriveSubtract(Coordinate2DInt other)
+	{
+		return new Coordinate2DInt(x - other.x, y - other.y);
+	}
+	
+	@API
+	public Coordinate2DInt deriveSubtract(int dX, int dY)
+	{
+		return new Coordinate2DInt(x - dX, y - dY);
+	}
+	
+	@API
+	public Coordinate2DInt deriveReversed()
+	{
+		return new Coordinate2DInt(-x, -y);
+	}
+	
+	@API
+	public Coordinate2DInt deriveMergeMin(Coordinate2DInt other)
+	{
+		return new Coordinate2DInt(Math.min(x, other.x), Math.min(y, other.y));
 	}
 	
 }
