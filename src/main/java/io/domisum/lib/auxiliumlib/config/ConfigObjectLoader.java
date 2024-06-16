@@ -14,7 +14,6 @@ import java.io.File;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @API
 public abstract class ConfigObjectLoader<T extends ConfigObject>
@@ -31,7 +30,7 @@ public abstract class ConfigObjectLoader<T extends ConfigObject>
 	@API
 	protected String OBJECT_NAME_PLURAL()
 	{
-		return OBJECT_NAME()+"s";
+		return OBJECT_NAME() + "s";
 	}
 	
 	protected boolean LOG_INDIVIDUAL_OBJECT_LOADS()
@@ -49,7 +48,7 @@ public abstract class ConfigObjectLoader<T extends ConfigObject>
 		var files = FileUtil.listFilesRecursively(configDirectory, FileType.FILE);
 		var filesOrdered = files.stream()
 			.sorted(Comparator.comparing(File::getPath))
-			.collect(Collectors.toList());
+			.toList();
 		
 		var configObjectsById = new HashMap<String, T>();
 		for(var file : filesOrdered)
@@ -69,8 +68,10 @@ public abstract class ConfigObjectLoader<T extends ConfigObject>
 			logger.info("(There are no {})", OBJECT_NAME_PLURAL());
 		
 		var configObjectIds = configObjectsById.keySet();
-		logger.info("...Loading {} done, loaded {}: [{}]",
-			OBJECT_NAME_PLURAL(), configObjectsById.size(), StringListUtil.list(configObjectIds));
+		String message = PHR.r("...Loading {} done, loaded {}", OBJECT_NAME_PLURAL(), configObjectsById.size());
+		if(LOG_INDIVIDUAL_OBJECT_LOADS())
+			message += PHR.r(": [{}]", StringListUtil.list(configObjectIds));
+		logger.info(message);
 		
 		return new ConfigObjectRegistry<>(configObjectsById);
 	}
@@ -102,7 +103,7 @@ public abstract class ConfigObjectLoader<T extends ConfigObject>
 			String fileContent = FileUtil.readString(file);
 			return createConfigObject(id, fileContent);
 		}
-		catch(JsonParseException|ConfigException e)
+		catch(JsonParseException | ConfigException e)
 		{
 			String message = PHR.r("Invalid configuration of {} from file '{}'", OBJECT_NAME(), file.getName());
 			throw new ConfigException(message, e);
