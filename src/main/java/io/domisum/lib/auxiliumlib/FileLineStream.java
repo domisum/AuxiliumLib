@@ -2,15 +2,10 @@ package io.domisum.lib.auxiliumlib;
 
 import io.domisum.lib.auxiliumlib.annotations.API;
 import io.domisum.lib.auxiliumlib.contracts.IoIterator;
+import io.domisum.lib.auxiliumlib.contracts.source.io.IoOptional;
 import io.domisum.lib.auxiliumlib.util.StringListUtil;
 
-import java.io.BufferedReader;
-import java.io.Closeable;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.UncheckedIOException;
+import java.io.*;
 import java.util.ArrayDeque;
 import java.util.Deque;
 
@@ -38,6 +33,7 @@ public class FileLineStream
 		try
 		{
 			var fis = new FileInputStream(file);
+			//noinspection resource
 			fis.getChannel().position(offset);
 			
 			reader = new BufferedReader(new InputStreamReader(fis));
@@ -63,6 +59,13 @@ public class FileLineStream
 	public String pointToLineContaining(String... markers)
 		throws IOException
 	{
+		String message = PHR.r("Could not find line containing {}", StringListUtil.list(" or ", (Object[]) markers));
+		return pointToLineContainingOptional(markers).getOrThrowWrapped(message);
+	}
+	
+	@API
+	public IoOptional<String> pointToLineContainingOptional(String... markers)
+	{
 		var iterator = iterateAndMovePointer();
 		while(true)
 			try
@@ -70,13 +73,20 @@ public class FileLineStream
 				String line = iterator.next();
 				for(String m : markers)
 					if(line.contains(m))
-						return line;
+						return IoOptional.of(line);
 			}
 			catch(IOException e)
 			{
-				String markersDisplay = StringListUtil.list(" or ", (Object[]) markers);
-				throw new IOException(PHR.r("Could not find line containing {}", markersDisplay), e);
+				return IoOptional.ofException(e);
 			}
+	}
+	
+	@API
+	public void resetPointer()
+	{
+		linesBeforePointer.addAll(linesAfterPointer);
+		linesAfterPointer = linesBeforePointer;
+		linesBeforePointer = new ArrayDeque<>();
 	}
 	
 	@API
@@ -86,13 +96,9 @@ public class FileLineStream
 	}
 	
 	@API
-	public void resetPointerAndDiscardSingle()
+	public void discardSingle()
 		throws IOException
 	{
-		linesBeforePointer.addAll(linesAfterPointer);
-		linesAfterPointer = linesBeforePointer;
-		linesBeforePointer = new ArrayDeque<>();
-		
 		iterateAndMovePointer().next();
 		discardLinesBeforePointer();
 	}
@@ -103,7 +109,6 @@ public class FileLineStream
 	{
 		return new MovePointerIterator();
 	}
-	
 	
 	private class MovePointerIterator
 		implements IoIterator<String>
