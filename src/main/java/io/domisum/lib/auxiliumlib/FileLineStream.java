@@ -7,6 +7,7 @@ import io.domisum.lib.auxiliumlib.util.StringListUtil;
 
 import java.io.*;
 import java.util.ArrayDeque;
+import java.util.Arrays;
 import java.util.Deque;
 
 public class FileLineStream
@@ -59,8 +60,12 @@ public class FileLineStream
 	public String pointToLineContaining(String... markers)
 		throws IOException
 	{
-		String message = PHR.r("Could not find line containing {}", StringListUtil.list(" or ", (Object[]) markers));
-		return pointToLineContainingOptional(markers).getOrThrowWrapped(message);
+		return pointToLineContainingOptional(markers).getOrThrowWrapped(e ->
+		{
+			String markersDisplay = StringListUtil.list(Arrays.asList((Object[]) markers), m -> "'" + m + "'", " or ");
+			String message = PHR.r("Could not find line containing {}", markersDisplay);
+			return new IOException(message, e);
+		});
 	}
 	
 	@API
