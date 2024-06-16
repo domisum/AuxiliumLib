@@ -1,6 +1,7 @@
 package io.domisum.lib.auxiliumlib.util;
 
 import com.google.common.collect.Sets;
+import io.domisum.lib.auxiliumlib.PHR;
 import io.domisum.lib.auxiliumlib.annotations.API;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -15,6 +16,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 @API
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
@@ -86,6 +88,19 @@ public final class StringUtil
 				return true;
 		
 		return false;
+	}
+	
+	@API
+	public static List<Long> parseAllNumbers(String input, int minDigits)
+	{
+		String regex = PHR.r("[0-9]{{},}", minDigits);
+		var pattern = Pattern.compile(regex);
+		var matcher = pattern.matcher(input);
+		
+		var numbers = new ArrayList<Long>();
+		while(matcher.find())
+			numbers.add(Long.parseLong(matcher.group()));
+		return numbers;
 	}
 	
 	
