@@ -6,14 +6,12 @@ import lombok.Getter;
 import java.io.IOException;
 
 @API
+@Getter
 public class DebugIoException
 	extends IOException
 {
 	
-	@Getter
 	private final String debugTextName;
-	
-	@Getter
 	private final String debugText;
 	
 	
