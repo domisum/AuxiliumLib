@@ -121,7 +121,7 @@ public final class LazyCache<KeyT, T>
 			return Optional.empty();
 		
 		entry.markAsUsed();
-		return Optional.of(entry.getValue());
+		return Optional.ofNullable(entry.getValue());
 	}
 	
 	@API
