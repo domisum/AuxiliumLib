@@ -42,7 +42,7 @@ public abstract class WorkReserver<T>
 		try(work)
 		{
 			var result = workAction.apply(subject);
-			if(result.isSuccessful())
+			if(result.isSuccess())
 				work.successful();
 			return result.getEffort();
 		}
@@ -80,7 +80,7 @@ public abstract class WorkReserver<T>
 		return workIo(s ->
 		{
 			workAction.accept(s);
-			return WorkResult.worked();
+			return WorkResult.didSomeWork();
 		}, (s, e) -> logger.warn(errorMessage + ": {}", s, ExceptionUtil.getSynopsis(e)));
 	}
 	
@@ -97,7 +97,7 @@ public abstract class WorkReserver<T>
 		return work(s ->
 		{
 			workAction.accept(s);
-			return WorkResult.worked();
+			return WorkResult.didSomeWork();
 		});
 	}
 	

@@ -4,16 +4,15 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-@Getter
 public class WorkResult
 {
 	
 	private final boolean successful;
-	private final Effort effort;
+	@Getter private final Effort effort;
 	
 	
 	// INIT
-	public static WorkResult worked()
+	public static WorkResult didSomeWork()
 	{
 		return new WorkResult(true, Effort.SOME);
 	}
@@ -37,9 +36,21 @@ public class WorkResult
 	public static WorkResult merge(WorkResult a, WorkResult b)
 	{
 		return new WorkResult(
-			a.successful && b.successful,
-			a.effort == Effort.SOME || b.effort == Effort.SOME ? Effort.SOME : Effort.NONE
+			a.isSuccess() && b.isSuccess(),
+			a.getEffort() == Effort.SOME || b.getEffort() == Effort.SOME ? Effort.SOME : Effort.NONE
 		);
+	}
+	
+	
+	// GETTERS
+	public boolean isSuccess()
+	{
+		return successful;
+	}
+	
+	public boolean isFail()
+	{
+		return !successful;
 	}
 	
 }
