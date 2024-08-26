@@ -10,10 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -57,20 +54,30 @@ public abstract class WorkReserver<T>
 	/**
 	 * Performs IO work using the provided workAction and logs a warning message if an IOException occurs.
 	 *
-	 * @param workAction The function that performs the IO work
-	 * @param errorMessage The error message to log if an IOException occurs, including one '{}' placeholder
+	 * @param workAction   The function that performs the IO work
+	 * @param errorMessage The error message to log if an IOException occurs,
+	 *                        optionally including one '{}' placeholder for the subject
 	 * @return Whether effort was made while performing the IO work
 	 */
 	@API
 	public Effort workIoWarn(IOFunction<T, WorkResult> workAction, String errorMessage)
 	{
-		return workIo(workAction, (s, e) -> logger.warn(errorMessage + ": {}", s, ExceptionUtil.getSynopsis(e)));
+		return workIo(workAction, (s, e) ->
+			{
+				var args = new ArrayList<>();
+				if(errorMessage.contains("{}"))
+					args.add(s);
+				args.add(ExceptionUtil.getSynopsis(e));
+				
+				logger.warn(errorMessage + ": {}", args.toArray());
+			}
+		);
 	}
 	
 	/**
 	 * Performs IO work using the provided workAction and logs a warning message if an IOException occurs.
 	 *
-	 * @param workAction The function that performs the IO work
+	 * @param workAction   The function that performs the IO work
 	 * @param errorMessage The error message to log if an IOException occurs, including one '{}' placeholder
 	 * @return Whether effort was made while performing the IO work
 	 */
