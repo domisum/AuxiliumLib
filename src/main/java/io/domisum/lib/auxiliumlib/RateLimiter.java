@@ -1,5 +1,6 @@
 package io.domisum.lib.auxiliumlib;
 
+import io.domisum.lib.auxiliumlib.annotations.API;
 import io.domisum.lib.auxiliumlib.util.ThreadUtil;
 import io.domisum.lib.auxiliumlib.util.TimeUtil;
 
@@ -22,11 +23,13 @@ public class RateLimiter
 	
 	
 	// INIT
+	@API
 	public RateLimiter(Duration timeframe, int maxCalls)
 	{
 		this(timeframe, maxCalls, false);
 	}
 	
+	@API
 	public static RateLimiter spreadStart(Duration timeframe, int maxCalls)
 	{
 		return new RateLimiter(timeframe, maxCalls, true);
@@ -50,12 +53,14 @@ public class RateLimiter
 	
 	
 	// RATE LIMIT
+	@API
 	public synchronized boolean available()
 	{
 		clean();
 		return calls.size() < maxCalls;
 	}
 	
+	@API
 	public synchronized boolean tryAcquire()
 	{
 		boolean available = available();
@@ -64,6 +69,7 @@ public class RateLimiter
 		return available;
 	}
 	
+	@API
 	public Duration blockUntilAcquire()
 	{
 		try
