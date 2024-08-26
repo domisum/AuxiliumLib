@@ -33,4 +33,13 @@ public class WorkResult
 		return new WorkResult(false, Effort.SOME);
 	}
 	
+	
+	public static WorkResult merge(WorkResult a, WorkResult b)
+	{
+		return new WorkResult(
+			a.successful && b.successful,
+			a.effort == Effort.SOME || b.effort == Effort.SOME ? Effort.SOME : Effort.NONE
+		);
+	}
+	
 }
