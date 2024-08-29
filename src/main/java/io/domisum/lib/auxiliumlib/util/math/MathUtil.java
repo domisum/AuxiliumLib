@@ -76,19 +76,13 @@ public final class MathUtil
 	@API
 	public static double clampUpper(double max, double value)
 	{
-		if(value > max)
-			return max;
-		
-		return value;
+		return Math.min(value, max);
 	}
 	
 	@API
-	public static double clampUpper(int max, int value)
+	public static int clampUpper(int max, int value)
 	{
-		if(value > max)
-			return max;
-		
-		return value;
+		return Math.min(value, max);
 	}
 	
 	
