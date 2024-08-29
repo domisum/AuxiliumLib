@@ -1,4 +1,4 @@
-package io.domisum.lib.auxiliumlib.datastructures;
+package io.domisum.lib.auxiliumlib.time.datastructures;
 
 import io.domisum.lib.auxiliumlib.annotations.API;
 import lombok.Getter;

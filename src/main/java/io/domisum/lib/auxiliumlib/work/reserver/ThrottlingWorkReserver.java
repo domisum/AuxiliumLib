@@ -1,6 +1,6 @@
 package io.domisum.lib.auxiliumlib.work.reserver;
 
-import io.domisum.lib.auxiliumlib.util.TimeUtil;
+import io.domisum.lib.auxiliumlib.time.TimeUtil;
 
 import java.time.Duration;
 import java.time.Instant;

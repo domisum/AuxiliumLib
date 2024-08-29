@@ -4,7 +4,7 @@ import io.domisum.lib.auxiliumlib.PHR;
 import io.domisum.lib.auxiliumlib.annotations.API;
 import io.domisum.lib.auxiliumlib.display.DurationDisplay;
 import io.domisum.lib.auxiliumlib.util.Compare;
-import io.domisum.lib.auxiliumlib.util.TimeUtil;
+import io.domisum.lib.auxiliumlib.time.TimeUtil;
 import io.domisum.lib.auxiliumlib.util.math.RandomUtil;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.ObjectUtils;

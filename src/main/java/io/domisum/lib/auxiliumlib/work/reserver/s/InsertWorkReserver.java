@@ -1,6 +1,6 @@
 package io.domisum.lib.auxiliumlib.work.reserver.s;
 
-import io.domisum.lib.auxiliumlib.util.TimeUtil;
+import io.domisum.lib.auxiliumlib.time.TimeUtil;
 import io.domisum.lib.auxiliumlib.work.reserver.ReservedWork;
 import io.domisum.lib.auxiliumlib.work.reserver.WorkReserver;
 

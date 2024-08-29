@@ -2,7 +2,7 @@ package io.domisum.lib.auxiliumlib.thread.multithreader.queues;
 
 import io.domisum.lib.auxiliumlib.annotations.API;
 import io.domisum.lib.auxiliumlib.thread.multithreader.MultithreaderQueue;
-import io.domisum.lib.auxiliumlib.util.TimeUtil;
+import io.domisum.lib.auxiliumlib.time.TimeUtil;
 import io.domisum.lib.auxiliumlib.util.math.MathUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

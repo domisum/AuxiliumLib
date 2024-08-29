@@ -4,7 +4,7 @@ import io.domisum.lib.auxiliumlib.annotations.API;
 import io.domisum.lib.auxiliumlib.display.DurationDisplay;
 import io.domisum.lib.auxiliumlib.util.Compare;
 import io.domisum.lib.auxiliumlib.util.ThreadUtil;
-import io.domisum.lib.auxiliumlib.util.TimeUtil;
+import io.domisum.lib.auxiliumlib.time.TimeUtil;
 import io.domisum.lib.auxiliumlib.util.ValidationUtil;
 import lombok.Getter;
 import lombok.Setter;

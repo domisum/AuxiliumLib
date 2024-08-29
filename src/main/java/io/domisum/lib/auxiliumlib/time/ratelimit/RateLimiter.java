@@ -1,4 +1,4 @@
-package io.domisum.lib.auxiliumlib;
+package io.domisum.lib.auxiliumlib.time.ratelimit;
 
 import io.domisum.lib.auxiliumlib.annotations.API;
 import io.domisum.lib.auxiliumlib.util.ThreadUtil;

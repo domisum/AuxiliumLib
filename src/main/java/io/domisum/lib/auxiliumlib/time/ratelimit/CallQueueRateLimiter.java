@@ -1,7 +1,7 @@
-package io.domisum.lib.auxiliumlib;
+package io.domisum.lib.auxiliumlib.time.ratelimit;
 
 import io.domisum.lib.auxiliumlib.annotations.API;
-import io.domisum.lib.auxiliumlib.util.TimeUtil;
+import io.domisum.lib.auxiliumlib.time.TimeUtil;
 
 import java.time.Duration;
 import java.time.Instant;

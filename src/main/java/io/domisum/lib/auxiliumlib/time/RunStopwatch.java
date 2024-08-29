@@ -1,4 +1,4 @@
-package io.domisum.lib.auxiliumlib;
+package io.domisum.lib.auxiliumlib.time;
 
 import io.domisum.lib.auxiliumlib.contracts.IoSupplier;
 import io.domisum.lib.auxiliumlib.display.DurationDisplay;

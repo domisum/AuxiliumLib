@@ -1,6 +1,7 @@
-package io.domisum.lib.auxiliumlib.util;
+package io.domisum.lib.auxiliumlib.time;
 
 import io.domisum.lib.auxiliumlib.annotations.API;
+import io.domisum.lib.auxiliumlib.util.Compare;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 

@@ -3,7 +3,7 @@ package io.domisum.lib.auxiliumlib.thread.ticker;
 import io.domisum.lib.auxiliumlib.annotations.API;
 import io.domisum.lib.auxiliumlib.display.DurationDisplay;
 import io.domisum.lib.auxiliumlib.util.ThreadUtil;
-import io.domisum.lib.auxiliumlib.util.TimeUtil;
+import io.domisum.lib.auxiliumlib.time.TimeUtil;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

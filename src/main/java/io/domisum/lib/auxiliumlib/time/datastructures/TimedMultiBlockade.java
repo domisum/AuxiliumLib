@@ -1,7 +1,7 @@
-package io.domisum.lib.auxiliumlib.datastructures;
+package io.domisum.lib.auxiliumlib.time.datastructures;
 
 import io.domisum.lib.auxiliumlib.annotations.API;
-import io.domisum.lib.auxiliumlib.util.TimeUtil;
+import io.domisum.lib.auxiliumlib.time.TimeUtil;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 

@@ -1,8 +1,8 @@
 package io.domisum.lib.auxiliumlib.contracts.source.io.impl;
 
 import io.domisum.lib.auxiliumlib.contracts.source.io.IoSource;
-import io.domisum.lib.auxiliumlib.datastructures.ExpirationSettings;
-import io.domisum.lib.auxiliumlib.datastructures.LazyCache;
+import io.domisum.lib.auxiliumlib.time.datastructures.ExpirationSettings;
+import io.domisum.lib.auxiliumlib.time.datastructures.LazyCache;
 import lombok.RequiredArgsConstructor;
 
 import javax.annotation.Nullable;
