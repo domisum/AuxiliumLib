@@ -85,6 +85,18 @@ public final class MathUtil
 		return Math.min(value, max);
 	}
 	
+	@API
+	public static double clampLower(double min, double value)
+	{
+		return Math.max(min, value);
+	}
+	
+	@API
+	public static double clampLower(int min, int value)
+	{
+		return Math.max(min, value);
+	}
+	
 	
 	@API
 	public static double avg(double... values)

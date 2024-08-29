@@ -2,12 +2,9 @@ package io.domisum.lib.auxiliumlib.time.ratelimit;
 
 import io.domisum.lib.auxiliumlib.annotations.API;
 import io.domisum.lib.auxiliumlib.util.math.MathUtil;
-import lombok.AccessLevel;
-import lombok.RequiredArgsConstructor;
 
 import java.time.Duration;
 
-@RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 public class TrickleRateLimiter
 	extends RateLimiter
 {
@@ -22,16 +19,16 @@ public class TrickleRateLimiter
 	
 	
 	// INIT
-	@API
-	public static TrickleRateLimiter perSecondAndAccLimit(double perSecond, double maxAccumulation)
+	private TrickleRateLimiter(double perSecond, double maxAccumulation)
 	{
-		return new TrickleRateLimiter(perSecond, maxAccumulation);
+		this.perSecond = perSecond;
+		this.maxAccumulation = MathUtil.clampLower(2, maxAccumulation);
 	}
 	
 	@API
-	public static TrickleRateLimiter perMinute(double perMinute)
+	public TrickleRateLimiter(int count, Duration timeframe, double accumulationFraction)
 	{
-		return new TrickleRateLimiter(perMinute / 60, perMinute / 2);
+		this(count * 1000d / timeframe.toMillis(), count * accumulationFraction);
 	}
 	
 	
