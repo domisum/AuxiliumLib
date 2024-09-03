@@ -38,7 +38,7 @@ public abstract class Ticker
 		var thread = Thread.currentThread();
 		var ticking = tickingsByThread.get(thread);
 		if(ticking == null)
-			throw new IllegalAccessError("Only call this method from inside a ticker!");
+			return false;
 		
 		return ticking.getStatus() == TickingStatus.STOPPING;
 	}
