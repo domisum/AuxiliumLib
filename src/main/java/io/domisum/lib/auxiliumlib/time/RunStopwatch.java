@@ -14,11 +14,20 @@ import java.util.function.Supplier;
 public class RunStopwatch
 {
 	
+	public static Result<Void> run(Runnable run)
+	{
+		return run(() ->
+		{
+			run.run();
+			return null;
+		});
+	}
+	
 	public static <T> Result<T> run(Supplier<T> run)
 	{
 		try
 		{
-			return runIo((IoSupplier<T>) run::get);
+			return runIo(run::get);
 		}
 		catch(IOException e)
 		{
