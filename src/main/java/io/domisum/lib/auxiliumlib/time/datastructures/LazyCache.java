@@ -1,6 +1,8 @@
 package io.domisum.lib.auxiliumlib.time.datastructures;
 
 import io.domisum.lib.auxiliumlib.annotations.API;
+import io.domisum.lib.auxiliumlib.contracts.IoFunction;
+import io.domisum.lib.auxiliumlib.contracts.IoSupplier;
 import io.domisum.lib.auxiliumlib.time.TimeUtil;
 import io.domisum.lib.auxiliumlib.util.math.RandomUtil;
 import lombok.AccessLevel;
@@ -8,6 +10,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 import javax.annotation.Nullable;
+import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Map;
@@ -93,11 +96,31 @@ public final class LazyCache<KeyT, T>
 	@API
 	public T getOrPutAndGet(KeyT key, Supplier<T> valueSupplier)
 	{
-		return getOrPutAndGet(key, k->valueSupplier.get());
+		return getOrPutAndGet(key, k -> valueSupplier.get());
 	}
 	
 	@API
 	public T getOrPutAndGet(KeyT key, Function<KeyT, T> valueFunction)
+	{
+		var entry = get(key);
+		if(entry.isPresent())
+			return entry.get();
+		
+		var value = valueFunction.apply(key);
+		put(key, value);
+		return value;
+	}
+	
+	@API
+	public T getOrIoPutAndGet(KeyT key, IoSupplier<T> valueSupplier)
+		throws IOException
+	{
+		return getOrIoPutAndGet(key, k -> valueSupplier.get());
+	}
+	
+	@API
+	public T getOrIoPutAndGet(KeyT key, IoFunction<KeyT, T> valueFunction)
+		throws IOException
 	{
 		var entry = get(key);
 		if(entry.isPresent())
