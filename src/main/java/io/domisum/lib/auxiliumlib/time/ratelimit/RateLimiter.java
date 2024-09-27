@@ -4,12 +4,14 @@ import io.domisum.lib.auxiliumlib.annotations.API;
 import io.domisum.lib.auxiliumlib.util.ThreadUtil;
 
 import java.time.Duration;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.ReentrantLock;
 
 public abstract class RateLimiter
 {
 	
 	private final ReentrantLock acquireLock = new ReentrantLock(true);
+	private final AtomicInteger waitingCount = new AtomicInteger(0);
 	
 	
 	@API
@@ -27,6 +29,7 @@ public abstract class RateLimiter
 	{
 		try
 		{
+			waitingCount.incrementAndGet();
 			acquireLock.lock();
 			while(true)
 			{
@@ -38,7 +41,14 @@ public abstract class RateLimiter
 		finally
 		{
 			acquireLock.unlock();
+			waitingCount.decrementAndGet();
 		}
+	}
+	
+	@API
+	public int getWaitingCount()
+	{
+		return waitingCount.get();
 	}
 	
 }
