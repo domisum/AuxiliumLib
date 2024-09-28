@@ -10,7 +10,7 @@ public class TrickleRateLimiter
 {
 	
 	// CONFIGURATION
-	private final double perSecond;
+	private double perSecond;
 	private final double maxAccumulation;
 	
 	// STATE
@@ -26,13 +26,13 @@ public class TrickleRateLimiter
 	}
 	
 	@API
-	public TrickleRateLimiter(int count, Duration timeframe, double maxAccumulation)
+	public TrickleRateLimiter(double count, Duration timeframe, double maxAccumulation)
 	{
 		this(count * 1000d / timeframe.toMillis(), maxAccumulation);
 	}
 	
 	
-	// INTERFACE
+	// INTERFACE: ABSTRACT
 	@Override
 	public boolean isAvailable()
 	{
@@ -58,6 +58,21 @@ public class TrickleRateLimiter
 			return Duration.ZERO;
 		long untilBalanceZeroMs = Math.round(balance / perSecond * -1000);
 		return Duration.ofMillis(untilBalanceZeroMs);
+	}
+	
+	
+	// INTERFACE
+	@API
+	public synchronized void setPerMinute(double perMinute)
+	{
+		updateBalance();
+		perSecond = perMinute / 60;
+	}
+	
+	@API
+	public double getPerMinute()
+	{
+		return perSecond * 60;
 	}
 	
 	
