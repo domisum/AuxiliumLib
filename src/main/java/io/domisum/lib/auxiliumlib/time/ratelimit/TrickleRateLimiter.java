@@ -26,9 +26,9 @@ public class TrickleRateLimiter
 	}
 	
 	@API
-	public TrickleRateLimiter(int count, Duration timeframe, double accumulationFraction)
+	public TrickleRateLimiter(int count, Duration timeframe, double maxAccumulation)
 	{
-		this(count * 1000d / timeframe.toMillis(), count * accumulationFraction);
+		this(count * 1000d / timeframe.toMillis(), maxAccumulation);
 	}
 	
 	
