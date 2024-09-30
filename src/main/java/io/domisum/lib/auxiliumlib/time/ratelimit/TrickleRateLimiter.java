@@ -15,7 +15,7 @@ public class TrickleRateLimiter
 	
 	// STATE
 	private long balanceTimeEpochMs = System.currentTimeMillis();
-	private double balance = -1; // slow start
+	private double balance;
 	
 	
 	// INIT
@@ -23,6 +23,7 @@ public class TrickleRateLimiter
 	{
 		this.perSecond = perSecond;
 		this.maxAccumulation = MathUtil.clampLower(2, maxAccumulation);
+		this.balance = -perSecond * 5; // slow start
 	}
 	
 	@API
