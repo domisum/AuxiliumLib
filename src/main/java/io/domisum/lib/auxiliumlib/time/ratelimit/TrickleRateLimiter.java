@@ -15,7 +15,7 @@ public class TrickleRateLimiter
 	
 	// STATE
 	private long balanceTimeEpochMs = System.currentTimeMillis();
-	private double balance = 0;
+	private double balance = -1; // slow start
 	
 	
 	// INIT
