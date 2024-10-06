@@ -9,6 +9,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.io.IOException;
 import java.time.Duration;
@@ -73,7 +74,7 @@ public final class LazyCache<KeyT, T>
 	
 	// CACHE
 	@API
-	public void put(KeyT key, T value)
+	public void put(@Nonnull KeyT key, T value)
 	{
 		ifDueExpire();
 		entries.put(key, new CacheEntry(value));
@@ -94,13 +95,13 @@ public final class LazyCache<KeyT, T>
 	}
 	
 	@API
-	public T getOrPutAndGet(KeyT key, Supplier<T> valueSupplier)
+	public T getOrPutAndGet(@Nonnull KeyT key, Supplier<T> valueSupplier)
 	{
 		return getOrPutAndGet(key, k -> valueSupplier.get());
 	}
 	
 	@API
-	public T getOrPutAndGet(KeyT key, Function<KeyT, T> valueFunction)
+	public T getOrPutAndGet(@Nonnull KeyT key, Function<KeyT, T> valueFunction)
 	{
 		var entry = get(key);
 		if(entry.isPresent())
@@ -112,14 +113,14 @@ public final class LazyCache<KeyT, T>
 	}
 	
 	@API
-	public T getOrIoPutAndGet(KeyT key, IoSupplier<T> valueSupplier)
+	public T getOrIoPutAndGet(@Nonnull KeyT key, IoSupplier<T> valueSupplier)
 		throws IOException
 	{
 		return getOrIoPutAndGet(key, k -> valueSupplier.get());
 	}
 	
 	@API
-	public T getOrIoPutAndGet(KeyT key, IoFunction<KeyT, T> valueFunction)
+	public T getOrIoPutAndGet(@Nonnull KeyT key, IoFunction<KeyT, T> valueFunction)
 		throws IOException
 	{
 		var entry = get(key);
@@ -133,7 +134,7 @@ public final class LazyCache<KeyT, T>
 	
 	
 	@API
-	public Optional<T> get(KeyT key)
+	public Optional<T> get(@Nonnull KeyT key)
 	{
 		ifDueExpire();
 		
@@ -148,7 +149,7 @@ public final class LazyCache<KeyT, T>
 	}
 	
 	@API
-	public boolean containsKey(KeyT key)
+	public boolean containsKey(@Nonnull KeyT key)
 	{
 		ifDueExpire();
 		
