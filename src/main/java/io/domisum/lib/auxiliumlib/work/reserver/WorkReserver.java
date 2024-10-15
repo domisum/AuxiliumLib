@@ -56,7 +56,7 @@ public abstract class WorkReserver<T>
 	 *
 	 * @param workAction   The function that performs the IO work
 	 * @param errorMessage The error message to log if an IOException occurs,
-	 *                        optionally including one '{}' placeholder for the subject
+	 *                     optionally including one '{}' placeholder for the subject
 	 * @return Whether effort was made while performing the IO work
 	 */
 	@API
@@ -78,7 +78,7 @@ public abstract class WorkReserver<T>
 	 * Performs IO work using the provided workAction and logs a warning message if an IOException occurs.
 	 *
 	 * @param workAction   The function that performs the IO work
-	 * @param errorMessage The error message to log if an IOException occurs, including one '{}' placeholder
+	 * @param errorMessage The error message to log if an IOException occurs, optionally with one '{}' placeholder
 	 * @return Whether effort was made while performing the IO work
 	 */
 	@API
@@ -88,7 +88,16 @@ public abstract class WorkReserver<T>
 		{
 			workAction.accept(s);
 			return WorkResult.didSomeWork();
-		}, (s, e) -> logger.warn(errorMessage + ": {}", s, ExceptionUtil.getSynopsis(e)));
+		}, (s, e) -> warn(errorMessage, s, e));
+	}
+	
+	private void warn(String errorMessage, T subject, Exception exception)
+	{
+		if(errorMessage.contains("{}"))
+			//noinspection StringConcatenationArgumentToLogCall
+			logger.warn(errorMessage + ": {}", subject, ExceptionUtil.getSynopsis(exception));
+		else
+			logger.warn("{}: {}", errorMessage, ExceptionUtil.getSynopsis(exception));
 	}
 	
 	
