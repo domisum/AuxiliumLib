@@ -3,7 +3,6 @@ package io.domisum.lib.auxiliumlib.work.reserver;
 import io.domisum.lib.auxiliumlib.annotations.API;
 import io.domisum.lib.auxiliumlib.contracts.IoConsumer;
 import io.domisum.lib.auxiliumlib.util.ExceptionUtil;
-import io.domisum.lib.auxiliumlib.work.Effort;
 import io.domisum.lib.auxiliumlib.work.WorkResult;
 import org.apache.commons.io.function.IOFunction;
 import org.slf4j.Logger;
@@ -28,11 +27,11 @@ public abstract class WorkReserver<T>
 	
 	// UTIL
 	@API
-	public Effort workIo(IOFunction<T, WorkResult> workAction, BiConsumer<T, IOException> onIoException)
+	public WorkResult workIo(IOFunction<T, WorkResult> workAction, BiConsumer<T, IOException> onIoException)
 	{
 		var workOptional = getWorkOptional();
 		if(workOptional.isEmpty())
-			return Effort.NONE;
+			return WorkResult.successfulWithoutEffort();
 		var work = workOptional.get();
 		var subject = work.getSubject();
 		
@@ -41,12 +40,12 @@ public abstract class WorkReserver<T>
 			var result = workAction.apply(subject);
 			if(result.isSuccess())
 				work.successful();
-			return result.getEffort();
+			return result;
 		}
 		catch(IOException e)
 		{
 			onIoException.accept(subject, e);
-			return Effort.SOME;
+			return WorkResult.workFailed();
 		}
 	}
 	
@@ -60,7 +59,7 @@ public abstract class WorkReserver<T>
 	 * @return Whether effort was made while performing the IO work
 	 */
 	@API
-	public Effort workIoWarn(IOFunction<T, WorkResult> workAction, String errorMessage)
+	public WorkResult workIoWarn(IOFunction<T, WorkResult> workAction, String errorMessage)
 	{
 		return workIo(workAction, (s, e) ->
 			{
@@ -82,7 +81,7 @@ public abstract class WorkReserver<T>
 	 * @return Whether effort was made while performing the IO work
 	 */
 	@API
-	public Effort workIoWarn(IoConsumer<T> workAction, String errorMessage)
+	public WorkResult workIoWarn(IoConsumer<T> workAction, String errorMessage)
 	{
 		return workIo(s ->
 		{
@@ -102,13 +101,13 @@ public abstract class WorkReserver<T>
 	
 	
 	@API
-	public Effort work(Function<T, WorkResult> workAction)
+	public WorkResult work(Function<T, WorkResult> workAction)
 	{
 		return workIo(workAction::apply, null);
 	}
 	
 	@API
-	public Effort work(Consumer<T> workAction)
+	public WorkResult work(Consumer<T> workAction)
 	{
 		return work(s ->
 		{
@@ -143,18 +142,22 @@ public abstract class WorkReserver<T>
 	
 	
 	// OVERRIDE THIS
+	@API
 	protected abstract Optional<T> getNextSubject(Collection<T> reservedSubjects);
 	
+	@API
 	protected void onClose(ReservedWork<T> work)
 	{
 		// nothing in base impl
 	}
 	
+	@API
 	protected void onSuccess(ReservedWork<T> work)
 	{
 		// nothing in base impl
 	}
 	
+	@API
 	protected void onFail(ReservedWork<T> work)
 	{
 		// nothing in base impl
