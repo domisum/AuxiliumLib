@@ -1,5 +1,6 @@
 package io.domisum.lib.auxiliumlib.work.reserver.s;
 
+import io.domisum.lib.auxiliumlib.util.math.RandomUtil;
 import io.domisum.lib.auxiliumlib.work.reserver.ReservedWork;
 import io.domisum.lib.auxiliumlib.work.reserver.WorkReserver;
 
@@ -25,6 +26,11 @@ public abstract class SubjectCooldownWorkReserver<T>
 		return Duration.ofMinutes(5);
 	}
 	
+	protected boolean RANDOMIZE_COOLDOWN()
+	{
+		return false;
+	}
+	
 	
 	// IMPLEMENTATION
 	@Override
@@ -48,13 +54,19 @@ public abstract class SubjectCooldownWorkReserver<T>
 	@Override
 	protected synchronized void onSuccess(ReservedWork<T> work)
 	{
-		putOnCooldown(work.getSubject(), SUCCESS_COOLDOWN());
+		var cooldown = SUCCESS_COOLDOWN();
+		if(RANDOMIZE_COOLDOWN())
+			cooldown = RandomUtil.getFromRangeRel(cooldown, 0.8, 1);
+		putOnCooldown(work.getSubject(), cooldown);
 	}
 	
 	@Override
 	protected synchronized void onFail(ReservedWork<T> work)
 	{
-		putOnCooldown(work.getSubject(), FAIL_COOLDOWN());
+		var cooldown = FAIL_COOLDOWN();
+		if(RANDOMIZE_COOLDOWN())
+			cooldown = RandomUtil.getFromRangeRel(cooldown, 0.8, 1);
+		putOnCooldown(work.getSubject(), cooldown);
 	}
 	
 	
