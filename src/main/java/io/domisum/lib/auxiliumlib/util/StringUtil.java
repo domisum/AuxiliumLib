@@ -152,11 +152,11 @@ public final class StringUtil
 	@API
 	public static List<String> splitLines(String toSplit)
 	{
-		return split(toSplit, "\\R");
+		return splitByRegex(toSplit, "\\R");
 	}
 	
 	@API
-	public static List<String> split(String toSplit, String delimiterRegex)
+	public static List<String> splitByRegex(String toSplit, String delimiterRegex)
 	{
 		if(toSplit.isEmpty())
 			return Collections.emptyList();
