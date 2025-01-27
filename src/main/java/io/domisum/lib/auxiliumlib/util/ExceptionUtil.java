@@ -78,6 +78,7 @@ public final class ExceptionUtil
 		if(causeSynopsis != null)
 			synopsis += "; caused by: (" + causeSynopsis + ")";
 		
+		synopsis = synopsis.replaceAll("\n", "<br>");
 		return synopsis;
 	}
 	
