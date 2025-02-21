@@ -33,12 +33,40 @@ public class StringUtilTest
 	}
 	
 	
-	// TEST ESCAPE REGEX CHAR
+	// TEST REGEX / SPLIT
 	@Test
 	public void testEscapeRegexCharacters()
 	{
 		Assertions.assertEquals("\\.", StringUtil.escapeStringForRegex("."));
 		Assertions.assertEquals("\\\\", StringUtil.escapeStringForRegex("\\"));
+	}
+	
+	@Test
+	public void testSplitLines()
+	{
+		Assertions.assertEquals(Arrays.asList(), StringUtil.splitLines(""));
+		Assertions.assertEquals(Arrays.asList("k"), StringUtil.splitLines("k"));
+		Assertions.assertEquals(Arrays.asList("key", "value"), StringUtil.splitLines("key\nvalue"));
+		Assertions.assertEquals(Arrays.asList("key", "value"), StringUtil.splitLines("key\nvalue"));
+		Assertions.assertEquals(Arrays.asList("key", "value"), StringUtil.splitLines("key\r\nvalue"));
+	}
+	
+	@Test
+	public void testSplitByRegex()
+	{
+		Assertions.assertEquals(Arrays.asList("key", "value"), StringUtil.splitByRegex("key1234value", "[0-9]+"));
+	}
+	
+	@Test
+	public void testSplitByLiteral()
+	{
+		Assertions.assertEquals(Arrays.asList("key", "value"), StringUtil.splitByLiteral("key=value", "="));
+		Assertions.assertEquals(Arrays.asList("", ""), StringUtil.splitByLiteral("=", "="));
+		Assertions.assertEquals(Arrays.asList("x", "d"), StringUtil.splitByLiteral("x.d", "."));
+		Assertions.assertEquals(Arrays.asList("x", "d"), StringUtil.splitByLiteral("x/d", "/"));
+		Assertions.assertEquals(Arrays.asList("x", "d"), StringUtil.splitByLiteral("x\\d", "\\"));
+		Assertions.assertEquals(Arrays.asList("x", "d"), StringUtil.splitByLiteral("x+d", "+"));
+		Assertions.assertEquals(Arrays.asList("https", "google.com"), StringUtil.splitByLiteral("https://google.com", "://"));
 	}
 	
 	
@@ -56,8 +84,8 @@ public class StringUtilTest
 	@Test
 	public void testGenerateAllPermutationsErrorMismatchedPlaceholders()
 	{
-		Assertions.assertThrows(IllegalArgumentException.class, ()->StringUtil.generateAllPermutations("{} {}", Arrays.asList("a", "b")));
-		Assertions.assertThrows(IllegalArgumentException.class, ()->StringUtil.generateAllPermutations("{}", Arrays.asList("a", "b"), Arrays.asList("c", "d")));
+		Assertions.assertThrows(IllegalArgumentException.class, () -> StringUtil.generateAllPermutations("{} {}", Arrays.asList("a", "b")));
+		Assertions.assertThrows(IllegalArgumentException.class, () -> StringUtil.generateAllPermutations("{}", Arrays.asList("a", "b"), Arrays.asList("c", "d")));
 	}
 	
 	@SafeVarargs

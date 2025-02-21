@@ -35,7 +35,7 @@ public final class StringUtil
 		for(int i = 0; i < count; i++)
 		{
 			builder.append(toRepeat);
-			if(i < count-1)
+			if(i < count - 1)
 				builder.append(delimiter);
 		}
 		
@@ -55,7 +55,7 @@ public final class StringUtil
 		
 		var newLines = new ArrayList<String>();
 		for(String line : lines)
-			newLines.add(indentationString+line);
+			newLines.add(indentationString + line);
 		
 		return StringListUtil.list(newLines, "\n");
 	}
@@ -116,7 +116,7 @@ public final class StringUtil
 			char charAt = escaped.charAt(i);
 			if(charactersToEscape.contains(charAt))
 			{
-				escaped = escaped.substring(0, i)+"\\"+charAt+escaped.substring(i+1);
+				escaped = escaped.substring(0, i) + "\\" + charAt + escaped.substring(i + 1);
 				// noinspection AssignmentToForLoopParameter
 				i++;
 			}
@@ -135,8 +135,8 @@ public final class StringUtil
 		if(string.length() <= maxLength)
 			return string;
 		
-		int desiredBaseStringLength = maxLength-toBeContinued.length();
-		return toBeContinued+string.substring(string.length()-desiredBaseStringLength);
+		int desiredBaseStringLength = maxLength - toBeContinued.length();
+		return toBeContinued + string.substring(string.length() - desiredBaseStringLength);
 	}
 	
 	@API
@@ -144,7 +144,7 @@ public final class StringUtil
 	{
 		int pos = string.lastIndexOf(from);
 		if(pos > -1)
-			return string.substring(0, pos)+to+string.substring(pos+from.length());
+			return string.substring(0, pos) + to + string.substring(pos + from.length());
 		
 		return string;
 	}
@@ -163,6 +163,12 @@ public final class StringUtil
 		
 		String[] split = toSplit.split(delimiterRegex, -1); // -1 to include trailing empty strings
 		return new ArrayList<>(Arrays.asList(split));
+	}
+	
+	@API
+	public static List<String> splitByLiteral(String toSplit, String delimiterLiteral)
+	{
+		return splitByRegex(toSplit, escapeStringForRegex(delimiterLiteral));
 	}
 	
 	
