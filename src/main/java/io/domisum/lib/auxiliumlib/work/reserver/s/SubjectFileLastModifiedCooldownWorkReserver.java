@@ -41,7 +41,7 @@ public abstract class SubjectFileLastModifiedCooldownWorkReserver<T>
 	protected final Collection<T> getAllSubjects()
 	{
 		return getAllUnsortedSubjects().stream()
-			.map(s -> new Pair<>(s, getSubjectFile(s).lastModified()))
+			.map(s -> new Pair<>(s, getSubjectFile(s).lastModified())) // last modified is 0 if file does not exist
 			.sorted(Comparator.comparingLong(Pair::getB))
 			.map(Pair::getA)
 			.toList();
