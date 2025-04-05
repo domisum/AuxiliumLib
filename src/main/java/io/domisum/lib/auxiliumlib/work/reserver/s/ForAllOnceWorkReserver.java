@@ -5,6 +5,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -36,9 +38,9 @@ public abstract class ForAllOnceWorkReserver<T>
 	
 	// IMPLEMENTATION
 	@Override
-	protected Set<T> getEligibleSubjects()
+	protected Collection<T> getEligibleSubjects()
 	{
-		var subjects = super.getEligibleSubjects();
+		var subjects = new ArrayList<>(super.getEligibleSubjects());
 		subjects.removeAll(completedForSubjects);
 		return subjects;
 	}

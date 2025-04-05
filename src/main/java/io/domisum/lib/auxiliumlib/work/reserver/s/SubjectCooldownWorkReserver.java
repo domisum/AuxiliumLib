@@ -5,17 +5,16 @@ import io.domisum.lib.auxiliumlib.work.reserver.ReservedWork;
 import io.domisum.lib.auxiliumlib.work.reserver.WorkReserver;
 
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.Optional;
-import java.util.Set;
 
 public abstract class SubjectCooldownWorkReserver<T>
 	extends WorkReserver<T>
 {
 	
 	// STATE
-	private Set<T> allSubjects;
+	private Collection<T> allSubjects;
 	
 	
 	// CONSTANT METHODS
@@ -44,10 +43,10 @@ public abstract class SubjectCooldownWorkReserver<T>
 		return Optional.empty();
 	}
 	
-	protected Set<T> getEligibleSubjects()
+	protected Collection<T> getEligibleSubjects()
 	{
 		if(allSubjects == null)
-			allSubjects = new HashSet<>(getAllSubjects());
+			allSubjects = new ArrayList<>(getAllSubjects());
 		return allSubjects;
 	}
 	
