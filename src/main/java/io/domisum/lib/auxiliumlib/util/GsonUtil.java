@@ -1,12 +1,12 @@
 package io.domisum.lib.auxiliumlib.util;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
+import com.google.gson.*;
 import io.domisum.lib.auxiliumlib.annotations.API;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.function.BiConsumer;
 
 @API
@@ -35,17 +35,44 @@ public final class GsonUtil
 	
 	public static void addProperty(JsonObject base, String path, String value)
 	{
-		addProperty(base, path, (o, k)->o.addProperty(k, value));
+		addProperty(base, path, (o, k) -> o.addProperty(k, value));
 	}
 	
 	public static void addProperty(JsonObject base, String path, Number value)
 	{
-		addProperty(base, path, (o, k)->o.addProperty(k, value));
+		addProperty(base, path, (o, k) -> o.addProperty(k, value));
 	}
 	
 	public static void addProperty(JsonObject base, String path, Boolean value)
 	{
-		addProperty(base, path, (o, k)->o.addProperty(k, value));
+		addProperty(base, path, (o, k) -> o.addProperty(k, value));
+	}
+	
+	public static void addProperty(JsonObject base, String path, Object[] value)
+	{
+		addProperty(base, path, Arrays.asList(value));
+	}
+	
+	public static void addProperty(JsonObject base, String path, Collection<?> value)
+	{
+		addProperty(base, path, (o, k) ->
+		{
+			var array = new JsonArray();
+			for(Object v : value)
+				if(v instanceof String s)
+					array.add(s);
+				else if(v instanceof Number n)
+					array.add(n);
+				else if(v instanceof Boolean b)
+					array.add(b);
+				else if(v instanceof Character c)
+					array.add(c);
+				else if(v instanceof JsonObject jo)
+					array.add(jo);
+				else
+					throw new IllegalArgumentException("Unsupported value type: " + v.getClass());
+			o.add(k, array);
+		});
 	}
 	
 	public static void addProperty(JsonObject base, String path, BiConsumer<JsonObject, String> addProperty)
@@ -58,7 +85,7 @@ public final class GsonUtil
 		}
 		
 		String frontPathPart = path.substring(0, dotIndex);
-		String remainingPathPart = path.substring(dotIndex+1);
+		String remainingPathPart = path.substring(dotIndex + 1);
 		
 		var container = base.has(frontPathPart) ? base.getAsJsonObject(frontPathPart) : new JsonObject();
 		if(!base.has(frontPathPart))
