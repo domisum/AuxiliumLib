@@ -188,8 +188,7 @@ public final class LazyCache<KeyT, T>
 	{
 		
 		// BASE ATTRIBUTES
-		@Getter
-		private final T value;
+		@Getter @Nullable private final T value;
 		private final Duration expirationDuration = determineExpirationDuration();
 		
 		// STATUS
