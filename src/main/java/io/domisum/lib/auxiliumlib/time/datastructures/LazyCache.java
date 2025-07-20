@@ -14,8 +14,10 @@ import javax.annotation.Nullable;
 import java.io.IOException;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -155,6 +157,13 @@ public final class LazyCache<KeyT, T>
 		
 		var entry = entries.get(key);
 		return entry != null;
+	}
+	
+	@API
+	public Set<KeyT> getKeys()
+	{
+		expire();
+		return new HashSet<>(entries.keySet());
 	}
 	
 	
