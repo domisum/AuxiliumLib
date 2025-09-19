@@ -1,6 +1,7 @@
 package io.domisum.lib.auxiliumlib.exceptions;
 
 import io.domisum.lib.auxiliumlib.datacontainers.tuple.Pair;
+import io.domisum.lib.auxiliumlib.util.ExceptionUtil;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,7 +48,7 @@ public class CatchRetry<T extends Exception>
 				var exhOptional = getExceptionHandler(e);
 				exhOptional.ifPresent(eh -> eh.accept(e));
 				if(exhOptional.isEmpty())
-					logger.warn(warnMessage, e);
+					logger.warn("{} | {}", warnMessage, ExceptionUtil.getSynopsis(e), e);
 			}
 	}
 	
