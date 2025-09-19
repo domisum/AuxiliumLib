@@ -1,6 +1,5 @@
 package io.domisum.lib.auxiliumlib.exceptions;
 
-import io.domisum.lib.auxiliumlib.datacontainers.tuple.Pair;
 import io.domisum.lib.auxiliumlib.util.ExceptionUtil;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -22,15 +21,22 @@ public class CatchRetry<T extends Exception>
 	private final RunThrows<T> run;
 	private final int maxTries;
 	private final String warnMessage;
-	private final List<Pair<Class<? extends Exception>, Consumer<Exception>>> exceptionHandlers = new ArrayList<>();
+	private final List<ExceptionHandling<?>> exceptionHandlers = new ArrayList<>();
 	
 	
-	// INTERFACE
-	public void handleExc(Class<? extends Exception> clazz, Consumer<Exception> handler)
+	// INTERFACE: EXCEPTIONS
+	public <X extends Exception> void handleExc(Class<X> clazz, Consumer<X> handler)
 	{
-		this.exceptionHandlers.add(new Pair<>(clazz, handler));
+		this.exceptionHandlers.add(new ExceptionHandling<>(clazz, handler, false));
 	}
 	
+	public <X extends Exception> void logAndHandleExc(Class<X> clazz, Consumer<X> handler)
+	{
+		this.exceptionHandlers.add(new ExceptionHandling<>(clazz, handler, true));
+	}
+	
+	
+	// INTERFACE: RUN
 	public void run()
 		throws T
 	{
@@ -42,13 +48,14 @@ public class CatchRetry<T extends Exception>
 			}
 			catch(Exception e)
 			{
-				if(i == maxTries - 1)
+				boolean wasLastTry = i == maxTries - 1;
+				if(wasLastTry)
 					throw e;
 				
-				var exhOptional = getExceptionHandler(e);
-				exhOptional.ifPresent(eh -> eh.accept(e));
-				if(exhOptional.isEmpty())
+				var ehlOptional = getExceptionHandling(e);
+				if(ehlOptional.isEmpty() || ehlOptional.get().log())
 					logger.warn("{} | {}", warnMessage, ExceptionUtil.getSynopsis(e), e);
+				ehlOptional.ifPresent(ehl -> ehl.handler().accept(e));
 			}
 	}
 	
@@ -62,12 +69,19 @@ public class CatchRetry<T extends Exception>
 	
 	
 	// INTERNAL
-	private Optional<Consumer<Exception>> getExceptionHandler(Exception e)
+	private <X extends Exception> Optional<ExceptionHandling<X>> getExceptionHandling(X e)
 	{
 		for(var eh : exceptionHandlers)
-			if(eh.getA().isAssignableFrom(e.getClass()))
-				return Optional.of(eh.getB());
+			if(eh.clazz() == null || eh.clazz().isAssignableFrom(e.getClass()))
+				// noinspection unchecked
+				return Optional.of((ExceptionHandling<X>) eh);
 		return Optional.empty();
 	}
+	
+	private record ExceptionHandling<R extends Exception>(
+		Class<R> clazz,
+		Consumer<R> handler,
+		boolean log
+	) {}
 	
 }
