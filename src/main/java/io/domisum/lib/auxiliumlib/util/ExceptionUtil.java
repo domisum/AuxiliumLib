@@ -58,10 +58,10 @@ public final class ExceptionUtil
 	@API
 	public static String convertToString(Throwable throwable)
 	{
-		StringBuilder stringBuilder = new StringBuilder();
+		var stringBuilder = new StringBuilder();
 		stringBuilder.append(throwable.toString()).append("\n");
 		
-		for(StackTraceElement stackTraceElement : throwable.getStackTrace())
+		for(var stackTraceElement : throwable.getStackTrace())
 			stringBuilder.append("    ").append(stackTraceElement.toString()).append("\n");
 		
 		if(throwable.getCause() != null)
