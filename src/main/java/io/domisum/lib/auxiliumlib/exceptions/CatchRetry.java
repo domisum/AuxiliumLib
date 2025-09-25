@@ -37,14 +37,18 @@ public class CatchRetry<T extends Exception>
 	
 	
 	// INTERFACE: RUN
-	public void run()
+	
+	/**
+	 * @return the number of attempts that led to success. [1 ; maxTries]
+	 */
+	public int run()
 		throws T
 	{
 		for(int i = 0; i < maxTries; i++)
 			try
 			{
 				run.run();
-				return;
+				return i + 1;
 			}
 			catch(Exception e)
 			{
@@ -58,6 +62,8 @@ public class CatchRetry<T extends Exception>
 				if(ehlOptional.isEmpty() || ehlOptional.get().log())
 					logger.warn("{} | {}", warnMessage, ExceptionUtil.getSynopsis(e), e);
 			}
+		
+		throw new ProgrammingError("This should never be reached");
 	}
 	
 	public interface RunThrows<X extends Exception>
