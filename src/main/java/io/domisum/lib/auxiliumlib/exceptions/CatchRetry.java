@@ -48,14 +48,15 @@ public class CatchRetry<T extends Exception>
 			}
 			catch(Exception e)
 			{
+				var ehlOptional = getExceptionHandling(e);
+				ehlOptional.ifPresent(ehl -> ehl.handler().accept(e));
+				
 				boolean wasLastTry = i == maxTries - 1;
 				if(wasLastTry)
 					throw e;
 				
-				var ehlOptional = getExceptionHandling(e);
 				if(ehlOptional.isEmpty() || ehlOptional.get().log())
 					logger.warn("{} | {}", warnMessage, ExceptionUtil.getSynopsis(e), e);
-				ehlOptional.ifPresent(ehl -> ehl.handler().accept(e));
 			}
 	}
 	
