@@ -35,8 +35,9 @@ public final class ExceptionUtil
 	@SuppressWarnings("unchecked")
 	public static <T extends Throwable> Optional<T> getSingleContained(Throwable throwable, Class<T> type)
 	{
-		ValidationUtil.notNull(throwable, "throwable");
 		ValidationUtil.notNull(type, "type");
+		if(throwable == null)
+			return Optional.empty();
 		
 		if(type.isInstance(throwable))
 			return Optional.of((T) throwable);
