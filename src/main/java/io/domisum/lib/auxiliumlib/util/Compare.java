@@ -4,6 +4,9 @@ import io.domisum.lib.auxiliumlib.annotations.API;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
+import java.util.Comparator;
+import java.util.function.Function;
+
 @API
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class Compare
@@ -58,6 +61,18 @@ public final class Compare
 	public static <T extends Comparable<T>> T max(T a, T b)
 	{
 		return greaterThan(a, b) ? a : b;
+	}
+	
+	@API
+	public static <T> Comparator<T> trueFirst(Function<T, Boolean> predicate)
+	{
+		return falseFirst(predicate).reversed();
+	}
+	
+	@API
+	public static <T> Comparator<T> falseFirst(Function<T, Boolean> predicate)
+	{
+		return Comparator.comparing(predicate);
 	}
 	
 }
