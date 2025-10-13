@@ -21,6 +21,7 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 @API
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
@@ -164,6 +165,15 @@ public final class LazyCache<KeyT, T>
 	{
 		expire();
 		return new HashSet<>(entries.keySet());
+	}
+	
+	@API
+	public Set<T> getValues()
+	{
+		expire();
+		return entries.values().stream()
+			.map(CacheEntry::getValue)
+			.collect(Collectors.toSet());
 	}
 	
 	
