@@ -124,7 +124,18 @@ public final class StringUtil
 		
 		return escaped;
 	}
-	
+
+    @API
+    public static String stripQuotes(String input)
+    {
+        if(input.isEmpty())
+            return input;
+        for(char c : new char[]{'\'', '"'})
+            if(input.charAt(0) == c && input.charAt(input.length() - 1) == c)
+                return input.substring(1, input.length() - 1);
+        return input;
+    }
+
 	
 	// MISC
 	@API

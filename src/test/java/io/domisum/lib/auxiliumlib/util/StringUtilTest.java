@@ -11,7 +11,7 @@ import java.util.Set;
 public class StringUtilTest
 {
 	
-	// TEST LONGEST COMMON PREFIX
+	// LONGEST COMMON PREFIX
 	@Test
 	public void testPrefixNoCommon()
 	{
@@ -31,16 +31,31 @@ public class StringUtilTest
 		
 		Assertions.assertEquals("+-*/", StringUtil.getLongestCommonPrefix("+-*/", "+-*/59"));
 	}
-	
-	
-	// TEST REGEX / SPLIT
-	@Test
-	public void testEscapeRegexCharacters()
-	{
-		Assertions.assertEquals("\\.", StringUtil.escapeStringForRegex("."));
-		Assertions.assertEquals("\\\\", StringUtil.escapeStringForRegex("\\"));
-	}
-	
+
+
+    // ESCAPE
+    @Test
+    public void testEscapeRegexCharacters()
+    {
+        Assertions.assertEquals("\\.", StringUtil.escapeStringForRegex("."));
+        Assertions.assertEquals("\\\\", StringUtil.escapeStringForRegex("\\"));
+    }
+
+    @Test
+    public void testStripQuotes()
+    {
+        Assertions.assertEquals("asdf", StringUtil.stripQuotes("'asdf'"));
+        Assertions.assertEquals("asdlfk;;- ", StringUtil.stripQuotes("\"asdlfk;;- \""));
+        Assertions.assertEquals("", StringUtil.stripQuotes("\"\""));
+        Assertions.assertEquals("", StringUtil.stripQuotes(""));
+
+        // keep mismatched quotes
+        Assertions.assertEquals("\"x'", StringUtil.stripQuotes("\"x'"));
+        Assertions.assertEquals("Players'", StringUtil.stripQuotes("Players'"));
+    }
+
+
+	// SPLIT
 	@Test
 	public void testSplitLines()
 	{
@@ -68,7 +83,7 @@ public class StringUtilTest
 		Assertions.assertEquals(Arrays.asList("x", "d"), StringUtil.splitByLiteral("x+d", "+"));
 		Assertions.assertEquals(Arrays.asList("https", "google.com"), StringUtil.splitByLiteral("https://google.com", "://"));
 	}
-	
+
 	
 	// COMBINATORICS
 	@Test
