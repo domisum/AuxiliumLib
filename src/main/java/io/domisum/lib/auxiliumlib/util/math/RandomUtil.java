@@ -7,12 +7,8 @@ import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.Validate;
 
 import java.time.Duration;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.Random;
 
 @API
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
@@ -234,8 +230,8 @@ public final class RandomUtil
 			throw new IllegalArgumentException("The map has to have at least 1 element");
 		
 		double chanceSum = elementsWithChance.values().stream()
-                .mapToDouble(Number::doubleValue)
-                .reduce(0d, Double::sum);
+			.mapToDouble(Number::doubleValue)
+			.reduce(0d, Double::sum);
 		double randomSumThreshold = random.nextDouble() * chanceSum;
 		
 		double chanceRunningSum = 0;
