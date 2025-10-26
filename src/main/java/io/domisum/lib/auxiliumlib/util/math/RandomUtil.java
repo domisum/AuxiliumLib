@@ -222,24 +222,26 @@ public final class RandomUtil
 	}
 	
 	@API
-	public static <E> E getElement(Map<E, Double> elementsWithChance)
+	public static <E> E getElement(Map<E, ? extends Number> elementsWithChance)
 	{
 		return getElement(elementsWithChance, getRandom());
 	}
 	
 	@API
-	public static <E> E getElement(Map<E, Double> elementsWithChance, Random random)
+	public static <E> E getElement(Map<E, ? extends Number> elementsWithChance, Random random)
 	{
 		if(elementsWithChance.isEmpty())
 			throw new IllegalArgumentException("The map has to have at least 1 element");
 		
-		double chanceSum = elementsWithChance.values().stream().reduce(0d, Double::sum);
+		double chanceSum = elementsWithChance.values().stream()
+                .mapToDouble(Number::doubleValue)
+                .reduce(0d, Double::sum);
 		double randomSumThreshold = random.nextDouble() * chanceSum;
 		
 		double chanceRunningSum = 0;
-		for(Entry<E, Double> entry : elementsWithChance.entrySet())
+		for(Entry<E, ? extends Number> entry : elementsWithChance.entrySet())
 		{
-			chanceRunningSum += entry.getValue();
+			chanceRunningSum += entry.getValue().doubleValue();
 			if(chanceRunningSum > randomSumThreshold)
 				return entry.getKey();
 		}
