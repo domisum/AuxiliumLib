@@ -15,9 +15,7 @@ import org.slf4j.LoggerFactory;
 import javax.annotation.Nullable;
 import java.time.Duration;
 import java.time.Instant;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Consumer;
@@ -68,6 +66,7 @@ public abstract class Ticker
 	@Getter private final String name;
 	private final Duration interval;
 	@Setter @Nullable private Duration timeout;
+	private final List<Consumer<Thread>> onTimeout = new ArrayList<>();
 	private final boolean isDaemon;
 	@Setter private boolean verbose = true;
 	
@@ -129,6 +128,19 @@ public abstract class Ticker
 			ValidationUtil.greaterZero(timeout, "timeout");
 		this.timeout = timeout;
 		this.isDaemon = isDaemon;
+	}
+	
+	
+	@API
+	public void onTimeout(Runnable run)
+	{
+		onTimeout(t -> run.run());
+	}
+	
+	@API
+	public synchronized void onTimeout(Consumer<Thread> run)
+	{
+		onTimeout.add(run);
 	}
 	
 	
@@ -349,8 +361,10 @@ public abstract class Ticker
 			logger.error("Ticking '{}' in ticker '{}' timed out ({}). Current stacktrace:\n{}",
 				id, name, reason, ThreadUtil.displayThread(tickThread));
 			
-			boolean shouldRestart = status == TickingStatus.RUNNING;
+			for(var on : onTimeout)
+				on.accept(tickThread);
 			
+			boolean shouldRestart = status == TickingStatus.RUNNING;
 			tickThread.setName(tickThread.getName() + "#timedOut");
 			tickThread.interrupt();
 			ThreadUtil.tryKill(tickThread);
