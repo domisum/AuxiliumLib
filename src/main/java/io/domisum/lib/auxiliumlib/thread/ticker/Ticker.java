@@ -2,9 +2,9 @@ package io.domisum.lib.auxiliumlib.thread.ticker;
 
 import io.domisum.lib.auxiliumlib.annotations.API;
 import io.domisum.lib.auxiliumlib.display.DurationDisplay;
+import io.domisum.lib.auxiliumlib.time.TimeUtil;
 import io.domisum.lib.auxiliumlib.util.Compare;
 import io.domisum.lib.auxiliumlib.util.ThreadUtil;
-import io.domisum.lib.auxiliumlib.time.TimeUtil;
 import io.domisum.lib.auxiliumlib.util.ValidationUtil;
 import lombok.Getter;
 import lombok.Setter;
@@ -274,6 +274,12 @@ public abstract class Ticker
 		// TICK
 		private void run()
 		{
+			runMainLoop();
+			end();
+		}
+		
+		private void runMainLoop()
+		{
 			while(status == TickingStatus.RUNNING)
 			{
 				lastTickStart = Instant.now();
@@ -283,11 +289,6 @@ public abstract class Ticker
 				if(status == TickingStatus.RUNNING)
 					ThreadUtil.sleep(interval);
 			}
-			
-			status = TickingStatus.DEAD;
-			tickingsByThread.remove(tickThread);
-			if(verbose)
-				logger.info("Ticking '{}' ended", id);
 		}
 		
 		private void tickCaught()
@@ -310,6 +311,14 @@ public abstract class Ticker
 				logger.error("Uncaught exception in ticker '{}'", name, t);
 				throw t;
 			}
+		}
+		
+		private void end()
+		{
+			status = TickingStatus.DEAD;
+			tickingsByThread.remove(tickThread);
+			if(verbose)
+				logger.info("Ticking '{}' ended", id);
 		}
 		
 		
