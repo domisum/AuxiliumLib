@@ -34,6 +34,7 @@ public class PHRTest
 		
 		assertReplaceEquals("something", "{}thing", "some");
 		assertReplaceEquals("3.141", "3.{}", "141");
+		assertReplaceEquals("{inner}", "{{}}", "inner");
 	}
 	
 	@Test
