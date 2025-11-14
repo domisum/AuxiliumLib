@@ -8,14 +8,7 @@ import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.regex.Pattern;
 
 @API
@@ -124,18 +117,26 @@ public final class StringUtil
 		
 		return escaped;
 	}
-
-    @API
-    public static String stripQuotes(String input)
-    {
-        if(input.isEmpty())
-            return input;
-        for(char c : new char[]{'\'', '"'})
-            if(input.charAt(0) == c && input.charAt(input.length() - 1) == c)
-                return input.substring(1, input.length() - 1);
-        return input;
-    }
-
+	
+	@API
+	public static String stripQuotes(String input)
+	{
+		if(input.isEmpty())
+			return input;
+		for(char c : new char[]{'\'', '"'})
+			if(input.charAt(0) == c && input.charAt(input.length() - 1) == c)
+				return input.substring(1, input.length() - 1);
+		return input;
+	}
+	
+	@API
+	public static String wrapWith(String input, String wrap)
+	{
+		if(input == null)
+			return null;
+		return wrap + input + wrap;
+	}
+	
 	
 	// MISC
 	@API
