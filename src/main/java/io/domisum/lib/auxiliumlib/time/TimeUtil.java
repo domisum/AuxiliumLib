@@ -1,9 +1,11 @@
 package io.domisum.lib.auxiliumlib.time;
 
+import io.domisum.lib.auxiliumlib.PHR;
 import io.domisum.lib.auxiliumlib.annotations.API;
 import io.domisum.lib.auxiliumlib.util.Compare;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import org.ocpsoft.prettytime.PrettyTime;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -114,6 +116,18 @@ public final class TimeUtil
 			secondsString = "0" + secondsString;
 		
 		return displayMinutes + ":" + secondsString;
+	}
+	
+	@API
+	public static String displaySecAndRelative(Instant instant)
+	{
+		return PHR.r("{} ({})", toSecondPrecision(instant), new PrettyTime().format(instant));
+	}
+	
+	@API
+	public static Instant toSecondPrecision(Instant instant)
+	{
+		return instant.minusNanos(instant.getNano());
 	}
 	
 	

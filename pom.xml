@@ -43,6 +43,11 @@
 			<artifactId>gson</artifactId>
 			<version>2.10.1</version>
 		</dependency>
+        <dependency> <!-- https://mvnrepository.com/artifact/org.ocpsoft.prettytime/prettytime -->
+            <groupId>org.ocpsoft.prettytime</groupId>
+            <artifactId>prettytime</artifactId>
+            <version>5.0.9.Final</version>
+        </dependency>
 
 		<dependency> <!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-api -->
 			<groupId>org.slf4j</groupId>

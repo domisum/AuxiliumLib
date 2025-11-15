@@ -1,7 +1,9 @@
 package io.domisum.lib.auxiliumlib.time.datastructures;
 
+import io.domisum.lib.auxiliumlib.PHR;
 import io.domisum.lib.auxiliumlib.annotations.API;
 import io.domisum.lib.auxiliumlib.time.TimeUtil;
+import io.domisum.lib.auxiliumlib.util.StringReportUtil;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
@@ -37,6 +39,14 @@ public class TimedMultiBlockade<KeyT>
 		if(defaultDuration == null)
 			throw new IllegalStateException("Can't use this method when no defaultDuration was given in constructor");
 		return defaultDuration;
+	}
+	
+	@Override
+	public String toString()
+	{
+		removeExpired();
+		return PHR.r("{}(\n{}\n)", getClass().getSimpleName(),
+			StringReportUtil.report(blockedUntilMap, TimeUtil::displaySecAndRelative));
 	}
 	
 	
@@ -113,8 +123,15 @@ public class TimedMultiBlockade<KeyT>
 	@API
 	public synchronized Optional<Instant> getNextBlockReleaseInstant()
 	{
-		blockedUntilMap.entrySet().removeIf(e -> TimeUtil.isInPast(e.getValue()));
+		removeExpired();
 		return blockedUntilMap.values().stream().min(Comparator.naturalOrder());
+	}
+	
+	
+	// INTERNAL
+	private synchronized void removeExpired()
+	{
+		blockedUntilMap.entrySet().removeIf(e -> TimeUtil.isInPast(e.getValue()));
 	}
 	
 }
