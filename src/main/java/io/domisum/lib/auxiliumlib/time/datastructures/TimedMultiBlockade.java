@@ -45,7 +45,7 @@ public class TimedMultiBlockade<KeyT>
 	public String toString()
 	{
 		removeExpired();
-		return PHR.r("{}(\n{}\n)", getClass().getSimpleName(),
+		return PHR.r("{}(blockedUntil=[\n{}\n])", getClass().getSimpleName(),
 			StringReportUtil.report(blockedUntilMap, TimeUtil::displaySecAndRelative));
 	}
 	
