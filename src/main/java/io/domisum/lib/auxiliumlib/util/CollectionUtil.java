@@ -4,10 +4,9 @@ import io.domisum.lib.auxiliumlib.annotations.API;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Stream;
 
 @API
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
@@ -20,6 +19,20 @@ public final class CollectionUtil
 		var list = new ArrayList<>(collection);
 		Collections.sort(list);
 		return list;
+	}
+	
+	@API
+	public static <T> Map<T, Integer> count(Stream<T> stream)
+	{
+		var counts = new HashMap<T, Integer>();
+		stream.forEach(t -> counts.put(t, counts.getOrDefault(t, 0) + 1));
+		return counts;
+	}
+	
+	@API
+	public static <T, I> Map<T, Integer> count(Collection<I> items, Function<I, T> extractor)
+	{
+		return count(items.stream().map(extractor));
 	}
 	
 }
