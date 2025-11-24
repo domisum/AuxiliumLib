@@ -75,6 +75,12 @@ public final class GsonUtil
 		});
 	}
 	
+	
+	public static void addProperty(JsonObject base, String path, JsonElement value)
+	{
+		addProperty(base, path, (o, k) -> o.add(k, value));
+	}
+	
 	public static void addProperty(JsonObject base, String path, BiConsumer<JsonObject, String> addProperty)
 	{
 		int dotIndex = path.indexOf('.');
