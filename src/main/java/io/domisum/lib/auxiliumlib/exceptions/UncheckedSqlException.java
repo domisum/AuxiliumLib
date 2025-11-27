@@ -16,6 +16,12 @@ public class UncheckedSqlException
 	}
 	
 	@API
+	public UncheckedSqlException(String message)
+	{
+		super(new SQLException(message));
+	}
+	
+	@API
 	public UncheckedSqlException(SQLException cause)
 	{
 		super(cause);
