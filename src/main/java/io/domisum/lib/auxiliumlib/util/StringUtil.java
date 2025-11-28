@@ -140,6 +140,12 @@ public final class StringUtil
 	
 	// MISC
 	@API
+	public static boolean startsWithIgnoreCase(String input, String prefix)
+	{
+		return input.toLowerCase().startsWith(prefix.toLowerCase());
+	}
+	
+	@API
 	public static String truncateStart(String string, int maxLength)
 	{
 		String toBeContinued = "...";
