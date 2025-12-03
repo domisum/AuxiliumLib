@@ -35,4 +35,17 @@ public final class CollectionUtil
 		return count(items.stream().map(extractor));
 	}
 	
+	@API
+	public static <T> Map<T, Double> fractions(Map<T, ? extends Number> counts)
+	{
+		double sum = 0.0;
+		for(var count : counts.values())
+			sum += count.doubleValue();
+		
+		var fractions = new HashMap<T, Double>();
+		for(var entry : counts.entrySet())
+			fractions.put(entry.getKey(), sum == 0.0 ? 0 : (entry.getValue().doubleValue() / sum));
+		return fractions;
+	}
+	
 }
