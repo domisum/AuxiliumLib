@@ -177,7 +177,10 @@ public final class FileUtil
 			if(extension == null || extension.isBlank())
 				throw new IllegalArgumentException(PHR.r("Unsupported file extension in file name '{}'", file.getName()));
 			
-			ImageIO.write(image, extension, file);
+			boolean writerFound = ImageIO.write(image, extension, file);
+			if(!writerFound)
+				throw new IOException(PHR.r("Found no compatible image writer for format '{}' " +
+					"and BufferedImage type {}", extension, image.getType()));
 		}
 		catch(IOException e)
 		{
