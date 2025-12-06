@@ -1,6 +1,5 @@
 package io.domisum.lib.auxiliumlib.util;
 
-import io.domisum.lib.auxiliumlib.PHR;
 import io.domisum.lib.auxiliumlib.annotations.API;
 import io.domisum.lib.auxiliumlib.contracts.IoFunction;
 import io.domisum.lib.auxiliumlib.exceptions.ProgrammingError;
@@ -8,12 +7,7 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.function.Function;
 
 @API
@@ -21,6 +15,8 @@ import java.util.function.Function;
 public final class StringReportUtil
 {
 	
+	private static final String BULLET = " - ";
+	private static final String INDENT = " ".repeat(BULLET.length());
 	private static final String QUOT = "'";
 	
 	
@@ -30,8 +26,16 @@ public final class StringReportUtil
 	{
 		var itemDisplays = new ArrayList<String>();
 		for(var item : list)
-			itemDisplays.add(PHR.r(" - {}", valueFunction.apply(item)));
-		
+		{
+			String valueDisplay = Objects.toString(valueFunction.apply(item));
+			
+			valueDisplay = StringUtil.indent(valueDisplay, INDENT);
+			if(valueDisplay.length() >= INDENT.length())
+				valueDisplay = valueDisplay.substring(0, INDENT.length());
+			valueDisplay = BULLET + valueDisplay;
+			
+			itemDisplays.add(valueDisplay);
+		}
 		return StringListUtil.list(itemDisplays, "\n");
 	}
 	
@@ -70,12 +74,12 @@ public final class StringReportUtil
 	@API
 	public static <T> String report(Map<?, T> map, Function<T, Object> valueFunction)
 	{
-		return report(map, k->(k instanceof String) ? QUOT+k+QUOT : k, valueFunction);
+		return report(map, k -> (k instanceof String) ? QUOT + k + QUOT : k, valueFunction);
 	}
 	
 	@API
 	public static <K, V> String report(Map<K, V> map,
-		Function<K, Object> keyFunction, Function<V, Object> valueFunction)
+									   Function<K, Object> keyFunction, Function<V, Object> valueFunction)
 	{
 		var entryStrings = new ArrayList<String>();
 		for(var entry : map.entrySet())
@@ -83,7 +87,7 @@ public final class StringReportUtil
 			String keyString = Objects.toString(keyFunction.apply(entry.getKey()));
 			String valueString = Objects.toString(valueFunction.apply(entry.getValue()));
 			
-			String entryString = keyString+" -> "+valueString;
+			String entryString = keyString + " -> " + valueString;
 			entryStrings.add(entryString);
 		}
 		
