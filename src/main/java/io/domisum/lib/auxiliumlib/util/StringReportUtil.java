@@ -31,7 +31,7 @@ public final class StringReportUtil
 			
 			valueDisplay = StringUtil.indent(valueDisplay, INDENT);
 			if(valueDisplay.length() >= INDENT.length())
-				valueDisplay = valueDisplay.substring(0, INDENT.length());
+				valueDisplay = valueDisplay.substring(INDENT.length());
 			valueDisplay = BULLET + valueDisplay;
 			
 			itemDisplays.add(valueDisplay);
