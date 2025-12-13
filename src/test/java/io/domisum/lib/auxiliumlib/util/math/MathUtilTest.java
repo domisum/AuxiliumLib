@@ -10,16 +10,16 @@ public class MathUtilTest
 	public void testRemapLinear()
 	{
 		// equal start and end
-		Assertions.assertThrows(IllegalArgumentException.class, ()->MathUtil.remapLinear(0, 0, 1, 2, 0));
-		Assertions.assertThrows(IllegalArgumentException.class, ()->MathUtil.remapLinear(3, 3, 1, 2, 0));
+		Assertions.assertThrows(IllegalArgumentException.class, () -> MathUtil.remapLinear(0, 0, 1, 2, 0));
+		Assertions.assertThrows(IllegalArgumentException.class, () -> MathUtil.remapLinear(3, 3, 1, 2, 0));
 		
 		// ordered positive values
 		Assertions.assertEquals(1.5d, MathUtil.remapLinear(10d, 20d, 0d, 3d, 15d));
-		Assertions.assertEquals(5+(1/3d), MathUtil.remapLinear(10d, 40d, 5d, 6d, 20d));
+		Assertions.assertEquals(5 + (1 / 3d), MathUtil.remapLinear(10d, 40d, 5d, 6d, 20d));
 		Assertions.assertEquals(7d, MathUtil.remapLinear(10d, 20d, 5d, 6d, 30d)); // out of base bounds
 		
 		// ordered negative
-		Assertions.assertEquals(-100d-(100/3d), MathUtil.remapLinear(-5d, 10d, -200d, -100d, 5d));
+		Assertions.assertEquals(-100d - (100 / 3d), MathUtil.remapLinear(-5d, 10d, -200d, -100d, 5d));
 		Assertions.assertEquals(-225d, MathUtil.remapLinear(-5d, 15d, -200d, -100d, -10d)); // out of base bounds
 		
 		// inverted order positive
@@ -58,6 +58,14 @@ public class MathUtilTest
 		Assertions.assertEquals(1570, MathUtil.round(1568d, -1));
 	}
 	
+	@Test
+	public void testRoundString()
+	{
+		Assertions.assertEquals("7.14", MathUtil.roundString(7.1415926, 2));
+		Assertions.assertEquals("0.90", MathUtil.roundString(0.9, 2));
+		Assertions.assertEquals("-0.90", MathUtil.roundString(-0.9, 2));
+	}
+	
 	
 	@Test
 	public void testClamp()
@@ -77,7 +85,7 @@ public class MathUtilTest
 	@Test
 	void testClampError()
 	{
-		Assertions.assertThrows(IllegalArgumentException.class, ()->MathUtil.clamp(2, 1, 0));
+		Assertions.assertThrows(IllegalArgumentException.class, () -> MathUtil.clamp(2, 1, 0));
 	}
 	
 }
