@@ -54,7 +54,7 @@ public final class UrlBase64
 	public static String encode(byte[] data)
 	{
 		String regularBase64 = Base64.getEncoder().encodeToString(data);
-		return regularB64UrlB64To(regularBase64);
+		return regularB64ToUrlB64(regularBase64);
 	}
 	
 	@API
@@ -72,7 +72,7 @@ public final class UrlBase64
 	}
 	
 	@API
-	public static String regularB64UrlB64To(String urlBase64)
+	public static String regularB64ToUrlB64(String urlBase64)
 	{
 		return urlBase64.replace('+', '-').replace('/', '_');
 	}
