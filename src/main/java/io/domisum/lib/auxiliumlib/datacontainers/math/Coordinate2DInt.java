@@ -31,6 +31,15 @@ public class Coordinate2DInt
 	}
 	
 	
+	// GETTERS
+	public double getLength()
+	{
+		var xs = getX() * (double) getX();
+		var ys = getY() * (double) getY();
+		return Math.sqrt(xs + ys);
+	}
+	
+	
 	// DERIVE
 	@API
 	public Coordinate2DInt deriveAdd(Coordinate2DInt other)
