@@ -53,33 +53,36 @@ public final class StringReportUtil
 	}
 	
 	@API
-	public static <T> String report(List<T> list)
-	{
-		return report(list, Objects::toString);
-	}
+	public static <T> String report(List<T> list) {return report(list, Objects::toString);}
 	
 	@API
-	public static String report(Collection<?> collection)
-	{
-		return report(new ArrayList<>(collection));
-	}
+	public static String report(Collection<?> collection) {return report(new ArrayList<>(collection));}
 	
 	
 	@API
-	public static String report(Map<?, ?> map)
-	{
-		return report(map, Objects::toString);
-	}
+	public static String report(Map<?, ?> map) {return report(map, Objects::toString);}
+	
+	@API
+	public static String reportUnsorted(Map<?, ?> map)
+	{return report(map, Objects::toString, Objects::toString, false);}
 	
 	@API
 	public static <T> String report(Map<?, T> map, Function<T, Object> valueFunction)
-	{
-		return report(map, k -> (k instanceof String) ? QUOT + k + QUOT : k, valueFunction);
-	}
+	{return report(map, k -> (k instanceof String) ? QUOT + k + QUOT : k, valueFunction);}
 	
 	@API
-	public static <K, V> String report(Map<K, V> map,
-									   Function<K, Object> keyFunction, Function<V, Object> valueFunction)
+	public static <K, V> String report(
+		Map<K, V> map,
+		Function<K, Object> keyFunction,
+		Function<V, Object> valueFunction)
+	{return report(map, keyFunction, valueFunction, true);}
+	
+	@API
+	public static <K, V> String report(
+		Map<K, V> map,
+		Function<K, Object> keyFunction,
+		Function<V, Object> valueFunction,
+		boolean sorted)
 	{
 		var entryStrings = new ArrayList<String>();
 		for(var entry : map.entrySet())
@@ -91,7 +94,8 @@ public final class StringReportUtil
 			entryStrings.add(entryString);
 		}
 		
-		Collections.sort(entryStrings);
+		if(sorted)
+			Collections.sort(entryStrings);
 		return report(entryStrings);
 	}
 	
