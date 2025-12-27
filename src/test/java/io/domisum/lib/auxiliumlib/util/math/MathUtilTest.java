@@ -64,6 +64,7 @@ public class MathUtilTest
 		Assertions.assertEquals("7.14", MathUtil.roundString(7.1415926, 2));
 		Assertions.assertEquals("0.90", MathUtil.roundString(0.9, 2));
 		Assertions.assertEquals("-0.90", MathUtil.roundString(-0.9, 2));
+		Assertions.assertEquals("29", MathUtil.roundString(29.4899, 0));
 	}
 	
 	

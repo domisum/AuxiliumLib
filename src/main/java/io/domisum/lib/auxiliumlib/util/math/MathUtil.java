@@ -15,24 +15,24 @@ public final class MathUtil
 	@API
 	public static double getDelta(double a, double b)
 	{
-		return Math.abs(a-b);
+		return Math.abs(a - b);
 	}
 	
 	@API
 	public static double mix(double firstNumber, double firstPart, double secondNumber, double secondPart)
 	{
-		double firstPercentage = firstPart/(firstPart+secondPart);
-		double secondPercentage = 1-firstPercentage;
+		double firstPercentage = firstPart / (firstPart + secondPart);
+		double secondPercentage = 1 - firstPercentage;
 		
-		return (firstPercentage*firstNumber)+(secondPercentage*secondNumber);
+		return (firstPercentage * firstNumber) + (secondPercentage * secondNumber);
 	}
 	
 	@API
 	public static double mix(double firstNumber, double firstPart, double secondNumber)
 	{
-		double secondPercentage = 1-firstPart;
+		double secondPercentage = 1 - firstPart;
 		
-		return (firstPart*firstNumber)+(secondPercentage*secondNumber);
+		return (firstPart * firstNumber) + (secondPercentage * secondNumber);
 	}
 	
 	@API
@@ -40,7 +40,7 @@ public final class MathUtil
 	{
 		return ((number < 0) ?
 			-1 :
-			1)*Math.min(Math.abs(number), maximumAbs);
+			1) * Math.min(Math.abs(number), maximumAbs);
 	}
 	
 	@API
@@ -108,17 +108,17 @@ public final class MathUtil
 		for(double value : values)
 			sum += value;
 		
-		return sum/values.length;
+		return sum / values.length;
 	}
 	
 	
 	@API
 	public static double remapLinear(double baseStart, double baseEnd, double targetStart, double targetEnd, double valueToRemap)
 	{
-		Validate.isTrue(baseStart != baseEnd, "baseStart can't be equal to baseEnd ("+baseStart+")");
+		Validate.isTrue(baseStart != baseEnd, "baseStart can't be equal to baseEnd (" + baseStart + ")");
 		
-		double proportionFrom1To2 = (valueToRemap-baseStart)/(baseEnd-baseStart);
-		return targetStart+((targetEnd-targetStart)*proportionFrom1To2);
+		double proportionFrom1To2 = (valueToRemap - baseStart) / (baseEnd - baseStart);
+		return targetStart + ((targetEnd - targetStart) * proportionFrom1To2);
 	}
 	
 	
@@ -138,9 +138,9 @@ public final class MathUtil
 	@API
 	public static double getAngleDistanceDeg(double a, double b)
 	{
-		double delta = Math.abs(a-b)%360;
+		double delta = Math.abs(a - b) % 360;
 		if(delta > 180)
-			delta = 360-delta;
+			delta = 360 - delta;
 		
 		return delta;
 	}
@@ -169,12 +169,15 @@ public final class MathUtil
 			else
 				factor /= 10;
 		
-		return (double) Math.round(numberToRound*factor)/factor;
+		return (double) Math.round(numberToRound * factor) / factor;
 	}
 	
 	@API
 	public static String roundString(double number, int precision)
 	{
+		if(precision <= 0)
+			return Math.round(number) + "";
+		
 		String display = round(number, precision) + "";
 		if(display.contains(".") && !display.contains("E"))
 			while(display.length() - display.lastIndexOf(".") - 1 < precision)
@@ -186,7 +189,7 @@ public final class MathUtil
 	@API
 	public static String percentage(double fraction, int decimalPlaces)
 	{
-		return round(fraction*100, decimalPlaces)+"%";
+		return round(fraction * 100, decimalPlaces) + "%";
 	}
 	
 	
@@ -203,9 +206,9 @@ public final class MathUtil
 			return 1;
 		
 		// 3*x^2 - 2*x^3
-		double a = 3*(input*input);
-		double b = 2*(input*input*input);
-		return a-b;
+		double a = 3 * (input * input);
+		double b = 2 * (input * input * input);
+		return a - b;
 	}
 	
 	@API
@@ -220,10 +223,10 @@ public final class MathUtil
 			return 1;
 		
 		// 6*x^5 - 15*x^4 + 10*x^3
-		double a = 6*(input*input*input*input*input);
-		double b = 15*(input*input*input*input);
-		double c = 10*(input*input*input);
-		return a-b+c;
+		double a = 6 * (input * input * input * input * input);
+		double b = 15 * (input * input * input * input);
+		double c = 10 * (input * input * input);
+		return a - b + c;
 	}
 	
 }
