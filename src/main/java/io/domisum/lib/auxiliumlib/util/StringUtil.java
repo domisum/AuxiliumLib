@@ -53,6 +53,15 @@ public final class StringUtil
 		return StringListUtil.list(newLines, "\n");
 	}
 	
+	@API
+	public static String zeroPad(long number, int digits)
+	{
+		String s = "" + number;
+		if(s.length() < digits)
+			s = "0".repeat(digits - s.length()) + s;
+		return s;
+	}
+	
 	
 	// ANALYSIS
 	@API
