@@ -26,14 +26,13 @@ public class CatchRetry<T extends Exception>
 	
 	// INTERFACE: EXCEPTIONS
 	public <X extends Exception> void handleExc(Class<X> clazz, Consumer<X> handler)
-	{
-		this.exceptionHandlers.add(new ExceptionHandling<>(clazz, handler, false));
-	}
+	{this.exceptionHandlers.add(new ExceptionHandling<>(clazz, handler, false, false));}
 	
 	public <X extends Exception> void logAndHandleExc(Class<X> clazz, Consumer<X> handler)
-	{
-		this.exceptionHandlers.add(new ExceptionHandling<>(clazz, handler, true));
-	}
+	{this.exceptionHandlers.add(new ExceptionHandling<>(clazz, handler, true, false));}
+	
+	public <X extends Exception> void propagateExc(Class<X> clazz)
+	{this.exceptionHandlers.add(new ExceptionHandling<>(clazz, this::ignore, false, true));}
 	
 	
 	// INTERFACE: RUN
@@ -53,13 +52,15 @@ public class CatchRetry<T extends Exception>
 			catch(Exception e)
 			{
 				var ehlOptional = getExceptionHandling(e);
-				ehlOptional.ifPresent(ehl -> ehl.handler().accept(e));
+				ehlOptional.ifPresent(ehl -> ehl.handler.accept(e));
+				if(ehlOptional.isPresent() && ehlOptional.get().propagate)
+					throw e;
 				
 				boolean wasLastTry = i == maxTries - 1;
 				if(wasLastTry)
 					throw e;
 				
-				if(ehlOptional.isEmpty() || ehlOptional.get().log())
+				if(ehlOptional.isEmpty() || ehlOptional.get().log)
 					logger.warn("{} | {}", warnMessage, ExceptionUtil.getSynopsis(e));
 			}
 		
@@ -79,7 +80,7 @@ public class CatchRetry<T extends Exception>
 	private <X extends Exception> Optional<ExceptionHandling<X>> getExceptionHandling(X e)
 	{
 		for(var eh : exceptionHandlers)
-			if(eh.clazz() == null || eh.clazz().isAssignableFrom(e.getClass()))
+			if(eh.clazz == null || eh.clazz.isAssignableFrom(e.getClass()))
 				// noinspection unchecked
 				return Optional.of((ExceptionHandling<X>) eh);
 		return Optional.empty();
@@ -88,7 +89,10 @@ public class CatchRetry<T extends Exception>
 	private record ExceptionHandling<R extends Exception>(
 		Class<R> clazz,
 		Consumer<R> handler,
-		boolean log
+		boolean log,
+		boolean propagate
 	) {}
+	
+	private <R extends Exception> void ignore(R e) {}
 	
 }
