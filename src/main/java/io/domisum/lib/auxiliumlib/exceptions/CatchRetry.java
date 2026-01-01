@@ -60,7 +60,7 @@ public class CatchRetry<T extends Exception>
 					throw e;
 				
 				if(ehlOptional.isEmpty() || ehlOptional.get().log())
-					logger.warn("{} | {}", warnMessage, ExceptionUtil.getSynopsis(e), e);
+					logger.warn("{} | {}", warnMessage, ExceptionUtil.getSynopsis(e));
 			}
 		
 		throw new ProgrammingError("This should never be reached");
