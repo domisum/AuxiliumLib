@@ -75,7 +75,8 @@ public final class ExceptionUtil
 	public static String getSynopsis(Throwable throwable)
 	{
 		String causeSynopsis = throwable.getCause() == null ? null : getSynopsis(throwable.getCause());
-		String synopsis = throwable.getClass().getSimpleName() + ": " + throwable.getMessage();
+		boolean noMessage = throwable.getMessage() == null || throwable.getMessage().isBlank();
+		String synopsis = throwable.getClass().getSimpleName() + (noMessage ? "" : ": " + throwable.getMessage());
 		if(causeSynopsis != null)
 			synopsis += "; caused by: (" + causeSynopsis + ")";
 		
