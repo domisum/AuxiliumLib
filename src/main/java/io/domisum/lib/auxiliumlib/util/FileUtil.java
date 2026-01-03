@@ -511,15 +511,23 @@ public final class FileUtil
 	}
 	
 	@API
-	public static Instant getLastModified(File file)
-	{
-		return Instant.ofEpochMilli(file.lastModified());
-	}
+	public static Instant getLastModified(File file) {return Instant.ofEpochMilli(file.lastModified());}
 	
 	@API
-	public static void markAsModified(File file)
+	public static void markAsModified(File file) {setLastModified(file, Instant.now().toEpochMilli());}
+	
+	@API
+	public static void setLastModified(File file, long epochMs)
 	{
-		file.setLastModified(Instant.now().toEpochMilli());
+		for(int i = 0; i < 3; i++)
+		{
+			boolean success = file.setLastModified(epochMs);
+			if(success)
+				return;
+		}
+		
+		String message = "Failed to set last modified for file " + file.getAbsoluteFile().getPath();
+		throw new UncheckedIOException(new IOException(message));
 	}
 	
 	
