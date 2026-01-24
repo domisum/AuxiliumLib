@@ -5,6 +5,7 @@ import io.domisum.lib.auxiliumlib.annotations.API;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
+import javax.annotation.Nullable;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.function.BiConsumer;
@@ -98,6 +99,26 @@ public final class GsonUtil
 			base.add(frontPathPart, container);
 		
 		addProperty(container, remainingPathPart, addProperty);
+	}
+	
+	
+	@Nullable
+	public static JsonElement getProperty(JsonElement baseElement, String path)
+	{
+		if(baseElement == null)
+			return null;
+		var segments = StringUtil.splitByLiteral(path, ".");
+		if(segments.isEmpty())
+			return baseElement;
+		
+		var e = baseElement;
+		for(String segment : segments)
+		{
+			if(!e.isJsonObject())
+				return null;
+			e = e.getAsJsonObject().get(segment);
+		}
+		return e;
 	}
 	
 }
