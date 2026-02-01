@@ -4,6 +4,9 @@ public enum Effort
 {
 	
 	SOME,
-	NONE
+	NONE;
+	
+	
+	public static Effort merge(Effort a, Effort b) {return a == SOME || b == SOME ? SOME : NONE;}
 	
 }
