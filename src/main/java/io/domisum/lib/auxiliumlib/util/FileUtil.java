@@ -304,6 +304,8 @@ public final class FileUtil
 	{
 		try
 		{
+			if(!directory.exists())
+				return;
 			FileUtils.cleanDirectory(directory);
 		}
 		catch(IOException e)
