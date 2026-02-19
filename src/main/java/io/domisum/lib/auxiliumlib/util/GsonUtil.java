@@ -114,7 +114,7 @@ public final class GsonUtil
 		var e = baseElement;
 		for(String segment : segments)
 		{
-			if(!e.isJsonObject())
+			if(e == null || !e.isJsonObject())
 				return null;
 			e = e.getAsJsonObject().get(segment);
 		}
