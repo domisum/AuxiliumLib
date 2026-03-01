@@ -24,8 +24,11 @@ import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.time.Duration;
 import java.time.Instant;
-import java.util.*;
-import java.util.concurrent.ConcurrentLinkedQueue;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
+import java.util.Objects;
+import java.util.stream.Stream;
 
 @API
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
@@ -345,6 +348,19 @@ public final class FileUtil
 	}
 	
 	@API
+	public static boolean isDirectoryEmpty(File directory)
+	{
+		try(var dirContents = Files.list(directory.toPath()))
+		{
+			return dirContents.findAny().isEmpty();
+		}
+		catch(IOException e)
+		{
+			throw new UncheckedIOException("Failed to check if directory is empty: '" + directory + "'", e);
+		}
+	}
+	
+	@API
 	public static int deleteDirectoryContentsOlderThan(File directory, Duration maxAge)
 	{
 		var oldestAllowedFileDate = DateUtils.addMinutes(new Date(), -(int) TimeUtil.getMinutesDecimal(maxAge));
@@ -364,51 +380,50 @@ public final class FileUtil
 	@API
 	public static Collection<File> listFilesFlat(File directory, FileType fileType)
 	{
-		return listFiles(directory, fileType, false);
+		try(var stream = streamFiles(directory, fileType, false))
+		{
+			return stream.toList();
+		}
 	}
 	
 	@API
 	public static Collection<File> listFilesRecursively(File directory, FileType fileType)
 	{
-		return listFiles(directory, fileType, true);
+		try(var stream = streamFiles(directory, fileType, true))
+		{
+			return stream.toList();
+		}
 	}
 	
-	private static Collection<File> listFiles(File directory, FileType fileType, boolean recursive)
+	@API
+	public static Stream<File> streamFilesFlat(File directory, FileType fileType)
+	{return streamFiles(directory, fileType, false);}
+	
+	@API
+	public static Stream<File> streamFilesRecursively(File directory, FileType fileType)
+	{return streamFiles(directory, fileType, true);}
+	
+	private static Stream<File> streamFiles(File directory, FileType fileType, boolean recursive)
 	{
 		validateIsNotFile(directory);
 		if(!directory.exists())
-			return Collections.emptySet();
-		
-		var directoryContents = new ConcurrentLinkedQueue<File>();
-		try(var stream = Files.list(directory.toPath()))
+			return Stream.empty();
+		try
 		{
-			stream.parallel().map(Path::toFile).forEach(f ->
-			{
-				if(fileType.isOfType(f))
-					directoryContents.add(f);
-				
-				if(recursive && f.isDirectory())
-					directoryContents.addAll(listFilesRecursively(f, fileType));
-			});
+			return Files.list(directory.toPath())
+				.parallel()
+				.map(Path::toFile)
+				.flatMap(f ->
+				{
+					Stream<File> s = fileType.isOfType(f) ? Stream.of(f) : Stream.empty();
+					if(recursive && f.isDirectory())
+						s = Stream.concat(s, streamFiles(f, fileType, true));
+					return s;
+				});
 		}
 		catch(IOException e)
 		{
 			throw new UncheckedIOException(e);
-		}
-		
-		return directoryContents;
-	}
-	
-	@API
-	public static boolean isDirectoryEmpty(File directory)
-	{
-		try(var dirContents = Files.list(directory.toPath()))
-		{
-			return dirContents.findAny().isEmpty();
-		}
-		catch(IOException e)
-		{
-			throw new UncheckedIOException("Failed to check if directory is empty: '" + directory + "'", e);
 		}
 	}
 	
