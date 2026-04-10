@@ -15,37 +15,37 @@ public class ThrottlingWorkReserver<T>
 	
 	// INPUT
 	private final WorkReserver<T> backingWorkReserver;
-	private final int perMinuteCount;
+	private final double perMinute;
 	
 	// STATE
 	private final SubjectInstants subjectInstants;
 	
 	
 	// INIT
-	public ThrottlingWorkReserver(WorkReserver<T> backingWorkReserver, int perMinuteCount)
+	public ThrottlingWorkReserver(WorkReserver<T> backingWorkReserver, double count, Duration timeframe)
+	{this(backingWorkReserver, count / TimeUtil.getMinutesDecimal(timeframe));}
+	
+	private ThrottlingWorkReserver(WorkReserver<T> backingWorkReserver, double perMinute)
 	{
 		this.backingWorkReserver = backingWorkReserver;
-		this.perMinuteCount = perMinuteCount;
-		
-		subjectInstants = new SubjectInstants(perMinuteCount + 5);
+		this.perMinute = perMinute;
+		subjectInstants = new SubjectInstants((int) Math.round(perMinute + 10));
 	}
 	
 	
 	// INTERFACE
-	public void manuallyPutSubjectInstant()
-	{
-		subjectInstants.addNow();
-	}
+	public void manuallyPutSubjectInstant() {subjectInstants.addNow();}
 	
 	
-	// IMPLEMENTATION
+	// INTERFACE: internal
 	@Override
 	protected Optional<T> getNextSubject(Collection<T> reservedSubjects)
 	{
-		if(subjectInstants.getCount() >= perMinuteCount)
+		double maxCount = trackingIntervalMinutes() * perMinute;
+		if(subjectInstants.getCount() > maxCount)
 			return Optional.empty();
 		
-		var minimumDelayBetween = Duration.ofMinutes(1).dividedBy(perMinuteCount * 2L);
+		var minimumDelayBetween = TimeUtil.fromMinutesDecimal(trackingIntervalMinutes() / (perMinute * 2));
 		var mostRecentOptional = subjectInstants.getMostRecent();
 		if(mostRecentOptional.isPresent() && TimeUtil.isYoungerThan(mostRecentOptional.get(), minimumDelayBetween))
 			return Optional.empty();
@@ -56,24 +56,30 @@ public class ThrottlingWorkReserver<T>
 		return subjectOptional;
 	}
 	
-	private static class SubjectInstants
+	
+	// INTERNAL
+	private double trackingIntervalMinutes()
+	{
+		double minutes = 5 / perMinute;
+		if(minutes < 1)
+			minutes = 1;
+		return minutes;
+	}
+	
+	private Duration trackingInterval() {return TimeUtil.fromMinutesDecimal(trackingIntervalMinutes());}
+	
+	private class SubjectInstants
 	{
 		
 		private final Deque<Instant> subjectInstants;
 		
 		
 		// INIT
-		public SubjectInstants(int capacity)
-		{
-			this.subjectInstants = new ArrayDeque<>(capacity);
-		}
+		public SubjectInstants(int capacity) {this.subjectInstants = new ArrayDeque<>(capacity);}
 		
 		
 		// INTERFACE
-		public synchronized void addNow()
-		{
-			subjectInstants.add(Instant.now());
-		}
+		public synchronized void addNow() {subjectInstants.add(Instant.now());}
 		
 		public synchronized int getCount()
 		{
@@ -88,10 +94,10 @@ public class ThrottlingWorkReserver<T>
 		}
 		
 		
-		// IMPLEMENTATION
+		// INTERNAL
 		private void removeOldInstants()
 		{
-			while(!subjectInstants.isEmpty() && TimeUtil.isOlderThan(subjectInstants.element(), Duration.ofMinutes(1)))
+			while(!subjectInstants.isEmpty() && TimeUtil.isOlderThan(subjectInstants.element(), trackingInterval()))
 				subjectInstants.remove();
 		}
 		
