@@ -22,8 +22,11 @@ public class ThrottlingWorkReserver<T>
 	
 	
 	// INIT
-	public ThrottlingWorkReserver(WorkReserver<T> backingWorkReserver, double count, Duration timeframe)
-	{this(backingWorkReserver, count / TimeUtil.getMinutesDecimal(timeframe));}
+	public static <T> ThrottlingWorkReserver<T> perMinute(WorkReserver<T> backingWorkReserver, double perMinute)
+	{return new ThrottlingWorkReserver<>(backingWorkReserver, perMinute);}
+	
+	public static <T> ThrottlingWorkReserver<T> perDuration(WorkReserver<T> backingWorkReserver, double count, Duration timeframe)
+	{return new ThrottlingWorkReserver<>(backingWorkReserver, count / TimeUtil.getMinutesDecimal(timeframe));}
 	
 	private ThrottlingWorkReserver(WorkReserver<T> backingWorkReserver, double perMinute)
 	{
