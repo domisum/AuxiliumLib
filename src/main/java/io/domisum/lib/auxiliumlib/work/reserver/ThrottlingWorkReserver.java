@@ -48,7 +48,7 @@ public class ThrottlingWorkReserver<T>
 		if(subjectInstants.getCount() > maxCount)
 			return Optional.empty();
 		
-		var minimumDelayBetween = TimeUtil.fromMinutesDecimal(trackingIntervalMinutes() / (perMinute * 2));
+		var minimumDelayBetween = TimeUtil.fromMinutesDecimal(1 / perMinute * 0.75);
 		var mostRecentOptional = subjectInstants.getMostRecent();
 		if(mostRecentOptional.isPresent() && TimeUtil.isYoungerThan(mostRecentOptional.get(), minimumDelayBetween))
 			return Optional.empty();
