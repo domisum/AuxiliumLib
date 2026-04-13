@@ -1,9 +1,13 @@
 package io.domisum.lib.auxiliumlib.time.ratelimit;
 
+import com.google.common.annotations.VisibleForTesting;
 import io.domisum.lib.auxiliumlib.annotations.API;
+import io.domisum.lib.auxiliumlib.time.TimeUtil;
 import io.domisum.lib.auxiliumlib.util.math.MathUtil;
 
 import java.time.Duration;
+import java.time.Instant;
+import java.util.function.Supplier;
 
 public class TrickleRateLimiter
 	extends RateLimiter
@@ -14,26 +18,31 @@ public class TrickleRateLimiter
 	private final double maxAccumulation;
 	
 	// STATE
-	private long balanceTimeEpochMs = System.currentTimeMillis();
+	private final Supplier<Instant> clock;
+	private Instant balanceTime;
 	private double balance;
 	
 	
 	// INIT
-	private TrickleRateLimiter(double perSecond, double maxAccumulation)
+	private TrickleRateLimiter(double perSecond, double maxAccumulation, Supplier<Instant> clock)
 	{
 		this.perSecond = perSecond;
 		this.maxAccumulation = MathUtil.clampLower(2, maxAccumulation);
+		this.clock = clock == null ? Instant::now : clock;
+		this.balanceTime = this.clock.get();
 		this.balance = -perSecond * 5; // slow start
 	}
 	
 	@API
 	public TrickleRateLimiter(double count, Duration timeframe, double maxAccumulation)
-	{
-		this(count * 1000d / timeframe.toMillis(), maxAccumulation);
-	}
+	{this(count / TimeUtil.getSecondsDecimal(timeframe), maxAccumulation, null);}
+	
+	@VisibleForTesting
+	public TrickleRateLimiter(double count, Duration timeframe, double maxAccumulation, Supplier<Instant> clock)
+	{this(count / TimeUtil.getSecondsDecimal(timeframe), maxAccumulation, clock);}
 	
 	
-	// INTERFACE: ABSTRACT
+	// INTERFACE
 	@Override
 	public boolean isAvailable()
 	{
@@ -61,8 +70,6 @@ public class TrickleRateLimiter
 		return Duration.ofMillis(untilBalanceZeroMs);
 	}
 	
-	
-	// INTERFACE
 	@API
 	public synchronized void setPerMinute(double perMinute)
 	{
@@ -71,19 +78,16 @@ public class TrickleRateLimiter
 	}
 	
 	@API
-	public double getPerMinute()
-	{
-		return perSecond * 60;
-	}
+	public double getPerMinute() {return perSecond * 60;}
 	
 	
 	// INTERNAL
 	private synchronized void updateBalance()
 	{
-		long nowMs = System.currentTimeMillis();
-		long sinceMs = nowMs - balanceTimeEpochMs;
+		var now = clock.get();
+		long sinceMs = Duration.between(balanceTime, now).toMillis();
+		balanceTime = now;
 		
-		balanceTimeEpochMs = nowMs;
 		balance += sinceMs / 1000d * perSecond;
 		balance = MathUtil.clampUpper(balance, maxAccumulation);
 	}
