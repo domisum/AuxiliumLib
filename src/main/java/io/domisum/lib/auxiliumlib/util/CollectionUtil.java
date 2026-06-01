@@ -1,9 +1,11 @@
 package io.domisum.lib.auxiliumlib.util;
 
 import io.domisum.lib.auxiliumlib.annotations.API;
+import io.domisum.lib.auxiliumlib.contracts.IoPredicate;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
+import java.io.IOException;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Stream;
@@ -46,6 +48,16 @@ public final class CollectionUtil
 		for(var entry : counts.entrySet())
 			fractions.put(entry.getKey(), sum == 0.0 ? 0 : (entry.getValue().doubleValue() / sum));
 		return fractions;
+	}
+	
+	@API
+	public static <T> void removeIfIo(Iterable<T> collection, IoPredicate<T> predicate)
+		throws IOException
+	{
+		var iterator = collection.iterator();
+		while(iterator.hasNext())
+			if(predicate.test(iterator.next()))
+				iterator.remove();
 	}
 	
 }
